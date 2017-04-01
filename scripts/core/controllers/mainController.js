@@ -30,30 +30,12 @@ function newNotificacion(body,icon,title,tag) {
   //console.log('se creo', n); 
 }
 
-/*comentado hasta ver la forma q se pueda acceder en las vistas*/
-/*function numberFormat(monto, decimales){
-
-  monto += ''; // por si pasan un numero en vez de un string
-  monto = parseFloat(monto.replace(/[^0-9\.\-]/g, '')); // elimino cualquier cosa que no sea numero o punto
-  decimales = decimales || 0; // por si la variable no fue pasada
-  // si no es un numero o es igual a cero retorno el mismo cero
-  if (isNaN(monto) || monto === 0) 
-      return parseFloat(0).toFixed(decimales);
-  // si es mayor o menor que cero retorno el valor formateado como numero
-  monto = '' + monto.toFixed(decimales);
-  var monto_partes = monto.split('.'),
-      regexp = /(\d+)(\d{3})/;
-  while (regexp.test(monto_partes[0]))
-      monto_partes[0] = monto_partes[0].replace(regexp, '$1' + ',' + '$2');
-  return monto_partes.join('.');
-}*/
 appRoot = angular.module('theme.core.main_controller', ['theme.core.services', 'blockUI'])
   .controller('MainController', ['$scope', '$route', '$uibModal', '$document', '$theme', '$timeout', 'progressLoader', 'wijetsService', '$routeParams', '$location','$controller'
-    , 'blockUI', 'uiGridConstants', 'pinesNotifications',
+    , 'blockUI', 'uiGridConstants', 'pinesNotifications','rootServices',
     function($scope, $route, $uibModal, $document, $theme, $timeout, progressLoader, wijetsService, $routeParams, $location, $controller
-      , blockUI, uiGridConstants, pinesNotifications) {
+      , blockUI, uiGridConstants, pinesNotifications,rootServices) {
     //'use strict';
-
     $scope.fAlert = {};
     $scope.arrMain = {};
     $scope.fSessionCI = {};
@@ -61,7 +43,6 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     $scope.fSessionCI.listaNotificaciones = {};
     
     $scope.arrMain.sea = {};
-    //$scope.listaEspecialidadesSession = [];
     $scope.localLang = {
       selectAll       : "Seleccione todo",
       selectNone      : "Quitar todo",
@@ -107,74 +88,56 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     $scope.dirImages = angular.patchURL+'/assets/img/';
     $scope.layoutLoading = true;
     $scope.blockUI = blockUI;
+
+    $scope.$on('$routeChangeStart', function() {
+      console.log('paso por aqui');
+      rootServices.sGetSessionCI().then(function (response) {
+        if(response.flag == 1){
+          if ($location.path() === '') {            
+            return $location.path('/');
+          }
+
+          if($location.path() !== '/login'){
+            $scope.logIn();
+          }          
+        }else{
+          $scope.goToUrl('/login');
+        }
+      });
+      progressLoader.start();
+      progressLoader.set(50);
+    });
+
+    $scope.$on('$routeChangeSuccess', function() {
+      progressLoader.end();
+      if ($scope.layoutLoading) {
+        $scope.layoutLoading = false;
+      }
+      wijetsService.make();
+    });
+
+    $scope.keyRecaptcha = '6LeP4BoUAAAAAH7QZfe8sM5GAyVkMy1aak4Ztuhs'; //cambiar por servicio de configuracion
+    $scope.captchaValido = false;
+    window.recaptchaResponse = function(key) {
+      $scope.captchaValido = true;
+    };
+
+    window.onloadCallback = function() {
+/*      grecaptcha.render('recaptcha-registro', {
+        'sitekey' : $scope.keyRecaptcha,
+        'callback' : recaptchaResponse,
+        'theme' : 'dark'
+      });*/
+
+      grecaptcha.render('recaptcha-login', {
+        'sitekey' : $scope.keyRecaptcha,
+        'callback' : recaptchaResponse,
+      });
+    };
+
     $scope.getLayoutOption = function(key) {
       return $theme.get(key);
     };
-
-    $scope.setNavbarClass = function(classname, $event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-      $theme.set('topNavThemeClass', classname);
-    };
-
-    $scope.setSidebarClass = function(classname, $event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-      $theme.set('sidebarThemeClass', classname);
-    };
-
-    $scope.$watch('layoutFixedHeader', function(newVal, oldval) {
-      if (newVal === undefined || newVal === oldval) {
-        return;
-      }
-      $theme.set('fixedHeader', newVal);
-    });
-    $scope.$watch('layoutLayoutBoxed', function(newVal, oldval) {
-      if (newVal === undefined || newVal === oldval) {
-        return;
-      }
-      $theme.set('layoutBoxed', newVal);
-    });
-    $scope.$watch('layoutLayoutHorizontal', function(newVal, oldval) {
-      if (newVal === undefined || newVal === oldval) {
-        return;
-      }
-      $theme.set('layoutHorizontal', newVal);
-    });
-    $scope.$watch('layoutPageTransitionStyle', function(newVal) {
-      $theme.set('pageTransitionStyle', newVal);
-    });
-    $scope.$watch('layoutDropdownTransitionStyle', function(newVal) {
-      $theme.set('dropdownTransitionStyle', newVal);
-    });
-    $scope.$watch('layoutLeftbarCollapsed', function(newVal, oldVal) {
-      if (newVal === undefined || newVal === oldVal) {
-        return;
-      }
-      $theme.set('leftbarCollapsed', newVal);
-    });
-    //$theme.set('leftbarCollapsed', false);
-    $scope.toggleLeftBar = function() {
-      $theme.set('leftbarCollapsed', !$theme.get('leftbarCollapsed'));
-    };
-
-    $scope.$on('themeEvent:maxWidth767', function(event, newVal) {
-      $timeout(function() {
-          $theme.set('leftbarCollapsed', newVal);
-      });
-    });
-    $scope.$on('themeEvent:changed:fixedHeader', function(event, newVal) {
-      $scope.layoutFixedHeader = newVal;
-    });
-    $scope.$on('themeEvent:changed:layoutHorizontal', function(event, newVal) {
-      $scope.layoutLayoutHorizontal = newVal;
-    });
-    $scope.$on('themeEvent:changed:layoutBoxed', function(event, newVal) {
-      $scope.layoutLayoutBoxed = newVal;
-    });
-    $scope.$on('themeEvent:changed:leftbarCollapsed', function(event, newVal) {
-      $scope.layoutLeftbarCollapsed = newVal;
-    });
 
     $scope.isLoggedIn = false;
     $scope.logOut = function() {
@@ -184,7 +147,38 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       $scope.isLoggedIn = true;
     };
 
-    
+    $scope.goToUrl = function ( path ) {
+      $location.path( path );
+    };
+    $scope.btnLogoutToSystem = function () {
+      rootServices.sLogoutSessionCI().then(function () {
+        $scope.fSessionCI = {};
+        $scope.listaUnidadesNegocio = {};
+        $scope.listaModulos = {};
+        $scope.logOut();
+        $scope.goToUrl('/login');
+      });
+    }
+
+    $scope.getValidateSession = function () {
+      rootServices.sGetSessionCI().then(function (response) {
+        console.log(response);
+        if(response.flag == 1){
+          $scope.fSessionCI = response.datos;
+          if(!$scope.fSessionCI.nombre_foto || $scope.fSessionCI.nombre_foto === ''){
+            $scope.fSessionCI.nombre_foto = 'noimage.jpg';
+          }
+          $scope.logIn();
+          if( $location.path() == '/login' ){
+            $scope.goToUrl('/');
+          }
+        }else{
+          $scope.fSessionCI = {};
+          $scope.logOut();
+          $scope.goToUrl('/login');
+        }
+      });
+    }   
     
     /* END */
   }])

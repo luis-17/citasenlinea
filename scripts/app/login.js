@@ -1,5 +1,5 @@
 angular.module('theme.login', ['theme.core.services'])
-  .controller('loginController', function($scope, $theme, loginServices ){
+  .controller('loginController', function($scope, $theme, $controller, loginServices ){
     //'use strict';
     $theme.set('fullscreen', true);
 
@@ -7,7 +7,24 @@ angular.module('theme.login', ['theme.core.services'])
       $theme.set('fullscreen', false);
     });
     $scope.fLogin = {};
+    $scope.logOut();
     $scope.btnLoginToSystem = function () {
+      if($scope.fLogin.usuario == null || $scope.fLogin.clave == null){
+        $scope.fAlert = {};
+        $scope.fAlert.type= 'danger';
+        $scope.fAlert.msg= 'Debe completar los campos usuario y clave.';
+        $scope.fAlert.strStrong = 'Error.';
+        return;
+      }
+
+      if(!$scope.captchaValido){
+        $scope.fAlert = {};
+        $scope.fAlert.type= 'danger';
+        $scope.fAlert.msg= 'Debe completar reCaptcha';
+        $scope.fAlert.strStrong = 'Error.';
+        return;
+      }
+
       loginServices.sLoginToSystem($scope.fLogin).then(function (response) { 
         $scope.fAlert = {};
         if( response.flag == 1 ){ // SE LOGEO CORRECTAMENTE 
@@ -21,22 +38,24 @@ angular.module('theme.login', ['theme.core.services'])
           $scope.fAlert.type= 'danger';
           $scope.fAlert.msg= response.message;
           $scope.fAlert.strStrong = 'Error.';
-        }else if( response.flag == 2 ){  // TIENE MAS DE UNA SEDE
+        }else if( response.flag == 2 ){  // CUENTA INACTIVA
           $scope.fAlert.type= 'warning';
           $scope.fAlert.msg= response.message;
           $scope.fAlert.strStrong = 'Información.';
           $scope.listaSedes = response.datos;
-          $scope.fLogin.sede = $scope.listaSedes[0].id;
-        }else if( response.flag == 3 ){  // TIENE MAS DE UNA EMPRESA 
-          $scope.fAlert.type= 'warning';
-          $scope.fAlert.msg= response.message;
-          $scope.fAlert.strStrong = 'Información.';
-          $scope.listaEmpresas = response.datos;
-          $scope.fLogin.empresa = $scope.listaEmpresas[0].id;
         }
         $scope.fAlert.flag = response.flag;
         //$scope.fLogin = {};
       });
+    }
+
+    $scope.btnRegistroEnSistema = function(){
+      $controller('usuarioController', { 
+        $scope : $scope
+      });
+
+      $scope.modulo='login';
+      $scope.btnRegistrarUsuario();
     }
     
   })
