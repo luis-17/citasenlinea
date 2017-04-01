@@ -306,257 +306,7 @@ th.grl {background: #96BD68;}
 .input_search[type=text]:focus {
     width: 80%;
 }
-/* NAVEGATION by Benx rguevarac@hotmail.es */
 
-.sidebar-default nav.widget-body > div > span {
-  color: #616161;
-  background-color: #ffffff;
-}
-.sidebar-bluegray nav.widget-body > div > span {
-  color: #b0bec5;
-  background-color: #455a64;
-}
-.sidebar-midnightblue nav.widget-body > div > span {
-  color: #90a4ae;
-  background-color: #263238;
-}
-.sidebar-orange nav.widget-body > div > span {
-  color: #fff3e0;
-  background-color: #e65100;
-}
-.sidebar-blue nav.widget-body > div > span {
-  color: #bbdefb;
-  background-color: #0d47a1;
-}
-.sidebar-teal nav.widget-body > div > span {
-  color: #b2dfdb;
-  background-color: #004d40;
-}
-.sidebar-purple nav.widget-body > div > span {
-  color: #e1bee7;
-  background-color: #4a148c;
-}
-.sidebar-indigo nav.widget-body > div > span {
-  color: #c5cae9;
-  background-color: #1a237e;
-}
-.sidebar-cyan nav.widget-body > div > span {
-  color: #b2ebf2;
-  background-color: #006064;
-}
-.sidebar-red nav.widget-body > div > span {
-  color: #f9bdbb;
-  background-color: #b0120a;
-}
-.sidebar-pink nav.widget-body > div > span {
-  color: #f8bbd0;
-  background-color: #880e4f;
-}
-.sidebar-deep-purple nav.widget-body > div > span {
-  color: #d1c4e9;
-  background-color: #311b92;
-}
-.sidebar-brown nav.widget-body > div > span {
-  color: #d7ccc8;
-  background-color: #3e2723;
-}
-.sidebar-green nav.widget-body > div > span {
-  color: #c8e6c9;
-  background-color: #1b5e20;
-}
-.sidebar-light-green nav.widget-body > div > span {
-  color: #dcedc8;
-  background-color: #33691e;
-}
-.sidebar-deep-orange nav.widget-body > div > span {
-  color: #ffccbc;
-  background-color: #bf360c;
-}
-.sidebar-lime nav.widget-body > div > span {
-  color: #f0f4c3;
-  background-color: #827717;
-}
-.sidebar-amber nav.widget-body > div > span {
-  color: #ffecb3;
-  background-color: #ff6f00;
-}
-.sidebar-gray nav.widget-body > div > span {
-  color: #e0e0e0;
-  background-color: #616161;
-}
-.sidebar-black nav.widget-body > div > span {
-  color: #bdbdbd;
-  background-color: #212121;
-}
-.sidebar-graylight nav.widget-body > div > span {
-  color: #616161;
-  background-color: #fafafa;
-}
-.sidebar-light-blue nav.widget-body > div > span {
-  color: #b3e5fc;
-  background-color: #01579b;
-}
-.sidebar-yellow nav.widget-body > div > span {
-  color: #fff9c4;
-  background-color: #f57f17;
-}
-.sidebar-bluegraylight nav.widget-body > div > span {
-  color: #455a64;
-  background-color: #eceff1;
-}
-
-
-.sidebar-default nav.widget-body > div > button,
-.sidebar-default nav.widget-body > div.fav, .sidebar-default nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #e1e1e1;
-  color: #212121;
-}
-.sidebar-bluegray nav.widget-body > div > button,
-.sidebar-bluegray nav.widget-body > div.fav, .sidebar-bluegray nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #41555e;
-  color: #eceff1;
-}
-.sidebar-midnightblue nav.widget-body > div > button,
-.sidebar-midnightblue nav.widget-body > div.fav, .sidebar-midnightblue nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #212b30;
-  color: #cfd8dc;
-}
-.sidebar-orange nav.widget-body > div > button,
-.sidebar-orange nav.widget-body > div.fav, .sidebar-orange nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #b33f00;
-  color: #fff3e0;
-}
-.sidebar-blue nav.widget-body > div > button,
-.sidebar-blue nav.widget-body > div.fav, .sidebar-blue nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #082d66;
-  color: #e3f2fd;
-}
-.sidebar-teal nav.widget-body > div > button,
-.sidebar-teal nav.widget-body > div.fav, .sidebar-teal nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #002720;
-  color: #e0f2f1;
-}
-.sidebar-purple nav.widget-body > div > button,
-.sidebar-purple nav.widget-body > div.fav, .sidebar-purple nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #320e5f;
-  color: #f3e5f5;
-}
-.sidebar-indigo nav.widget-body > div > button,
-.sidebar-indigo nav.widget-body > div.fav, .sidebar-indigo nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #131a5e;
-  color: #e8eaf6;
-}
-.sidebar-cyan nav.widget-body > div > button,
-.sidebar-cyan nav.widget-body > div.fav, .sidebar-cyan nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #003b3e;
-  color: #e0f7fa;
-}
-.sidebar-red nav.widget-body > div > button,
-.sidebar-red nav.widget-body > div.fav, .sidebar-red nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #800d07;
-  color: #fde0dc;
-}
-.sidebar-pink nav.widget-body > div > button,
-.sidebar-pink nav.widget-body > div.fav, .sidebar-pink nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #5a0934;
-  color: #fce4ec;
-}
-.sidebar-deep-purple nav.widget-body > div > button,
-.sidebar-deep-purple nav.widget-body > div.fav, .sidebar-deep-purple nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #231367;
-  color: #ede7f6;
-}
-.sidebar-brown nav.widget-body > div > button,
-.sidebar-brown nav.widget-body > div.fav, .sidebar-brown nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #261815;
-  color: #efebe9;
-}
-.sidebar-green nav.widget-body > div > button,
-.sidebar-green nav.widget-body > div.fav, .sidebar-green nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #103613;
-  color: #e8f5e9;
-}
-.sidebar-light-green nav.widget-body > div > button,
-.sidebar-light-green nav.widget-body > div.fav, .sidebar-light-green nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #254b16;
-  color: #f1f8e9;
-}
-.sidebar-deep-orange nav.widget-body > div > button,
-.sidebar-deep-orange nav.widget-body > div.fav, .sidebar-deep-orange nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #9b2c0a;
-  color: #fbe9e7;
-}
-.sidebar-lime nav.widget-body > div > button,
-.sidebar-lime nav.widget-body > div.fav, .sidebar-lime nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #625911;
-  color: #f9fbe7;
-}
-.sidebar-amber nav.widget-body > div > button,
-.sidebar-amber nav.widget-body > div.fav, .sidebar-amber nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #d95e00;
-  color: #fff8e1;
-}
-.sidebar-gray nav.widget-body > div > button,
-.sidebar-gray nav.widget-body > div.fav, .sidebar-gray nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #4e4e4e;
-  color: #fafafa;
-}
-.sidebar-black nav.widget-body > div > button,
-.sidebar-black nav.widget-body > div.fav, .sidebar-black nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #272727;
-  color: #fafafa;
-}
-.sidebar-graylight nav.widget-body > div > button,
-.sidebar-graylight nav.widget-body > div.fav, .sidebar-graylight nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #e7e7e7;
-  color: #212121;
-}
-.sidebar-light-blue nav.widget-body > div > button,
-.sidebar-light-blue nav.widget-body > div.fav, .sidebar-light-blue nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #01335c;
-  color: #e1f5fe;
-}
-.sidebar-yellow nav.widget-body > div > button,
-.sidebar-yellow nav.widget-body > div.fav, .sidebar-yellow nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #dc6c09;
-  color: #fffde7;
-}
-.sidebar-bluegraylight nav.widget-body > div > button,
-.sidebar-bluegraylight nav.widget-body > div.fav, .sidebar-bluegraylight nav.widget-body > ul.acc-menu.externo > li > a {
-  background-color: #cfd6db;
-  color: #263238;
-}
-
-.sidebar nav.widget-body > ul.acc-menu li a.favorito_lista{
-    display:inline-block!important;
-    width:85%;
-    /*z-index: 100;*/
-}
-.sidebar nav.widget-body > ul.acc-menu li a.favorito_eliminar{
-    /*display:none!important;*/
-    display:inline-block!important;
-    /*z-index: 0;*/
-    width:15%;
-    top:-2px;
-    opacity: 0;
-}
-.sidebar nav.widget-body > ul.acc-menu li:hover .favorito_eliminar{
-    /*display:inline-block!important;*/
-    opacity: 1;
-    /*z-index: 1;*/
-}
-.sidebar nav.widget-body > ul.acc-menu > li > a.favorito_eliminar > i {
-  margin: 0!important;
-  min-width: 10px!important;
-}
-.sidebar nav.widget-body > div > ul.acc-menu > li > a > i {
-    display: inline-block;
-    font-size: 17px;
-    margin-left: 0;
-    margin-right: 16px;
-    min-width: 24px;
-    text-align: center;
-}
 .mini-timeline .selectedTL {
   border: 2px dotted #cddc39;
   padding: 4px 6px;
@@ -607,793 +357,119 @@ ul.externo{text-transform:uppercase;}
   padding: 4px 2px 4px 56px;
   text-align: left;
 }
-/* CENTRAL REPORTES */
-.item-reporte i{
-  font-size: 60px; 
-  margin-top: 8px;
-}
-.panel .panel-body .item-reporte p {
-    font-size: 10px;
-}
-
-.ui-grid-header-cell {
-  text-transform: uppercase;
-}
-.feriado button {
-  background-color: red!important;
-  /*border-radius: 32px;*/
-  color: white;
-}
-.date-table td button[disabled]{
-  background-color: rgba(59, 51, 51, 0.59)!important;
-  /*border-radius: 32px;*/
-  color: white;
-}
-
-#sectionCalendar .date-table table{ 
-  width: 100%; 
-}
-
-div.full-width.date-table table{ 
-  width: 100%; 
-}
-
-/* planning ambiente */
-.table-bordered {
-  border: 1px solid #00bcd4;
-}
-
-input.editable, select.editable{
-  background-color: #fcfbcd;
-}
-.planning {
-  height: 500px;
-  margin-top: 20px;
-}
-
-.planning .amb-header, .planning .hora-header{
-  height: 50px;
-  width: 120px;
-  position: absolute;
-  padding: 8px;
-  text-align: center;
-  vertical-align: middle;
-  background-color:#9de5ee;
-  color: #057482;
-  border-left: 1px solid #00bcd4;
-  border-top: 1px solid #00bcd4;
-  font-size: 22px;
-}
-
-.planning .sidebar {
-  width: 120px;
-  height: 400px;
-  float: left;
-  overflow: hidden;
-}
-
-.planning .sidebar tr {
-  border-top: solid 1px #00bcd4;
-  border-left: solid 1px #00bcd4;
-}
-
-.planning .sidebar tr td {
-  border-bottom: solid 1px #00bcd4;
-}
-
-.planning .sidebar div {
-  font-size: 22px;
-  font-weight: 200;
-}
-
-.planning .header {
-  width: 90%;
-  height: 50px;
-  margin-left: 120px;
-  overflow: hidden;
-}
-
-.planning .header tr {
-  border-top: solid 1px #00bcd4;
-}
-
-.planning .header tr th {
-  border-right: solid 1px #00bcd4;
-  border-left: solid 1px #00bcd4;
-}
-
-.planning .header div {
-  font-size: 22px;
-  font-weight: 500;
-}
-
-.planning .table .fecha-header div{
-  margin-top: -5px;
-}
-
-.planning .body {
-  overflow: auto;
-  width: 90%;
-  height: 400px;
-  float: left;
-}
-
-.planning .table tr td, .planning .table tr th{
-  min-width: 160px;
-  width: 160px;
-  max-width: 160px;
-  min-height: 50px;
-  height: 50px;
-  padding: 5px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.planning .sidebar .table tr td{
-  min-width: 120px;
-  width: 120px;
-}
-
-.planning .table .fecha-header, .planning .table .hora-sidebar, .planning .table .item-ambiente{
-  background-color: #9de5ee;
-  color: #057482;
-}
-
-.planning .body .table tr td{
-  background-color: #e1f9fc;
-  color: #000;
-  border: 1px solid #00bcd4;
-  border-collapse: collapse;
-}
-
-.planning-medicos.genera-cupo .body .table tr td{ 
-  padding: 0px;
-}
-
-.planning .body .table .cell-amb:hover, .planning-det .cell-amb:hover {
-  cursor: pointer;
-}
-
-.planning .body .table .cell-amb .label{
-  background-color: #00bcd4; 
-  color: #fff;
-}
-
-.planning .body .table .cell-amb.total .label{
-  background-color: #008fa1; 
-}
-
-.planning-det{
-  margin-left: 4%;
-  margin-right: 4%;
-}
-
-.planning-det.no-visible{
-  overflow: auto;
-  width: 89%;
-  margin-left: 121px;
-  height: auto;
-  float: left;
-}
-
-.planning-det .header{
-  position: absolute;
-  width: 120px;
-  margin-top: 71px;
-}
-
-.planning-det .table tr td, .planning-det .table tr th, .planning-det .header div{
-  min-width: 120px;
-  max-width: 120px;
-  width: 120px;
-  min-height: 50px;
-  height: 50px;
-  padding: 5px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.planning-det .table-bordered {
-  border: 1px solid #00bcd4;
-  margin-bottom: 0px;
-}
-
-.planning-det .header{
-  border: 1px solid #00bcd4;
-  border-collapse: collapse;
-}
-
-.planning-det .header .item-hora {
-  border-bottom: 1px solid #00bcd4;
-}
-
-.planning-det .table tr th{
-  border: 1px solid #00bcd4;
-  border-collapse: collapse;
-}
-
-.planning-det .table tr td{
-  background-color: #e1f9fc;
-  color: #000;
-  border: 1px solid #00bcd4;
-  border-collapse: collapse;
-}
-
-.planning-det .table .item-hora, .planning-det .header .item-hora{
-  background-color: #9de5ee;
-  color: #057482;
-  font-weight: bold;
-}
-
-.planning-det .header .item-ambiente{
-  background-color: #9de5ee;
-  color: #057482;
-  font-weight: bold;
-}
-
-.planning-det .table .cell-amb{
-  background-color: #e1f9fc; 
-}
-
-.planning-det .table .cell-amb .label{
-  background-color: #00bcd4; 
-  color: #fff;
-}
-
-.planning-det .table .cell-amb.total .label{
-  background-color: #008fa1; 
-}
-
-.planning-det .table .cell-amb.selected{
-  background-color: #89DDF6; 
-}
-
-/* fin planning ambiente */
-
-.planning-medicos { 
-  width: 100%; 
-  /*overflow: auto; */
-  float: left;
-  /*margin-top: 24px;*/
-  height: 600px;
-}
-.planning-medicos .fixed-row{
-  position: absolute;
-  z-index: 1;
-}
-.planning-medicos .body-table{
-  margin-top: 46px;
-}
-.planning-medicos .fixed-row .cell-planing{ 
-  display: table-cell; 
-  /*border: 1px solid #e4e1e3; */
-  border-left: 1px solid #00bcd4;
-  border-top: 1px solid #00bcd4;
-  text-align: center; 
-  vertical-align: middle;
-  left: 121px;
-  position: relative;
-  background-color: #9de5ee;
-}
-.planning-medicos .body-table .cell-planing{ 
-  display: table-cell; 
-  /*border: 1px solid #e4e1e3; */
-  border-left: 1px solid #00bcd4;
-  border-top: 1px solid #00bcd4;
-  text-align: center; 
-  vertical-align: middle; 
-}
-.planning-medicos .body-table .cell-planing:hover{ 
-  background-color: #e4fcc9;
-  cursor: pointer; 
-  cursor: hand;
-}
-.planning-medicos .fixed-row .cell-planing .cell-section{ 
-  font-size: 22px;
-  width: 180px; 
-  height: 45px; 
-  color: #0790a2;
-}
-.planning-medicos .body-table .cell-planing .cell-section{ 
-  width: 180px; 
-  height: 70px; 
-}
-.planning-medicos .body-table .cell-planing .cell-section .cell-text{ 
-  font-size: 12px;
-  line-height: 1.2;
-  position: relative;
-  top: 5%;
-}
-.planning-medicos .fixed-row .cell-planing .cell-section p{
-  font-size: 14px;
-  position: relative;
-  top: -18%;
-}
-.planning-medicos .body-table .cell-planing.ambiente .cell-section{ 
-  font-size: 24px;
-  width: 120px;
-  font-weight: 200;
-  position: relative;
-  top: 16px;
-  color: #057482;
-}
-.planning-medicos .fixed-row .cell-planing.ambiente {
-  /*position: absolute; 
-  left: inherit;
-  z-index: 1;
-  background-color: #9de5ee; */
-  /*display: none;
-  background-color: white; */ 
-  position: absolute; 
-  z-index: 1; 
-  left: 0;
-}
 
-.planning-medicos .fixed-row .cell-planing.ambiente .cell-section{ 
-  font-size: 20px;
-  width: 120px; 
-}
-/*.planning-medicos .body-table .cell-planing.ambiente{ 
-  position: absolute;
-}
-.planning-medicos .fixed-row .cell-planing.ambiente{ 
-  position: absolute;
-}*/
-.planning-medicos .body-table .cell-planing .cell-section .cell-text .label{ 
-  font-size: 11px;
-  line-height: 1.4;
-  margin-bottom: 1px; 
-}
-
-.planning-medicos .body-table .cell-planing .cell-section .cell-text .label[href]:hover, 
-.planning-medicos .body-table .cell-planing .cell-section .cell-text .label[href]:focus { 
-    font-size: 14px !important;
-    line-height: 1.6 !important;
-}
-.planning-medicos .body-table .fixed-column{ 
-  position: absolute;
-  width: 121px;
-  /*z-index: 1;*/
-}
-
-.planning-medicos .body-table .fixed-column .cell-inline{ 
-  background-color: #9de5ee; 
-}
-
-.planning-medicos .body-table .relative-column{ 
-  max-height: 555px;
-  margin-left: 121px;
-  overflow: auto;
-  background-color: #e1f9fc;
-}
-
-.planning-medicos .body-table .wrapper-fixed-column{ 
-  width: 121px; 
-  position: fixed; 
-  overflow: hidden; 
-  height: 538px; 
-  display: block;
-  z-index: 1;
-}
-.planning-medicos .wrapper-fixed-row{ 
-  height: 46px; 
-  position: fixed; 
-  overflow: hidden; 
-  width: 82%;
-  display: block;
-  z-index: 1;
-}
-
-/* ESTILOS PARA UNA TABLA A BASE DE DIVS CON HEADER FIJO */
-
-.table-fixed{
-  /*width: 60em;*/
-  float: left;
-  margin-top: 24px;
-  /*height: 600px;*/
-}
-
-.table-fixed .fixed-row{
-  position: absolute;
-  /*z-index: 1;*/
-  height: inherit;
-  width: 95%;
-}
-.table-fixed .body-table{
-  margin-top: 24px;
-}
-.table-fixed .fixed-row .cell-planing{ 
-  /*display: table-cell; */
-  display: inline-block;
-  /*border: 1px solid #e4e1e3; */
-  /*border-left: 1px solid #00bcd4;
-  border-top: 1px solid #00bcd4;*/
-  text-align: center; 
-  vertical-align: middle;
-  /*left: 121px;*/
-  height: inherit;
-  position: relative;
-  background-color: #9de5ee;
-  margin-right: -2px;
-}
-.table-fixed .body-table .cell-planing{ 
-  /*display: table-cell; */
-  display: inline-block; 
-  /*border: 1px solid #e4e1e3; */
-  /*border-left: 1px solid #00bcd4;
-  border-top: 1px solid #00bcd4;*/
-  text-align: center; 
-  vertical-align: middle; 
-}
-.table-fixed .fixed-row .cell-planing .cell-section{ 
-  font-size: 14px; 
-  /*width: 180px; */
-  /*height: 45px; */
-  color: #0790a2; 
-}
-.table-fixed .body-table .cell-planing .cell-section{ 
-  /*width: 180px; */
-  height: 22px; 
-}
-
-.table-fixed .body-table .relative-column{ 
-  /*max-height: 300px;*/
-  max-height: 16em;
-  /*margin-left: 121px;*/
-  /*overflow: auto;*/
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-color: #e1f9fc;
-}
-.table-fixed .body-table .relative-column .cell-block.adicional{ 
-  /*background-color: #f4f6f6;*/
-  color: #ffc107;
-}
-/*.table-fixed .body-table .wrapper-fixed-column{ 
-  width: 121px; 
-  position: fixed; 
-  overflow: hidden; 
-  height: 538px; 
-  display: block;
-  z-index: 1;
-}*/
-.table-fixed .wrapper-fixed-row{ 
-  height: 28px; 
-  position: fixed; 
-  overflow: hidden; 
-  /*width: 80.7%;*/
-  width: 60em;
-  display: block;
-  z-index: 1;
-}
-
-/** estilo celdas domingos - feriados **/
-.planning-medicos .fixed-row .cell-planing.feriado .cell-section{
-  color: #e51c23;
-}
-
-.planning-medicos .body-table .cell-planing.feriado:hover {
-    background-color: #e1f9fc;
-    cursor: initial;
-}
-
-.planning-medicos .planning .body .table tr td:hover{
-  background-color: #e4fcc9;
-  cursor: pointer;
-}
-
-.planning-medicos .hora-sidebar.feriado {
-  color: #e51c23;
-}
-
-.planning-medicos .hora-sidebar.feriado div {
-  font-weight: 500;
-}
-
-.planning-medicos .planning .body .table tr td.feriado:hover{
-  background-color: #e1f9fc; 
-  cursor: inherit;
-}
-
-/*ajustes planning medico horas*/
-.planning-medicos .planning {
-    height: 550px;
-    margin-top: 0;
-}
-
-.planning-medicos .planning .header {
-    height: 40px;
-}
-.planning-medicos.genera-cupo .planning .header {
-    height: 28px;
-}
-
-.planning-medicos .planning .hora-header {
-    height: 40px;
-    padding: 4px;
-}
-.planning-medicos.genera-cupo .planning .hora-header {
-    height: 28px;
-    padding: 0;
-    font-size: 18px;
-}
-.planning-medicos .planning .sidebar {
-  height: 550px;
-}
-
-.planning-medicos .planning .sidebar div {
-    font-size: 18px;
-}
-
-.planning-medicos .planning .body {
-  height: 550px;
-}
-
-.planning-medicos .planning .table tr td, 
-.planning-medicos .planning .table tr th{
-    min-height: 40px; 
-    height: 40px;
-}
-
-.planning-medicos.genera-cupo .header .table tr th{
-    padding: 0;
-}
-
-.planning-medicos.genera-cupo .header .table tr th div{
-    font-size: 19px;
-}
-.planning-medicos.genera-cupo .planning .table tr td, 
-.planning-medicos.genera-cupo .planning .table tr th{ 
-    min-height: initial; 
-    height: initial; 
-}
-
-.planning-medicos .body .cell-programacion .label[href]:hover{
-    font-size: 14px !important;
-    line-height: 1.6 !important;
-}
-
-/*estilo etiqueta ambientes*/
-.planning .sidebar .item-ambiente .cell-ambiente{
-  position: relative;
-  left: 10px;
-}
-.planning .header .item-ambiente .cell-ambiente{
-  position: relative;
-  left: 10px;
-}
-
-.planning .sidebar .item-ambiente .cell-ambiente .badge{
-  position: relative;
-  top: -15px;
-  left: 7px;
-}
-.planning .header .item-ambiente .cell-ambiente .badge{
-  position: relative;
-  top: -15px;
-  left: 27px;
-}
-
-.planning-medicos .body-table .cell-planing .badge{
-  position: relative;
-  top: -20px;
-}
-
-.planning-medicos .body-table .cell-planing.ambiente .cell-section {
-    left: 12px;
-}
-
-.planning-medicos .planning .header .cell-ambiente {
-  left: 10px;
-  position: relative;
-}
-
-.planning-medicos .planning .header .cell-ambiente .badge {
-  position: relative;
-  top: -12px;
-  left: 20px;
-}
-
-/*lista pacientes*/
-.planning.pacientes .table .cell-planing {
-    background-color: #9de5ee;
-    color: #057482;    
-}
-.planning.pacientes .table .cell-planing .cell-section {
-    font-size: 15px;
-    font-weight: 500;   
-}
-
-.planning.pacientes .header {
-    width: 100%;
-    height: 30px;
-    margin-left: 0;
-}
-
-.planning.pacientes .table tr th {
-    min-width: 50px;
-    width: 50px;
-    min-height: 30px;
-    height: 30px;
-    padding: 0px;
-}
-
-/*ajustes planning horas generar cupo*/
-.planning-medicos.genera-cupo .planning .hora-header {
-  width: 9%
-}
-
-.planning-medicos.genera-cupo .header {
-  margin-left: 9%;
-  width: auto;
-}
-
-.planning-medicos.genera-cupo .sidebar {
-  width: 9%;
-}
-
-.planning-medicos.genera-cupo .planning .sidebar .table tr td{
-  min-width: 9%;
-  width: 9%;
-  padding: 0;
-}
-
-.planning-medicos.genera-cupo .body {
-  width: 91%;
-}
-
-.planning-medicos.genera-cupo  {
-  /*height: 400px;*/
-  height: auto;
-}
-
-.planning-medicos.genera-cupo .planning .sidebar {
-  height: 530px;
-}
-
-.planning-medicos.genera-cupo .planning .body {
-  height: 530px;
-}
+/*Modificación Header*/
+.page-header{
+  height: 80px;
+  margin: 10px 0 0px;
+  border-bottom: 0;  /*border-bottom: 1px solid #e0e0e0;*/
+} 
 
-.planning-medicos.genera-cupo .planning .body .table tr td:hover {
-  background-color: #e1f9fc;
+.page-header .container{
+  height: 80px;
 }
 
-.planning-medicos.genera-cupo .planning .body .table .cell-vacia:hover {
-  cursor: inherit;
+.page-header .container .logo-area{
+  height: 80px;
 }
 
-.planning-medicos.genera-cupo .planning {
-    height: auto;
+.navbar-nav.toolbar > li a:hover{
+  color: #ce1d19;
 }
 
-.planning-medicos.genera-cupo .planning .cell-programacion {
-  padding: 0;
-  position: relative;
+.page-title{
+  border-top-width: 7px;
+  border-top-style: solid;
+  min-height: 64px;
+  border-top-color: #ef635f;
+  background: #ce1d19;  
 }
 
-.planning-medicos.genera-cupo .planning .detalle {
-  /*width: 100%;*/
-  width: 158px; 
-  height: inherit;
-  margin: 0;
-  padding: 0;
+.page-title h1{
+  color:#fff;
 }
 
-.planning-medicos.genera-cupo .planning .cell-programacion .label {
-  color: #212121;
+.breadcrumb{
+  border: 0px !important;
   background-color: transparent;
-  -ms-transform: rotate(-25deg); /* IE 9 */
-  -webkit-transform: rotate(-25deg); /* Chrome, Safari, Opera */
-  transform: rotate(-25deg);
-  position: relative;
-  top: 25%;
-  /*left: 20%;*/
+  padding: 22px 0;  
 }
 
-.planning-medicos.genera-cupo .planning .cell-programacion{
-  cursor: pointer;
-  cursor: hand;
+.breadcrumb li, .breadcrumb li.active {
+    color: #fff;
+    font-size: 14px  !important;
+    line-height: 20px;
 }
 
-.planning-medicos.genera-cupo .planning .cell-programacion.deshabilitada, .planning-medicos.genera-cupo .planning .cell-programacion.cell-vacia{ 
-  cursor:default !important;
+.breadcrumb a{
+  color: #fff;
+  font-size: 14px;
+  line-height: 20px;
 }
 
-.planning-medicos.genera-cupo .planning .cell-programacion.deshabilitada .detalle{
-  opacity: 0.6;
-}
-.planning-medicos.genera-cupo .planning .cell-programacion .label[href] {
-  box-shadow: 1px 1px 0px 1px;
-  color: #005c68;
-  font-size: 13px;
-}
-.planning-medicos.genera-cupo .body .cell-programacion .label[href]:hover{
-    font-size: 13px !important;
-    line-height: 1.35 !important;
-    background-color: #9de5ee;
+.breadcrumb a:hover {
+  text-decoration: underline;
 }
 
-/*.planning-medicos.genera-cupo .body .cell-programacion:hover{
-    background-color: #e4fcc9;
-}*/
-
-.planning-medicos.genera-cupo .planning .cell-programacion.deshabilitada .label[href] {
-  box-shadow: inset 0px 0px 1px 0px;
-  color: #107c8a;
-  font-size: 13px;
-}
-.planning-medicos.genera-cupo .planning .cell-programacion.deshabilitada .label[href]:hover {
-  font-size: 13px !important;
-  line-height: 1.35 !important;
-  cursor:default;
-  background-color: initial;
-}
-/*.planning-medicos.genera-cupo .body .cell-programacion.deshabilitada:hover{
-    background-color: initial;
-}*/
-
-
-
-.planning-medicos.genera-cupo .planning .cell-programacion .detalle .barra-ocupacion{
-    width: 100%;
-    /*background-color: rgba(173, 226, 149, 0.73);*/
-    background-color: rgba(139, 195, 74, 0.24);
-    position: absolute;
-    bottom: 0px;
+/**** Modificacion footer*/
+footer{
+  background-color: #6c6f74;
 }
 
-
-.planning-medicos.genera-cupo .planning .sidebar div {
-    font-size: 14px;
-}
-.planning-medicos.genera-cupo .planning .sidebar .table tr td > div, 
-.planning-medicos.genera-cupo .planning .sidebar .table tr th > div{ 
-    min-height: 22px; 
-    height: 22px; 
+footer ul li h6{
+  margin: 0; 
+  color:#fff; 
+  text-transform: none;
+  font-size: 14px;
 }
 
-.hovered-hour, .hovered-ambiente{ 
-  background-color: #e4fcc9 !important;
+.content{
+  margin-top: 40px;
 }
 
-.opacity-3 {
-  opacity: 0.3; 
+.btn-page {
+  background: #ce1d19;
+  border-color: #ce1d19;
+  color: #fff;
 }
 
-.truncate { 
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-.list-esp-demanda .danger.switch, 
-.list-grupos .danger.switch,
-.list-sede .danger.switch {
-    background: #8bc34a;
-    border: 1px solid #8bc34a;
+.btn-page:hover{
+  background: #fff;
+  color: #ce1d19 !important;
 }
 
-.list-esp-demanda .switch.checked.danger,
-.list-grupos .switch.checked.danger,
-.list-sede .switch.checked.danger{
-    background: #dd191d;
-    border: 1px solid #dd191d;
+.btn-page:visited, .btn-page:focus, .btn-page.focus{
+    color: #fff; 
 }
 
-/*ajuste etiquetas celdas*/
-.planning .cell-programacion .label{
-  display: block;    
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+.btn-default {
+  background-color: #929292 !important;  
+  color: #fff;
 }
 
-.planning-medicos .body-table .cell-planing .label{
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  margin-left: 10px;
-  margin-right: 10px;
+.btn-default:hover {
+  color: #ce1d19;
+  border-color: #929292 !important;
 }
 
+.input-group-addon{
+  background-color: #ce1d19 !important;
+  color: #fff;
+  border-color: #ce1d19;
+}
+
+.form-control:focus {
+  border: 1px solid #616161; 
+}
+
+#wrapper {
+    min-height: 88%;
+    height: 88%;
+}
+
+a.link-password{
+  color:#ef635f;
+}
+a.link-password:hover{
+  text-decoration: underline;
+}
