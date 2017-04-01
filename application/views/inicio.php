@@ -2,19 +2,20 @@
     <div class="container clearfix">
         <div class="row">
             <div class="col-md-6">
-                <h1></h1>
+                <h2></h2>
             </div>
-            <div class="col-md-6">
-                <ol class="breadcrumb m-n pull-right">
-                    
-                </ol>
+            <div class="col-md-6">                
+              <ol class="breadcrumb m-n pull-right">
+                <li>Mis Citas</li>
+                <li><a href="#/">Historial de Citas</li>
+              </ol>
             </div>
         </div>
     </div>
 </section> 
 <div class="content container" ng-controller="inicioController">
     <main>        
-        <div class="container-fluid" >
+        <div class="container-fluid "  style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-2 col-sm-12">

@@ -122,19 +122,6 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       $scope.captchaValido = true;
     };
 
-    window.onloadCallback = function() {
-/*      grecaptcha.render('recaptcha-registro', {
-        'sitekey' : $scope.keyRecaptcha,
-        'callback' : recaptchaResponse,
-        'theme' : 'dark'
-      });*/
-
-      grecaptcha.render('recaptcha-login', {
-        'sitekey' : $scope.keyRecaptcha,
-        'callback' : recaptchaResponse,
-      });
-    };
-
     $scope.getLayoutOption = function(key) {
       return $theme.get(key);
     };

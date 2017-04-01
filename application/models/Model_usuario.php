@@ -47,6 +47,13 @@ class Model_usuario extends CI_Model {
 		return $this->db->insert('ce_usuario_web', $data);
 	}	
 
+	public function m_update_estado_usuario($data, $id){
+		$this->db->where('idusuarioweb',$id);
+		$this->db->where('estado_uw ',2);
+		$this->db->where('idcliente NOT NULL');
+		return $this->db->update('ce_usuario_web', $data);
+	}	
+
 	public function m_cargar_este_usuario($datos){ 
 		$this->db->select('uw.idusuarioweb, uw.estado_uw', FALSE);
 		$this->db->from('ce_usuario_web uw');

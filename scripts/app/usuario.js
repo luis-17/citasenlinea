@@ -6,13 +6,19 @@ angular.module('theme.usuario', ['theme.core.services'])
     ){ 
     'use strict'; 
     $scope.modulo = 'usuario';
-    
-    $scope.btnRegistrarUsuario = function(){      
-      $scope.listaSexos = [
+    $scope.listaSexos = [
         {id:'-', descripcion:'SELECCIONE SEXO'},
         {id:'F', descripcion:'FEMENINO'},
         {id:'M', descripcion:'MASCULINO'}
       ];
+
+      $scope.init = function(){
+        $scope.fData = $scope.fSessionCI;
+        $scope.selectedTab = '0';
+        console.log($scope.fSessionCI);
+      }
+    
+    $scope.btnRegistrarUsuario = function(){     
       $scope.fData = {}; 
       $scope.fData.sexo = '-'; 
       $scope.captchaValido = false;

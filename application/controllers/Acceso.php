@@ -38,6 +38,12 @@ class Acceso extends CI_Controller {
 					$arrPerfilUsuario['fecha_nacimiento'] = $perfil['fecha_nacimiento'];
 					$arrPerfilUsuario['email'] = $perfil['email'];
 					$arrPerfilUsuario['nombre_imagen'] = $perfil['nombre_imagen'];
+
+					$paciente = ucwords(strtolower( $perfil['nombres'] . ' ' . 
+											$perfil['apellido_paterno'] . ' ' . 
+											$perfil['apellido_materno']));
+					
+					$arrPerfilUsuario['paciente'] = $paciente;
 					
 					// GUARDAMOS EN EL LOG DE LOGEO LA SESION INICIADA. 
 					//$this->model_acceso->m_registrar_log_sesion($arrPerfilUsuario);

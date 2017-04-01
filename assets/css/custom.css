@@ -385,7 +385,7 @@ ul.externo{text-transform:uppercase;}
   background: #ce1d19;  
 }
 
-.page-title h1{
+.page-title h1, .page-title h2{
   color:#fff;
 }
 
@@ -472,4 +472,9 @@ a.link-password{
 }
 a.link-password:hover{
   text-decoration: underline;
+}
+
+.panel-profile .panel-body img {
+    width: 150px;
+    margin: 0;
 }

@@ -37,7 +37,8 @@
 
                         <div class="form-group mb-n">
                             <div class="col-xs-12">
-                                <div id="recaptcha-login" class="g-recaptcha" data-sitekey="{{keyRecaptcha}}" data-callback="recaptchaResponse"></div> 
+                                <div id="recaptcha-login" class="g-recaptcha" data-ng-controller="loginController" data-ng-init="initRecaptcha()"
+                                    data-sitekey="{{keyRecaptcha}}" data-callback="recaptchaResponse"></div> 
                             </div>
                         </div> 
 

@@ -126,6 +126,7 @@ class Usuario extends CI_Controller {
     	$resultUsuario = TRUE;
     	if($resultUsuario && $resultCliente){
     		/*ENVIAR CORREO PARA VERIFICAR*/
+        $idusuarioweb = GetLastId('idusuarioweb','ce_usuario_web');
     		$listaDestinatarios = array();
     		array_push($listaDestinatarios, $allInputs['email']);
     		$paciente = ucwords(strtolower( $allInputs['nombres'] . ' ' . 
@@ -141,7 +142,7 @@ class Usuario extends CI_Controller {
 					        </div> <br />';
 		  	$cuerpo .= '	<div style="font-size:16px;">  
 		                		Estimado(a) paciente: '.$paciente .', <br /> <br /> ';
-		    $cuerpo .= '		<a href="">Haz clic aquí para continuar con el proceso de registro.</a>';
+		    $cuerpo .= '		<a href="'. base_url() .'ci.php/usuario/setCuentaUsuario?data='. base64_encode($idusuarioweb) .'">Haz clic aquí para continuar con el proceso de registro.</a>';
 		  	$cuerpo .= 		'</div>';
 
 
@@ -171,6 +172,22 @@ class Usuario extends CI_Controller {
 	}
 
 	public function setCuentaUsuario(){
-		print_r($_GET);
+		$allInputs = $_GET['data'];
+    $id = base64_decode($allInputs); //utilizar base64_encode en el envio de email
+
+    if(is_numeric($id)){
+      $data = array (
+        'estado_uw' => 1,
+        'updatedAt' => date('Y-m-d H:i:s')
+      );
+      
+      if($this->model_usuario->m_update_estado_usuario($data, $id)){
+        $this->load->view('usuario/verificacion-cuenta');
+      }else{
+        $this->load->view('usuario/error-verificacion-cuenta');
+      } 
+    }else{
+      $this->load->view('usuario/error-verificacion-cuenta');
+    }       
 	}
 }

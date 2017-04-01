@@ -6,6 +6,14 @@ angular.module('theme.login', ['theme.core.services'])
     $scope.$on('$destroy', function() {
       $theme.set('fullscreen', false);
     });
+
+    $scope.initRecaptcha = function() {
+      grecaptcha.render('recaptcha-login', {
+        'sitekey' : $scope.keyRecaptcha,
+        'callback' : recaptchaResponse,
+      });
+    };
+
     $scope.fLogin = {};
     $scope.logOut();
     $scope.btnLoginToSystem = function () {
