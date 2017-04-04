@@ -4,5 +4,7 @@ angular
     'theme.login',
     'theme.inicio',
     'theme.sede',
-    'theme.usuario' 
+    'theme.usuario', 
+    'theme.pariente', 
+    'theme.parentesco' 
   ]);

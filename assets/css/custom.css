@@ -377,6 +377,12 @@ ul.externo{text-transform:uppercase;}
   color: #ce1d19;
 }
 
+.navbar-nav.toolbar > li a span:hover,
+.navbar-nav.toolbar > li a:hover,
+.navbar-nav.toolbar > li a:hover i{
+  color: #ce1d19 !important;
+}
+
 .page-title{
   border-top-width: 7px;
   border-top-style: solid;
@@ -474,7 +480,15 @@ a.link-password:hover{
   text-decoration: underline;
 }
 
+.control-label{
+  color: #616161;
+}
+
 .panel-profile .panel-body img {
     width: 150px;
     margin: 0;
+}
+
+.panel-body h4{
+  border-bottom: solid 3px #ce1d19;
 }

@@ -69,7 +69,7 @@
                 <div class="panel-heading" style="min-height: 24px;" ></div>
                 <div class="panel-body" style="text-align: center;">                        
                     <p style="font-size:16px;">Disfruta los beneficios de ser un paciente de <br/>Villa Salud... Gestiona tus citas y las de tus familiares, desde la comodidad de tu hogar.</p>
-                    <a href="" class="btn btn-page" ng-click="btnRegistroEnSistema()">Registrarse</a>                
+                    <a href="" class="btn btn-page" ng-click="btnRegistroEnSistema(); $event.preventDefault();">Registrarse</a>                
                     <div>                    
                         <h4 style="color:#ef635f;">Villa Salud, Te Cuida!</h4>
                     </div>

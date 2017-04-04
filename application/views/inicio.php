@@ -19,12 +19,6 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-2 col-sm-12">
-                        <div class="col-xs-12 p-n mb-xs"> 
-                          <h3 class="m-n" style="text-align: center;"> 
-                            <strong style="color: #ce1d19;"> HISTORIAL DE CITAS </strong> 
-                        </h3>
-                        </div>                       
-
                         <div class="col-xs-12 p-n mb-xs" style="margin-top:5px" > 
                           <div class="input-group" style="width:100%;" > 
                              <strong class="control-label mb-n">SEDE: </strong>
@@ -47,6 +41,7 @@
                                     ng-change="fBusqueda.itemMedico = null;" />                            
                           </div>
                         </div>
+
                         <div class="col-xs-12 p-n mb-xs" style="margin-top:5px " > 
                           <div class="input-group" style="width:100%;" > 
                              <strong class="control-label mb-n">ESPECIALIDAD: </strong>
@@ -60,15 +55,15 @@
                           </div>
                         </div>
 
-                        <div class="col-xs-12 p-n mb-xs">
+                        <div class="col-xs-12 p-n mb-xs" style="margin-top:5px">
                             <strong class="control-label mb-n">FECHA: </strong>
                             <input tabindex="110" type="text" placeholder="Fecha" class="form-control input-sm mask" ng-model="fBusqueda.fecha" style="width: 100%;" data-inputmask="'alias': 'dd-mm-yyyy'" /> 
                         </div>
 
                         <div class="col-xs-12 p-n mb-xs mt-xs" style="text-align:center;"> 
-                          <button type="button" class="btn btn-page btn-block" ng-click="listarPlaningMedico();" style="width: 80%;"><i class="fa fa-search"></i> BUSCAR</button>
+                          <button type="button" class="btn btn-page btn-sm" ng-click="listarPlaningMedico();" style="width: 100%;"><i class="fa fa-search"></i> BUSCAR</button>
                         </div>
-                      </div>
+                    </div>
                     <div class="col-md-10 col-sm-12">
                         
                     </div>

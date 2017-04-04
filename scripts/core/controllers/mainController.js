@@ -32,9 +32,13 @@ function newNotificacion(body,icon,title,tag) {
 
 appRoot = angular.module('theme.core.main_controller', ['theme.core.services', 'blockUI'])
   .controller('MainController', ['$scope', '$route', '$uibModal', '$document', '$theme', '$timeout', 'progressLoader', 'wijetsService', '$routeParams', '$location','$controller'
-    , 'blockUI', 'uiGridConstants', 'pinesNotifications','rootServices',
+    , 'blockUI', 'uiGridConstants', 'pinesNotifications',
+    'rootServices',
+    'usuarioServices',
     function($scope, $route, $uibModal, $document, $theme, $timeout, progressLoader, wijetsService, $routeParams, $location, $controller
-      , blockUI, uiGridConstants, pinesNotifications,rootServices) {
+      , blockUI, uiGridConstants, pinesNotifications,
+      rootServices,
+      usuarioServices) {
     //'use strict';
     $scope.fAlert = {};
     $scope.arrMain = {};
@@ -90,7 +94,6 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     $scope.blockUI = blockUI;
 
     $scope.$on('$routeChangeStart', function() {
-      console.log('paso por aqui');
       rootServices.sGetSessionCI().then(function (response) {
         if(response.flag == 1){
           if ($location.path() === '') {            
@@ -121,7 +124,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     window.recaptchaResponse = function(key) {
       $scope.captchaValido = true;
     };
-
+ 
     $scope.getLayoutOption = function(key) {
       return $theme.get(key);
     };
@@ -152,8 +155,8 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
         console.log(response);
         if(response.flag == 1){
           $scope.fSessionCI = response.datos;
-          if(!$scope.fSessionCI.nombre_foto || $scope.fSessionCI.nombre_foto === ''){
-            $scope.fSessionCI.nombre_foto = 'noimage.jpg';
+          if(!$scope.fSessionCI.nombre_imagen || $scope.fSessionCI.nombre_imagen == ''){
+            $scope.fSessionCI.nombre_imagen = 'noimage.jpg';
           }
           $scope.logIn();
           if( $location.path() == '/login' ){
@@ -167,6 +170,52 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       });
     }   
     
+    $scope.btnCambiarMiClave = function (size){
+      $uibModal.open({
+        templateUrl: angular.patchURLCI+'usuario/ver_popup_password',
+        size: size || 'sm',
+        controller: function ($scope, $modalInstance) {
+          $scope.titleForm = 'Cambiar Contraseña';
+          $scope.aceptar = function (){            
+            $scope.fDataUsuario.miclave = 'si';
+            usuarioServices.sActualizarPasswordUsuario($scope.fDataUsuario).then(function (rpta){
+              if(rpta.flag == 1){
+                $scope.fAlert = {};
+                $scope.fAlert.type= 'success';
+                $scope.fAlert.msg= rpta.message;
+                $scope.fAlert.strStrong = 'Genial.';
+                setTimeout(function() {
+                  $scope.cancel();
+                }, 1000);
+              }else if(rpta.flag == 2){
+                $scope.fDataUsuario.clave = null;
+                $scope.fAlert = {};
+                $scope.fAlert.type= 'warning';
+                $scope.fAlert.msg= rpta.message;
+                $scope.fAlert.strStrong = 'Advertencia.';
+              }else if(rpta.flag == 0){
+                $scope.fDataUsuario.claveNueva = null;
+                $scope.fDataUsuario.claveConfirmar = null;
+                $scope.fAlert = {};
+                $scope.fAlert.type= 'danger';
+                $scope.fAlert.msg= rpta.message;
+                $scope.fAlert.strStrong = 'Error. ';
+                setTimeout(function() {
+                  $('#nuevoPass').focus();
+                }, 500);
+              }else{
+                alert('Error inesperado');
+              }               
+            });            
+          }
+
+          $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+            $scope.fDataUsuario = {};
+          }
+        }
+      });
+    }
     /* END */
   }])
   .service("rootServices", function($http, $q) {

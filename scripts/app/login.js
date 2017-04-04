@@ -58,14 +58,12 @@ angular.module('theme.login', ['theme.core.services'])
     }
 
     $scope.btnRegistroEnSistema = function(){
+      $scope.modulo='login';
       $controller('usuarioController', { 
         $scope : $scope
-      });
-
-      $scope.modulo='login';
+      });      
       $scope.btnRegistrarUsuario();
     }
-    
   })
   .service("loginServices",function($http, $q) {
     return({

@@ -106,7 +106,7 @@
                         </li>                        
 
                         <li class="dropdown" dropdown >
-                            <a href class="dropdown-toggle username" dropdown-toggle><img ng-src="{{ dirImages + 'dinamic/usuario/' + fSessionCI.nombre_foto }}" alt=" {{ fSessionCI.username }} " /></a>
+                            <a href class="dropdown-toggle username" dropdown-toggle><img ng-src="{{ dirImages + 'dinamic/usuario/' + fSessionCI.nombre_imagen }}" alt=" {{ fSessionCI.username }} " /></a>
                             <ul class="dropdown-menu animated userinfo arrow">
                                 <li><a href="" ng-click="btnCambiarMiClave();"><i class="ti ti-unlock"></i><span>Cambiar mi clave</span></a></li>
                                 <li><a href="" ng-click="btnLogoutToSystem();"><i class="ti ti-shift-right"></i><span>Cerrar sesión</span></a></li>
@@ -120,8 +120,12 @@
                                     MIS CITAS <span><i class="fa fa-caret-down"></i></span>
                                 </a>
                                 <ul class="dropdown-menu animated arrow">
-                                    <li><a href="#/" ><span>Historial de Citas</span></a></li>
-                                    <li><a href="#/reservar-cita" ><span>Reservar Cita</span></a></li>
+                                    <li><a href="#/" ><i class="ti ti-list" style="color: #bdbdbd; margin-right: 16px;"></i>
+                                        <span>Historial de Citas</span></a>
+                                    </li>
+                                    <li><a href="#/reservar-cita" ><i class="ti ti-calendar" style="color: #bdbdbd; margin-right: 16px;"></i>
+                                        <span>Reservar Cita</span></a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="dropdown menu-item menu-item-has-children " dropdown >
@@ -129,8 +133,12 @@
                                     MI PERFIL <span><i class="fa fa-caret-down"></i></span>
                                 </a>
                                 <ul class="dropdown-menu animated arrow">
-                                    <li><a href="#/mi-perfil" ><span>Actualizar mis Datos</span></a></li>
-                                    <li><a href="#/parientes" ><span>Administrar Parientes</span></a></li>
+                                    <li><a href="#/mi-perfil"><i class="ti ti-user" style="color: #bdbdbd; margin-right: 16px;"></i>
+                                        <span>Actualizar mis Datos</span></a>
+                                    </li>
+                                    <li><a href="#/pariente"><i class="fa fa-users" style="color: #bdbdbd; margin-right: 16px;"></i>
+                                        <span>Administrar Parientes</span></a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -303,6 +311,8 @@
     <script src="scripts/app/inicio.js"></script>
     <script src="scripts/app/sede.js"></script>
     <script src="scripts/app/usuario.js"></script>
+    <script src="scripts/app/pariente.js"></script>
+    <script src="scripts/app/parentesco.js"></script>
 
 
     <!-- plugins externos -->

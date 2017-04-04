@@ -64,10 +64,10 @@ class Model_usuario extends CI_Model {
 
 	public function m_verifica_password($datos){ 
 		$this->db->select('*');
-		$this->db->from('users u');
-		$this->db->where('idusers',$datos['id']);
+		$this->db->from('ce_usuario_web uw');
+		$this->db->where('idusuarioweb',$datos['idusuario']);
 		$this->db->where('password', do_hash($datos['clave'] , 'md5'));
-		$this->db->where('estado_usuario <>', '0');
+		$this->db->where('estado_uw <>', '0');
 		$this->db->limit(1);
 		
 		return $this->db->get()->row_array();
@@ -76,25 +76,18 @@ class Model_usuario extends CI_Model {
 	public function m_actualizar_password($datos){
 		$data = array(
 			'password' => do_hash($datos['claveNueva'],'md5'),
-			'password_watch' => $datos['claveNueva'],
 			'updatedAt' => date('Y-m-d H:i:s')
 		);
-		$this->db->where('idusers',$datos['id']);
-		return $this->db->update('users', $data);
+		$this->db->where('idusuarioweb',$datos['idusuario']);
+		return $this->db->update('ce_usuario_web', $data);
 	}
 
-
-	public function m_confirma_password($datos){ 
-		$this->db->select('1 as result');
-		$this->db->from('users u');
-		$this->db->where('idusers',$datos['id']);
-		$this->db->where('password', do_hash($datos['clave'] , 'md5'));
-		$this->db->where('estado_usuario <>', '0');
-		$this->db->limit(1);
-		$fData = $this->db->get()->row_array();
-		return $fData['result'];
+	public function m_subir_foto_perfil($datos){
+		$data = array(
+			'nombre_imagen' => $datos['nuevoNombreArchivo'],
+			'updatedAt' => date('Y-m-d H:i:s')
+		);
+		$this->db->where('idusuarioweb',$datos['idusuario']);
+		return $this->db->update('ce_usuario_web', $data);
 	}
-
-
-
 }

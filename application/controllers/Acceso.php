@@ -35,7 +35,7 @@ class Acceso extends CI_Controller {
 					$arrPerfilUsuario['sexo'] = $perfil['sexo'];
 					$arrPerfilUsuario['telefono'] = $perfil['telefono'];
 					$arrPerfilUsuario['celular'] = $perfil['celular'];
-					$arrPerfilUsuario['fecha_nacimiento'] = $perfil['fecha_nacimiento'];
+					$arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($perfil['fecha_nacimiento']));
 					$arrPerfilUsuario['email'] = $perfil['email'];
 					$arrPerfilUsuario['nombre_imagen'] = $perfil['nombre_imagen'];
 
