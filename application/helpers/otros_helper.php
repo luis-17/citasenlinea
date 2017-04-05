@@ -41,6 +41,14 @@ function strtoupper_total($string){
   return strtr(strtoupper($string),"àèìòùáéíóúçñäëïöü","ÀÈÌÒÙÁÉÍÓÚÇÑÄËÏÖÜ");
 }
 
+function edad($fecha){
+    $fecha = str_replace("/","-",$fecha);
+    $fecha = date('Y/m/d',strtotime($fecha));
+    $hoy = date('Y/m/d');
+    $edad = $hoy - $fecha;
+    return $edad;
+}
+
 function comprobar_email($email){ 
     $mail_correcto = FALSE; 
     //compruebo unas cosas primeras 
@@ -82,7 +90,7 @@ function enviar_mail($asunto, $setFromAleas, $cuerpo, $listaDestinatarios){
   $mail = new PHPMailer();
   $mail->IsSMTP(true);
   $mail->SMTPAuth = true;
-  $mail->SMTPDebug = true;
+  //$mail->SMTPDebug = true;
   $mail->SMTPSecure = "tls";
   $mail->Host = SMTP_HOST;
   $mail->Port = SMTP_PORT;

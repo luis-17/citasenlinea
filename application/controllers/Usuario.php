@@ -114,7 +114,7 @@ class Usuario extends CI_Controller {
   	if($resultCliente){
   		//ingreso usuario
   		$datos = array(
-  			'nombre_usuario' => $allInputs['email'],
+  			'nombre_usuario' => $allInputs['num_documento'],
   			'password' => do_hash($allInputs['clave'],'md5'), 
   			'idcliente' => $idcliente,
   			'createdAt' => date('Y-m-d H:i:s'),
@@ -150,9 +150,6 @@ class Usuario extends CI_Controller {
 	  					<p>Si no has solicitado la suscripción a este correo electrónico, ignóralo y la suscripción no se activará.</p>
 	  				</div>';
 
-	  	$cuerpo .= '<div >
-	  					<p>Si no has solicitado la suscripción a este correo electrónico, ignóralo y la suscripción no se activará.</p>
-	  				</div>';
 
 	  	$cuerpo .= '</body>';
 	  	$cuerpo .= '</html>';
@@ -241,7 +238,7 @@ class Usuario extends CI_Controller {
     $allInputs = json_decode(trim($this->input->raw_input_stream),true);
     $arrPerfilUsuario = array();
     if(empty($allInputs['nombre_usuario'])){
-      $this->sessionCitasEnLinea['nombre_usuario'];
+      $allInputs['nombre_usuario'] = $this->sessionCitasEnLinea['nombre_usuario'];
     }
     $perfil = $this->model_usuario->m_cargar_usuario($allInputs);
 
@@ -253,6 +250,7 @@ class Usuario extends CI_Controller {
     $arrPerfilUsuario['apellido_paterno'] = $perfil['apellido_paterno'];
     $arrPerfilUsuario['apellido_materno'] = $perfil['apellido_materno'];
     $arrPerfilUsuario['sexo'] = $perfil['sexo'];
+    $arrPerfilUsuario['edad'] = $perfil['edad'];
     $arrPerfilUsuario['telefono'] = $perfil['telefono'];
     $arrPerfilUsuario['celular'] = $perfil['celular'];
     $arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($perfil['fecha_nacimiento']));

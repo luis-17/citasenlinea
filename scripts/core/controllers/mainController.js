@@ -132,6 +132,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     $scope.isLoggedIn = false;
     $scope.logOut = function() {
       $scope.isLoggedIn = false;
+      $scope.captchaValido = false;
     };
     $scope.logIn = function() {
       $scope.isLoggedIn = true;

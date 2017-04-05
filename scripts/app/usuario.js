@@ -122,9 +122,7 @@ angular.module('theme.usuario', ['theme.core.services'])
                 $scope.fAlert.icon = 'fa fa-exclamation';
               }else if(rpta.flag == 1){
                 $scope.fData = {};
-                $scope.fData.num_documento = num_documento;
                 $scope.fData.sexo = '-';
-                $scope.fData = rpta.usuario;
                 $scope.fAlert.type= 'success';
                 $scope.fAlert.msg= rpta.message;
                 $scope.fAlert.icon= 'fa fa-smile-o';

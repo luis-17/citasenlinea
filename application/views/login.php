@@ -20,7 +20,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </span>
-                                    <input ng-model="fLogin.usuario" type="text" class="form-control" placeholder="E-mail" data-parsley-minlength="6" required focus-me enter-as-tab/>
+                                    <input ng-model="fLogin.usuario" type="text" class="form-control" placeholder="N° documento" data-parsley-minlength="6" required focus-me enter-as-tab/>
                                 </div>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-key"></i>
                                     </span>
-                                    <input ng-model="fLogin.clave" type="password" class="form-control" id="exampleInputPassword1" placeholder="Clave" required ng-enter="btnLoginToSystem()"/>
+                                    <input ng-model="fLogin.clave" type="password" class="form-control" id="exampleInputPassword1" placeholder="Clave" required ng-enter="btnLoginToSystem(); $event.preventDefault();"/>
                                 </div>
                             </div>
                         </div>                       
@@ -71,7 +71,7 @@
                     <p style="font-size:16px;">Disfruta los beneficios de ser un paciente de <br/>Villa Salud... Gestiona tus citas y las de tus familiares, desde la comodidad de tu hogar.</p>
                     <a href="" class="btn btn-page" ng-click="btnRegistroEnSistema(); $event.preventDefault();">Registrarse</a>                
                     <div>                    
-                        <h4 style="color:#ef635f;">Villa Salud, Te Cuida!</h4>
+                        <h4 style="color:#ef635f;border-bottom: 0">Villa Salud, Te Cuida!</h4>
                     </div>
                 </div>
                 <div class="panel-footer" >                    

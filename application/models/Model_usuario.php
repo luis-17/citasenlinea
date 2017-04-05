@@ -18,6 +18,7 @@ class Model_usuario extends CI_Model {
 	public function m_cargar_usuario($datos){
 		$this->db->select('c.idcliente, c.num_documento, c.nombres, c.apellido_paterno, c.apellido_materno, 
 							c.sexo, c.telefono, c.celular, c.fecha_nacimiento, c.email', FALSE); 
+		$this->db->select("DATE_PART('YEAR',AGE(c.fecha_nacimiento)) AS edad",FALSE);
 		$this->db->select('uw.idusuarioweb, uw.nombre_usuario, uw.nombre_imagen, uw.estado_uw', FALSE); 
 		$this->db->from('ce_usuario_web uw');
 		$this->db->join('cliente c','uw.idcliente = c.idcliente AND c.estado_cli = 1', 'left');
@@ -50,7 +51,7 @@ class Model_usuario extends CI_Model {
 	public function m_update_estado_usuario($data, $id){
 		$this->db->where('idusuarioweb',$id);
 		$this->db->where('estado_uw ',2);
-		$this->db->where('idcliente NOT NULL');
+		$this->db->where('idcliente IS NOT NULL');
 		return $this->db->update('ce_usuario_web', $data);
 	}	
 
