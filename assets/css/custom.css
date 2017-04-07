@@ -714,3 +714,73 @@ a.link-password:hover{
   margin-right: 15px;
   margin-left: 15px;
 }
+
+.text-guia {
+    color: red;
+    position: relative;
+    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 3s; /* Safari 4.0 - 8.0 */
+    animation-name: saludo;
+    animation-duration: 3s;
+    left:0px; top:100px;
+}
+
+.text-guia .saludo{
+  font-size: 22px;
+  font-weight: bold;
+  color:#36c0d1;
+}
+
+.text-guia .instruccion{
+  font-size: 15px;
+  font-weight: 400;
+  color: #616161;
+}
+
+.flecha {
+  padding: 5px;
+  width: 100px;
+  background-color: #ce1d19;
+  border-radius: 10px;
+  color: white;
+  text-align: center;  
+}
+
+.flecha .i-flecha{
+  position: relative;
+  /*-webkit-animation: flecha infinite; 
+  -webkit-animation-duration: 3s;
+  animation: saludo infinite;
+  animation-duration: 3s;  
+  -webkit-animation-delay: 2s; 
+  animation-delay: 2s;*/
+}
+
+/*Animaciones*/
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes saludo {
+    0%   {color:red; left:0px; top:0px;}
+    50%  {color:blue; left:0px; top:200px;}
+    100% {color:yellow; left:0px; top:100px;}
+}
+/* Standard syntax */
+@keyframes saludo {
+    0%   {color:red; left:0px; top:0px;}
+    50%  {color:blue; left:0px; top:200px;}
+    100% {color:yellow; left:0px; top:100px;}
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes flecha {
+    0%   {color:white; left:10px;top:110px;}
+    30%  {color:blue; left:40px;top:110px;}
+    60%  {color:yellow; left:70px;top:110px;}
+    100% {color:white; left:10px;top:110px;}
+}
+/* Standard syntax */
+@keyframes flecha {
+    0%   {color:white; left:10px;top:110px;}
+    30%  {color:blue; left:40px;top:110px;}
+    60%  {color:yellow; left:70px;top:110px;}
+    100% {color:white; left:10px;top:110px;}
+}
