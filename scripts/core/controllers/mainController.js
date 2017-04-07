@@ -124,6 +124,22 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     window.recaptchaResponse = function(key) {
       $scope.captchaValido = true;
     };
+    
+    window.recaptchaResponseReg = function(key) {
+      $scope.captchaValidoReg = true;
+    }
+
+    window.onloadCallback = function(){
+      grecaptcha.render('recaptcha-login', {
+        'sitekey' : $scope.keyRecaptcha,
+        'callback' : recaptchaResponse,
+      });
+
+      grecaptcha.render('recaptcha-registro', {
+        'sitekey' : $scope.keyRecaptcha,
+        'callback' : recaptchaResponseReg,
+      });
+    }
  
     $scope.getLayoutOption = function(key) {
       return $theme.get(key);
@@ -216,6 +232,19 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
           }
         }
       });
+    }
+
+    $scope.viewRegister = false;
+    $scope.btnViewRegister = function (){
+      $controller('usuarioController', { 
+        $scope : $scope
+      }); 
+      $scope.initRegistrarUsuario();
+      $scope.viewRegister = true;
+    }
+
+    $scope.btnViewLogin = function (){
+      $scope.viewRegister = false;
     }
     /* END */
   }])

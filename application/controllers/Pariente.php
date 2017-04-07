@@ -23,7 +23,16 @@ class Pariente extends CI_Controller {
     foreach ($lista as $row) {
       $pariente = strtoupper($row['nombres']) . ' ' . 
                   strtoupper($row['apellido_paterno']) . ' ' . 
-                  strtoupper($row['apellido_materno']);    
+                  strtoupper($row['apellido_materno']);  
+
+      if($row['sexo']=='F'){
+        $icon = 'fa fa-female';
+        $desc = 'FEMENINO';
+      }else{
+        $icon = 'fa fa-male';
+        $desc = 'MASCULINO';
+      }
+
       array_push($arrListado, 
         array(
           'idusuariowebpariente' => $row['idusuariowebpariente'],
@@ -34,9 +43,16 @@ class Pariente extends CI_Controller {
           'apellido_paterno' => strtoupper($row['apellido_paterno']),
           'apellido_materno' => strtoupper($row['apellido_materno']),
           'sexo' => $row['sexo'],
+          'sexo' => $row['sexo'],
           'idparentesco' => $row['idparentesco'],
           'parentesco' => $row['parentesco'],
           'pariente' => $pariente,
+          'num_documento' => $row['num_documento'],
+          'fecha_nacimiento' => date('d-m-Y',strtotime($row['fecha_nacimiento'])),
+          'email' => $row['email'],
+          'idclientepariente' => $row['idclientepariente'],
+          'icon' => $icon,
+          'desc_sexo' => $desc,
         )
       );
     }
@@ -54,6 +70,10 @@ class Pariente extends CI_Controller {
 
   public function ver_popup_formulario(){
     $this->load->view('pariente/pariente_formView');
+  }  
+
+  public function ver_popup_aviso(){
+    $this->load->view('mensajes/confirmacion-previa');
   }
 
   public function verificar_pariente_por_documento(){
@@ -71,8 +91,8 @@ class Pariente extends CI_Controller {
       $arrData['flag'] = 2;
 
       if(!empty($usuario['idusuarioweb'])){
-        $arrData['message'] = 'Estimado paciente, tu pariente ya es usuario en nuestro sistema en linea.';
-        $arrData['flag'] = 2;
+        $arrData['message'] = 'Estimado paciente, tu familiar ya es usuario en nuestro sistema en linea.';
+        $arrData['flag'] = 1;
         $this->output
           ->set_content_type('application/json')
           ->set_output(json_encode($arrData));
@@ -80,7 +100,7 @@ class Pariente extends CI_Controller {
       }       
 
       if(!empty($usuario['idusuariowebpariente'])){
-        $arrData['message'] = 'Estimado paciente, ya tu pariente está registrado en nuestro sistema en linea.';
+        $arrData['message'] = 'Estimado paciente, tu familiar está registrado en nuestro sistema en linea.';
         $arrData['flag'] = 1;
         $this->output
           ->set_content_type('application/json')
@@ -120,7 +140,7 @@ class Pariente extends CI_Controller {
 
     $usuario = $this->model_pariente->m_cargar_por_documento($allInputs);
     if(!empty($usuario) && !empty($usuario['idusuarioweb'])){
-    $arrData['message'] = 'Estimado paciente, tu pariente ya es usuario en nuestro sistema en linea.';
+    $arrData['message'] = 'Estimado paciente, tu familiar ya es usuario en nuestro sistema en linea.';
     $arrData['flag'] = 0;    
     $this->output
         ->set_content_type('application/json')
@@ -129,14 +149,14 @@ class Pariente extends CI_Controller {
     } 
 
     if(!empty($usuario['idusuariowebpariente'])){
-      $arrData['message'] = 'Estimado paciente, ya tu pariente está registrado en nuestro sistema en linea.';
+      $arrData['message'] = 'Estimado paciente, tu familiar ya está registrado en nuestro sistema en linea.';
       $arrData['flag'] = 0;
       $this->output
         ->set_content_type('application/json')
         ->set_output(json_encode($arrData));
       return;
     }
-
+    $this->db->trans_start();
     if(empty($usuario)){
       //registrar usuario
       $datos = array(
@@ -147,7 +167,7 @@ class Pariente extends CI_Controller {
         'email' => $allInputs['email'], 
         'sexo' => $allInputs['sexo'], 
         'fecha_nacimiento' => $allInputs['fecha_nacimiento'], 
-        'celular' => $allInputs['celular'], 
+        'si_registro_web' => 1,  
         'createdAt' => date('Y-m-d H:i:s'),
         'updatedAt' => date('Y-m-d H:i:s')
         );
@@ -161,8 +181,7 @@ class Pariente extends CI_Controller {
         'apellido_materno' => strtoupper($allInputs['apellido_materno']), 
         'email' => $allInputs['email'], 
         'sexo' => $allInputs['sexo'], 
-        'fecha_nacimiento' => $allInputs['fecha_nacimiento'], 
-        'celular' => $allInputs['celular'],  
+        'fecha_nacimiento' => $allInputs['fecha_nacimiento'],  
         'updatedAt' => date('Y-m-d H:i:s')
         );
       $idcliente =  $usuario['idcliente'];
@@ -179,14 +198,64 @@ class Pariente extends CI_Controller {
         );
       $resultPariente = $this->model_pariente->m_registrar_pariente($datos);
     }
+    $this->db->trans_complete();
 
     if($resultCliente && $resultPariente){
-      $arrData['message'] = 'Se ha registrado el pariente exitosamente.';
+      $arrData['message'] = 'Se ha registrado tu familiar exitosamente.';
       $arrData['flag'] = 1;
     }
 
     $this->output
       ->set_content_type('application/json')
       ->set_output(json_encode($arrData));  
+  }
+
+  public function eliminar_pariente(){
+    $allInputs = json_decode(trim($this->input->raw_input_stream),true);
+    $arrData['message'] = 'No pudo ser anulado el familiar. Intenta nuevamente.';
+    $arrData['flag'] = 0;
+
+    if($this->model_pariente->m_anular_pariente($allInputs['idusuariowebpariente'])){
+      $arrData['message'] = 'El familiar fue eliminado correctamente.';
+      $arrData['flag'] = 1;
+    }
+
+    $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));
+  }
+
+  public function editar_pariente(){
+    $allInputs = json_decode(trim($this->input->raw_input_stream),true);
+    $arrData['message'] = 'No se pudo finalizar el registro. Intente nuevamente.';
+    $arrData['flag'] = 0;
+
+    if($allInputs['parentesco']['id']==1 && edad($allInputs['fecha_nacimiento']) > 17){
+    $arrData['message'] = 'Solo puede registrar hijos menos de 18 años.';
+    $arrData['flag'] = 0;    
+    $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));
+      return;       
+    } 
+
+    $datos = array(
+      'nombres' => strtoupper($allInputs['nombres']), 
+      'apellido_paterno' => strtoupper($allInputs['apellido_paterno']), 
+      'apellido_materno' => strtoupper($allInputs['apellido_materno']), 
+      'email' => $allInputs['email'], 
+      'sexo' => $allInputs['sexo'], 
+      'fecha_nacimiento' => $allInputs['fecha_nacimiento'],
+      'updatedAt' => date('Y-m-d H:i:s')
+      );
+
+    if($this->model_usuario->m_update_cliente($datos, $allInputs['idclientepariente'])){
+      $arrData['message'] = 'Han sido actualizados los datos de tu familiar.';
+      $arrData['flag'] = 1;
+    }
+
+    $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));  
   }
 }

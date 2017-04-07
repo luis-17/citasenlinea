@@ -6,5 +6,7 @@ angular
     'theme.sede',
     'theme.usuario', 
     'theme.pariente', 
-    'theme.parentesco' 
+    'theme.parentesco', 
+    'theme.historialCitas', 
+    'theme.programarCita' 
   ]);

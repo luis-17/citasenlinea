@@ -1,19 +1,11 @@
-angular.module('theme.inicio', ['theme.core.services'])
-  .controller('inicioController', function($scope, $theme, $filter
-    ,inicioServices
+angular.module('theme.historialCitas', ['theme.core.services'])
+  .controller('historialCitasController', function($scope, $theme, $filter
+    ,historialCitasServices
     ,sedeServices ){
       'use strict';
       shortcut.remove("F2"); 
-      $scope.modulo = 'inicio'; 
+      $scope.modulo = 'historialCitas'; 
       $scope.pageTittle = 'Inicio';
-      $scope.arrays = {};
-      $scope.fDataFiltro = {};
-      $scope.fBusqueda = {};
-      $scope.arrays.listaAvisos = [];
-      $scope.arrays.listaCumpleaneros = [];
-      $scope.arrays.listaTelefonica = [];
-      $scope.arrays.listaDocumentosInterno = [];
-
       $scope.listaMeses = [
         { 'id': 1, 'mes': 'Enero' },
         { 'id': 2, 'mes': 'Febrero' },
@@ -29,10 +21,18 @@ angular.module('theme.inicio', ['theme.core.services'])
         { 'id': 12, 'mes': 'Diciembre' }
       ];
       var mes_actual = $filter('date')(new Date(),'M');
-      
-      
+
+      $scope.fBusqueda = {};
+      var datos = {
+        search:1,
+        nameColumn:'tiene_prog_cita'
+      };
+      sedeServices.sListarSedesCbo(datos).then(function (rpta) {
+        $scope.listaSedes = rpta.datos;
+        $scope.fBusqueda.sede = $scope.listaSedes[0];
+      });
   })
-  .service("inicioServices",function($http, $q) {
+  .service("historialCitasServices",function($http, $q) {
     return({
     });
   });

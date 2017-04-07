@@ -75,6 +75,7 @@ class Usuario extends CI_Controller {
   	} 
 
   	$resultCliente = FALSE;
+    $this->db->trans_start();
   	$allInputs['telefono'] = (!isset($allInputs['telefono']) || empty($allInputs['telefono']) ) ? null : $allInputs['telefono'];
   	if(empty($usuario)){
  			//registrar usuario
@@ -87,7 +88,8 @@ class Usuario extends CI_Controller {
  				'sexo' => $allInputs['sexo'], 
  				'fecha_nacimiento' => $allInputs['fecha_nacimiento'], 
  				'celular' => $allInputs['celular'], 
- 				'telefono' => $allInputs['telefono'], 
+        'telefono' => $allInputs['telefono'], 
+ 				'si_registro_web' => 1, 
  				'createdAt' => date('Y-m-d H:i:s'),
  				'updatedAt' => date('Y-m-d H:i:s')
  				);
@@ -162,7 +164,7 @@ class Usuario extends CI_Controller {
   			$arrData['flag'] = 1;
 	  	}    		
   	}
-
+    $this->db->trans_complete();
   	$this->output
 	    ->set_content_type('application/json')
 	    ->set_output(json_encode($arrData));	

@@ -53,99 +53,106 @@
   to-top-on-load faux-offcanvas ng-init="getValidateSession();">
     <header id="topnav" class="navbar {{getLayoutOption('topNavThemeClass')}}" role="banner" ng-cloak >
         <section class="page-header logo-left secondary-page" >
-            <div class="container">
-                <div class="sticky_container clearfix">
-                    <div class="logo-area">
-                        <a class="navbar-brand" >Avenxo</a>
-                        <div class="toolbar-icon-bg hidden-xs" id="toolbar-search" ng-class="{active: getLayoutOption('showSmallSearchBar')}">
-                            <div class="input-group">
-                                <!-- <span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"> ESPECIALIDAD: </i></button></span> -->
-                                <!-- <input type="text" class="form-control" placeholder="Search...">  -->
-                                <span class="input-group-btn">
-                                    <button class="btn" type="button" ng-click="toggleSearchBar($event)"><i class="ti ti-close"></i></button>
-                                </span>
+            <div class="container col-md-12 ">
+                <div class="clearfix row">
+                    <div class="col-md-3 col-sm-12">
+                        <div class="logo-area">
+                            <a class="navbar-brand" >Avenxo</a>
+                            <div class="toolbar-icon-bg hidden-xs" id="toolbar-search" ng-class="{active: getLayoutOption('showSmallSearchBar')}">
+                                <div class="input-group">
+                                    <!-- <span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"> ESPECIALIDAD: </i></button></span> -->
+                                    <!-- <input type="text" class="form-control" placeholder="Search...">  -->
+                                    <span class="input-group-btn">
+                                        <button class="btn" type="button" ng-click="toggleSearchBar($event)"><i class="ti ti-close"></i></button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <ul class="nav navbar-nav pull-right toolbar" ng-if="isLoggedIn">
-                        <li class="dropdown toolbar-icon-bg" tooltip-placement="bottom" tooltip="Ver Notificaciones">
-                            <a href="" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
-                                <span class="icon-bg"><i class="ti ti-bell"></i></span>
-                                <span ng-show="fSessionCI.listaNotificacionesEventos.contador>0" class="badge badge-deeporange"> {{ fSessionCI.listaNotificacionesEventos.contador }} </span>
-                            </a>
-                            <div class="dropdown-menu notifications arrow">
-                                <div class="topnav-dropdown-header">
-                                    <span> Notificaciones </span>
-                                </div>
-                                <i class="fa fa-search ml-md"></i><input type="text" name="search" placeholder="" class="input_search ml" ng-model="fBusqueda.notificacion">
-                                <div class="scroll-pane">
-                                    <ul class="media-list scroll-content">
-                                        <li ng-repeat="fila in fSessionCI.listaNotificacionesEventos.datos | filter:fBusqueda" 
-                                            class="media notification-{{fila.clase}}" >
-                                            <a href="" ng-click="viewDetalleNotificacionEvento(fila); $event.preventDefault();" 
-                                                style="border: solid 1px #bbb;background: {{fila.color_background}}">
-                                                <div class="media-left">
-                                                    <span class="notification-icon"><i class="{{fila.icono}}"></i></span>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4 class="notification-heading" ng-bind-html="fila.notificacion" style="height: 60px;overflow-y: hidden;text-overflow: ellipsis;"></h4>
-                                                    <span style="color: white;" class="notification-time label label-{{fila.clase}}"> {{ fila.fecha }} </span>
-                                                </div>
-                                            </a>                            
-                                        </li>
-                                        <li class="media">
-                                            <div class="waterMarkEmptyData" style="font-size: 20px;" ng-show="!fSessionCI.listaNotificacionesEventos.datos.length"> No se encontraron notificaciones. </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
+                    </div>                  
 
-                        <li class="toolbar-icon-bg hidden-xs" toggle-fullscreen tooltip-placement="bottom" uib-tooltip="Pantalla Completa">
-                            <a href="" class="toggle-fullscreen"><span class="icon-bg"><i class="ti ti-fullscreen"></i></span></i></a>
-                        </li>                        
+                    <div class="col-md-6" >
+                        <nav class="" ng-controller="NavigationController" ng-if="isLoggedIn" >
+                            <ul class="nav navbar-nav toolbar">
+                                <li class="menu-item" >
+                                    <a href="#/"><i class="ti ti-home" style="font-size: 20px;"></i></a>
+                                </li>
 
-                        <li class="dropdown" dropdown >
-                            <a href class="dropdown-toggle username" dropdown-toggle><img ng-src="{{ dirImages + 'dinamic/usuario/' + fSessionCI.nombre_imagen }}" alt=" {{ fSessionCI.username }} " /></a>
-                            <ul class="dropdown-menu animated userinfo arrow">
-                                <li><a href="" ng-click="btnCambiarMiClave();"><i class="ti ti-unlock"></i><span>Cambiar mi clave</span></a></li>
-                                <li><a href="" ng-click="btnLogoutToSystem();"><i class="ti ti-shift-right"></i><span>Cerrar sesión</span></a></li>
+                                <li class="menu-item" >
+                                    <a href="#/seleccionar-cita">SELECCIONAR CITA</a>
+                                </li>
+                                <li class="menu-item" >
+                                    <a href="#/historial-citas">HISTORIAL</a>
+                                </li>
+                                <li class="menu-item" >
+                                    <a href="#/resultados">RESULTADOS</a>
+                                </li>                           
                             </ul>
-                        </li>
-                    </ul>
-                    <nav class="" ng-controller="NavigationController" ng-if="isLoggedIn">
-                        <ul class="nav navbar-nav pull-right toolbar">
-                            <li class="dropdown menu-item menu-item-has-children " dropdown >
-                                <a href dropdown-toggle>
-                                    MIS CITAS <span><i class="fa fa-caret-down"></i></span>
+                        </nav>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="nav navbar-nav toolbar pull-right" ng-if="isLoggedIn" > 
+                            <li class="menu-item " >
+                                <a href="#/mi-perfil" class="username">
+                                    <img ng-src="{{ dirImages + 'dinamic/usuario/' + fSessionCI.nombre_imagen }}" 
+                                        alt=" {{ fSessionCI.username }} " />
+                                    <span class="username-saludo pull-right">¡Hola! {{fSessionCI.nombres}}</span>
                                 </a>
-                                <ul class="dropdown-menu animated arrow">
-                                    <li><a href="#/" ><i class="ti ti-list" style="color: #bdbdbd; margin-right: 16px;"></i>
-                                        <span>Historial de Citas</span></a>
-                                    </li>
-                                    <li><a href="#/reservar-cita" ><i class="ti ti-calendar" style="color: #bdbdbd; margin-right: 16px;"></i>
-                                        <span>Reservar Cita</span></a>
-                                    </li>
-                                </ul>
+
                             </li>
-                            <li class="dropdown menu-item menu-item-has-children " dropdown >
-                                <a href dropdown-toggle>
-                                    MI PERFIL <span><i class="fa fa-caret-down"></i></span>
+ 
+                            <li class="toolbar-icon-bg hidden-xs" toggle-fullscreen tooltip-placement="bottom" 
+                                uib-tooltip="Pantalla Completa">
+                                <a href="" class="toggle-fullscreen">
+                                    <span class="icon-bg">
+                                        <i class="ti ti-fullscreen" style="font-size: 20px;"></i>
+                                    </span>
                                 </a>
-                                <ul class="dropdown-menu animated arrow">
-                                    <li><a href="#/mi-perfil"><i class="ti ti-user" style="color: #bdbdbd; margin-right: 16px;"></i>
-                                        <span>Actualizar mis Datos</span></a>
-                                    </li>
-                                    <li><a href="#/pariente"><i class="fa fa-users" style="color: #bdbdbd; margin-right: 16px;"></i>
-                                        <span>Administrar Parientes</span></a>
-                                    </li>
-                                </ul>
+                            </li>
+
+                            <li class="dropdown toolbar-icon-bg" tooltip-placement="bottom" tooltip="Ver Notificaciones">
+                                <a href="" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
+                                    <span class="icon-bg"><i class="ti ti-bell" style="font-size: 20px;"></i></span>
+                                    <span ng-show="fSessionCI.listaNotificacionesEventos.contador>0" class="badge badge-deeporange"> {{ fSessionCI.listaNotificacionesEventos.contador }} </span>
+                                </a>
+                                <div class="dropdown-menu notifications arrow">
+                                    <div class="topnav-dropdown-header">
+                                        <span> Notificaciones </span>
+                                    </div>
+                                    <i class="fa fa-search ml-md"></i><input type="text" name="search" placeholder="" class="input_search ml" ng-model="fBusqueda.notificacion">
+                                    <div class="scroll-pane">
+                                        <ul class="media-list scroll-content">
+                                            <li ng-repeat="fila in fSessionCI.listaNotificacionesEventos.datos | filter:fBusqueda" 
+                                                class="media notification-{{fila.clase}}" >
+                                                <a href="" ng-click="viewDetalleNotificacionEvento(fila); $event.preventDefault();" 
+                                                    style="border: solid 1px #bbb;background: {{fila.color_background}}">
+                                                    <div class="media-left">
+                                                        <span class="notification-icon"><i class="{{fila.icono}}"></i></span>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h4 class="notification-heading" ng-bind-html="fila.notificacion" style="height: 60px;overflow-y: hidden;text-overflow: ellipsis;"></h4>
+                                                        <span style="color: white;" class="notification-time label label-{{fila.clase}}"> {{ fila.fecha }} </span>
+                                                    </div>
+                                                </a>                            
+                                            </li>
+                                            <li class="media">
+                                                <div class="waterMarkEmptyData" style="font-size: 20px;" ng-show="!fSessionCI.listaNotificacionesEventos.datos.length"> No se encontraron notificaciones. </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="menu-item" >
+                                <a href="" ng-click="btnLogoutToSystem();">
+                                    <i class="ti ti-shift-right" style="font-size: 20px;"></i>
+                                </a>                                
                             </li>
                         </ul>
-                    </nav>
+                    </div>
                 </div>
             </div>
-        </section>   
+        </section>
+        <div class="page-separador"></div>    
     </header>
     <style>
         #topnav.navbar-default .navbar-brand,
@@ -313,13 +320,14 @@
     <script src="scripts/app/usuario.js"></script>
     <script src="scripts/app/pariente.js"></script>
     <script src="scripts/app/parentesco.js"></script>
-
+    <script src="scripts/app/historialCitas.js"></script>
+    <script src="scripts/app/programarCita.js"></script>
 
     <!-- plugins externos -->
-     <script src="https://www.google.com/recaptcha/api.js" async defer></script>  
-    <!--<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+    <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script>  -->
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
         async defer>
-    </script>-->
+    </script>
 
 </body>
 </html>

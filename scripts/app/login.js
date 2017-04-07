@@ -6,8 +6,8 @@ angular.module('theme.login', ['theme.core.services'])
     $scope.$on('$destroy', function() {
       $theme.set('fullscreen', false);
     });
-
-    $scope.initRecaptcha = function() {
+    $scope.modulo='login';
+    $scope.initLoginRecaptcha = function() {
       grecaptcha.render('recaptcha-login', {
         'sitekey' : $scope.keyRecaptcha,
         'callback' : recaptchaResponse,
@@ -15,6 +15,7 @@ angular.module('theme.login', ['theme.core.services'])
     };
 
     $scope.fLogin = {};
+    
     $scope.logOut();
     $scope.btnLoginToSystem = function () {
       if($scope.fLogin.usuario == null || $scope.fLogin.clave == null){
@@ -55,14 +56,6 @@ angular.module('theme.login', ['theme.core.services'])
         $scope.fAlert.flag = response.flag;
         //$scope.fLogin = {};
       });
-    }
-
-    $scope.btnRegistroEnSistema = function(){
-      $scope.modulo='login';
-      $controller('usuarioController', { 
-        $scope : $scope
-      });      
-      $scope.btnRegistrarUsuario();
     }
   })
   .service("loginServices",function($http, $q) {

@@ -67,13 +67,13 @@ angular.module('theme.pariente', ['theme.core.services'])
             paginationOptions.sort = sortColumns[0].sort.direction;
             paginationOptions.sortName = sortColumns[0].name;
           }
-          $scope.getPaginationServerSide();
+          $scope.refreshListaParientes();
         });
         gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
           paginationOptions.pageNumber = newPage;
           paginationOptions.pageSize = pageSize;
           paginationOptions.firstRow = (paginationOptions.pageNumber - 1) * paginationOptions.pageSize;
-          $scope.getPaginationServerSide();
+          $scope.refreshListaParientes();
         });
         $scope.gridApi.core.on.filterChanged( $scope, function(grid, searchColumns) {
           var grid = this.grid;
@@ -86,27 +86,29 @@ angular.module('theme.pariente', ['theme.core.services'])
             'cp.descripcion' : grid.columns[3].filters[0].term,
             'c.sexo' : grid.columns[4].filters[0].term,
           }
-          $scope.getPaginationServerSide();
+          $scope.refreshListaParientes();
         });
       }
     };
 
     paginationOptions.sortName = $scope.gridOptions.columnDefs[0].name;
-    $scope.getPaginationServerSide = function(){
+    $scope.refreshListaParientes = function(){
       $scope.datosGrid = {
         paginate : paginationOptions
       };
       parienteServices.sListarParientes($scope.datosGrid).then(function (rpta) {
         $scope.gridOptions.totalItems = rpta.paginate.totalRows;
         $scope.gridOptions.data = rpta.datos;
+        $scope.listaParientes = rpta.datos;
       });
       $scope.mySelectionGrid = [];
     };
-    $scope.getPaginationServerSide();
+    $scope.refreshListaParientes();
 
     $scope.btnNuevoPariente = function(){
       $scope.fData = {}; 
       $scope.fData.sexo = '-'; 
+      $scope.accion ='reg';
       $scope.regListaParentescos = angular.copy($scope.listaParentescos);
       $scope.regListaParentescos[0].descripcion = 'SELECCIONE PARENTESCO';
       $scope.fData.parentesco = $scope.regListaParentescos[0];
@@ -119,7 +121,7 @@ angular.module('theme.pariente', ['theme.core.services'])
         keyboard:false,
         scope: $scope,
         controller: function ($scope, $modalInstance) {                 
-          $scope.titleForm = 'Registro de Parientes';     
+          $scope.titleForm = 'Agregar Familiar';     
 
           $scope.btnCancel = function(){
             $modalInstance.dismiss('btnCancel');
@@ -190,7 +192,86 @@ angular.module('theme.pariente', ['theme.core.services'])
       });
     }
 
+    $scope.btnEditarPariente = function(row){
+      $scope.fData = angular.copy(row); 
+      $scope.accion ='edit';
+      $scope.regListaParentescos = angular.copy($scope.listaParentescos);
+      $scope.regListaParentescos[0].descripcion = 'SELECCIONE PARENTESCO';
 
+      angular.forEach($scope.regListaParentescos, function(value, key) {
+        if(value.idparentesco == $scope.fData.idparentesco){
+            $scope.fData.parentesco= $scope.regListaParentescos[key];
+        }        
+      });      
+
+      blockUI.start('Abriendo formulario...');
+      $uibModal.open({ 
+        templateUrl: angular.patchURLCI+'Pariente/ver_popup_formulario',
+        size: '',
+        backdrop: 'static',
+        keyboard:false,
+        scope: $scope,
+        controller: function ($scope, $modalInstance) {                 
+          $scope.titleForm = 'Editar Familiar';     
+
+          $scope.btnCancel = function(){
+            $modalInstance.dismiss('btnCancel');
+          }
+
+          $scope.btnActualizarPariente = function (){
+            parienteServices.sActualizarPariente($scope.fData).then(function (rpta) {              
+              $scope.fAlert = {};
+              if(rpta.flag == 0){
+                $scope.fAlert = {};
+                $scope.fAlert.type= 'danger';
+                $scope.fAlert.msg= rpta.message;
+                $scope.fAlert.strStrong = 'Error';
+                $scope.fAlert.icon = 'fa fa-exclamation';                
+              }else if(rpta.flag == 1){
+                $scope.fData = {};
+                $scope.fData.sexo = '-';
+                $scope.fAlert.type= 'success';
+                $scope.fAlert.msg= rpta.message;
+                $scope.fAlert.icon= 'fa fa-smile-o';
+                $scope.fAlert.strStrong = 'Genial! ';
+                $scope.refreshListaParientes();
+                $scope.btnCancel();
+              }
+              $scope.fAlert.flag = rpta.flag;
+            });
+          }   
+        
+          blockUI.stop();
+        }
+      });
+    }
+
+    $scope.btnEliminarPariente = function(row){
+      $uibModal.open({ 
+        templateUrl: angular.patchURLCI+'Pariente/ver_popup_aviso',
+        size: 'sm',
+        //backdrop: 'static',
+        //keyboard:false,
+        scope: $scope,
+        controller: function ($scope, $modalInstance) {                 
+          $scope.titleForm = 'Aviso'; 
+          $scope.msj = '¿Estás seguro de realizar esta acción?';
+
+          $scope.btnOk = function(){
+            $scope.btnCancel();
+            parienteServices.sEliminarPariente(row).then(function (rpta) {
+              //$scope.refreshListaParientes();
+            });
+          }
+
+          $scope.btnCancel = function(){
+            $modalInstance.dismiss('btnCancel');
+          }
+        }
+      });
+
+      
+    }
 
     /* ============================ */
     /* ATAJOS DE TECLADO NAVEGACION */
@@ -240,7 +321,9 @@ angular.module('theme.pariente', ['theme.core.services'])
     return({
         sListarParientes: sListarParientes,  
         sVerificarParientePorDocumento: sVerificarParientePorDocumento,
-        sRegistrarPariente:sRegistrarPariente,     
+        sRegistrarPariente:sRegistrarPariente,
+        sActualizarPariente: sActualizarPariente,  
+        sEliminarPariente:sEliminarPariente,   
     });
     function sListarParientes(datos) { 
       var request = $http({
@@ -262,6 +345,23 @@ angular.module('theme.pariente', ['theme.core.services'])
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"pariente/registrar_pariente", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }     
+    function sActualizarPariente(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"pariente/editar_pariente", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }    
+
+    function sEliminarPariente(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"pariente/eliminar_pariente", 
             data : datos
       });
       return (request.then( handleSuccess,handleError ));
