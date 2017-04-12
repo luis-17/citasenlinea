@@ -39,6 +39,7 @@ class Acceso extends CI_Controller {
 					$arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($perfil['fecha_nacimiento']));
 					$arrPerfilUsuario['email'] = $perfil['email'];
 					$arrPerfilUsuario['nombre_imagen'] = $perfil['nombre_imagen'];
+					$arrPerfilUsuario['listaCitas'] =array();
 
 					$paciente = ucwords(strtolower( $perfil['nombres'] . ' ' . 
 											$perfil['apellido_paterno'] . ' ' . 

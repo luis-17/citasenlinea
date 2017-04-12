@@ -9,13 +9,6 @@ angular.module('theme.pariente', ['theme.core.services'])
     'use strict';
     shortcut.remove("F2"); 
     $scope.modulo = 'pariente';
-    $scope.fBusqueda = {};
-    parentescoServices.sListarParentescoCbo().then(function(rpta){
-      $scope.listaParentescos = rpta.datos;
-      $scope.listaParentescos.splice(0,0,{ id : 0, idparentesco:0, descripcion:'--VER TODOS --'});
-      $scope.fBusqueda.parentesco = $scope.listaParentescos[0];
-    });
-
     $scope.listaSexos = [
       {id:'-', descripcion:'SELECCIONE SEXO'},
       {id:'F', descripcion:'FEMENINO'},
@@ -92,6 +85,7 @@ angular.module('theme.pariente', ['theme.core.services'])
     };
 
     paginationOptions.sortName = $scope.gridOptions.columnDefs[0].name;
+    
     $scope.refreshListaParientes = function(){
       $scope.datosGrid = {
         paginate : paginationOptions
@@ -103,15 +97,17 @@ angular.module('theme.pariente', ['theme.core.services'])
       });
       $scope.mySelectionGrid = [];
     };
-    $scope.refreshListaParientes();
+    
 
     $scope.btnNuevoPariente = function(){
       $scope.fData = {}; 
       $scope.fData.sexo = '-'; 
       $scope.accion ='reg';
-      $scope.regListaParentescos = angular.copy($scope.listaParentescos);
-      $scope.regListaParentescos[0].descripcion = 'SELECCIONE PARENTESCO';
-      $scope.fData.parentesco = $scope.regListaParentescos[0];
+      parentescoServices.sListarParentescoCbo().then(function(rpta){
+        $scope.regListaParentescos = rpta.datos;
+        $scope.regListaParentescos.splice(0,0,{ id : 0, idparentesco:0, descripcion:'SELECCIONE PARENTESCO'});
+        $scope.fData.parentesco = $scope.regListaParentescos[0];
+      });
 
       blockUI.start('Abriendo formulario...');
       $uibModal.open({ 
@@ -269,8 +265,16 @@ angular.module('theme.pariente', ['theme.core.services'])
           }
         }
       });
+    }
 
-      
+    $scope.initPariente = function(){
+      parentescoServices.sListarParentescoCbo().then(function(rpta){
+        $scope.listaParentescos = rpta.datos;
+        $scope.listaParentescos.splice(0,0,{ id : 0, idparentesco:0, descripcion:'--VER TODOS --'});
+        $scope.fBusqueda.parentesco = $scope.listaParentescos[0];
+      });
+      $scope.fBusqueda = {};      
+      $scope.refreshListaParientes();
     }
 
     /* ============================ */
@@ -319,7 +323,8 @@ angular.module('theme.pariente', ['theme.core.services'])
   }])
   .service("parienteServices",function($http, $q) {
     return({
-        sListarParientes: sListarParientes,  
+        sListarParientes: sListarParientes, 
+        sListarParientesCbo:sListarParientesCbo, 
         sVerificarParientePorDocumento: sVerificarParientePorDocumento,
         sRegistrarPariente:sRegistrarPariente,
         sActualizarPariente: sActualizarPariente,  
@@ -329,6 +334,14 @@ angular.module('theme.pariente', ['theme.core.services'])
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"pariente/lista_parientes", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }    
+    function sListarParientesCbo(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"pariente/lista_parientes_cbo", 
             data : datos
       });
       return (request.then( handleSuccess,handleError ));

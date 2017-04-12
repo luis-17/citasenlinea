@@ -692,14 +692,14 @@ a.link-password:hover{
   text-align: center;
 }
 
-.msj.modal-header{
+.modal-header{
   border-bottom: 0;
   padding-bottom: 0;
   color: #36c0d1;
   font-size: 25px;
   font-weight: bold;
 }
-.msj.modal-body{
+.modal-body{
   color: #212121;
   font-size: 20px;
 }
@@ -715,26 +715,60 @@ a.link-password:hover{
   margin-left: 15px;
 }
 
-.text-guia {
-    color: red;
-    position: relative;
-    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 3s; /* Safari 4.0 - 8.0 */
-    animation-name: saludo;
-    animation-duration: 3s;
-    left:0px; top:100px;
+.filtros{
+  font-size:17px;
+  font-weight: 300;
+  padding: 5px 10px;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  left: 0;
+  background: -webkit-linear-gradient(left, #b2e7ed 0%, #eaeaef 100%);
+  background-image: linear-gradient(to right, rgb(178, 231, 237) 0%, rgb(234, 234, 239) 100%);
+  background-position-x: initial;
+  background-position-y: initial;
+  background-size: initial;
+  background-repeat-x: initial;
+  background-repeat-y: initial;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
 }
 
-.text-guia .saludo{
-  font-size: 22px;
-  font-weight: bold;
-  color:#36c0d1;
+.filtros li{
+  padding: 0 20px;
+}
+.filtros .form-control{
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid red;
+  border-radius: 0 !important;
+  color: #616161; 
+  font-weight: 300;
+  font-size: 16px; 
+  min-width: 220px;
 }
 
-.text-guia .instruccion{
-  font-size: 15px;
-  font-weight: 400;
-  color: #616161;
+.filtros .form-control option{
+  background-color: #fff;
+}
+
+.filtros input.form-control {
+  position: relative;
+  top: -1px;
+}
+.filtros .btn:hover{
+  background-color: transparent;
+}
+
+.filtros .form-control::-webkit-input-placeholder,
+.filtros .form-control:-moz-placeholder,
+.filtros .form-control::-moz-placeholder,
+.filtros .form-control:-ms-input-placeholder { 
+  color: #616161; 
+  font-weight: 300;
+  font-size: 16px; 
 }
 
 .flecha {
@@ -756,9 +790,33 @@ a.link-password:hover{
   animation-delay: 2s;*/
 }
 
+
 .gridheader {
   background-color: #dcf4f7 !important;
   color: #616161 !important;
+}
+.text-guia {
+  color: red;
+  position: relative;
+  -webkit-animation-name: saludo; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 3s; /* Safari 4.0 - 8.0 */
+  animation-name: saludo;
+  animation-duration: 3s;
+  left:0px; 
+  top:0px;
+}
+
+.text-guia .saludo{
+  font-size: 22px;
+  font-weight: bold;
+  color:#36c0d1;
+}
+
+.text-guia .instruccion{
+  font-size: 15px;
+  font-weight: 400;
+  color: #616161;
+
 }
 
 /*Animaciones*/
@@ -766,13 +824,13 @@ a.link-password:hover{
 @-webkit-keyframes saludo {
     0%   {color:red; left:0px; top:0px;}
     50%  {color:blue; left:0px; top:200px;}
-    100% {color:yellow; left:0px; top:100px;}
+    100% {color:yellow; left:0px; top:0;}
 }
 /* Standard syntax */
 @keyframes saludo {
     0%   {color:red; left:0px; top:0px;}
     50%  {color:blue; left:0px; top:200px;}
-    100% {color:yellow; left:0px; top:100px;}
+    100% {color:yellow; left:0px; top:0;}
 }
 
 /* Safari 4.0 - 8.0 */
@@ -788,4 +846,261 @@ a.link-password:hover{
     30%  {color:blue; left:40px;top:110px;}
     60%  {color:yellow; left:70px;top:110px;}
     100% {color:white; left:10px;top:110px;}
+}
+
+.grid-fecha .btn-default{
+  background-color: #f5f5f5 !important;
+  color: #616161;
+}
+
+.grid-fecha .full-width table{
+  width:97%;
+}
+
+/*planning*/
+.planning .desc-header,   
+.planning .fecha-header,
+.planning .sidebar,
+.planning .body{
+  float: left;
+}
+
+.planning .sidebar{
+  clear: left;
+}
+
+.planning .body .column{
+  float: left;
+}
+
+.planning .block-visible-planning {
+  height: 450px;
+  overflow: auto;
+  float: left;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #36c0d1;
+}
+
+.planning .desc-header,   
+.planning .fecha-header,
+.planning .hora-sidebar,  
+.planning .cell-programacion,
+.planning .cell-vacia  {  
+  width: 120px;  
+  text-align: center;
+  border: 1px solid #36c0d1;
+  border-collapse: collapse;
+  border-bottom-style: none;
+  border-left-style: none;
+}
+
+.planning .desc-header,   
+.planning .fecha-header{
+  height: 40px;
+  padding: 10px 20px;
+}
+
+.planning .hora-sidebar,  
+.planning .cell-programacion,
+.planning .cell-vacia  {
+  height: 30px;
+  padding: 5px 20px;
+}
+
+.planning .desc-header,
+.planning .sidebar{
+  border-left: 1px solid #36c0d1;
+}
+
+.planning .desc-header,
+.planning .fecha-header,
+.planning .hora-sidebar{
+  background-color: #dcf4f7;
+  color: #191970;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.planning .fecha-header.feriado{
+  color:#ce1d19;
+}
+
+.planning .desc-header{
+  border-top-left-radius: 10px;
+}
+
+.planning .header .fecha-header:last-child{
+  border-top-right-radius: 10px;
+}
+
+.planning .content-cell-column{
+  top: 40%;
+  position: relative;
+}
+
+.planning .cell-programacion:hover{
+  cursor: pointer;
+}
+
+.planning .body .favorito{
+  position: relative;
+  bottom: 0px;
+  right: -45px;
+  color: #ff9800;
+  font-size: 15px;
+}
+
+/*animaciones planning*/
+.planning.visible{
+  animation: bounceIn .5s;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/*seleccion cupo*/
+.turnos-disponibles{
+  margin-bottom: 15px;
+}
+
+.turnos-disponibles .medico{
+  color:#191970;
+}
+
+.cupo{
+  float: left;
+  padding: 10px;
+  min-width: 16.6%;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+input[type=radio] + label:before {
+    font-family: FontAwesome;
+    display: inline-block;
+    font-size: 19px;
+    content: '\f046'; 
+    letter-spacing: 0px;
+    color:gray;
+    cursor: pointer;
+}
+
+input[type="radio"]{
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid #c8c6c6;
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    margin: 0 5px 0 0;
+    display: none;
+}
+
+input[type="radio"]:focus{
+    outline: none;
+}
+
+input[type=radio]:checked + label:before {
+  color:green;
+}
+
+.cupo .box{
+  width: 80px;
+  height: 50px;
+  background-color: #e8e8e8;
+  border: solid 1px #808080;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.cupo .box:hover{
+  background-color: #dcf4f7;
+  border: solid 1px #36c0d1;
+}
+
+.cupo .box-adicional{
+  position: relative;
+  left: 90px;
+  top: -49px;
+  color: #ff9800;
+}
+
+.citas.scroll-pane{
+  border:1px solid #36c0d1;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.citas.scroll-pane .boton-finalizar{
+  width: 100%;
+  background: #36c0d1;
+  padding: 5px;
+  text-align: center;
+}
+
+.boton-finalizar a{
+  color: white;
+}
+
+.list-citas {
+  list-style-type: none;
+  padding-left:0px;
+  margin:5px;
+}
+
+.list-citas .sin-citas{
+  font-size: 25px;
+  font-weight: 300;
+  text-align: center;
+  color: #ce1d19;
+  /*animation: pulse 1s ease infinite;*/
+}
+
+.list-citas .item-list-citas{
+  margin: 10px 10px 0 10px;
+  border-bottom: 1px dotted  #9a999d;
+}
+
+.list-citas .cita{
+  color: #9a999d;
+}
+
+.citas .list-citas{
+  height: 450px;
+  overflow: auto;
+}
+
+.citas .list-citas::-webkit-scrollbar {
+    width: 1em;
+}
+
+.list-citas .cita i{
+
+}
+
+/*animaciones lista*/
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

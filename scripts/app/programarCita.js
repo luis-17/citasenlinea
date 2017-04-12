@@ -1,13 +1,147 @@
 angular.module('theme.programarCita', ['theme.core.services'])
-  .controller('programarCitaController', ['$scope', '$sce', '$modal', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys', 
+  .controller('programarCitaController', ['$scope', '$controller', '$filter', '$sce', '$uibModal', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys','blockUI', 
     'programarCitaServices',
-    function($scope, $sce, $modal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, 
-      parentescoServices
+    'sedeServices',
+    'especialidadServices',
+    'parienteServices',
+    function($scope, $controller, $filter, $sce, $uibModal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, blockUI,
+      programarCitaServices,
+      sedeServices,
+      especialidadServices,
+      parienteServices
       ){
     'use strict';
     shortcut.remove("F2"); 
     $scope.modulo = 'programarCita';
+    
+    $scope.fBusqueda = {};
+    var fechaHasta = moment().add(6,'days');
+    $scope.fBusqueda.desde =  $filter('date')(moment().toDate(),'dd-MM-yyyy'); 
+    $scope.fBusqueda.hasta =  $filter('date')(fechaHasta.toDate(),'dd-MM-yyyy');
+    $scope.fSeleccion = {};
+    $scope.fPlanning = null; 
+    $scope.listaEspecialidad = [
+      { id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '}
+    ];
+    $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[0];
 
+    var datos = {
+      search:1,
+      nameColumn:'tiene_prog_cita'
+    };
+    sedeServices.sListarSedesCbo(datos).then(function (rpta) {
+      $scope.listaSedes = rpta.datos;
+      $scope.listaSedes.splice(0,0,{ id : 0, idsede:0, descripcion:'SEDE'});
+      $scope.fBusqueda.itemSede = $scope.listaSedes[0];
+    });
+
+    parienteServices.sListarParientesCbo().then(function (rpta) {
+      $scope.listaFamiliares = rpta.datos;
+      $scope.listaFamiliares.splice(0,0,{ idusuariowebpariente:0, nombres: $scope.fSessionCI.nombres + ' (titular)'});
+      $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[0];
+    });
+
+    $scope.listarEspecialidad = function(){
+      var datos = {
+        idsede : $scope.fBusqueda.itemSede.id,
+      }
+
+      especialidadServices.sListarEspecialidadesProgAsistencial(datos).then(function (rpta) {
+        $scope.listaEspecialidad = rpta.datos;
+        $scope.listaEspecialidad.splice(0,0,{ id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '});
+        $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[0];
+      });
+    }
+
+    $scope.getMedicoAutocomplete = function (value) {
+      var params = $scope.fBusqueda;
+      params.search= value;
+      params.sensor= false;
+        
+      return programarCitaServices.sListarMedicosAutocomplete(params).then(function(rpta) { 
+        $scope.noResultsLM = false;
+        if( rpta.flag === 0 ){
+          $scope.noResultsLM = true;
+        }
+        return rpta.datos; 
+      });
+    }
+
+    $scope.getSelectedMedico = function($item, $model, $label){
+      $scope.fBusqueda.itemMedico = $item;
+    }
+
+    $scope.cargarPlanning = function(){
+      programarCitaServices.sCargarPlanning($scope.fBusqueda).then(function(rpta){
+        $scope.fPlanning = rpta.planning;
+      });
+    }
+
+    $scope.btnAgregarNuevoPariente = function(){
+      $controller('parienteController', { 
+        $scope : $scope
+      });
+      $scope.btnNuevoPariente();
+    }
+
+    $scope.verTurnosDisponibles = function(item){
+      blockUI.start('Abriendo formulario...');
+      $uibModal.open({ 
+        templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_turnos',
+        size: '',
+        backdrop: 'static',
+        keyboard:false,
+        scope: $scope,
+        controller: function ($scope, $modalInstance) {                          
+          $scope.titleForm = 'Turnos Disponibles'; 
+          var datos = item;
+          datos.medico = $scope.fBusqueda.itemMedico;
+          programarCitaServices.sCargarTurnosDisponibles(datos).then(function(rpta){
+            $scope.fPlanning.turnos=rpta.datos;
+          });    
+
+          $scope.btnCancel = function(){
+            $modalInstance.dismiss('btnCancel');
+          }
+
+          $scope.checkedCupo = function(cupo){
+            $scope.fSeleccion = cupo; 
+            cupo.checked=true;
+          }
+
+          $scope.btnReservarTurno = function(){            
+            /*console.log($scope.fPlanning);
+            console.log($scope.fBusqueda);
+            console.log($scope.fSeleccion);*/
+            var datos = {
+              busqueda:angular.copy($scope.fBusqueda) ,
+              seleccion:angular.copy($scope.fSeleccion)
+            }
+
+            $scope.fSessionCI.listaCitas.push(datos);           
+            console.log($scope.fSessionCI.listaCitas);
+            $scope.btnCancel();
+          }
+        
+          blockUI.stop();
+        }
+      });
+    }
+
+    $scope.cambiarFechas = function() { 
+      var fecha = moment($scope.fBusqueda.fecha).format('DD-MM-YYYY'); 
+      var fechaHasta = moment($scope.fBusqueda.fecha).add(6,'days'); 
+      fechaHasta = $filter('date')(fechaHasta.toDate(),'dd-MM-yyyy'); 
+      $scope.fBusqueda.desde = fecha;
+      $scope.fBusqueda.hasta = fechaHasta;
+      $scope.cargarPlanning();
+    }
+
+    $scope.resumenReserva = function(){
+      console.log($scope.fPlanning);
+      console.log($scope.fBusqueda);
+      console.log($scope.fSeleccion);
+    }
 
     /* ============================ */
     /* ATAJOS DE TECLADO NAVEGACION */
@@ -55,13 +189,31 @@ angular.module('theme.programarCita', ['theme.core.services'])
   }])
   .service("programarCitaServices",function($http, $q) {
     return({
-      sListarParentescoCbo: sListarParentescoCbo,     
+      sCargarPlanning:sCargarPlanning,
+      sCargarTurnosDisponibles:sCargarTurnosDisponibles, 
+      sListarMedicosAutocomplete:sListarMedicosAutocomplete,  
     });
 
-    function sListarParentescoCbo(datos) { 
+    function sCargarPlanning(datos) { 
       var request = $http({
             method : "post",
-            url : angular.patchURLCI+"parentesco/lista_parentesco_cbo", 
+            url : angular.patchURLCI+"ProgramarCita/cargar_planning", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }    
+    function sCargarTurnosDisponibles(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ProgramarCita/cargar_turnos_disponibles", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }
+    function sListarMedicosAutocomplete(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ProgramarCita/lista_medicos_autocomplete", 
             data : datos
       });
       return (request.then( handleSuccess,handleError ));
