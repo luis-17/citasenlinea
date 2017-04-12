@@ -10,6 +10,6 @@ angular
     'theme.historialCitas', 
     'theme.programarCita', 
     'theme.especialidad' ,
-    'theme.resultadolaboratorio'     
-
+    'theme.resultadolaboratorio',     
+    'theme.especialidad' 
   ]);
