@@ -20,6 +20,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
     $scope.fBusqueda.hasta =  $filter('date')(fechaHasta.toDate(),'dd-MM-yyyy');
     $scope.fSeleccion = {};
     $scope.fPlanning = null; 
+    $scope.fBusqueda.itemFamiliar = null; 
     $scope.listaEspecialidad = [
       { id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '}
     ];
@@ -35,11 +36,18 @@ angular.module('theme.programarCita', ['theme.core.services'])
       $scope.fBusqueda.itemSede = $scope.listaSedes[0];
     });
 
-    parienteServices.sListarParientesCbo().then(function (rpta) {
-      $scope.listaFamiliares = rpta.datos;
-      $scope.listaFamiliares.splice(0,0,{ idusuariowebpariente:0, nombres: $scope.fSessionCI.nombres + ' (titular)'});
-      $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[0];
-    });
+    $scope.listarParientes = function(externo){
+      parienteServices.sListarParientesCbo().then(function (rpta) {
+        $scope.listaFamiliares = rpta.datos;
+        $scope.listaFamiliares.splice(0,0,{ idusuariowebpariente:0, descripcion: $scope.fSessionCI.nombres + ' (titular)'});
+        if(externo){          
+          $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[$scope.listaFamiliares.length-1]; 
+        }else{
+          $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[0];
+        }
+      });
+    }
+    $scope.listarParientes();
 
     $scope.listarEspecialidad = function(){
       var datos = {
@@ -78,10 +86,14 @@ angular.module('theme.programarCita', ['theme.core.services'])
     }
 
     $scope.btnAgregarNuevoPariente = function(){
+      var callback = function(){
+        $scope.listarParientes(true);
+      }
+
       $controller('parienteController', { 
         $scope : $scope
       });
-      $scope.btnNuevoPariente();
+      $scope.btnNuevoPariente(callback);
     }
 
     $scope.verTurnosDisponibles = function(item){

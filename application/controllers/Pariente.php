@@ -273,6 +273,7 @@ class Pariente extends CI_Controller {
           'idusuarioweb' => $row['idusuarioweb'],
           'idclientepariente' => $row['idclientepariente'],
           'estado_uwp' => $row['estado_uwp'],
+          'descripcion' => strtoupper($row['nombres']) . ' (' . $row['parentesco'] .')', 
           'nombres' => strtoupper($row['nombres']),
           'apellido_paterno' => strtoupper($row['apellido_paterno']),
           'apellido_materno' => strtoupper($row['apellido_materno']),

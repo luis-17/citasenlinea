@@ -99,7 +99,7 @@ angular.module('theme.pariente', ['theme.core.services'])
     };
     
 
-    $scope.btnNuevoPariente = function(){
+    $scope.btnNuevoPariente = function(callback){
       $scope.fData = {}; 
       $scope.fData.sexo = '-'; 
       $scope.accion ='reg';
@@ -178,6 +178,12 @@ angular.module('theme.pariente', ['theme.core.services'])
                 $scope.fAlert.msg= rpta.message;
                 $scope.fAlert.icon= 'fa fa-smile-o';
                 $scope.fAlert.strStrong = 'Genial! ';
+                if(callback){
+                  callback();                  
+                }else{
+                  $scope.refreshListaParientes();
+                }
+                $scope.btnCancel();                
               }
               $scope.fAlert.flag = rpta.flag;
             });
