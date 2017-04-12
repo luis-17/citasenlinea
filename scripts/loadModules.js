@@ -8,6 +8,8 @@ angular
     'theme.pariente', 
     'theme.parentesco', 
     'theme.historialCitas', 
-    'theme.programarCita',
+    'theme.programarCita', 
+    'theme.especialidad' ,
+    'theme.resultadolaboratorio',     
     'theme.especialidad' 
   ]);
