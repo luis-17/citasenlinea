@@ -28,4 +28,5 @@ class Model_sede extends CI_Model {
 		$this->db->where('idsede',$id);
 		return $this->db->get()->row_array();
 	}	
+
 }

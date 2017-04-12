@@ -50,7 +50,7 @@
 </head>
 
 <body ng-app="themesApp" ng-controller="MainController" class="animated-content" ng-click="hideHeaderBar();hideChatBox()"
-  to-top-on-load faux-offcanvas ng-init="getValidateSession();">
+  to-top-on-load faux-offcanvas scroll ng-init="getValidateSession();">
     <header id="topnav" class="navbar {{getLayoutOption('topNavThemeClass')}}" role="banner" ng-cloak >
         <section class="page-header logo-left secondary-page" >
             <div class="container col-md-12 ">
@@ -322,6 +322,7 @@
     <script src="scripts/app/parentesco.js"></script>
     <script src="scripts/app/historialCitas.js"></script>
     <script src="scripts/app/programarCita.js"></script>
+    <script src="scripts/app/especialidad.js"></script>
 
     <!-- plugins externos -->
     <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script>  -->
