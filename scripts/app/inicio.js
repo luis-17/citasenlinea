@@ -5,7 +5,6 @@ angular.module('theme.inicio', ['theme.core.services'])
       'use strict';
       shortcut.remove("F2"); 
       $scope.modulo = 'inicio'; 
-      $scope.pageTittle = 'Inicio';
       $scope.arrays = {};
       $scope.fDataFiltro = {};
       $scope.fBusqueda = {};
@@ -30,6 +29,11 @@ angular.module('theme.inicio', ['theme.core.services'])
       ];
       var mes_actual = $filter('date')(new Date(),'M');
       
+      console.log('$scope.fSessionCI',$scope.fSessionCI);
+
+      $scope.goToPerfil = function(){
+        $scope.goToUrl('/mi-perfil');
+      }
       
   })
   .service("inicioServices",function($http, $q) {

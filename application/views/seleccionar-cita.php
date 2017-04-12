@@ -12,7 +12,7 @@
           
       </li>
       <li class="" style="padding: 0 0;">
-        <button type="button" class="btn btn-page" ng-click="btnAgregarNuevoPariente();"><i class="fa fa-plus"></i></button>
+        <button type="button" class="btn btn-page btn-sm" ng-click="btnAgregarNuevoPariente();"><i class="fa fa-plus"></i></button>
       </li>
       <li class="" >
         en:
@@ -40,7 +40,7 @@
 			</li>
 
 			<li class="">
-				<button class="btn btn-page" ng-click="cargarPlanning(); " ><i class="ti ti-search"></i></button>
+				<button class="btn btn-page btn-sm" ng-click="cargarPlanning(); " ><i class="ti ti-search"></i></button>
 			</li>
 		</ul>
 	</div>

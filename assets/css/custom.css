@@ -723,17 +723,11 @@ a.link-password:hover{
   width: 100%;
   z-index: 10;
   left: 0;
-  background: -webkit-linear-gradient(left, #b2e7ed 0%, #eaeaef 100%);
-  background-image: linear-gradient(to right, rgb(178, 231, 237) 0%, rgb(234, 234, 239) 100%);
-  background-position-x: initial;
-  background-position-y: initial;
-  background-size: initial;
-  background-repeat-x: initial;
-  background-repeat-y: initial;
-  background-attachment: initial;
-  background-origin: initial;
-  background-clip: initial;
-  background-color: initial;
+  background: -webkit-linear-gradient(left, #b2e7ed 0%, #dcf4f7 100%);
+  background: -moz-linear-gradient(left, #b2e7ed 1%, #dcf4f7 100%);
+  background: -o-linear-gradient(left, #b2e7ed 1%, #dcf4f7 100%);
+  background: -ms-linear-gradient(left, #b2e7ed 1%, #dcf4f7 100%);
+  background: linear-gradient(to right, #b2e7ed 1%, #dcf4f7 100%);
 }
 
 .filtros li{
@@ -1098,3 +1092,98 @@ input[type=radio]:checked + label:before {
     transform: scale(1);
   }
 }
+
+.dashboard .saludo{
+  text-align: center;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #36c0d1;
+}
+
+.dashboard .valores{
+  margin: 25px 0px;
+}
+
+.dashboard .valores .item{
+  width: 18%;
+  float: left;
+  padding: 7px 10px;
+  border: 1px solid #36c0d1;
+  margin-right: 2%;
+  border-radius: 15px;
+  min-height: 70px;
+}
+
+.dashboard .valores .item .imagen{
+  float: left;
+  width: 30%;
+}
+
+.dashboard .valores .item .imagen img{
+  width: 50px;
+  height: auto;
+}
+
+.dashboard .valores .item .value{
+  float: left;
+  text-align: center;
+  width: 65%;
+}
+
+.dashboard .valores .item .value .title{
+  margin-left: 5px;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: navy;
+  font-weight: 300;
+}
+
+.dashboard .valores .item .value .data{
+  font-size: 25px;
+  color: #ce1d19;
+  font-weight: bold;
+}
+
+.dashboard .valores .item .value .data .medida{
+  font-size:15px
+}
+
+.dashboard .caja{
+  min-height: 200px;
+  border: 1px solid #36c0d1;
+  margin-bottom: 25px;
+  border-radius: 25px;
+}
+
+.dashboard .div-btn{
+  text-align: center;
+  margin: 0 0 25px 0;
+}
+
+.dashboard .div-btn .btn-go-perfil:hover{
+  background: -webkit-linear-gradient(left, #dcf4f7 0%, #6dd1de  100%);
+  background: -moz-linear-gradient(left, #dcf4f7 1%, #6dd1de 100%);
+  background: -o-linear-gradient(left, #dcf4f7 1%, #6dd1de 100%);
+  background: -ms-linear-gradient(left, #dcf4f7 1%, #6dd1de 100%);
+  background: linear-gradient(to right, #dcf4f7 1%, #6dd1de 100%);
+}
+
+.dashboard .div-btn .btn-go-perfil{
+  background: -webkit-linear-gradient(left, #6dd1de 0%, #dcf4f7 100%);
+  background: -moz-linear-gradient(left, #6dd1de 1%, #dcf4f7 100%);
+  background: -o-linear-gradient(left, #6dd1de 1%, #dcf4f7 100%);
+  background: -ms-linear-gradient(left, #6dd1de 1%, #dcf4f7 100%);
+  background: linear-gradient(to right, #6dd1de 1%, #dcf4f7 100%);
+  
+  width: 200px;
+  padding: 5px 0;
+  margin-left: auto;
+  margin-right: auto;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+
