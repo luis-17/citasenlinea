@@ -9,6 +9,7 @@ angular.module('theme.usuario', ['theme.core.services'])
     'use strict'; 
     $scope.modulo = 'usuario';
     $scope.titleForm = 'Registro en Citas en Linea';
+    //$scope.fDataUser = {}; 
     $scope.listaSexos = [
         {id:'-', descripcion:'SELECCIONE SEXO'},
         {id:'F', descripcion:'FEMENINO'},
@@ -50,6 +51,7 @@ angular.module('theme.usuario', ['theme.core.services'])
       }
 
       $scope.verificarDoc = function(){
+        console.log("doc:",$scope.fDataUser);
         if(!$scope.fDataUser.num_documento || $scope.fDataUser.num_documento == null || $scope.fDataUser.num_documento == ''){
           $scope.fAlert = {};
           $scope.fAlert.type= 'danger';

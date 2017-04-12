@@ -460,6 +460,152 @@ appRoot.
       return num;
     };
   })
+  .factory("ModalReporteFactory", function($modal,$http,blockUI,rootServices){
+    var interfazReporte = {
+      getPopupReporte: function(arrParams){ //console.log(arrParams.datos.salida,' as');
+        if( arrParams.datos.salida == 'pdf' || angular.isUndefined(arrParams.datos.salida) ){
+          $modal.open({
+            templateUrl: angular.patchURLCI+'CentralReportes/ver_popup_reporte',
+            size: 'xlg',
+            controller: function ($scope,$modalInstance,arrParams) {
+              $scope.titleModalReporte = arrParams.titulo;
+              $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+              }
+              blockUI.start('Preparando reporte');
+              $http.post(arrParams.url, arrParams.datos)
+                .success(function(data, status) {
+                  blockUI.stop();
+                  if( arrParams.metodo == 'php' ){
+                    $('#frameReporte').attr("src", data.urlTempPDF);
+                  //}else if( arrParams.metodo == 'js' ){
+                  }else{
+                    var docDefinition = data.dataPDF
+                    pdfMake.createPdf(docDefinition).getBuffer(function(buffer) {
+                      var blob = new Blob([buffer]);
+                      var reader = new FileReader();
+                      reader.onload = function(event) {
+                        var fd = new FormData();
+                        fd.append('fname', 'temp.pdf');
+                        fd.append('data', event.target.result);
+                        $.ajax({
+                          type: 'POST',
+                          url: angular.patchURLCI+'CentralReportes/guardar_pdf_en_temporal', // Change to PHP filename
+                          data: fd,
+                          processData: false,
+                          contentType: false
+                        }).done(function(data) {
+                          $('#frameReporte').attr("src", data.urlTempPDF);
+                        });
+                      };
+                      reader.readAsDataURL(blob);
+                    });
+                  }
+                })
+                .error(function(data, status){
+                  blockUI.stop();
+                });
+            },
+            resolve: {
+              arrParams: function() {
+                return arrParams;
+              }
+            }
+          });
+        }else if( arrParams.datos.salida == 'excel' ){
+          blockUI.start('Preparando reporte');
+          $http.post(arrParams.url, arrParams.datos)
+            .success(function(data, status) {
+              blockUI.stop();
+              if(data.flag == 1){
+                //window.open = arrParams.urlTempEXCEL;
+                window.location = data.urlTempEXCEL;
+              }
+          });
+        }
+      },
+      getPopupGraph: function(arrParams) {
+        if( arrParams.datos.tipoCuadro == 'grafico' || arrParams.datos.tiposalida == 'grafico' || angular.isUndefined(arrParams.datos.tipoCuadro) ){
+          $modal.open({
+            templateUrl: angular.patchURLCI+'CentralReportes/ver_popup_grafico',
+            size: 'xlg',
+            controller: function ($scope,$modalInstance,arrParams) {
+              $scope.metodos = {};
+              $scope.titleModalGrafico = arrParams.datos.titulo;
+              $scope.metodos.listaColumns = false;
+              $scope.metodos.listaData = false;
+
+              $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+              }
+
+              rootServices.sGraphicData(arrParams.url, arrParams.datos).then(function (data) {
+                $scope.metodos.chartOptions = arrParams.structureGraphic;
+                //console.log(data.series[0]);
+                $scope.metodos.chartOptions.chart.events = {
+                    load: function () {
+                      var thes = this;
+                      setTimeout(function () {
+                          thes.setSize($("#chartOptions").parent().width(), $("#chartOptions").parent().height());
+                      }, 10);
+                    }
+                  };
+                if( data.tipoGraphic == 'line' || data.tipoGraphic == 'bar'){
+                  $scope.metodos.chartOptions.xAxis.categories = data.xAxis;
+                  $scope.metodos.chartOptions.series = data.series;
+                }
+                //TRANSICIÓN DE LAS GRÁFICAS DE REPORTES DE ENCUESTA QUE SE ENCUENTRA EN LA INTRANET
+                if( data.tipoGraphic == 'pie' ){//
+                  var arrData = [];
+                  var tamanio = 300;
+                  //SE RECORRE data.series PARA OBTENER TODAS LAS PREGUNTAS CON SUS RESPECTIVOS DATOS
+                  angular.forEach(data.series, function(value, key) {
+                    arrData.push({name: value.descripcion_pr, colorByPoint: true, size: 200, center: [tamanio, null], showInLegend: true, data: data.series[key].respuestas,
+                      total: data.series[key].totalPorPie});
+                    tamanio = tamanio + 300;                    
+                  });
+                  //console.log(arrData);
+                  $scope.metodos.chartOptions.series = arrData;
+                }
+                if (data.tipoGraphic == 'line_encuesta'){//EL TIPO DE GRÁFICA PARA ESTE CASO ES ESPECIAL PORQUE
+                  var arrData = [];
+                  $scope.metodos.chartOptions.xAxis.categories = data.xAxis;
+                  $scope.metodos.chartOptions.title.text = (data.series[0].descripcion).toUpperCase();
+                  angular.forEach(data.series[0].respuestas , function(value, key) {
+                    arrData.push({name: data.series[0].respuestas[key].name, data: data.series[0].respuestas[key].data});
+                  });
+                  $scope.metodos.chartOptions.series = arrData;
+                  //console.log(arrData);
+                }                
+                if( data.tieneTabla == true ){
+                  $scope.metodos.listaColumns = data.columns;
+                  $scope.metodos.listaData = data.tablaDatos;
+                  $scope.metodos.contTablaDatos = false;
+                  $scope.metodos.linkText = 'VER TABLA DE DATOS';
+                  $scope.linkVerTablaDatos = function () {
+                    if( $scope.metodos.contTablaDatos === true ){
+                      $scope.metodos.contTablaDatos = false;
+                      $scope.metodos.linkText = 'VER TABLA DE DATOS';
+                    }else{
+                      $scope.metodos.contTablaDatos = true;
+                      $scope.metodos.linkText = 'OCULTAR TABLA DE DATOS';
+                    }
+
+                  }
+                }
+              });
+            },
+            resolve: {
+              arrParams: function() {
+                return arrParams;
+              }
+            }
+          });
+        }
+      }
+    }
+    return interfazReporte;
+  })  
   .filter('griddropdown', function() {
     return function (input, context) {
       var map = context.col.colDef.editDropdownOptionsArray;

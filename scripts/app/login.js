@@ -26,13 +26,13 @@ angular.module('theme.login', ['theme.core.services'])
         return;
       }
 
-      if(!$scope.captchaValido){
+      /*if(!$scope.captchaValido){
         $scope.fAlert = {};
         $scope.fAlert.type= 'danger';
         $scope.fAlert.msg= 'Debe completar reCaptcha';
         $scope.fAlert.strStrong = 'Error.';
         return;
-      }
+      }*/
 
       loginServices.sLoginToSystem($scope.fLogin).then(function (response) { 
         $scope.fAlert = {};
