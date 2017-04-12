@@ -9,5 +9,7 @@ angular
     'theme.parentesco', 
     'theme.historialCitas', 
     'theme.programarCita', 
-    'theme.especialidad' 
+    'theme.especialidad' ,
+    'theme.resultadolaboratorio'     
+
   ]);
