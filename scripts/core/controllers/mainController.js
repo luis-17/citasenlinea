@@ -45,6 +45,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     $scope.fSessionCI = {};
     $scope.fSessionCI.listaEspecialidadesSession = [];
     $scope.fSessionCI.listaNotificaciones = {};
+    $scope.fSessionCI.listaCitas = [];
     
     $scope.arrMain.sea = {};
     $scope.localLang = {
@@ -323,6 +324,18 @@ appRoot.
           });
       }
     }
+  })
+ .directive("scroll", function ($window) {
+      return function(scope, element, attrs) {
+          angular.element($window).bind("scroll", function() {
+              //$('.filtros').css('top',-$(this).scrollTop());
+              if($(window).scrollTop() > 100){
+                $('.filtros').css('top',0);
+              }else{
+                $('.filtros').css('top','initial');
+              }
+          });
+      };
   })
   .directive('fileModel', ['$parse', function ($parse) {
     return {

@@ -258,4 +258,42 @@ class Pariente extends CI_Controller {
         ->set_content_type('application/json')
         ->set_output(json_encode($arrData));  
   }
+
+  public function lista_parientes_cbo(){
+    $allInputs = json_decode(trim($this->input->raw_input_stream),true);
+    $paramPaginate = $allInputs['paginate'];
+    $datos = $this->sessionCitasEnLinea;
+    $lista = $this->model_pariente->m_cargar_parientes_cbo($datos, $paramPaginate);
+
+    $arrListado = array();
+    foreach ($lista as $row) {
+      array_push($arrListado, 
+        array(
+          'idusuariowebpariente' => $row['idusuariowebpariente'],
+          'idusuarioweb' => $row['idusuarioweb'],
+          'idclientepariente' => $row['idclientepariente'],
+          'estado_uwp' => $row['estado_uwp'],
+          'nombres' => strtoupper($row['nombres']),
+          'apellido_paterno' => strtoupper($row['apellido_paterno']),
+          'apellido_materno' => strtoupper($row['apellido_materno']),
+          'sexo' => $row['sexo'],
+          'sexo' => $row['sexo'],
+          'idparentesco' => $row['idparentesco'],
+          'parentesco' => $row['parentesco'],
+          'num_documento' => $row['num_documento'],
+          'fecha_nacimiento' => date('d-m-Y',strtotime($row['fecha_nacimiento'])),
+          'email' => $row['email'],
+        )
+      );
+    }
+      $arrData['datos'] = $arrListado;
+      $arrData['message'] = '';
+      $arrData['flag'] = 1;
+    if(empty($lista)){
+      $arrData['flag'] = 0;
+    }
+    $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));
+  }
 }

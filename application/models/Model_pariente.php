@@ -79,5 +79,20 @@ class Model_pariente extends CI_Model {
 		$this->db->where('idusuariowebpariente', $id);
 		return $this->db->update('ce_usuario_web_pariente', $data);
 	}
+
+	public function m_cargar_parientes_cbo($datos){
+		$this->db->select('uwp.idusuariowebpariente, uwp.idusuarioweb, uwp.idclientepariente, uwp.estado_uwp');
+		$this->db->select('c.num_documento, c.nombres, c.apellido_paterno, c.apellido_materno, c.sexo, c.fecha_nacimiento, c.email');
+		$this->db->select('uwp.idparentesco, cp.descripcion AS parentesco');
+		$this->db->select('uwp.idclientepariente');
+		$this->db->from('ce_usuario_web_pariente uwp');
+		$this->db->join('cliente c','uwp.idclientepariente = c.idcliente AND estado_cli = 1','left');
+		$this->db->join('ce_parentesco cp','uwp.idparentesco = cp.idparentesco');
+		$this->db->where('uwp.idusuarioweb', $datos['idusuario']); 
+		$this->db->where('estado_uwp', 1); // activo
+
+		$this->db->order_by('uwp.idusuariowebpariente','ASC');		
+		return $this->db->get()->result_array();
+	}
 }
 ?>

@@ -30,6 +30,7 @@ angular.module('theme.usuario', ['theme.core.services'])
       $controller('parienteController', { 
         $scope : $scope
       });
+      $scope.initPariente();
     }
 
     $scope.initRecaptchaReg = function () {
