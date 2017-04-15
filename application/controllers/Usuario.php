@@ -244,6 +244,8 @@ class Usuario extends CI_Controller {
     }
     $perfil = $this->model_usuario->m_cargar_usuario($allInputs);
 
+    $tipo_sangre = array('', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-' ,'AB+', 'AB-');
+
     $arrPerfilUsuario['nombre_usuario'] = $perfil['nombre_usuario'];
     $arrPerfilUsuario['idusuario'] = $perfil['idusuarioweb'];
     $arrPerfilUsuario['idcliente'] = $perfil['idcliente'];
@@ -257,6 +259,10 @@ class Usuario extends CI_Controller {
     $arrPerfilUsuario['celular'] = $perfil['celular'];
     $arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($perfil['fecha_nacimiento']));
     $arrPerfilUsuario['email'] = $perfil['email'];
+    $arrPerfilUsuario['peso'] = $perfil['peso'];
+    $arrPerfilUsuario['estatura'] = $perfil['estatura'];
+    $arrPerfilUsuario['tipo_sangre']['id'] = empty($perfil['tipo_sangre']) ? null :$perfil['tipo_sangre'];
+    $arrPerfilUsuario['tipo_sangre']['descripcion'] = empty($perfil['tipo_sangre']) ? null : $tipo_sangre[$perfil['tipo_sangre']] ;
     $arrPerfilUsuario['nombre_imagen'] = $perfil['nombre_imagen'];
     $arrPerfilUsuario['listaCitas'] =array();
 
@@ -269,6 +275,7 @@ class Usuario extends CI_Controller {
     if( isset($arrPerfilUsuario['idusuario']) ){ 
       $arrData['flag'] = 1;
       $this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrPerfilUsuario);
+      $arrData['datos'] = $arrPerfilUsuario;
     }else{
       $arrData['flag'] = 0;
     }
@@ -371,4 +378,22 @@ class Usuario extends CI_Controller {
         ->set_output(json_encode($arrData));
   } 
 
+  public function actualizar_perfil_clinico(){
+    $allInputs = json_decode(trim($this->input->raw_input_stream),true);
+    $arrData['message'] = 'No se pudo actualizar el perfil clínico. Intenta nuevamente.';
+    $arrData['flag'] = 0; 
+
+    /*print_r($this->sessionCitasEnLinea);
+    print_r($allInputs);*/
+    $allInputs['idusuario'] = $this->sessionCitasEnLinea['idusuario'];
+
+    if($this->model_usuario->m_actualizar_perfil_clinico($allInputs)){
+      $arrData['message'] = 'El perfil clínico fue actualizado correctamente.';
+      $arrData['flag'] = 1;   
+    }
+
+    $this->output
+      ->set_content_type('application/json')
+      ->set_output(json_encode($arrData));
+  }
 }

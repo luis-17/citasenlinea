@@ -396,6 +396,12 @@ ul.externo{text-transform:uppercase;}
   color: #36c0d1 !important;
 }
 
+.navbar-nav.toolbar > li a.active{
+  color: #36c0d1;
+  font-weight: bold;
+}
+
+
 #topnav a.username img {
     height: 35px;
     width: 35px;

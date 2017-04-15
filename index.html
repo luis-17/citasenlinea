@@ -74,17 +74,17 @@
                         <nav class="" ng-controller="NavigationController" ng-if="isLoggedIn" >
                             <ul class="nav navbar-nav toolbar">
                                 <li class="menu-item" >
-                                    <a href="#/"><i class="ti ti-home" style="font-size: 20px;"></i></a>
+                                    <a href="#/" ng-class="{active:getUrlActual() == '/'}" ><i class="ti ti-home" style="font-size: 20px;"></i></a>
                                 </li>
 
                                 <li class="menu-item" >
-                                    <a href="#/seleccionar-cita">SELECCIONAR CITA</a>
+                                    <a href="#/seleccionar-cita" ng-class="{active: getUrlActual() == '/seleccionar-cita'}">SELECCIONAR CITA</a>
                                 </li>
                                 <li class="menu-item" >
-                                    <a href="#/historial-citas">HISTORIAL</a>
+                                    <a href="#/historial-citas" ng-class="{active:getUrlActual() == '/historial-citas'}">HISTORIAL</a>
                                 </li>
                                 <li class="menu-item" >
-                                    <a href="#/resultados">RESULTADOS</a>
+                                    <a href="#/resultados" ng-class="{active:getUrlActual() == '/resultados'}">RESULTADOS</a>
                                 </li>                           
                             </ul>
                         </nav>

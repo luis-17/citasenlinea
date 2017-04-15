@@ -146,6 +146,10 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       return $theme.get(key);
     };
 
+    $scope.getUrlActual = function(){
+      return $location.path();
+    }
+
     $scope.isLoggedIn = false;
     $scope.logOut = function() {
       $scope.isLoggedIn = false;
@@ -158,6 +162,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     $scope.goToUrl = function ( path ) {
       $location.path( path );
     };
+    
     $scope.btnLogoutToSystem = function () {
       rootServices.sLogoutSessionCI().then(function () {
         $scope.fSessionCI = {};

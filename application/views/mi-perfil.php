@@ -17,7 +17,7 @@
                     <div class="list-group list-group-alternate mb-n nav nav-tabs">
                         <a href="" ng-click="selectedTab='0'" ng-class="{active: selectedTab=='0'}" class="list-group-item "><i class="ti ti-pencil"></i> EDITAR</a>
                         <a href="" ng-click="selectedTab='1'; refreshListaParientes();" ng-class="{active: selectedTab=='1'}" class="list-group-item "><i class="fa fa-users"></i> FAMILIARES</a>
-                        <a href="" ng-click="selectedTab='2'" ng-class="{active: selectedTab=='2'}" class="list-group-item"><i class="ti ti-check-box"></i> PERFIL CLÍNICO</a>
+                        <a href="" ng-click="selectedTab='2'; initPerfil();" ng-class="{active: selectedTab=='2'}" class="list-group-item"><i class="ti ti-check-box"></i> PERFIL CLÍNICO</a>
                     </div>
                     <div class="panel-profile score-puntos" >                        
                     </div>
@@ -196,7 +196,7 @@
                         </div>
                     </div>
                     <div class="tab-content">
-                        <div class="tab-pane " ng-class="{active: selectedTab=='2'}" ng-controller="parienteController">
+                        <div class="tab-pane " ng-class="{active: selectedTab=='2'}" ng-controller="usuarioController">
                             <div class=" panel-default" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
                                 <div class="panel-body">
                                     <div class="col-md-12 col-sm-12">
@@ -205,12 +205,85 @@
                                                 <span class="icon"><i class="ti ti-check-box"></i></span> 
                                                 <div>
                                                     <span class="title">Perfil Clínico</span> 
-                                                    <p class="descripcion"></p>
+                                                    <p class="descripcion">Mantén tu perfil clínico actualizado</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">                                              
-                                                                                                                                  
+                                            <div class="col-md-9 col-xs-12 col-sm-12 dashboard">
+                                              <div class="row valores">                                                  
+                                                <div class="item">
+                                                    <div class="imagen">
+                                                        <img src="{{ dirImages + 'dashboard/icon-peso.png' }}"  />
+                                                    </div>
+                                                    <div class="value">
+                                                        <span class="title">Peso</span>
+                                                        <div class="data">{{fSessionCI.peso}} <span class="medida" >Kg.</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <div class="imagen">
+                                                        <img src="{{ dirImages + 'dashboard/icon-estatura.png' }}"  />
+                                                    </div>
+                                                    <div class="value">
+                                                        <span class="title">Estatura</span>
+                                                        <div class="data">{{fSessionCI.estatura}} <span class="medida" >Mt.</span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <div class="imagen">
+                                                        <img src="{{ dirImages + 'dashboard/icon-tipo-sangre.png' }}"  />
+                                                    </div>
+                                                    <div class="value">
+                                                        <span class="title">Tipo de Sangre</span>
+                                                        <div class="data">{{fSessionCI.tipo_sangre.descripcion}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <div class="imagen">
+                                                        <img src="{{ dirImages + 'dashboard/icon-sexo-' +  fSessionCI.sexo.toLowerCase() + '.png' }}"  />
+                                                    </div>
+                                                    <div class="value">
+                                                        <span class="title">Sexo</span>
+                                                        <div class="data">{{fSessionCI.sexo}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="item">
+                                                    <div class="imagen">
+                                                        <img src="{{ dirImages + 'dashboard/icon-edad-' +  fSessionCI.sexo.toLowerCase() + '.png' }}"  />
+                                                    </div>
+                                                    <div class="value">
+                                                        <span class="title">Edad</span>
+                                                        <div class="data">{{fSessionCI.edad}} <span class="medida" >años</span></div>
+                                                    </div>
+                                                </div>  
+                                              </div>
+                                            </div> 
+                                            <div class="col-md-9 col-xs-12 col-sm-12 edit-dashboard"> 
+                                                <div class="row">
+                                                    <div class="form-group col-md-4 col-sm-12">
+                                                        <label class="control-label mb-xs">Peso <small class="text-danger">(*)</small> </label>
+                                                        <input type="text" class="form-control " ng-model="fDataDashboard.peso" placeholder="Ingresa tu peso" required tabindex="1" /> 
+                                                    </div>          
+                                                
+                                                    <div class="form-group col-md-4 col-sm-12" >
+                                                        <label class="control-label mb-xs">Estatura <small class="text-danger">(*)</small></label>
+                                                        <input type="text" class="form-control " ng-model="fDataDashboard.estatura" placeholder="Ingresa tu estatura" required tabindex="2" />
+                                                    </div>
+
+                                                    <div class="form-group col-md-4 col-sm-12" >
+                                                        <label class="block" style="margin-bottom: 4px;"> Tipo de sangre <small class="text-danger">(*)</small> </label>
+                                                        <select class="form-control " ng-model="fDataDashboard.tipo_sangre" ng-options="item.descripcion for item in listaTiposSangre" tabindex="3" required > </select>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                        <button class="btn btn-blue  pull-left" 
+                                                                ng-click="btnActualizarPerfilClinico(); $event.preventDefault();">
+                                                                <i class="fa fa-refresh"></i> Actualizar 
+                                                        </button>
+                                                    </div>
+                                                </div>                                                
+                                            </div>                                                                                   
                                         </div>
                                     </div>
                                 </div>

@@ -31,7 +31,7 @@
 	              			</div>
 	              			<div class="value">
 	              				<span class="title">Tipo de Sangre</span>
-	              				<div class="data">{{fSessionCI.tipo_sangre}}</div>
+	              				<div class="data">{{fSessionCI.tipo_sangre.descripcion}}</div>
 	              			</div>
 	              		</div>
 	              		<div class="item">

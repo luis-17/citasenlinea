@@ -10,11 +10,11 @@ angular.module('theme.usuario', ['theme.core.services'])
     $scope.modulo = 'usuario';
     $scope.titleForm = 'Registro en Citas en Linea';
     $scope.listaSexos = [
-        {id:'-', descripcion:'SELECCIONE SEXO'},
-        {id:'F', descripcion:'FEMENINO'},
-        {id:'M', descripcion:'MASCULINO'}
-      ];
-    console.log('paso por aqui');
+      {id:'-', descripcion:'SELECCIONE SEXO'},
+      {id:'F', descripcion:'FEMENINO'},
+      {id:'M', descripcion:'MASCULINO'}
+    ];
+
     $scope.fDataUsuario = {};
     $scope.init = function(){
       rootServices.sGetSessionCI().then(function (response) {
@@ -31,6 +31,33 @@ angular.module('theme.usuario', ['theme.core.services'])
         $scope : $scope
       });
       $scope.initPariente();
+    }
+
+    $scope.initPerfil = function(){
+      $scope.listaTiposSangre = [
+        {id:0, descripcion: 'SELECCIONE TIPO SANGRE'},
+        {id:1, descripcion: 'A+'},
+        {id:2, descripcion: 'A-'},
+        {id:3, descripcion: 'B+'},
+        {id:4, descripcion: 'B-'},
+        {id:5, descripcion: 'O+'},
+        {id:6, descripcion: 'O-'},
+        {id:7, descripcion: 'AB+'},
+        {id:8, descripcion: 'AB-'},
+      ];
+      $scope.fDataDashboard={};
+      var ind = 0;
+      angular.forEach($scope.listaTiposSangre, function(value, key) {
+        if(value.id == $scope.fSessionCI.tipo_sangre.id){
+          ind = key;
+        }
+      });
+      $scope.fDataDashboard.tipo_sangre = $scope.listaTiposSangre[ind];
+      $scope.fDataDashboard.peso = $scope.fSessionCI.peso;
+      $scope.fDataDashboard.estatura = $scope.fSessionCI.estatura;
+      
+      /*console.log($scope.fDataDashboard.tipo_sangre);
+      console.log($scope.listaTiposSangre);*/
     }
 
     $scope.initRecaptchaReg = function () {
@@ -260,7 +287,21 @@ angular.module('theme.usuario', ['theme.core.services'])
           }
         }
       });
-    }  
+    } 
+
+    $scope.btnActualizarPerfilClinico = function (){
+      usuarioServices.sActualizarPerfilClinico($scope.fDataDashboard).then(function(rpta){
+        if(rpta.flag == 1){
+          usuarioServices.sRecargarUsuarioSession($scope.fSessionCI).then(function(rpta){
+            if(rpta.flag == 1){
+              $scope.fSessionCI = rpta.datos;
+              $scope.initPerfil();              
+            } 
+          });
+        }
+      });
+    } 
+
   }])
   .service("usuarioServices",function($http, $q) {
     return({
@@ -270,6 +311,7 @@ angular.module('theme.usuario', ['theme.core.services'])
       sRecargarUsuarioSession: sRecargarUsuarioSession,
       sActualizarPasswordUsuario: sActualizarPasswordUsuario,
       sSubirFotoPerfil:sSubirFotoPerfil,
+      sActualizarPerfilClinico: sActualizarPerfilClinico,
     });
     function sVerificarUsuarioPorDocumento(datos) {
       var request = $http({
@@ -311,15 +353,22 @@ angular.module('theme.usuario', ['theme.core.services'])
       });
       return (request.then( handleSuccess,handleError ));
     }
-    function sSubirFotoPerfil(pDatos) {
+    function sSubirFotoPerfil(datos) {
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"Usuario/subir_foto_perfil", 
-            data : pDatos,
+            data : datos,
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
       });
       return (request.then( handleSuccess,handleError ));
+    }
+    function sActualizarPerfilClinico(datos) {
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"Usuario/actualizar_perfil_clinico", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
     }    
-
   }); 

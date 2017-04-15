@@ -27,6 +27,8 @@ class Acceso extends CI_Controller {
 					$arrPerfilUsuario['idusuario'] = $loggedUser['idusuarioweb'];
 
 					$perfil = $this->model_usuario->m_cargar_usuario($arrPerfilUsuario);
+					$tipo_sangre = array('', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-' ,'AB+', 'AB-');
+
 					$arrPerfilUsuario['idcliente'] = $perfil['idcliente'];
 					$arrPerfilUsuario['num_documento'] = $perfil['num_documento'];
 					$arrPerfilUsuario['nombres'] = $perfil['nombres'];
@@ -39,6 +41,10 @@ class Acceso extends CI_Controller {
 					$arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($perfil['fecha_nacimiento']));
 					$arrPerfilUsuario['email'] = $perfil['email'];
 					$arrPerfilUsuario['nombre_imagen'] = $perfil['nombre_imagen'];
+					$arrPerfilUsuario['peso'] = $perfil['peso'];
+				    $arrPerfilUsuario['estatura'] = $perfil['estatura'];
+				    $arrPerfilUsuario['tipo_sangre']['id'] = empty($perfil['tipo_sangre']) ? null  :$perfil['tipo_sangre'];
+				    $arrPerfilUsuario['tipo_sangre']['descripcion'] = empty($perfil['tipo_sangre']) ? null : $tipo_sangre[$perfil['tipo_sangre']] ;
 					$arrPerfilUsuario['listaCitas'] =array();
 
 					$paciente = ucwords(strtolower( $perfil['nombres'] . ' ' . 
@@ -84,8 +90,8 @@ class Acceso extends CI_Controller {
 			!empty($_SESSION['sess_cevs_'.substr(base_url(),-8,7) ]['idusuario']) ){
 			$arrData['flag'] = 1;
 			$arrData['datos'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];
-			$arrParams['idusuario'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ]['idusuario'];
-			$fila = $this->model_usuario->m_cargar_este_usuario($arrParams); 
+			/*$arrParams['idusuario'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ]['idusuario'];
+			$fila = $this->model_usuario->m_cargar_este_usuario($arrParams); */
 		}
 		$this->output
 		    ->set_content_type('application/json')
