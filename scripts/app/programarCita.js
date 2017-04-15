@@ -4,11 +4,13 @@ angular.module('theme.programarCita', ['theme.core.services'])
     'sedeServices',
     'especialidadServices',
     'parienteServices',
+    'rootServices',
     function($scope, $controller, $filter, $sce, $uibModal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, blockUI,
       programarCitaServices,
       sedeServices,
       especialidadServices,
-      parienteServices
+      parienteServices,
+      rootServices
       ){
     'use strict';
     shortcut.remove("F2"); 
@@ -150,9 +152,18 @@ angular.module('theme.programarCita', ['theme.core.services'])
     }
 
     $scope.resumenReserva = function(){
-      console.log($scope.fPlanning);
-      console.log($scope.fBusqueda);
-      console.log($scope.fSeleccion);
+      programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
+        $scope.goToUrl('/resumen-cita');
+      });           
+    }
+
+    $scope.initResumenReserva = function(){
+      rootServices.sGetSessionCI().then(function (response) {
+        if(response.flag == 1){
+          $scope.fSessionCI = response.datos;
+        }
+        console.log($scope.fSessionCI);
+      });
     }
 
     /* ============================ */
@@ -204,6 +215,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
       sCargarPlanning:sCargarPlanning,
       sCargarTurnosDisponibles:sCargarTurnosDisponibles, 
       sListarMedicosAutocomplete:sListarMedicosAutocomplete,  
+      sActualizarListaCitasSession:sActualizarListaCitasSession,
     });
 
     function sCargarPlanning(datos) { 
@@ -226,6 +238,14 @@ angular.module('theme.programarCita', ['theme.core.services'])
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"ProgramarCita/lista_medicos_autocomplete", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }
+    function sActualizarListaCitasSession(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ProgramarCita/actualizar_lista_citas_session", 
             data : datos
       });
       return (request.then( handleSuccess,handleError ));
