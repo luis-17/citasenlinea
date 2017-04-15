@@ -210,7 +210,7 @@
                                             </div>
                                         </div>
                                         <div class="row">                                              
-                                            <div class="col-md-9 col-xs-12 col-sm-12 dashboard">
+                                            <div class="col-md-9 col-xs-12 col-sm-12 dashboard">                                              
                                               <div class="row valores">                                                  
                                                 <div class="item">
                                                     <div class="imagen">
@@ -260,6 +260,9 @@
                                               </div>
                                             </div> 
                                             <div class="col-md-9 col-xs-12 col-sm-12 edit-dashboard"> 
+                                                <alert type="{{fAlertPerfilCli.type}}" close="fAlertPerfilCli = null;" ng-show='fAlertPerfilCli.type' class="p-sm">
+                                                    <strong> {{ fAlertPerfilCli.strStrong }} </strong> <span ng-bind-html="fAlertPerfilCli.msg"></span>
+                                                </alert>
                                                 <div class="row">
                                                     <div class="form-group col-md-4 col-sm-12">
                                                         <label class="control-label mb-xs">Peso <small class="text-danger">(*)</small> </label>

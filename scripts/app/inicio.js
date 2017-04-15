@@ -1,7 +1,8 @@
 angular.module('theme.inicio', ['theme.core.services'])
   .controller('inicioController', function($scope, $theme, $filter
     ,inicioServices
-    ,sedeServices ){
+    ,sedeServices
+    ,usuarioServices ){
       'use strict';
       shortcut.remove("F2"); 
       $scope.modulo = 'inicio'; 
@@ -28,9 +29,13 @@ angular.module('theme.inicio', ['theme.core.services'])
         { 'id': 12, 'mes': 'Diciembre' }
       ];
       var mes_actual = $filter('date')(new Date(),'M');
-      
-      console.log('$scope.fSessionCI',$scope.fSessionCI);
 
+      usuarioServices.sRecargarUsuarioSession($scope.fSessionCI).then(function(rpta){
+        if(rpta.flag == 1){
+          $scope.fSessionCI = rpta.datos;            
+        } 
+      });
+      
       $scope.goToPerfil = function(){
         $scope.goToUrl('/mi-perfil');
       }

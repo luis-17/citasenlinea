@@ -55,6 +55,8 @@ angular.module('theme.usuario', ['theme.core.services'])
       $scope.fDataDashboard.tipo_sangre = $scope.listaTiposSangre[ind];
       $scope.fDataDashboard.peso = $scope.fSessionCI.peso;
       $scope.fDataDashboard.estatura = $scope.fSessionCI.estatura;
+
+      $scope.fAlertPerfilCli = null;
       
       /*console.log($scope.fDataDashboard.tipo_sangre);
       console.log($scope.listaTiposSangre);*/
@@ -290,14 +292,24 @@ angular.module('theme.usuario', ['theme.core.services'])
     } 
 
     $scope.btnActualizarPerfilClinico = function (){
+      $scope.fAlertPerfilCli = null;
       usuarioServices.sActualizarPerfilClinico($scope.fDataDashboard).then(function(rpta){
         if(rpta.flag == 1){
           usuarioServices.sRecargarUsuarioSession($scope.fSessionCI).then(function(rpta){
             if(rpta.flag == 1){
               $scope.fSessionCI = rpta.datos;
-              $scope.initPerfil();              
+              $scope.initPerfil();
+              $scope.fAlertPerfilCli = {};
+              $scope.fAlertPerfilCli.type= 'success';
+              $scope.fAlertPerfilCli.msg= rpta.message;
+              $scope.fAlertPerfilCli.strStrong = 'Genial!.';              
             } 
           });
+        }else{
+          $scope.fAlertPerfilCli = {};
+          $scope.fAlertPerfilCli.type= 'warning';
+          $scope.fAlertPerfilCli.msg= rpta.message;
+          $scope.fAlertPerfilCli.strStrong = 'Advertencia.';
         }
       });
     } 

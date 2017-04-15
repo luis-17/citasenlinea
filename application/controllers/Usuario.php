@@ -385,6 +385,33 @@ class Usuario extends CI_Controller {
 
     /*print_r($this->sessionCitasEnLinea);
     print_r($allInputs);*/
+    if(empty($allInputs['peso']) || !is_numeric($allInputs['peso'])){
+      $arrData['message'] = 'Debes ingresar valores númerico válidos';
+      $arrData['flag'] = 0; 
+      $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));
+        return;
+    }    
+
+    if(empty($allInputs['estatura']) || !is_numeric($allInputs['estatura'])){
+      $arrData['message'] = 'Debes ingresar valores númerico válidos';
+      $arrData['flag'] = 0; 
+      $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));
+        return;
+    }    
+
+    if($allInputs['tipo_sangre']['id'] == 0){
+      $arrData['message'] = 'Debes seleccionar un tipo de sangre';
+      $arrData['flag'] = 0; 
+      $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));
+        return;
+    }
+
     $allInputs['idusuario'] = $this->sessionCitasEnLinea['idusuario'];
 
     if($this->model_usuario->m_actualizar_perfil_clinico($allInputs)){
