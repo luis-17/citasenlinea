@@ -1,4 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+// if(empty($_SESSION['sess_vs_talario'])){
+//    var_dump($_COOKIE);
+//    // var_dump($_SESSION);
+//    exit();
+//   }
 
 function GetLastId($campoId,$table){
     $ci2 =& get_instance();
@@ -7,25 +12,24 @@ function GetLastId($campoId,$table){
     $fData = $ci2->db->get()->row_array();
     return $fData['id'];
 }
-
-function getConfig($tipo = FALSE){
-  $ci2 =& get_instance();
-  $ci2->db->select('cc.key, cc.value ');
-  $ci2->db->from('ce_configuracion cc');
-
-  if($tipo){
-    $ci2->db->where('cc.tipo ', 'mail');
+function getIndexArrayByValue($arr,$arrFields,$arrValores)
+{
+	$arrKeys = array();
+  foreach($arr as $key => $value){ 
+  	$siCumple = TRUE;
+		foreach ($arrValores as $keyV => $value2) { 
+			if ( $value[$arrFields[$keyV]] == $value2 ){
+				$arrKeys[] = $key;
+			}else{
+				$siCumple = FALSE;
+			}
+		}	
+		if( $siCumple ){
+			return $key;
+		}
   }
-  
-  $fData = $ci2->db->get()->result_array();
-
-  $data = array();
-  foreach ($fData as $key => $value) {
-    $data[$value['key']] = $value['value'];
-  }
-  return $data;
+  return false;
 }
-
 // para verificar si un string esta compuesto de solo numeros sin comas ni puntos
 function soloNumeros($laCadena) {
     $carsValidos = "0123456789";
@@ -39,14 +43,6 @@ function soloNumeros($laCadena) {
 
 function strtoupper_total($string){ 
   return strtr(strtoupper($string),"àèìòùáéíóúçñäëïöü","ÀÈÌÒÙÁÉÍÓÚÇÑÄËÏÖÜ");
-}
-
-function edad($fecha){
-    $fecha = str_replace("/","-",$fecha);
-    $fecha = date('Y/m/d',strtotime($fecha));
-    $hoy = date('Y/m/d');
-    $edad = $hoy - $fecha;
-    return $edad;
 }
 
 function comprobar_email($email){ 
@@ -73,24 +69,69 @@ function comprobar_email($email){
     return $mail_correcto; 
 }
 
-function enviar_mail($asunto, $setFromAleas, $cuerpo, $listaDestinatarios){
+function generar_notificacion_evento($idtipoevento, $key_evento, $data){
+  //print_r($data);
+  if($idtipoevento == 1 && $key_evento='key_prog_med'){
+    return'Ha sido CARGADA la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_item'] . ' Turno de ' . $data['turno'] . ' en el ambiente ' . $data['ambiente'];
+  }   
+
+  if($idtipoevento == 2 && $key_evento='key_prog_med'){
+    return 'Ha sido ANULADA la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_programada'] . ' Turno de ' . $data['hora_inicio'] . ' a ' . $data['hora_fin'] . ' en el ambiente ' . $data['ambiente']['numero_ambiente'];
+  }  
+
+  if($idtipoevento == 3 && $key_evento='key_prog_med'){
+    return 'Ha sido CANCELADA la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_programada'] . ' Turno de ' . $data['hora_inicio'] . ' a ' . $data['hora_fin'] . ' en el ambiente ' . $data['ambiente']['numero_ambiente'];
+  }
+
+  if($idtipoevento == 4 && $key_evento='key_prog_med'){
+    if(strtotime($data['fecha_item']) != strtotime($data['fecha_old_item']) ){
+      $texto = 'Ha sido MODIFICADO EL TURNO de la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_old_item'] . ' en el ambiente ' . $data['ambiente'];
+      $texto .= '. Nueva Fecha: ' . $data['fecha_item'];
+    }else{
+      $texto = 'Ha sido MODIFICADO EL TURNO de la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_item'] . ' en el ambiente ' . $data['ambiente'];
+    }
+    $texto .= '. Nuevo Turno: ' . $data['nuevo_turno'];
+    return $texto;
+  }  
+
+  if($idtipoevento == 5 && $key_evento='key_prog_med'){
+    $texto = 'Ha sido MODIFICADO LA CANTIDAD DE CUPOS ADICIONALES de la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_item'] . ' Turno ' . $data['turno'] . ' en el ambiente ' . $data['ambiente'];
+    $texto .= '. Nueva CANTIDAD DE CUPOS ADICIONALES: ' . $data['cupos_adicionales'];
+    return $texto;
+  }
+
+  if($idtipoevento == 9 && $key_evento='key_prog_med'){
+    $texto = 'Ha sido MODIFICADO EL AMBIENTE de la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_item'] . ' Turno ' . $data['turno'];
+    $texto .= '. Nuevo ambiente ' . $data['ambiente'];
+    return $texto;
+  } 
+
+  if($idtipoevento == 11 && $key_evento='key_prog_med'){
+    $texto = 'Ha sido MODIFICADO CUPOS/INTERVALO de la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_item'] . ' Turno ' . $data['turno'];
+    $texto .= '. Nueva CANTIDAD DE CUPOS: ' . $data['total_cupos'];
+    $texto .= '. Nuevo INTERVALO DE ATENCIÓN: ' . $data['intervalo'];
+    return $texto;
+  } 
+}
+
+function enviar_mail_paciente($tipo, $citaPaciente){
   $ci2 =& get_instance();
   $ci2->load->library('My_PHPMailer');
-
-  //carga de configuracion mail
-  $fDataMail = getConfig('mail');
-  //print_r($fDataMail);
-
+  $hoydate = date("Y-m-d H:i:s");
   date_default_timezone_set('UTC');
-  define('SMTP_HOST',$fDataMail['SMTP_HOST']);
-  define('SMTP_PORT',$fDataMail['SMTP_PORT']);
-  define('SMTP_USERNAME',$fDataMail['SMTP_USERNAME']);
-  define('SMTP_PASSWORD',$fDataMail['SMTP_PASSWORD']);
+  define('SMTP_HOST','mail.villasalud.pe');
+  $correo = 'sistemas.ti@villasalud.pe';
+  $pass = 'franzsheskoli';
+  $setFromAleas = 'Dirección Médica';
+
+  define('SMTP_PORT',25);
+  define('SMTP_USERNAME',$correo);
+  define('SMTP_PASSWORD',$pass);
   
   $mail = new PHPMailer();
   $mail->IsSMTP(true);
+  //$mail->SMTPDebug = 2;
   $mail->SMTPAuth = true;
-  //$mail->SMTPDebug = true;
   $mail->SMTPSecure = "tls";
   $mail->Host = SMTP_HOST;
   $mail->Port = SMTP_PORT;
@@ -98,49 +139,64 @@ function enviar_mail($asunto, $setFromAleas, $cuerpo, $listaDestinatarios){
   $mail->Password = SMTP_PASSWORD;
   $mail->SetFrom(SMTP_USERNAME,$setFromAleas);
   $mail->AddReplyTo(SMTP_USERNAME,$setFromAleas);
-  $mail->Subject = $asunto;
-  $mail->IsHTML(true);
+
+  $mail->Subject = 'NOTIFICACIÓN HOSPITAL VILLA SALUD';
+
+  $cuerpo = '<html> 
+      <head>
+        <title>PROGRAMACIÓN DE CITA MÉDICA</title> 
+      </head>
+      <body style="font-family: sans-serif;padding: 10px 40px;" > 
+      <div style="text-align: right;">
+        <img style="width: 160px;" alt="Hospital Villa Salud" src="'.base_url('assets/img/dinamic/empresa/gm_small.png').'">
+        </div> <br />';
+  $cuerpo .= '<div style="font-size:16px;">  
+          Estimado(a) paciente: '. $citaPaciente['paciente'].' <br /> <br /> ';
+
+  if($tipo == 1){
+    $cuerpo .= 'Mediante el presente se le informa, que ha sido <b>registrada</b> una <u>NUEVA CITA MÉDICA</u>. <br /> ';     
+  }else if($tipo == 2){
+    $cuerpo .= 'Mediante el presente se le informa, que ha sido <b>reprogramada</b> su cita. A continuación los datos de su <u>NUEVA CITA MÉDICA</u>. <br /> ';
+  }else if($tipo == 3){
+    $cuerpo .= 'Mediante el presente se le informa, que ha sido <b>modificada</b> su cita. A continuación los datos de su <u>NUEVA CITA MÉDICA</u>. <br /> ';
+  }else if($tipo == 4){
+    $cuerpo .= 'Mediante el presente se le informa, que ha sido <b>cancelada</b> su <u>CITA MÉDICA</u>. <br /> ';
+  }
+
+  $cuerpo .= '<p>Especialidad: <b>'. $citaPaciente['especialidad'] .'</b></p>';
+  $cuerpo .= '<p>Fecha: <b>'. $citaPaciente['fecha_programada'] .'</b> - Turno: '. $citaPaciente['turno'] .'</p>';
+  $cuerpo .= '<p>Sede: <b>'.$citaPaciente['sede'] .'</b></p>';  
+  $cuerpo .= '<p>Consultorio: <b>'.$citaPaciente['ambiente'] .'</b></p>';
+
+  $cuerpo .= '<br /> Atte: <br /> <br /> DIRECCIÓN MÉDICA </div>';
+  $cuerpo .= '</body></html>';
   $mail->AltBody = $cuerpo;
   $mail->MsgHTML($cuerpo);
+  $correoPaciente = $citaPaciente['email']; 
   $mail->CharSet = 'UTF-8';
   $mail->AddBCC("ymartinez@villasalud.pe");
-  
-  //print_r($mail);
-  $response = array();
-  foreach ($listaDestinatarios as $key => $email) {
-    if($email != null && $email != ''){
-      if(comprobar_email($email)){
-        $mail->AddAddress($email);
-        //print_r($email);
-        if($mail->Send()){
-          array_push($response, 
-                      array(
-                        'flag' => 1,
-                        'msgMail' => 'Notificación de correo enviada exitosamente.')
-                      );
-        }else{
-          $mail->ErrorInfo;
-          array_push($response, 
-                      array(
-                        'flag' => 0,
-                        'msgMail' => 'Notificación de correo NO enviada.')
-                      );
-        }
+  $mail->AddBCC("rluna@villasalud.pe");
+
+  if($correoPaciente != null && $correoPaciente != ''){
+    if(comprobar_email($correoPaciente)){
+      //$mail->AddAddress($correoPaciente);
+      if($mail->Send()){
+        return array(
+          'flag' => 1,
+          'msgMail' => 'Notificación de correo enviada exitosamente.');
       }else{
-        array_push($response, 
-                      array(
-                        'flag' => 2,
-                        'msgMail' => 'Notificación de correo NO enviada. Correo invalido.')
-                      );
+        return array(
+          'flag' => 0,
+          'msgMail' => 'Notificación de correo NO enviada.');
       }
     }else{
-      array_push($response, 
-                      array(
-                        'flag' => 3,
-                        'msgMail' => 'Notificación de correo NO enviada. Correo no registrado.')
-                      );
+      return array(
+          'flag' => 2,
+          'msgMail' => 'Notificación de correo NO enviada. Correo de Paciente invalido.'); 
     }
-  }  
-
-  return $response;
+  }else{
+    return array(
+          'flag' => 3,
+          'msgMail' => 'Notificación de correo NO enviada. Correo de Paciente no registrado.');
+  }
 }

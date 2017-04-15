@@ -790,6 +790,11 @@ a.link-password:hover{
   animation-delay: 2s;*/
 }
 
+.gridheader {
+  background-color: #dcf4f7 !important;
+  color: #616161 !important;
+}
+
 .text-guia {
   color: red;
   position: relative;
@@ -811,6 +816,7 @@ a.link-password:hover{
   font-size: 15px;
   font-weight: 400;
   color: #616161;
+
 }
 
 /*Animaciones*/

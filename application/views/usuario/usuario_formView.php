@@ -7,7 +7,7 @@
     		<div class="form-group mb-md col-md-6">
 				<label class="control-label mb-xs"> DNI ó Documento de Identidad </label>
 				<div class="input-group">
-					<input type="text" class="form-control input-sm" ng-model="fData.num_documento" placeholder="Registre su dni" tabindex="1" focus-me ng-minlength="8" ng-pattern="/^[0-9]*$/"/> 
+					<input type="text" class="form-control input-sm" ng-model="fDataUser.num_documento" placeholder="Registre su dni" tabindex="1" focus-me ng-minlength="8" ng-pattern="/^[0-9]*$/"/> 
 					<div class="input-group-btn ">
 						<button type="button" class="btn btn-page btn-sm" ng-click="verificarDoc(); $event.preventDefault();" >CONSULTAR</button>
 					</div>
