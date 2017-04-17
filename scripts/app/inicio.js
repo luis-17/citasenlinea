@@ -39,7 +39,18 @@ angular.module('theme.inicio', ['theme.core.services'])
       $scope.goToPerfil = function(){
         $scope.goToUrl('/mi-perfil');
       }
-      
+
+      $scope.goToHistorial = function(){
+        $scope.goToUrl('/historial-citas');
+      }
+
+      $scope.goToResultados = function(){
+        $scope.goToUrl('/resultado-laboratorio');
+      } 
+
+      $scope.goToSelCita = function(){
+        $scope.goToUrl('/seleccionar-cita');
+      } 
   })
   .service("inicioServices",function($http, $q) {
     return({
