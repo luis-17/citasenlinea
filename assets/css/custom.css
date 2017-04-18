@@ -371,6 +371,14 @@ ul.externo{text-transform:uppercase;}
   border-top-left-radius: 10px !important;
 }
 
+.modal-open .modal {
+  background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content{
+  box-shadow: 0px 0px 70px 0px rgba(0,0,0,0.8);
+}
+
 /*Modificación Header*/
 .page-header{
   height: 60px;
@@ -486,6 +494,10 @@ footer ul li h6{
   font-size: 14px;
 }
 
+.btn{
+  border-radius: 8px !important;
+}
+
 .btn-page {
   background: #ce1d19;
   border-color: #ce1d19;
@@ -522,8 +534,6 @@ footer ul li h6{
   border-color: #36c0d1;
   color: #ce1d19;
 }
-
-
 
 .input-group-addon{
   background-color: #929292 !important;
@@ -970,6 +980,14 @@ a.link-password:hover{
 }
 
 /*seleccion cupo*/
+.turnos-detalle {
+  margin: 0 0 2px;
+  text-align: center;
+  text-align: center;
+  font-size: 17px;
+  color: #36c0d1;
+}
+
 .turnos-disponibles{
   margin-bottom: 15px;
 }
@@ -1069,7 +1087,7 @@ input[type=radio]:checked + label:before {
 }
 
 .list-citas .item-list-citas{
-  margin: 10px 10px 0 10px;
+  margin: 10px 0px 0px 10px;
   border-bottom: 1px dotted  #9a999d;
 }
 
@@ -1084,6 +1102,14 @@ input[type=radio]:checked + label:before {
 
 .citas .list-citas::-webkit-scrollbar {
     width: 1em;
+}
+
+.list-citas .cita .eliminar {  
+  font-size: 17px;
+  position: relative;
+  float: right;
+  cursor: pointer;
+  top: -3px;
 }
 
 .list-citas .cita i{
@@ -1319,5 +1345,51 @@ input[type=radio]:checked + label:before {
   height: auto;
 }
 
+.mi-grid .body-grid{
+  float: left;
+  max-height: 300px;
+  overflow: auto;
+}
 
+.mi-grid .cell-grid{
+  float:left;
+  min-width: 110px;
+  width: 110px;
+  padding: 3px 8px;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+}
 
+.mi-grid .row-grid{
+  clear: left;
+}
+
+.mi-grid .header.row-grid{
+  font-size: 15px;
+  font-weight: 800;
+  color: #616161;  
+}
+
+.mi-grid .header .cell-grid{
+  padding: 2px 1px 2px 1px;
+  text-align: center;
+  background: #b2e7ed;
+}
+
+.mi-grid .totales{
+  float: right;
+  text-align: right;
+  margin-right: 50px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #616161; 
+}
+
+.mi-grid .totales .total-pago{
+  font-size: 16px;
+  color: #212121; 
+}
+
+.terminos-condiciones{
+  clear: left;
+}

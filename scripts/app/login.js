@@ -1,17 +1,30 @@
 angular.module('theme.login', ['theme.core.services'])
-  .controller('loginController', function($scope, $theme, $controller, loginServices ){
+  .controller('loginController', function($scope, $theme, $controller, loginServices, rootServices ){
     //'use strict';
     $theme.set('fullscreen', true);
 
     $scope.$on('$destroy', function() {
       $theme.set('fullscreen', false);
     });
-    $scope.modulo='login';
-    $scope.initLoginRecaptcha = function() {
-      grecaptcha.render('recaptcha-login', {
-        'sitekey' : $scope.keyRecaptcha,
-        'callback' : recaptchaResponse,
-      });
+    $scope.modulo='login';    
+
+    $scope.initLoginRecaptcha = function() {      
+      if(!$scope.keyRecaptcha  || $scope.keyRecaptcha == ''){
+        rootServices.sGetConfig().then(function(rpta){
+          $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
+          console.log($scope.keyRecaptcha);
+          //'6LeP4BoUAAAAAH7QZfe8sM5GAyVkMy1aak4Ztuhs'; //cambiar por servicio de configuracion
+          grecaptcha.render('recaptcha-login', {
+            'sitekey' : $scope.keyRecaptcha,
+            'callback' : recaptchaResponse,
+          });
+        });
+      }else{
+        grecaptcha.render('recaptcha-login', {
+          'sitekey' : $scope.keyRecaptcha,
+          'callback' : recaptchaResponse,
+        });
+      }      
     };
 
     $scope.fLogin = {};

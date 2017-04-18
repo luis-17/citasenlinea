@@ -5,8 +5,9 @@ class ProgramarCita extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->helper(array('security', 'fechas_helper'));
-		$this->load->model(array('model_programar_cita','model_sede'));
+		$this->load->helper(array('security', 'fechas_helper', 'otros_helper'));
+		$this->load->model(array('model_programar_cita','model_sede', 'model_especialidad'));
+
 		//cache 
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
 		$this->output->set_header("Pragma: no-cache");
@@ -119,6 +120,7 @@ class ProgramarCita extends CI_Controller {
 						$arrGrid[$arrHoras[$i]['hora']]['class'] = 'cell-programacion ';						
 						$arrGrid[$arrHoras[$i]['hora']]['especialidad'] = $prog_row['especialidad'];						
 						$arrGrid[$arrHoras[$i]['hora']]['idespecialidad'] = $prog_row['idespecialidad'];
+						$arrGrid[$arrHoras[$i]['hora']]['fecha_programada'] = date('d-m-Y',strtotime($prog_row['fecha_programada']));
 						if(!empty($allInputs['itemMedico']['idmedico']) && $prog_row['idmedico'] == $allInputs['itemMedico']['idmedico']){
 							$arrGrid[$arrHoras[$i]['hora']]['medico_favorito'] = true;
 						}						
@@ -225,6 +227,10 @@ class ProgramarCita extends CI_Controller {
 		$this->load->view('programar-cita/turnos_formView');
 	}
 
+	public function ver_popup_aviso(){
+		$this->load->view('mensajes/alerta');
+	}
+
 	public function cargar_turnos_disponibles(){
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
 		$allInputs['ids'] =  substr($allInputs['ids'], 0, -1); 
@@ -286,11 +292,90 @@ class ProgramarCita extends CI_Controller {
 
 	public function actualizar_lista_citas_session(){
 	    $allInputs = json_decode(trim($this->input->raw_input_stream),true);
-	    $arrData['datos'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];	    
-	    $arrData['datos']['listaCitas'] = $allInputs['listaCitas'];	    
+	    $arrData['datos'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];
+	    
+	    $arrListado = array();
+	    $total_productos = 0;
+	    foreach ($allInputs['listaCitas'] as $key => $cita) {
+	    	if($cita['busqueda']['itemSede']['idsede'] == 1){
+	    		$cita['busqueda']['itemSede']['idempresaadmin'] = 14; //Sede Villa - Empresa GM
+	    	}
+
+	    	if($cita['busqueda']['itemSede']['idsede'] == 3){
+	    		$cita['busqueda']['itemSede']['idempresaadmin'] = 15; //Sede Lurin - Empresa Med. I. 
+	    	}
+
+	    	$datosCita = array(
+	    		'idespecialidad' => $cita['busqueda']['itemEspecialidad']['id'],
+	    		'especialidad' => $cita['busqueda']['itemEspecialidad']['descripcion'],
+	    		'idsede' => $cita['busqueda']['itemSede']['idsede'],
+	    		'idempresaadmin' => $cita['busqueda']['itemSede']['idempresaadmin'],
+	    	);
+	    	$row_precio = $this->model_especialidad->m_cargar_precio_cita($datosCita);
+	    	//print_r($row_precio);
+	    	$cita['producto'] = $row_precio[0];
+	    	$total_productos += (float)$cita['producto']['precio_sede'];
+	    	array_push($arrListado, $cita);	    	
+	    }
+
+	    $config = getConfig('culqi');
+	    $porcentaje = (float)$config['PORCENTAJE']; //3.99;
+	    $comision = (float)$config['COMISION']; //0.15;
+	    $tasa_cambio = (float)$config['TASA_CAMBIO']; // 3.3; 
+	    $total_servicio =  ($total_productos * $porcentaje / 100) + ($comision * $tasa_cambio);
+	    $total_pago = $total_productos + $total_servicio;
+
+	    $arrData['datos']['listaCitas'] = $arrListado;
+	    $arrData['datos']['totales']['total_productos'] = number_format(round($total_productos,2),2);
+	    $arrData['datos']['totales']['total_servicio'] = number_format(round($total_servicio,2),2);
+	    $arrData['datos']['totales']['total_pago'] = number_format(round($total_pago,2),2);
+	    
+	    $str_total = (string)$arrData['datos']['totales']['total_pago'];
+	    $arrData['datos']['totales']['total_pago_culqi'] = str_replace('.', '',$str_total);
+
 	    $this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']);
 	    $arrData['flag'] = 1;
 	    //print_r($_SESSION['sess_cevs_'.substr(base_url(),-8,7) ]);
+	    $this->output
+	        ->set_content_type('application/json')
+	        ->set_output(json_encode($arrData));
+	    return;
+  	}
+
+  	public function validar_citas(){
+
+  	}
+
+  	public function generar_venta(){
+  		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$config = getConfig('culqi');
+		$arrData['flag'] = 0;
+	
+		$this->load->library(array('culqi_php'));	
+		$respuesta = array();
+
+		try{			
+			$culqi = new Culqi\Culqi(array('api_key' => $config['CULQI_PRIVATE_KEY']));
+
+			$charge = $culqi->Charges->create(
+				array(
+					"amount" => $allInputs['usuario']['totales']['total_pago_culqi'],
+					"currency_code" => "PEN",
+					"email" => $allInputs['token']['email'],
+					"description" => "Pago de Citas en linea - Villa Salud",
+					"installments" => 0,
+					"source_id" => $allInputs['token']['id'] 
+				)
+			);
+			// Respuesta
+			//$respuesta = json_encode($charge);
+			$arrData['flag'] = 1;
+		  	$arrData['datos']['cargo'] = $charge;
+		}catch (Exception $e) {
+		  	//$arrData['datos']['error'] = json_encode($e->getMessage());
+		  	$arrData['datos']['error'] = $e->getMessage();
+		}
+
 	    $this->output
 	        ->set_content_type('application/json')
 	        ->set_output(json_encode($arrData));

@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Acceso extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
-		$this->load->helper(array('security'));
+		$this->load->helper(array('security','otros_helper'));
 		$this->load->model(array('model_acceso','model_usuario'));
 		//cache
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
@@ -101,5 +101,12 @@ class Acceso extends CI_Controller {
 	public function logoutSessionCI(){
 		$this->session->unset_userdata('sess_cevs_'.substr(base_url(),-8,7));
         //$this->cache->clean();
+	}
+
+	public function get_config(){
+		$arrData['datos'] = getConfig('captcha');
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
 	}
 }

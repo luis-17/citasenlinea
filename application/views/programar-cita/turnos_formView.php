@@ -5,6 +5,9 @@
 	<div class="row">
 		<form>
 			<p style="font-size: 15px;font-weight: 400;color: #616161;font-size: 15px;text-align: center;">Selecciona la hora que deseas</p>		
+			<p class="turnos-detalle">
+				Especialidad: {{fPlanning.detalle.especialidad}} - Fecha: {{fPlanning.detalle.fecha_programada}}
+			</p>		
 			<div ng-repeat="turno in fPlanning.turnos" class="cupos">			
 				<div class="turnos-disponibles col-sm-12 col-md-12 col-xs-12">
 					<p class="medico mb-n"><span class="fa fa-user-md"></span>{{turno.medico}}</p>

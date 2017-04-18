@@ -112,6 +112,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
           datos.medico = $scope.fBusqueda.itemMedico;
           programarCitaServices.sCargarTurnosDisponibles(datos).then(function(rpta){
             $scope.fPlanning.turnos=rpta.datos;
+            $scope.fPlanning.detalle = item;
           });    
 
           $scope.btnCancel = function(){
@@ -123,18 +124,42 @@ angular.module('theme.programarCita', ['theme.core.services'])
             cupo.checked=true;
           }
 
-          $scope.btnReservarTurno = function(){            
-            /*console.log($scope.fPlanning);
-            console.log($scope.fBusqueda);
-            console.log($scope.fSeleccion);*/
-            var datos = {
-              busqueda:angular.copy($scope.fBusqueda) ,
-              seleccion:angular.copy($scope.fSeleccion)
-            }
+          $scope.btnReservarTurno = function(){ 
+            var encontro = false;
+            angular.forEach($scope.fSessionCI.listaCitas, function(value, key){              
+              if(value.seleccion.iddetalleprogmedico == $scope.fSeleccion.iddetalleprogmedico){
+                encontro = true;
+              }
+            });   
 
-            $scope.fSessionCI.listaCitas.push(datos);           
-            console.log($scope.fSessionCI.listaCitas);
-            $scope.btnCancel();
+            if(encontro){
+              $uibModal.open({ 
+                templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_aviso',
+                size: 'sm',
+                //backdrop: 'static',
+                //keyboard:false,
+                scope: $scope,
+                controller: function ($scope, $modalInstance) {                 
+                  $scope.titleForm = 'Aviso'; 
+                  $scope.msj = 'El turno seleccionado ya ha sido escogido para otra cita de su sesión';
+
+                  $scope.btnOk = function(){
+                    $modalInstance.dismiss('btnOk');
+                  }
+                }
+              });
+            }else{
+              var datos = {
+                busqueda:angular.copy($scope.fBusqueda) ,
+                seleccion:angular.copy($scope.fSeleccion)
+              }
+
+              $scope.fSessionCI.listaCitas.push(datos);
+              programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
+                console.log(rpta);
+              });
+              $scope.btnCancel();
+            }
           }
         
           blockUI.stop();
@@ -151,6 +176,14 @@ angular.module('theme.programarCita', ['theme.core.services'])
       $scope.cargarPlanning();
     }
 
+    $scope.quitarDeLista = function(index, fila){
+      //console.log(index, fila);
+      $scope.fSessionCI.listaCitas.splice( index, 1 );
+      programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
+        console.log(rpta);
+      });
+    }
+
     $scope.resumenReserva = function(){
       programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
         $scope.goToUrl('/resumen-cita');
@@ -158,12 +191,63 @@ angular.module('theme.programarCita', ['theme.core.services'])
     }
 
     $scope.initResumenReserva = function(){
+      $scope.generarCargo = function(token){
+        var datos = {
+          usuario:$scope.fSessionCI,
+          token: token
+        }
+
+        programarCitaServices.sGenerarVenta(datos).then(function(rpta){
+          console.log(rpta);
+        });
+      }
+
+      window.initCulqi = function(value) {
+        Culqi.publicKey = 'pk_test_5waw7MlH2GomYjCx'; //cambiar por servicio config
+        Culqi.settings({
+            title: 'Villa Salud',
+            currency: 'PEN',
+            description: 'Pago de Citas en linea',
+            amount: value,            
+        });
+        
+        window.culqi = function(){
+          console.log('entro por aqui');
+          if(Culqi.token) { // ¡Token creado exitosamente!
+            // Get the token ID:
+            var token = Culqi.token;
+            console.log('CREO UN TOKEN', token);
+            $scope.generarCargo(token);
+          }else{ // ¡Hubo algún problema!
+            // Mostramos JSON de objeto error en consola
+            console.log(Culqi.error);
+            console.log('ES UN ERROR');
+          }
+        }        
+      }
+
+      $scope.pagar = function(){
+        Culqi.open();
+      }
+
       rootServices.sGetSessionCI().then(function (response) {
         if(response.flag == 1){
           $scope.fSessionCI = response.datos;
-        }
-        console.log($scope.fSessionCI);
-      });
+          $scope.totales = {};
+          $scope.totales.total_productos = response.datos.totales.total_productos;
+          $scope.totales.total_servicio = response.datos.totales.total_servicio;
+          $scope.totales.total_pago = response.datos.totales.total_pago;
+          $scope.totales.total_pago_culqi = response.datos.totales.total_pago_culqi;
+        } 
+
+        if($scope.fSessionCI.listaCitas.length < 1){
+          $scope.goToUrl('/seleccionar-cita');
+        }       
+
+        $scope.listaCitas = $scope.fSessionCI.listaCitas;
+        console.log($scope.listaCitas);
+        window.initCulqi($scope.totales.total_pago_culqi);              
+      });      
     }
 
     /* ============================ */
@@ -216,8 +300,8 @@ angular.module('theme.programarCita', ['theme.core.services'])
       sCargarTurnosDisponibles:sCargarTurnosDisponibles, 
       sListarMedicosAutocomplete:sListarMedicosAutocomplete,  
       sActualizarListaCitasSession:sActualizarListaCitasSession,
+      sGenerarVenta:sGenerarVenta,
     });
-
     function sCargarPlanning(datos) { 
       var request = $http({
             method : "post",
@@ -246,6 +330,14 @@ angular.module('theme.programarCita', ['theme.core.services'])
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"ProgramarCita/actualizar_lista_citas_session", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }
+    function sGenerarVenta(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ProgramarCita/generar_venta", 
             data : datos
       });
       return (request.then( handleSuccess,handleError ));

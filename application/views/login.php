@@ -41,12 +41,12 @@
                                     </div>
                                 </div>                       
 
-                                <!--<div class="form-group mb-n">
+                                <div class="form-group mb-n">
                                     <div class="col-xs-12">
                                         <div id="recaptcha-login" class="g-recaptcha" data-ng-controller="loginController" data-ng-init="initLoginRecaptcha()"
                                             data-sitekey="{{keyRecaptcha}}" data-callback="recaptchaResponse"></div> 
                                     </div>
-                                </div>  -->
+                                </div>  
 
                                 <alert type="{{fAlert.type}}" close="fAlert = null;" ng-show='fAlert.type' class="p-sm">
                                     <strong> {{ fAlert.strStrong }} </strong> <span ng-bind-html="fAlert.msg"></span>

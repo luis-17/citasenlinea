@@ -119,8 +119,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       }
       wijetsService.make();
     });
-
-    $scope.keyRecaptcha = '6LeP4BoUAAAAAH7QZfe8sM5GAyVkMy1aak4Ztuhs'; //cambiar por servicio de configuracion
+    
     $scope.captchaValido = false;
     window.recaptchaResponse = function(key) {
       $scope.captchaValido = true;
@@ -130,16 +129,22 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       $scope.captchaValidoReg = true;
     }
 
-    window.onloadCallback = function(){
-      grecaptcha.render('recaptcha-login', {
-        'sitekey' : $scope.keyRecaptcha,
-        'callback' : recaptchaResponse,
-      });
+    $scope.keyRecaptcha='';
+    window.onloadCallback = function(){      
+      rootServices.sGetConfig().then(function(rpta){
+        $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
+        console.log($scope.keyRecaptcha);
+        //'6LeP4BoUAAAAAH7QZfe8sM5GAyVkMy1aak4Ztuhs'; //cambiar por servicio de configuracion
+        grecaptcha.render('recaptcha-login', {
+          'sitekey' : $scope.keyRecaptcha,
+          'callback' : recaptchaResponse,
+        });
 
-      grecaptcha.render('recaptcha-registro', {
-        'sitekey' : $scope.keyRecaptcha,
-        'callback' : recaptchaResponseReg,
-      });
+        grecaptcha.render('recaptcha-registro', {
+          'sitekey' : $scope.keyRecaptcha,
+          'callback' : recaptchaResponseReg,
+        }); 
+      });          
     }
  
     $scope.getLayoutOption = function(key) {
@@ -258,6 +263,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     return({
         sGetSessionCI: sGetSessionCI,
         sLogoutSessionCI: sLogoutSessionCI,
+        sGetConfig:sGetConfig,
     });
     function sGetSessionCI() {
       var request = $http({
@@ -272,6 +278,13 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
             url : angular.patchURLCI+"acceso/logoutSessionCI"
       });
       return (request.then( handleSuccess,handleError ));
+    }
+    function sGetConfig() {
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"acceso/get_config"
+      });
+      return (request.then( handleSuccess,handleError ));
     }   
   });
 /* DIRECTIVAS */
@@ -279,16 +292,11 @@ appRoot.
   directive('ngEnter', function() {
     return function(scope, element, attrs) {
       element.bind("keydown", function(event) {
-
           if(event.which === 13) {
-            //event.preventDefault();
             scope.$apply(function(){
               scope.$eval(attrs.ngEnter);
             });
-            //event.stopPropagation();
           }
-          //event.stopPropagation();
-          //event.preventDefault();
       });
     };
   })
