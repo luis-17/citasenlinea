@@ -480,7 +480,7 @@ ul.externo{text-transform:uppercase;}
 }
 
 .modal-content {
-    border-radius: 20px;
+    border-radius: 8px;
 }
 /**** Modificacion footer*/
 footer{
@@ -708,12 +708,35 @@ a.link-password:hover{
   text-align: center;
 }
 
+.msj.modal-close{
+  position: relative;
+  float: right;
+}
+
+.msj.modal-close .btn-close{
+  width: 30px;
+  height: 30px;
+  border: solid 1px rgb(202, 202, 202);
+  display: block;
+  margin: 10px;
+  border-radius: 50px;
+}
+
+.msj.modal-close .btn-close i{
+  color: #616161;
+  font-size: 11px;
+  font-weight: bold;
+  margin: auto;
+  top: 3px;
+  position: relative;
+}
+
 .modal-header{
   border-bottom: 0;
   padding-bottom: 0;
   color: #36c0d1;
   font-size: 25px;
-  font-weight: bold;
+  font-weight: bold;  
 }
 .modal-body{
   color: #212121;
