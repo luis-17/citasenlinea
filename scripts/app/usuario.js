@@ -64,24 +64,25 @@ angular.module('theme.usuario', ['theme.core.services'])
     }
 
     $scope.initRecaptchaReg = function () {
-      grecaptcha.render('recaptcha-registro', {
-        'sitekey' : $scope.keyRecaptcha,
-        'callback' : recaptchaResponseReg,
+      rootServices.sGetConfig().then(function(rpta){
+        $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
+          grecaptcha.render('recaptcha-registro', {
+          'sitekey' : $scope.keyRecaptcha,
+          'callback' : recaptchaResponseReg,
+        });
       });
     }
     
     $scope.initRegistrarUsuario = function(){ 
       $scope.fDataUser = {}; 
       $scope.fDataUser.sexo = '-'; 
-      $scope.captchaValidoReg = false;
-             
+      $scope.captchaValidoReg = false;             
 
       $scope.btnCancel = function(){
         $modalInstance.dismiss('btnCancel');
       }
 
       $scope.verificarDoc = function(){
-        console.log("doc:",$scope.fDataUser);
         if(!$scope.fDataUser.num_documento || $scope.fDataUser.num_documento == null || $scope.fDataUser.num_documento == ''){
           $scope.fAlert = {};
           $scope.fAlert.type= 'danger';
@@ -119,28 +120,71 @@ angular.module('theme.usuario', ['theme.core.services'])
       }
 
       $scope.registrarUsuario = function (){
-        if($scope.fDataUser.clave !== $scope.fDataUser.repeat_clave){
+        $scope.crearAlerta = function(msg){
           $scope.fAlert = {};
           $scope.fAlert.type= 'danger';
-          $scope.fAlert.msg='Las claves ingresadas no coinciden';
+          $scope.fAlert.msg= msg;
           $scope.fAlert.strStrong = 'Error';
           $scope.fAlert.icon = 'fa fa-exclamation';
           return;
         }
+        
+        if(!$scope.fDataUser.num_documento || $scope.fDataUser.num_documento == null || $scope.fDataUser.num_documento == ''){          
+          $scope.crearAlerta('Debe ingresar un Número de documento.');
+          return;
+        }
 
-        if($scope.fDataUser.sexo==='-'){
-          $scope.fAlert = {};
-          $scope.fAlert.type= 'danger';
-          $scope.fAlert.msg='Las claves ingresadas no coinciden';
-          $scope.fAlert.strStrong = 'Error';
-          $scope.fAlert.icon = 'fa fa-exclamation';
+        if(!$scope.fDataUser.nombres || $scope.fDataUser.nombres == null || $scope.fDataUser.nombres == ''){
+          $scope.crearAlerta('Debe ingresar Nombres.');
+          return;
+        }
+
+        if(!$scope.fDataUser.apellido_paterno || $scope.fDataUser.apellido_paterno == null || $scope.fDataUser.apellido_paterno == ''){
+          $scope.crearAlerta('Debe ingresar Apellido paterno.');
+          return;
+        }
+
+        if(!$scope.fDataUser.apellido_materno || $scope.fDataUser.apellido_materno == null || $scope.fDataUser.apellido_materno == ''){
+          $scope.crearAlerta('Debe ingresar Apellido materno.');
+          return;
+        } 
+
+        if(!$scope.fDataUser.email || $scope.fDataUser.email == null || $scope.fDataUser.email == ''){
+          $scope.crearAlerta('Debe ingresar E-mail.');
+          return;
+        }         
+
+        if(!$scope.fDataUser.fecha_nacimiento || $scope.fDataUser.fecha_nacimiento == null || $scope.fDataUser.fecha_nacimiento == ''){
+          $scope.crearAlerta('Debe ingresar Fecha Nacimiento.');
+          return;
+        }
+
+        if(!$scope.fDataUser.celular || $scope.fDataUser.celular == null || $scope.fDataUser.celular == ''){
+          $scope.crearAlerta('Debe ingresar Celular.');
+          return;
+        }         
+
+        if($scope.fDataUser.sexo =='-'){
+          $scope.crearAlerta('Seleccione sexo.');
+          return;
+        }
+
+        if(!$scope.fDataUser.clave || $scope.fDataUser.clave == null || $scope.fDataUser.clave == ''
+           || !$scope.fDataUser.repeat_clave || $scope.fDataUser.repeat_clave == null || $scope.fDataUser.repeat_clave == ''){
+          $scope.crearAlerta('Debe ingresar Claves.');
+          return;
+        }
+
+        if($scope.fDataUser.clave !== $scope.fDataUser.repeat_clave){
+          $scope.crearAlerta('Las claves ingresadas no coinciden');
+          return;
         }
 
         if(!$scope.captchaValidoReg){
           $scope.fAlert = {};
           $scope.fAlert.type= 'danger';
           $scope.fAlert.msg= 'Debe completar reCaptcha';
-          $scope.fAlert.strStrong = 'Error.';
+          $scope.fAlert.strStrong = 'Error';
           return;
         }
 
@@ -154,10 +198,23 @@ angular.module('theme.usuario', ['theme.core.services'])
           }else if(rpta.flag == 1){
             $scope.fDataUser = {};
             $scope.fDataUser.sexo = '-';
-            $scope.fAlert.type= 'success';
-            $scope.fAlert.msg= rpta.message;
-            $scope.fAlert.icon= 'fa fa-smile-o';
-            $scope.fAlert.strStrong = 'Genial! ';
+            $scope.fAlert = {};
+            $scope.btnViewLogin();
+            $uibModal.open({ 
+              templateUrl: angular.patchURLCI+'Usuario/ver_popup_aviso',
+              size: 'sm',
+              //backdrop: 'static',
+              //keyboard:false,
+              scope: $scope,
+              controller: function ($scope, $modalInstance) {                 
+                $scope.titleForm = 'Genial! '; 
+                $scope.msj = rpta.message;
+
+                $scope.btnCancel = function(){
+                  $modalInstance.dismiss('btnCancel');
+                }
+              }
+            });
           }
         });
       }   
@@ -296,6 +353,7 @@ angular.module('theme.usuario', ['theme.core.services'])
     $scope.btnActualizarPerfilClinico = function (){
       $scope.fAlertPerfilCli = null;
       usuarioServices.sActualizarPerfilClinico($scope.fDataDashboard).then(function(rpta){
+        var msg = rpta.message;
         if(rpta.flag == 1){
           usuarioServices.sRecargarUsuarioSession($scope.fSessionCI).then(function(rpta){
             if(rpta.flag == 1){
@@ -303,8 +361,8 @@ angular.module('theme.usuario', ['theme.core.services'])
               $scope.initPerfil();
               $scope.fAlertPerfilCli = {};
               $scope.fAlertPerfilCli.type= 'success';
-              $scope.fAlertPerfilCli.msg= rpta.message;
-              $scope.fAlertPerfilCli.strStrong = 'Genial!.';              
+              $scope.fAlertPerfilCli.msg= msg;
+              $scope.fAlertPerfilCli.strStrong = 'Genial!';              
             } 
           });
         }else{

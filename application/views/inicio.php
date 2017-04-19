@@ -6,52 +6,68 @@
 	              	<div class="saludo"> ¡BIENVENIDO {{fSessionCI.nombres}} {{fSessionCI.apellido_paterno}}! </div>
 	              </div>
 	              <div class="col-md-8 col-md-offset-2 col-xs-12 col-sm-12">
-	              	<div class="row valores" style="padding: 0 55px;">
-	              		<div class="item">
-	              			<div class="imagen">
-	              				<img src="{{ dirImages + 'dashboard/icon-peso.png' }}"  />
-	              			</div>
-	              			<div class="value">
-	              				<span class="title">Peso</span>
-	              				<div class="data">{{fSessionCI.peso}} <span class="medida" >Kg.</span></div>
-	              			</div>
-	              		</div>
-	              		<div class="item">
-	              			<div class="imagen">
-	              				<img src="{{ dirImages + 'dashboard/icon-estatura.png' }}"  />
-	              			</div>
-	              			<div class="value">
-	              				<span class="title">Estatura</span>
-	              				<div class="data">{{fSessionCI.estatura}} <span class="medida" >Mt.</span></div>
-	              			</div>
-	              		</div>
-	              		<div class="item">
-	              			<div class="imagen">
-	              				<img src="{{ dirImages + 'dashboard/icon-tipo-sangre.png' }}"  />
-	              			</div>
-	              			<div class="value">
-	              				<span class="title">Tipo de Sangre</span>
-	              				<div class="data">{{fSessionCI.tipo_sangre.descripcion}}</div>
-	              			</div>
-	              		</div>
-	              		<div class="item">
-	              			<div class="imagen">
-	              				<img src="{{ dirImages + 'dashboard/icon-sexo-' +  fSessionCI.sexo.toLowerCase() + '.png' }}"  />
-	              			</div>
-	              			<div class="value">
-	              				<span class="title">Sexo</span>
-	              				<div class="data">{{fSessionCI.sexo}}</div>
-	              			</div>
-	              		</div>
-	              		<div class="item">
-	              			<div class="imagen">
-	              				<img src="{{ dirImages + 'dashboard/icon-edad-' +  fSessionCI.sexo.toLowerCase() + '.png' }}"  />
-	              			</div>
-	              			<div class="value">
-	              				<span class="title">Edad</span>
-	              				<div class="data">{{fSessionCI.edad}} <span class="medida" >años</span></div>
-	              			</div>
-	              		</div>
+	              	<div class="row">
+		              	<div class="col-md-12 col-xs-12 col-sm-12">
+			              	<div class="valores">
+			              		<div class="item">
+			              			<div class="imagen">
+			              				<img src="{{ dirImages + 'dashboard/icon-peso.png' }}"  />
+			              			</div>
+			              			<div class="value">
+			              				<span class="title">Peso</span>
+			              				<div class="data">{{fSessionCI.peso}} <span class="medida" >Kg.</span></div>
+			              			</div>
+			              		</div>
+			              		<div class="item">
+			              			<div class="imagen">
+			              				<img src="{{ dirImages + 'dashboard/icon-estatura.png' }}"  />
+			              			</div>
+			              			<div class="value">
+			              				<span class="title">Estatura</span>
+			              				<div class="data">{{fSessionCI.estatura}} <span class="medida" >Mts.</span></div>
+			              			</div>
+			              		</div>
+			              		<div class="item imc" uib-tooltip="Índice de Masa Corporal (IMC): {{fSessionCI.imc.tipo}}" tooltip-placement="right">
+			              			<div class="imagen">
+			              				<img src="{{ dirImages + 'dashboard/icon-imc.png' }}"  />
+			              			</div>
+			              			<div class="value" >
+			              				<span class="title">IMC</span>
+			              				<span class="alerta" style="background:{{fSessionCI.imc.color}};" ng-class="{animation: fSessionCI.imc.dato < 18 || fSessionCI.imc.dato > 24.9}" ></span>
+			              				<div class="data" style="color:{{fSessionCI.imc.color}};" >
+			              					{{fSessionCI.imc.dato}} <!-- <span class="medida" ></span> -->
+			              				</div>
+			              			</div>
+			              		</div>
+			              		<div class="item">
+			              			<div class="imagen">
+			              				<img src="{{ dirImages + 'dashboard/icon-tipo-sangre.png' }}"  />
+			              			</div>
+			              			<div class="value">
+			              				<span class="title">Tipo de Sangre</span>
+			              				<div class="data">{{fSessionCI.tipo_sangre.descripcion}}</div>
+			              			</div>
+			              		</div>
+			              		<div class="item">
+			              			<div class="imagen">
+			              				<img src="{{ dirImages + 'dashboard/icon-sexo-' +  fSessionCI.sexo.toLowerCase() + '.png' }}"  />
+			              			</div>
+			              			<div class="value">
+			              				<span class="title">Sexo</span>
+			              				<div class="data">{{fSessionCI.sexo}}</div>
+			              			</div>
+			              		</div>
+			              		<div class="item">
+			              			<div class="imagen">
+			              				<img src="{{ dirImages + 'dashboard/icon-edad-' +  fSessionCI.sexo.toLowerCase() + '.png' }}"  />
+			              			</div>
+			              			<div class="value">
+			              				<span class="title">Edad</span>
+			              				<div class="data">{{fSessionCI.edad}} <span class="medida" >años</span></div>
+			              			</div>
+			              		</div>
+			              	</div>
+		              	</div>
 	              	</div>
 	              </div>
 	              <div class="col-md-12 col-xs-12 col-sm-12 ">

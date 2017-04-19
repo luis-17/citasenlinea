@@ -95,7 +95,7 @@ function enviar_mail($asunto, $setFromAleas, $cuerpo, $listaDestinatarios){
   $mail = new PHPMailer();
   $mail->IsSMTP(true);
   $mail->SMTPAuth = true;
-  $mail->SMTPDebug = true;
+  //$mail->SMTPDebug = true;
   $mail->SMTPSecure = "tls";
   $mail->Host = SMTP_HOST;
   $mail->Port = SMTP_PORT;

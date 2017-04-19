@@ -272,6 +272,35 @@ class Usuario extends CI_Controller {
     
     $arrPerfilUsuario['paciente'] = $paciente;
 
+    $arrPerfilUsuario['imc'] = array();
+    if(!empty($perfil['peso']) && !empty($perfil['estatura'])){
+      $imc = round($perfil['peso'] / ($perfil['estatura'] * $perfil['estatura']),2);
+      $arrPerfilUsuario['imc']['dato'] = (float)$imc;
+
+      if($imc < 18){
+        $tipoImc = 'Bajo peso';
+        $color = '#DEBD07';
+      }else if($imc >= 18 && $imc <=24.9){
+        $tipoImc = 'Normal';
+        $color = '#55DE40';
+      }else if($imc >= 25 && $imc <=26.9){
+        $tipoImc = 'Sobrepeso';
+        $color = '#DEBD07';
+      }else if($imc >= 27 && $imc <=29.9){
+        $tipoImc = 'Obesidad grado I';
+        $color = '#EDA94F';
+      }else if($imc >= 30 && $imc <=39.9){
+        $tipoImc = 'Obesidad grado II';
+        $color = '#E17317';
+      }else if($imc >= 40){
+        $tipoImc = 'Obesidad grado III';
+        $color = '#ce1d19';
+      }
+
+      $arrPerfilUsuario['imc']['tipo'] = $tipoImc;      
+      $arrPerfilUsuario['imc']['color'] = $color;     
+    }
+
     if( isset($arrPerfilUsuario['idusuario']) ){ 
       $arrData['flag'] = 1;
       $this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrPerfilUsuario);
@@ -422,5 +451,9 @@ class Usuario extends CI_Controller {
     $this->output
       ->set_content_type('application/json')
       ->set_output(json_encode($arrData));
+  }
+
+  public function ver_popup_aviso(){
+    $this->load->view('mensajes/alerta');
   }
 }

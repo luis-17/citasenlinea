@@ -52,6 +52,35 @@ class Acceso extends CI_Controller {
 											$perfil['apellido_materno']));
 					
 					$arrPerfilUsuario['paciente'] = $paciente;
+
+					$arrPerfilUsuario['imc'] = array();
+				    if(!empty($perfil['peso']) && !empty($perfil['estatura'])){
+				      $imc = round($perfil['peso'] / ($perfil['estatura'] * $perfil['estatura']),2);
+				      $arrPerfilUsuario['imc']['dato'] = (float)$imc;
+
+				      if($imc < 18){
+				        $tipoImc = 'Bajo peso';
+				        $color = '#DEBD07';
+				      }else if($imc >= 18 && $imc <=24.9){
+				        $tipoImc = 'Normal';
+				        $color = '#55DE40';
+				      }else if($imc >= 25 && $imc <=26.9){
+				        $tipoImc = 'Sobrepeso';
+				        $color = '#DEBD07';
+				      }else if($imc >= 27 && $imc <=29.9){
+				        $tipoImc = 'Obesidad grado I';
+				        $color = '#EDA94F';
+				      }else if($imc >= 30 && $imc <=39.9){
+				        $tipoImc = 'Obesidad grado II';
+				        $color = '#E17317';
+				      }else if($imc >= 40){
+				        $tipoImc = 'Obesidad grado III';
+				        $color = '#ce1d19';
+				      }
+
+				      $arrPerfilUsuario['imc']['tipo'] = $tipoImc;      
+				      $arrPerfilUsuario['imc']['color'] = $color;     
+				    }
 					
 					// GUARDAMOS EN EL LOG DE LOGEO LA SESION INICIADA. 
 					//$this->model_acceso->m_registrar_log_sesion($arrPerfilUsuario);

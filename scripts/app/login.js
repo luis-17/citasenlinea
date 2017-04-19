@@ -9,22 +9,13 @@ angular.module('theme.login', ['theme.core.services'])
     $scope.modulo='login';    
 
     $scope.initLoginRecaptcha = function() {      
-      if(!$scope.keyRecaptcha  || $scope.keyRecaptcha == ''){
-        rootServices.sGetConfig().then(function(rpta){
-          $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
-          console.log($scope.keyRecaptcha);
-          //'6LeP4BoUAAAAAH7QZfe8sM5GAyVkMy1aak4Ztuhs'; //cambiar por servicio de configuracion
-          grecaptcha.render('recaptcha-login', {
-            'sitekey' : $scope.keyRecaptcha,
-            'callback' : recaptchaResponse,
-          });
-        });
-      }else{
+      rootServices.sGetConfig().then(function(rpta){
+        $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
         grecaptcha.render('recaptcha-login', {
           'sitekey' : $scope.keyRecaptcha,
           'callback' : recaptchaResponse,
         });
-      }      
+      });            
     };
 
     $scope.fLogin = {};
@@ -39,13 +30,13 @@ angular.module('theme.login', ['theme.core.services'])
         return;
       }
 
-      /*if(!$scope.captchaValido){
+      if(!$scope.captchaValido){
         $scope.fAlert = {};
         $scope.fAlert.type= 'danger';
         $scope.fAlert.msg= 'Debe completar reCaptcha';
         $scope.fAlert.strStrong = 'Error.';
         return;
-      }*/
+      }
 
       loginServices.sLoginToSystem($scope.fLogin).then(function (response) { 
         $scope.fAlert = {};

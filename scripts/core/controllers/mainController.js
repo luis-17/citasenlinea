@@ -133,16 +133,9 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     window.onloadCallback = function(){      
       rootServices.sGetConfig().then(function(rpta){
         $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
-        console.log($scope.keyRecaptcha);
-        //'6LeP4BoUAAAAAH7QZfe8sM5GAyVkMy1aak4Ztuhs'; //cambiar por servicio de configuracion
         grecaptcha.render('recaptcha-login', {
           'sitekey' : $scope.keyRecaptcha,
           'callback' : recaptchaResponse,
-        });
-
-        grecaptcha.render('recaptcha-registro', {
-          'sitekey' : $scope.keyRecaptcha,
-          'callback' : recaptchaResponseReg,
         }); 
       });          
     }
@@ -252,6 +245,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       }); 
       $scope.initRegistrarUsuario();
       $scope.viewRegister = true;
+      $scope.initRecaptchaReg();
     }
 
     $scope.btnViewLogin = function (){
