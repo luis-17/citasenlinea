@@ -37,9 +37,9 @@ class Model_programar_cita extends CI_Model {
 
 	public function m_cargar_cupos_disponibles($idsprogmedicos){
 		$this->db->select('dpm.iddetalleprogmedico, dpm.idcanal, dpm.hora_inicio_det, dpm.hora_fin_det');
-		$this->db->select('dpm.si_adicional, dpm.numero_cupo, prm.idprogmedico, prm.idmedico');
+		$this->db->select('dpm.si_adicional, dpm.numero_cupo');
 		$this->db->select('med.med_nombres, med.med_apellido_paterno, med.med_apellido_materno, med.colegiatura_profesional');		
-		$this->db->select('prm.fecha_programada');	
+		$this->db->select('prm.idprogmedico, prm.idmedico, prm.fecha_programada');	
 		$this->db->select('am.idambiente, am.numero_ambiente'); 	
 
 		$this->db->from('pa_detalle_prog_medico dpm');

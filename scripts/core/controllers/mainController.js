@@ -334,13 +334,21 @@ appRoot.
   })
  .directive("scroll", function ($window) {
       return function(scope, element, attrs) {
-          angular.element($window).bind("scroll", function() {
-              //$('.filtros').css('top',-$(this).scrollTop());
-              if($(window).scrollTop() > 100){
-                $('.filtros').css('top',0);
-              }else{
-                $('.filtros').css('top','initial');
-              }
+          angular.element($window).bind("scroll", function() {            
+            var top_filtro = $('.filtros').position().top;
+            var height_header = $('.navbar').height();
+            var pos_scroll = $(this).scrollTop();
+            var top = top_filtro - pos_scroll;
+
+            //console.log($(this).scrollTop(), (top_filtro - pos_scroll), height_header);
+            
+            if($(window).scrollTop() == 0){
+              $('.filtros').css('top','initial');
+            }else if($(window).scrollTop() >= height_header){
+              $('.filtros').css('top',0);            
+            }else{
+              $('.filtros').css('top', top );
+            }
           });
       };
   })

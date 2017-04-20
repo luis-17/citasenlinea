@@ -69,7 +69,7 @@
 				</div>
 				<div class="col-sm-12 col-md-8 pl-n" >
           <div class="alert alert-warning" ng-if="!fPlanning.mostrar && fPlanning.mostraralerta">
-            no hay turnos diponibles con las opciones seleccionadas, intenta con otra fecha... 
+            no hay turnos diponibles con las opciones seleccionadas, intenta con otros parámetros... 
           </div>
           <div class="planning" ng-class="{visible : fPlanning.mostrar}" ng-if="fPlanning.mostrar">
             <div class="desc-header" style="width: 121px; ">

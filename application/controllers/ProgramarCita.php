@@ -442,7 +442,9 @@ class ProgramarCita extends CI_Controller {
 						if($resultDetalle && $resultCanales && $resultProg){
 							$data=array(
 								'idusuarioweb' => $allInputs['usuario']['idusuario'],
-								'idprogcita' => $idprogcita
+								'idprogcita' => $idprogcita,
+								'idcliente' => $cliente,
+								'idparentesco' => $cita['busqueda']['itemFamiliar']['idusuariowebpariente']
 								);
 							if(!$this->model_programar_cita->m_registrar_usuarioweb_cita($data)){
 								$error = TRUE;

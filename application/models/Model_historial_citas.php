@@ -1,0 +1,43 @@
+<?php
+class Model_historial_citas extends CI_Model {
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
+	public function m_carga_historial_citas($datos = FALSE){ 
+		$this->db->select('uwc.idusuariowebcita, uwc.idusuarioweb',FALSE);
+		$this->db->select('ppc.idprogcita, ppc.estado_cita, ppc.idcliente');
+		$this->db->select('dpm.iddetalleprogmedico, dpm.idcanal, dpm.hora_inicio_det, dpm.hora_fin_det, dpm.si_adicional, dpm.numero_cupo');
+		$this->db->select('prm.idprogmedico, prm.idmedico, prm.fecha_programada');
+		$this->db->select('med.med_nombres, med.med_apellido_paterno, med.med_apellido_materno, med.colegiatura_profesional');	
+
+		$this->db->select('am.idambiente, am.numero_ambiente, esp.idespecialidad, esp.nombre AS especialidad'); 
+		$this->db->select('cli.nombres, cli.apellido_paterno, cli.apellido_materno');	
+
+		$this->db->select('se.idsede, se.descripcion as sede');	
+		
+		$this->db->from('ce_usuario_web_cita uwc');
+		$this->db->join('pa_prog_cita ppc','ppc.idprogcita = uwc.idprogcita ');
+		$this->db->join('pa_detalle_prog_medico dpm','ppc.iddetalleprogmedico = dpm.iddetalleprogmedico AND dpm.idcanal = 3');	
+		$this->db->join('pa_prog_medico prm','dpm.idprogmedico = prm.idprogmedico');
+		$this->db->join('medico med', 'med.idmedico = prm.idmedico');			
+
+		$this->db->join('pa_ambiente am','prm.idambiente = am.idambiente');		
+		$this->db->join('especialidad esp','prm.idespecialidad = esp.idespecialidad');
+
+		$this->db->join('cliente cli','cli.idcliente = ppc.idcliente');
+		$this->db->join('ce_parentesco cp','cp.idparentesco = uwc.idparentesco','left');
+
+		$this->db->join('sede_empresa_admin sea','sea.idsedeempresaadmin = ppc.idsedeempresaadmin');	
+		$this->db->join('sede se','sea.idsede = se.idsede');			
+
+		$this->db->where('uwc.idusuarioweb', $datos['idusuario']);
+		$this->db->where('ppc.estado_cita <>', '0');
+
+		$this->db->order_by('prm.fecha_programada DESC');
+
+		return $this->db->get()->result_array();
+	}
+}
+?>

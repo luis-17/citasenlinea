@@ -752,6 +752,7 @@ a.link-password:hover{
   margin-left: 15px;
 }
 
+
 .filtros{
   font-size:17px;
   font-weight: 300;
@@ -765,6 +766,11 @@ a.link-password:hover{
   background: -o-linear-gradient(left, #b2e7ed 1%, #dcf4f7 100%);
   background: -ms-linear-gradient(left, #b2e7ed 1%, #dcf4f7 100%);
   background: linear-gradient(to right, #b2e7ed 1%, #dcf4f7 100%);
+}
+
+
+.filtros.historial{
+  text-align: center;
 }
 
 .filtros li{
@@ -835,6 +841,10 @@ a.link-password:hover{
   animation-duration: 3s;
   left:0px; 
   top:0px;
+}
+
+.text-guia.noanimate{
+  animation:none;
 }
 
 .text-guia .saludo{
@@ -1164,14 +1174,18 @@ input[type=radio]:checked + label:before {
   width: 7px;
 }
 
+.body-grid::-webkit-scrollbar,
 .citas .list-citas::-webkit-scrollbar {
   width: 5px;
 }
 
+.body-grid::-webkit-scrollbar-thumb,
 .turnos-list::-webkit-scrollbar-track,
 .citas .list-citas::-webkit-scrollbar-track {
   background-color: #e0e0e0;
 }
+
+.body-grid::-webkit-scrollbar-thumb,
 .turnos-list::-webkit-scrollbar-thumb,
 .citas .list-citas::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
@@ -1463,8 +1477,8 @@ input[type=radio]:checked + label:before {
 
 .mi-grid .cell-grid{
   float:left;
-  min-width: 9%;
-  width: 9%;
+  min-width: 2%;
+  width: 2%;
   padding: 3px 8px;
   border: 1px solid #ddd;
   border-collapse: collapse;
