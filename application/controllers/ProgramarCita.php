@@ -6,7 +6,12 @@ class ProgramarCita extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper(array('security', 'fechas_helper', 'otros_helper'));
-		$this->load->model(array('model_programar_cita','model_sede', 'model_especialidad'));
+		$this->load->model(array('model_programar_cita',
+								 'model_sede', 
+								 'model_especialidad',
+								 'model_prog_medico',
+								 'model_prog_cita'
+								 ));
 
 		//cache 
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
@@ -254,10 +259,12 @@ class ProgramarCita extends CI_Controller {
 			$arrGroup[$row['idprogmedico']]['cupos'][$row['iddetalleprogmedico']] = $row;
 			$arrGroup[$row['idprogmedico']]['cupos'][$row['iddetalleprogmedico']]['medico'] = $medico;
 			$arrGroup[$row['idprogmedico']]['cupos'][$row['iddetalleprogmedico']]['fecha_programada'] = $fecha_programada;
+			$arrGroup[$row['idprogmedico']]['ambiente']['numero_ambiente'] = $row['numero_ambiente'];
+			$arrGroup[$row['idprogmedico']]['ambiente']['idambiente'] = $row['idambiente'];
 
 			$arrGroup[$row['idprogmedico']]['medico'] = ucwords(strtolower($medico));	
 			if( !empty($allInputs['medico']['idmedico']) && $row['idmedico'] == $allInputs['medico']['idmedico']){
-				$arrGroup[$row['idprogmedico']]['medico-favorito'] = TRUE;
+				$arrGroup[$row['idprogmedico']]['medico_favorito'] = TRUE;
 			}						
 		}
 
@@ -350,6 +357,7 @@ class ProgramarCita extends CI_Controller {
   		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
 		$config = getConfig('culqi');
 		$arrData['flag'] = 0;
+		$arrData['message'] = 'Ha ocurrido un error procesando tu pago. Intenta nuevamente!.';
 	
 		$this->load->library(array('culqi_php'));	
 		$respuesta = array();
@@ -370,10 +378,97 @@ class ProgramarCita extends CI_Controller {
 			// Respuesta
 			//$respuesta = json_encode($charge);
 			$arrData['flag'] = 1;
-		  	$arrData['datos']['cargo'] = $charge;
+		  	$arrData['datos']['cargo'] = get_object_vars($charge);		  	
+		  	$arrData['datos']['cargo']['outcome']= get_object_vars($arrData['datos']['cargo']['outcome']);
+			
+		  	if($arrData['flag'] == 1 && !empty($arrData['datos']['cargo']['id'])){
+				$this->db->trans_start();
+				$arrData['flag'] = 0;
+				$listaCitas = $allInputs['usuario']['listaCitas'];
+				$listaCitasGeneradas = $allInputs['usuario']['listaCitas'];
+				$error = FALSE;
+				foreach ($listaCitas as $key => $cita) {
+					$result = FALSE;
+					$resultDetalle = FALSE;
+					$resultCanales = FALSE;
+					$resultProg = FALSE;
+
+					if($cita['busqueda']['itemFamiliar']['idusuariowebpariente'] == 0){
+						$cliente = $allInputs['usuario']['idcliente'];
+					}else{
+						$cliente = $cita['busqueda']['itemFamiliar']['idclientepariente'];
+					} 
+
+					//registro de cita
+					$data = array(
+						'iddetalleprogmedico' => $cita['seleccion']['iddetalleprogmedico'],
+						'fecha_reg_reserva' => date('Y-m-d H:i:s'),
+						'fecha_reg_cita' => date('Y-m-d H:i:s'),
+						'fecha_atencion_cita' => $cita['seleccion']['fecha_programada']. " " . $cita['seleccion']['hora_inicio_det'],
+						'idcliente' => $cliente,
+						'idempresacliente' =>  NULL,
+						'estado_cita' => 2,
+						'idproductomaster' => $cita['producto']['idproductomaster'],
+						'idsedeempresaadmin' => $cita['producto']['idsedeempresaadmin'],
+						);
+					$result = $this->model_prog_cita->m_registrar($data);
+
+					if($result){
+						$idprogcita = GetLastId('idprogcita','pa_prog_cita');
+						$listaCitasGeneradas[$key]['idprogcita'] =  $idprogcita;
+						$listaCitasGeneradas[$key]['idventa'] =  '';
+						$listaCitasGeneradas[$key]['idculqitracking'] =  $arrData['datos']['cargo']['id'];
+
+						//actualizacipn de programacion
+						$data = array(
+							'iddetalleprogmedico' => $cita['seleccion']['iddetalleprogmedico'],
+							'estado_cupo' => 1
+							);
+						$resultDetalle = $this->model_prog_medico->m_cambiar_estado_detalle_de_programacion($data);
+
+						$data = array(
+							'idprogmedico' => $cita['seleccion']['idprogmedico'],
+							'idcanal' => $cita['seleccion']['idcanal']
+							);
+						$resultCanales = $this->model_prog_medico->m_cambiar_cupos_canales($data);
+
+						$data = array(
+							'idprogmedico' => $cita['seleccion']['idprogmedico'],
+							);
+						$resultProg = $this->model_prog_medico->m_cambiar_cupos_programacion($data);						
+						//fin actualizacion de programacion -- 
+
+						//registro de relacion cita - usuario web
+						if($resultDetalle && $resultCanales && $resultProg){
+							$data=array(
+								'idusuarioweb' => $allInputs['usuario']['idusuario'],
+								'idprogcita' => $idprogcita
+								);
+							if(!$this->model_programar_cita->m_registrar_usuarioweb_cita($data)){
+								$error = TRUE;
+							}
+						}else{
+							$error = TRUE;
+						}
+					}else{
+						$error = TRUE;
+					}					
+				}
+
+				if(!$error){
+					$arrData['datos']['session'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];
+					$arrData['datos']['session']['listaCitas'] = array();
+					$arrData['datos']['session']['listaCitasGeneradas'] = $listaCitasGeneradas;
+					$this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']['session']);
+
+					$arrData['flag'] = 1;
+					$arrData['message'] = $arrData['datos']['cargo']['outcome']['user_message'];
+				}
+				$this->db->trans_complete();
+			}
 		}catch (Exception $e) {
-		  	//$arrData['datos']['error'] = json_encode($e->getMessage());
-		  	$arrData['datos']['error'] = $e->getMessage();
+		  	$arrData['datos']['error'] = get_object_vars(json_decode($e->getMessage()));
+		  	$arrData['message'] = $arrData['datos']['error']['user_message'];
 		}
 
 	    $this->output

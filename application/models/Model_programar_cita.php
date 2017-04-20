@@ -39,10 +39,12 @@ class Model_programar_cita extends CI_Model {
 		$this->db->select('dpm.iddetalleprogmedico, dpm.idcanal, dpm.hora_inicio_det, dpm.hora_fin_det');
 		$this->db->select('dpm.si_adicional, dpm.numero_cupo, prm.idprogmedico, prm.idmedico');
 		$this->db->select('med.med_nombres, med.med_apellido_paterno, med.med_apellido_materno, med.colegiatura_profesional');		
-		$this->db->select('prm.fecha_programada');		
+		$this->db->select('prm.fecha_programada');	
+		$this->db->select('am.idambiente, am.numero_ambiente'); 	
 
 		$this->db->from('pa_detalle_prog_medico dpm');
 		$this->db->join('pa_prog_medico prm','dpm.idprogmedico = prm.idprogmedico');
+		$this->db->join('pa_ambiente am','prm.idambiente = am.idambiente');
 		$this->db->join('medico med', 'med.idmedico = prm.idmedico');		 
 		$this->db->where('dpm.estado_cupo', 2);		 
 		$this->db->where('dpm.idcanal', 3); //canal web		 
@@ -52,6 +54,9 @@ class Model_programar_cita extends CI_Model {
 		return $this->db->get()->result_array(); 
 	}
 
+	public function m_registrar_usuarioweb_cita($data){
+		return $this->db->insert('ce_usuario_web_cita', $data);
+	}
 
 	public function m_cargar_medicos_autocomplete($datos){
 		$this->db->distinct();
@@ -69,7 +74,6 @@ class Model_programar_cita extends CI_Model {
 		return $this->db->get()->result_array();
 	}
 
-
 	public function m_lista_feriados_cbo($paramDatos){ 
 		$anioSig = intval($paramDatos['anyo'] + 1);
 		$this->db->select('idferiado, fecha, estado_fe, descripcion');
@@ -80,6 +84,4 @@ class Model_programar_cita extends CI_Model {
 		
 		return $this->db->get()->result_array();
 	}
-
-
 }

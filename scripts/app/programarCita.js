@@ -28,39 +28,52 @@ angular.module('theme.programarCita', ['theme.core.services'])
     ];
     $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[0];
 
-    var datos = {
-      search:1,
-      nameColumn:'tiene_prog_cita'
-    };
-    sedeServices.sListarSedesCbo(datos).then(function (rpta) {
-      $scope.listaSedes = rpta.datos;
-      $scope.listaSedes.splice(0,0,{ id : 0, idsede:0, descripcion:'SEDE'});
-      $scope.fBusqueda.itemSede = $scope.listaSedes[0];
-    });
+    $scope.initSeleccionarCita=function(){
+      var datos = {
+        search:1,
+        nameColumn:'tiene_prog_cita'
+      };
+      sedeServices.sListarSedesCbo(datos).then(function (rpta) {
+        $scope.listaSedes = rpta.datos;
+        $scope.listaSedes.splice(0,0,{ id : 0, idsede:0, descripcion:'SEDE'});
+        $scope.fBusqueda.itemSede = $scope.listaSedes[0];
+      });
 
-    $scope.listarParientes = function(externo){
-      parienteServices.sListarParientesCbo().then(function (rpta) {
-        $scope.listaFamiliares = rpta.datos;
-        $scope.listaFamiliares.splice(0,0,{ idusuariowebpariente:0, descripcion: $scope.fSessionCI.nombres + ' (titular)'});
-        if(externo){          
-          $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[$scope.listaFamiliares.length-1]; 
-        }else{
-          $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[0];
+      rootServices.sGetSessionCI().then(function (response) {
+        if(response.flag == 1){
+          $scope.fDataUser = response.datos;
+          $scope.fSessionCI = response.datos;
+          $scope.fSessionCI.compraFinalizada = false;
+          if(!$scope.fSessionCI.nombre_imagen || $scope.fSessionCI.nombre_imagen === ''){
+            $scope.fSessionCI.nombre_imagen = 'noimage.jpg';
+          }
         }
       });
-    }
-    $scope.listarParientes();
 
-    $scope.listarEspecialidad = function(){
-      var datos = {
-        idsede : $scope.fBusqueda.itemSede.id,
+      $scope.listarParientes = function(externo){
+        parienteServices.sListarParientesCbo().then(function (rpta) {
+          $scope.listaFamiliares = rpta.datos;
+          $scope.listaFamiliares.splice(0,0,{ idusuariowebpariente:0, descripcion: $scope.fSessionCI.nombres + ' (titular)'});
+          if(externo){          
+            $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[$scope.listaFamiliares.length-1]; 
+          }else{
+            $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[0];
+          }
+        });
       }
+      $scope.listarParientes();
 
-      especialidadServices.sListarEspecialidadesProgAsistencial(datos).then(function (rpta) {
-        $scope.listaEspecialidad = rpta.datos;
-        $scope.listaEspecialidad.splice(0,0,{ id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '});
-        $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[0];
-      });
+      $scope.listarEspecialidad = function(){
+        var datos = {
+          idsede : $scope.fBusqueda.itemSede.id,
+        }
+
+        especialidadServices.sListarEspecialidadesProgAsistencial(datos).then(function (rpta) {
+          $scope.listaEspecialidad = rpta.datos;
+          $scope.listaEspecialidad.splice(0,0,{ id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '});
+          $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[0];
+        });
+      }
     }
 
     $scope.getMedicoAutocomplete = function (value) {
@@ -86,6 +99,14 @@ angular.module('theme.programarCita', ['theme.core.services'])
         $scope.fPlanning = rpta.planning;
       });
     }
+
+    $scope.goToHistorial = function(){
+      $scope.goToUrl('/historial-citas');
+    }
+
+    $scope.goToSelCita = function(){
+      $scope.goToUrl('/seleccionar-cita');
+    } 
 
     $scope.btnAgregarNuevoPariente = function(){
       var callback = function(){
@@ -143,8 +164,8 @@ angular.module('theme.programarCita', ['theme.core.services'])
                   $scope.titleForm = 'Aviso'; 
                   $scope.msj = 'El turno seleccionado ya ha sido escogido para otra cita de su sesión';
 
-                  $scope.btnOk = function(){
-                    $modalInstance.dismiss('btnOk');
+                  $scope.btnCancel = function(){
+                    $modalInstance.dismiss('btnCancel');
                   }
                 }
               });
@@ -191,14 +212,59 @@ angular.module('theme.programarCita', ['theme.core.services'])
     }
 
     $scope.initResumenReserva = function(){
+      $scope.viewResumenCita = true;
+      $scope.viewResumenCompra = false;
+
+      /*  
+      $scope.viewResumenCita = false;
+      $scope.viewResumenCompra = true; 
+      */
+
       $scope.generarCargo = function(token){
+        blockUI.start('Procesando pago... Espere y NO recargue la página');
         var datos = {
           usuario:$scope.fSessionCI,
           token: token
         }
 
-        programarCitaServices.sGenerarVenta(datos).then(function(rpta){
-          console.log(rpta);
+        programarCitaServices.sGenerarVenta(datos).then(function(rpta){          
+          var titulo = '';
+          var modal = true;
+          if(rpta.flag == 1){
+            titulo = 'Genial!';
+          }else if(rpta.flag == 0){
+            titulo = 'Aviso!';
+          }else{
+            alert('Error inesperado');
+            modal = false;
+          }
+          blockUI.stop();
+          if(modal){            
+            $uibModal.open({ 
+              templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_aviso',
+              size: 'sm',
+              //backdrop: 'static',
+              //keyboard:false,
+              scope: $scope,
+              controller: function ($scope, $modalInstance) {                 
+                $scope.titleForm = titulo; 
+                $scope.msj = rpta.message;
+
+                $scope.btnCancel = function(){
+                  $modalInstance.dismiss('btnCancel');
+                }
+
+                if(rpta.flag == 1){
+                  setTimeout(function() {
+                    var callback = function(){
+                      $scope.btnCancel();
+                    }
+                    $scope.goToResumenCompra(callback);
+                  }, 1000);
+                }
+              }
+            });
+          }
         });
       }
 
@@ -216,12 +282,25 @@ angular.module('theme.programarCita', ['theme.core.services'])
           if(Culqi.token) { // ¡Token creado exitosamente!
             // Get the token ID:
             var token = Culqi.token;
-            console.log('CREO UN TOKEN', token);
             $scope.generarCargo(token);
           }else{ // ¡Hubo algún problema!
             // Mostramos JSON de objeto error en consola
             console.log(Culqi.error);
-            console.log('ES UN ERROR');
+            $uibModal.open({ 
+              templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_aviso',
+              size: 'sm',
+              //backdrop: 'static',
+              //keyboard:false,
+              scope: $scope,
+              controller: function ($scope, $modalInstance) {                 
+                $scope.titleForm = 'Aviso'; 
+                $scope.msj = rpta.message;
+
+                $scope.btnCancel = function(){
+                  $modalInstance.dismiss('btnCancel');
+                }
+              }
+            });
           }
         }        
       }
@@ -247,8 +326,33 @@ angular.module('theme.programarCita', ['theme.core.services'])
         $scope.listaCitas = $scope.fSessionCI.listaCitas;
         console.log($scope.listaCitas);
         window.initCulqi($scope.totales.total_pago_culqi);              
-      });      
+      });    
     }
+
+    $scope.goToResumenCompra = function(callback){
+      rootServices.sGetSessionCI().then(function (response) {
+        if(response.flag == 1){
+          $scope.fSessionCI = response.datos;          
+        } 
+
+        $scope.viewResumenCita = false;
+        $scope.viewResumenCompra = true; 
+        callback();           
+      });
+    }
+
+    $scope.descargaComprobante = function(cita){
+      console.log(cita);
+    }
+
+    /*    
+    $scope.initResumenCompra = function(){
+      if(!$scope.fSessionCI.compraFinalizada){
+        $scope.goToUrl('/seleccionar-cita');
+      }
+      //$scope.fSessionCI.listaCitasCompra = angular.copy($scope.fSessionCI.listaCitas); //temporal
+    }
+    */
 
     /* ============================ */
     /* ATAJOS DE TECLADO NAVEGACION */

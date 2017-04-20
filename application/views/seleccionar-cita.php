@@ -1,4 +1,4 @@
-<div class="content container" ng-controller="programarCitaController" > 
+<div class="content container" ng-controller="programarCitaController" ng-init="initSeleccionarCita();" > 
 	<div class="filtros btn-group-btn pl-n ml-n">
 		<ul class="m-xs demo-btns">
 			<li class="" >
@@ -45,22 +45,26 @@
 		</ul>
 	</div>
 	<div class="container-fluid "  style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">		
-		<div class="col-sm-12 col-md-12" style="margin-top: 100px;">
+		<div class="col-sm-12 col-md-12 col-xs-12" style="margin-top: 100px;">
 			<div class="row">
-				<div class="col-sm-12 col-md-2">
+				<div class="col-sm-12 col-md-2 col-xs-12">
           <div class="row">
   					<div class="text-guia">
-  						<p class="saludo">¡Hola! {{fSessionCI.nombres}}</p>
+  						<p class="saludo">¡Hola {{fSessionCI.nombres}}!</p>
   						<p class="instruccion">Programar tu cita es muy sencillo... Selecciona una fecha, escoge la sede, la especialidad y un médico, si tienes algún favorito!</p>
   					</div>
-  					<!-- <div class="content-flecha" style="margin-top:110px;">
-  					<div class="flecha"><div class="i-flecha"><i class="fa fa-arrow-right"></i></div></div>
-  					</div> -->
+            <div class="col-sm-12 col-md-12 col-xs-12 mb-md p-n leyenda"> 
+              Identifica tu médico con el icono: <span class="favorito animation"><i class="fa fa-star"></i></span>                
+            </div>
             <div class="col-xs-12 p-n m-n grid-fecha" style="">
+              <label class="control-label mb-xs">Fecha seleccionada: </label>
+              <input tabindex="110" type="text" placeholder="dd-mm-yyyy" ng-model="fBusqueda.desde" 
+                    class="form-control mask mb-sm input-fecha" data-inputmask="'alias': 'dd-mm-yyyy'" disabled /> 
               <uib-datepicker style="width: 100%;" class="full-width" ng-model='fBusqueda.fecha' select-range='false' 
                 ng-click="" ng-change="cambiarFechas();"  > 
               </uib-datepicker>
             </div>
+            
           </div>
 				</div>
 				<div class="col-sm-12 col-md-8 pl-n" >
@@ -87,7 +91,7 @@
                 <div ng-repeat="column in fPlanning.grid" class="column">
                   <div ng-repeat="item in column" class="{{item.class}}" ng-if="!item.unset" style="height:{{30*item.rowspan}}px;" >
                     <div class="content-cell-column" >
-                      <span class="favorito" ng-if="item.medico_favorito"><i class="fa fa-star"></i></span>
+                      <span class="favorito animation" uib-tooltip="{{fBusqueda.medico}}" tooltip-placement="top" ng-if="item.medico_favorito"><i class="fa fa-star"></i></span>
                       <a href="" class="label label-info" ng-click="verTurnosDisponibles(item); $event.stopPropagation();">{{item.dato}} </a>
                     </div>
                   </div>
