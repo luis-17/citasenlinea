@@ -311,9 +311,9 @@ th.grl {background: #96BD68;}
   border: 2px dotted #cddc39;
   padding: 4px 6px;
 }
-.fileinput .btn-file > input {
+/*.fileinput .btn-file > input {
     right: -100px;
-}
+}*/
 .column-spanning {
   background-color: #94c0d2;
   color: white;
@@ -684,8 +684,6 @@ a.link-password:hover{
     color: #000;
 }
 
-
-
 .formulario-pariente-heading{
   text-align: center;
   font-size: 20px;
@@ -866,24 +864,23 @@ a.link-password:hover{
     100% {color:yellow; left:0px; top:0;}
 }
 
-/* Safari 4.0 - 8.0 */
-@-webkit-keyframes flecha {
-    0%   {color:white; left:10px;top:110px;}
-    30%  {color:blue; left:40px;top:110px;}
-    60%  {color:yellow; left:70px;top:110px;}
-    100% {color:white; left:10px;top:110px;}
-}
-/* Standard syntax */
-@keyframes flecha {
-    0%   {color:white; left:10px;top:110px;}
-    30%  {color:blue; left:40px;top:110px;}
-    60%  {color:yellow; left:70px;top:110px;}
-    100% {color:white; left:10px;top:110px;}
+.grid-fecha .input-fecha{
+  width: 50%;
+  font-size: 15px;
+  font-weight: bold;
+  color: navy;
+  text-align: center;
 }
 
 .grid-fecha .btn-default{
   background-color: #f5f5f5 !important;
   color: #616161;
+}
+
+.grid-fecha .btn-default.active{
+  background-color: #f5f5f5 !important;
+  color: #616161;
+  border-color: #00a5bb !important;
 }
 
 .grid-fecha .full-width table{
@@ -975,6 +972,25 @@ a.link-password:hover{
   cursor: pointer;
 }
 
+/*animaciones planning*/
+.planning.visible{
+  animation: bounceIn .5s;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .planning .body .favorito{
   position: relative;
   bottom: 0px;
@@ -983,12 +999,20 @@ a.link-password:hover{
   font-size: 15px;
 }
 
-/*animaciones planning*/
-.planning.visible{
-  animation: bounceIn .5s;
+.leyenda .favorito,
+.turnos-disponibles .medico .favorito{
+  position: relative;
+  color: #ff9800;
+  font-size: 15px;
 }
 
-@keyframes bounceIn {
+.planning .body .favorito.animation,
+.leyenda .favorito.animation,
+.turnos-disponibles .medico .favorito.animation{
+  animation: bounceInFavorito 1.5s infinite;
+}
+
+@keyframes bounceInFavorito {
   0% {
     transform: scale(0.1);
     opacity: 0;
@@ -1011,12 +1035,25 @@ a.link-password:hover{
   color: #36c0d1;
 }
 
+.turnos-list {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .turnos-disponibles{
   margin-bottom: 15px;
 }
 
 .turnos-disponibles .medico{
   color:#191970;
+}
+
+.turnos-disponibles .medico .consultorio{
+  margin: 0 0 2px;
+  text-align: center;
+  font-size: 17px;
+  color: #212121;
 }
 
 .cupo{
@@ -1054,7 +1091,7 @@ input[type="radio"]:focus{
 }
 
 input[type=radio]:checked + label:before {
-  color:green;
+  color: #0acf39;
 }
 
 .cupo .box{
@@ -1123,9 +1160,22 @@ input[type=radio]:checked + label:before {
   overflow: auto;
 }
 
-.citas .list-citas::-webkit-scrollbar {
-    width: 1em;
+.turnos-list::-webkit-scrollbar {
+  width: 7px;
 }
+
+.citas .list-citas::-webkit-scrollbar {
+  width: 5px;
+}
+
+.turnos-list::-webkit-scrollbar-track,
+.citas .list-citas::-webkit-scrollbar-track {
+  background-color: #e0e0e0;
+}
+.turnos-list::-webkit-scrollbar-thumb,
+.citas .list-citas::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+} 
 
 .list-citas .cita .eliminar {  
   font-size: 17px;
@@ -1133,10 +1183,7 @@ input[type=radio]:checked + label:before {
   float: right;
   cursor: pointer;
   top: -3px;
-}
-
-.list-citas .cita i{
-
+  right: 3px;
 }
 
 /*animaciones lista*/
@@ -1186,8 +1233,8 @@ input[type=radio]:checked + label:before {
 }
 
 .dashboard .valores .item.imc .alerta{  
-  height: 15px;
-  width: 15px;
+  height: 12px;
+  width: 12px;
   border-radius: 50%;
   position: relative;  
   float: right;
@@ -1263,6 +1310,9 @@ input[type=radio]:checked + label:before {
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
+
+  -webkit-box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.36);
+  box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.36);
 }
 
 .dashboard .div-btn .btn-go-perfil:hover{
@@ -1351,6 +1401,9 @@ input[type=radio]:checked + label:before {
   margin-left: auto;
   margin-right: auto;
   border-radius: 8px;
+  position: relative;
+  -webkit-box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
+  box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
 }
 
 .dashboard .caja-2{
@@ -1403,14 +1456,15 @@ input[type=radio]:checked + label:before {
 
 .mi-grid .body-grid{
   float: left;
-  max-height: 300px;
+  max-height: 300px;  
   overflow: auto;
+  width: 100%;
 }
 
 .mi-grid .cell-grid{
   float:left;
-  min-width: 110px;
-  width: 110px;
+  min-width: 9%;
+  width: 9%;
   padding: 3px 8px;
   border: 1px solid #ddd;
   border-collapse: collapse;
@@ -1432,16 +1486,42 @@ input[type=radio]:checked + label:before {
 .mi-grid .header .cell-grid{
   padding: 2px 1px 2px 1px;
   text-align: center;
-  background: #b2e7ed;
+  background: #97dee7;
+}
+
+.mi-grid .cell-grid .nro-doc,
+.mi-grid .cell-grid .nro-doc a{
+  color: #ce1d19;
+}
+
+.mi-grid .cell-grid .nro-doc:hover a{
+  text-decoration: underline;
 }
 
 .mi-grid .totales{
-  float: right;
   text-align: right;
-  margin-right: 50px;
   font-size: 15px;
   font-weight: 800;
-  color: #616161; 
+  color: #616161;
+  width: 100%;
+}
+
+.mi-grid .totales .total{
+  clear: left;
+  padding: 0 8px;
+}
+
+.mi-grid .totales .descripcion{
+  width: 200px;
+}
+
+.mi-grid .totales .monto{
+  width:10%;
+}
+
+.mi-grid .totales .descripcion,
+.mi-grid .totales .monto{
+  display: inline-block;
 }
 
 .mi-grid .totales .total-pago{
@@ -1451,4 +1531,45 @@ input[type=radio]:checked + label:before {
 
 .terminos-condiciones{
   clear: left;
+}
+
+.call-actions{
+  min-height: 60px;
+  text-align: center;
+  padding: 14px;
+
+  background: -webkit-linear-gradient(left, #36c0d1 0%, #97dee7 100%);
+  background: -moz-linear-gradient(left, #36c0d1 1%, #97dee7 100%);
+  background: -o-linear-gradient(left, #36c0d1 1%, #97dee7 100%);
+  background: -ms-linear-gradient(left, #36c0d1 1%, #97dee7 100%);
+  background: linear-gradient(to right, #36c0d1 1%, #97dee7 100%);
+}
+
+.call-actions .btn-go-citas{
+  position: relative;
+  -webkit-box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
+  box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
+}
+
+.call-actions .lema{
+  color: white;
+  font-size: 25px;
+  text-shadow: 1px 1px 2px #08446f;
+  cursor: pointer;
+}
+
+.call-actions .btn-go-historial{
+  font-size: 18px;
+  top: 4px;
+  position: relative;
+  color: #ce1d19;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.call-actions .btn-go-historial:hover .historial{
+  text-decoration: underline;
+  -moz-text-decoration-color: navy; /* Code for Firefox */
+  text-decoration-color:  navy; 
+  text-decoration-style: double;
 }

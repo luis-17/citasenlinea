@@ -1,10 +1,20 @@
+<div class="msj modal-close" >
+	<a href ng-click="btnCancel(); $event.preventDefault();" class="btn-close"><i class="ti ti-close"></i></a>
+</div>
 <div class="modal-header formulario-pariente-heading">
-	<a style="position: relative;left: -20%; color:#36c0d1;" ng-click="btnCancel();"><i class="fa fa-angle-left"></i></a>{{ titleForm }} 
+	<!-- <a style="position: relative;left: -20%; color:#36c0d1;" ng-click="btnCancel();"> <i class="fa fa-angle-left"></i></a>-->
+	{{ titleForm }} 
 </div>
 <div class="modal-body">
     <form class="" name="formPariente" novalidate>
     	<div class="row">
     		<form class="" name="formPariente" novalidate>
+				<div class="col-md-12 col-sm-12">
+					<alert type="{{fAlert.type}}" close="fAlert = null" ng-show='fAlert.type' class="p-sm mb-n" style="margin-right: 12px;">
+		                <strong> {{ fAlert.strStrong }} <i class='{{fAlert.icon}}'></i></strong> 
+		                <span ng-bind-html="fAlert.msg"> </span>
+		            </alert>
+				</div>
 				<div class="form-group mb-md col-md-6 col-sm-12" ng-if="accion=='reg'">
 					<label class="control-label mb-xs"> DNI ó Documento de Identidad </label>
 					<div class="input-group">
@@ -21,11 +31,11 @@
 				</div>
 
 				<div class="form-group mb-md col-md-6 col-sm-12" >
-					<label class="block" style="margin-bottom: 4px;"> Parentesco <small class="text-danger">(*)</small> </label>
+					<label class="control-label mb-xs" style="margin-bottom: 4px;"> Parentesco <small class="text-danger">(*)</small> </label>
 					<select class="form-control  " ng-model="fData.parentesco" ng-options="item.descripcion for item in regListaParentescos" tabindex="2" required > </select>
 				</div>	
 				<div class="form-group mb-md col-md-6 col-sm-12" >
-					<label class="block" style="margin-bottom: 4px;"> Sexo <small class="text-danger">(*)</small> </label>
+					<label class="control-label mb-xs" style="margin-bottom: 4px;"> Sexo <small class="text-danger">(*)</small> </label>
 					<select class="form-control  " ng-model="fData.sexo" ng-options="item.id as item.descripcion for item in listaSexos" tabindex="3" required > </select>
 				</div>
 				<div class="form-group mb-md col-md-6 col-sm-12">
@@ -49,15 +59,14 @@
 					<input type="text" class="form-control   mask" data-inputmask="'alias': 'dd-mm-yyyy'" ng-model="fData.fecha_nacimiento" required tabindex="8"/> 
 				</div>
 				<div class="col-md-12 col-sm-12">
-					<alert type="{{fAlert.type}}" close="fAlert = null" ng-show='fAlert.type' class="p-sm mb-n" style="margin-right: 12px;">
-		                <strong> {{ fAlert.strStrong }} <i class='{{fAlert.icon}}'></i></strong> 
-		                <span ng-bind-html="fAlert.msg"> </span>
+					<alert type="info" class="p-sm mb-n" style="font-size: 16px;">
+		                <i class='fa  fa-info-circle'></i>
+		                <strong> Información: </strong> 
+		                Sólo podrás registrar hijos menones de 18 años.
 		            </alert>
 				</div>
 			</form>
     	</div>
-
-
 	</form>
 </div>
 <div class="modal-footer formulario-pariente-btn-registro">
