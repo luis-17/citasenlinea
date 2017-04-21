@@ -1236,6 +1236,9 @@ input[type=radio]:checked + label:before {
     transform: scale(1);
   }
 }
+.dashboard .panel{
+  box-shadow: none;
+}
 
 .dashboard .saludo{
   text-align: center;
