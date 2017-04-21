@@ -26,9 +26,11 @@ class Pariente extends CI_Controller {
                   strtoupper($row['apellido_materno']);  
 
       if($row['sexo']=='F'){
+        $color = '#f4b2b0';
         $icon = 'fa fa-female';
         $desc = 'FEMENINO';
       }else{
+        $color = '#2d527c';
         $icon = 'fa fa-male';
         $desc = 'MASCULINO';
       }
@@ -43,7 +45,7 @@ class Pariente extends CI_Controller {
           'apellido_paterno' => strtoupper($row['apellido_paterno']),
           'apellido_materno' => strtoupper($row['apellido_materno']),
           'sexo' => $row['sexo'],
-          'sexo' => $row['sexo'],
+          'color_sexo' => $color,
           'idparentesco' => $row['idparentesco'],
           'parentesco' => $row['parentesco'],
           'pariente' => $pariente,

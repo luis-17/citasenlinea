@@ -26,6 +26,7 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       var mes_actual = $filter('date')(new Date(),'M');
 
       $scope.fBusqueda = {};
+      $scope.fBusqueda.tipoCita = 'pendientes';
       var fechaHasta = moment().add(6,'days');
       $scope.fBusqueda.desde =  $filter('date')(moment().toDate(),'dd-MM-yyyy'); 
       $scope.fBusqueda.hasta =  $filter('date')(fechaHasta.toDate(),'dd-MM-yyyy');
@@ -71,12 +72,26 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       }
 
       $scope.listarHistorial = function(){
-        historialCitasServices.sCargarHistorialCitas().then(function(rpta){
-          console.log(rpta);
+        historialCitasServices.sCargarHistorialCitas($scope.fBusqueda).then(function(rpta){
+          //console.log(rpta);
           $scope.listaDeCitas = rpta.datos;
         });
       }
       $scope.listarHistorial();
+
+      $scope.reprogramarCita = function(cita){
+        console.log(cita);
+
+      }
+
+      $scope.cambiarVista = function(){
+        //console.log($scope.fBusqueda.tipoCita);
+        $scope.listarHistorial();
+      }
+
+      $scope.resumenReserva = function(){
+        $scope.goToUrl('/resumen-cita');          
+      }
   })
   .service("historialCitasServices",function($http, $q) {
     return({

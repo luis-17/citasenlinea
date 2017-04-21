@@ -1,6 +1,6 @@
 <div class="content container" ng-controller="programarCitaController" ng-init="initSeleccionarCita();" > 
 	<div class="filtros btn-group-btn pl-n ml-n">
-		<ul class="m-xs demo-btns">
+		<ul class="demo-btns">
 			<li class="" >
         Programar cita para:
       </li>

@@ -24,12 +24,22 @@ class HistorialCitas extends CI_Controller {
       $medico = $row['med_nombres'] . ' ' . $row['med_apellido_paterno'] . ' ' . $row['med_apellido_materno'];
       $paciente = ucwords(strtolower( $row['nombres'] . ' ' . $row['apellido_paterno'] . ' ' . $row['apellido_materno']));
 
+      if($row['estado_cita'] == 2){
+        $icon_cita = 'fa fa-calendar';
+        $color_cita = '#ffc107';
+      }else if($row['estado_cita'] == 5){
+        $icon_cita = 'fa fa-check-square-o';
+        $color_cita = '#8bc34a';
+      }
+
       array_push($arrListado, 
         array(
           'idusuariowebcita' => (int)$row['idusuariowebcita'],
           'idusuarioweb' => (int)$row['idusuarioweb'],
           'idprogcita' => $row['idprogcita'],
-          'estado_cita' => $row['estado_cita'],
+          'estado_cita' => (int)$row['estado_cita'],
+          'icon_cita' => $icon_cita,
+          'color_cita' => $color_cita,
           'idcliente' => (int)$row['idcliente'],
           'iddetalleprogmedico' => (int)$row['iddetalleprogmedico'],
           'idcanal' => (int)$row['idcanal'],          

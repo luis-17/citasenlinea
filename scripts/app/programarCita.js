@@ -206,9 +206,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
     }
 
     $scope.resumenReserva = function(){
-      programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
-        $scope.goToUrl('/resumen-cita');
-      });           
+      $scope.goToUrl('/resumen-cita');          
     }
 
     $scope.initResumenReserva = function(){

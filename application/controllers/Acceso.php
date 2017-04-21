@@ -5,7 +5,7 @@ class Acceso extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper(array('security','otros_helper'));
-		$this->load->model(array('model_acceso','model_usuario'));
+		$this->load->model(array('model_acceso','model_usuario','model_historial_citas'));
 		//cache
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
 		$this->output->set_header("Pragma: no-cache");
@@ -80,6 +80,22 @@ class Acceso extends CI_Controller {
 
 				      $arrPerfilUsuario['imc']['tipo'] = $tipoImc;      
 				      $arrPerfilUsuario['imc']['color'] = $color;     
+				    }
+
+				    if( isset($arrPerfilUsuario['idusuario']) ){
+				    	$data = array(
+				    		'idusuario' => $arrPerfilUsuario['idusuario'],
+				    		'estado_cita' => 5
+				    		);
+				    	$citas_realizadas = $this->model_historial_citas->m_count_cant_citas($data);
+				    	$arrPerfilUsuario['citas_realizadas'] = $citas_realizadas;
+
+				    	$data = array(
+				    		'idusuario' => $arrPerfilUsuario['idusuario'],
+				    		'estado_cita' => 2
+				    		);
+				    	$citas_pendientes = $this->model_historial_citas->m_count_cant_citas($data);
+				    	$arrPerfilUsuario['citas_pendientes'] = $citas_pendientes;
 				    }
 					
 					// GUARDAMOS EN EL LOG DE LOGEO LA SESION INICIADA. 
