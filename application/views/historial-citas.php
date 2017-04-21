@@ -1,4 +1,4 @@
-<div class="content container" ng-controller="historialCitasController">       
+<div class="content" ng-controller="historialCitasController">       
   <div class="filtros historial btn-group-btn pl-n ml-n ">
     <ul class="demo-btns">
       <li class="" >
@@ -28,7 +28,7 @@
     </ul>
   </div>
   <div class="container-fluid "  style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">    
-    <div class="col-sm-12 col-md-12 col-xs-12" style="margin-top: 80px;">
+    <div class="col-sm-12 col-md-12 col-xs-12" style="margin-top: 20px;">
       <div class="row">
         <div class="col-sm-12 col-md-10 pl-n" >
           <div class="col-sm-12 col-md-12 col-xs-12">            

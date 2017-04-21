@@ -758,8 +758,7 @@ a.link-password:hover{
   text-align: center;
   font-size:17px;
   font-weight: 300;
-  padding: 5px 10px;
-  position: fixed;
+  padding: 5px 10px;  
   width: 100%;
   z-index: 10;
   left: 0;
@@ -770,6 +769,11 @@ a.link-password:hover{
   background: -ms-linear-gradient(left, #b2e7ed 1%, #dcf4f7 100%);
   background: linear-gradient(to right, #b2e7ed 1%, #dcf4f7 100%);
 }
+
+.filtros.sticky{
+  position: fixed;
+  top:0;
+} 
 
 
 .filtros.historial li{

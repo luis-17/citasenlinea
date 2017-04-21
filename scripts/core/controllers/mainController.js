@@ -335,7 +335,7 @@ appRoot.
  .directive("scroll", function ($window) {
       return function(scope, element, attrs) {
           angular.element($window).bind("scroll", function() {            
-            var top_filtro = $('.filtros').position().top;
+            /*var top_filtro = $('.filtros').position().top;
             var height_header = $('.navbar').height();
             var pos_scroll = $(this).scrollTop();
             var top = top_filtro - pos_scroll;
@@ -348,6 +348,14 @@ appRoot.
               $('.filtros').css('top',0);            
             }else{
               $('.filtros').css('top', top );
+            }*/
+            var height_header = $('.navbar').height();
+            if($(window).scrollTop() >= height_header){
+              $('.filtros').addClass("sticky"); 
+              $('.seleccion').css('margin-top',60);  
+            }else{
+              $('.filtros').removeClass("sticky");
+              $('.seleccion').css('margin-top',20);  
             }
           });
       };

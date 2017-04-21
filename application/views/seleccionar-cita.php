@@ -1,4 +1,4 @@
-<div class="content container" ng-controller="programarCitaController" ng-init="initSeleccionarCita();" > 
+<div class="content" ng-controller="programarCitaController" ng-init="initSeleccionarCita();" > 
 	<div class="filtros btn-group-btn pl-n ml-n">
 		<ul class="demo-btns">
 			<li class="" >
@@ -45,8 +45,8 @@
 		</ul>
 	</div>
 	<div class="container-fluid "  style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">		
-		<div class="col-sm-12 col-md-12 col-xs-12" style="margin-top: 100px;">
-			<div class="row">
+		<div class="col-sm-12 col-md-12 col-xs-12" style="margin-top: 20px;">
+			<div class="seleccion">
 				<div class="col-sm-12 col-md-2 col-xs-12">
           <div class="row">
   					<div class="text-guia">
