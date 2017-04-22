@@ -22,8 +22,8 @@ class ProgramarCita extends CI_Controller {
 
 	public function cargar_planning(){
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
-		/*$allInputs['desde'] = date('d-m-Y', strtotime('23-03-2017'));
-		$allInputs['hasta'] = date('d-m-Y', strtotime('29-03-2017'));*/
+		$allInputs['desde'] = date('d-m-Y', strtotime('23-03-2017'));
+		$allInputs['hasta'] = date('d-m-Y', strtotime('29-03-2017'));
 		
 		/*header*/
 		$datos = array('anyo' => date("Y"));
@@ -351,8 +351,7 @@ class ProgramarCita extends CI_Controller {
   	}
 
   	public function validar_citas(){
-
-  	}
+	}
 
   	public function generar_venta(){
   		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
@@ -479,4 +478,124 @@ class ProgramarCita extends CI_Controller {
 	        ->set_output(json_encode($arrData));
 	      return;
   	}
+
+	public function verifica_estado_cita(){
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$arrData['message'] = 'Sólo puedes reprogramar citas sin atención y máximo 1 día previo a la fecha programada.';
+		$arrData['flag'] = 0;		
+
+		$cita = $this->model_prog_cita->m_consulta_cita($allInputs['idprogcita']);
+
+		$hoy = strtotime(date('Y-m-d'));
+		$fecha_atencion = strtotime($cita['fecha_atencion_cita']);
+		$arrData['hoy'] = $hoy;
+		$arrData['hoyFormato'] = date('Y-m-d');
+		$arrData['fecha_atencion'] = $fecha_atencion;
+		$arrData['fecha_atencion_Formato'] = $cita['fecha_atencion_cita'];
+		
+		if($cita['estado_cita'] == 2){
+			$arrData['message'] = 'Reprogramar';
+			$arrData['flag'] = 1;
+		}
+
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($arrData));
+	}
+
+	public function ver_popup_planning(){
+		$this->load->view('programar-cita/planningReprogramar_formView');
+	}
+
+	public function cambiar_cita(){
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true); 
+		$arrData['message'] = 'La cita no pudo ser modificada. Intente nuevamente';
+    	$arrData['flag'] = 0;
+    	
+    	$cita = $this->model_prog_cita->m_conculta_cita_cupo($allInputs['oldCita']['iddetalleprogmedico']);
+    	$allInputs['oldCita']['idprogcita'] = $cita['idprogcita'];
+    	if($cita['estado_cita'] != 2){
+    		$arrData['message'] = 'Solo puede modificar citas en estado CONFIRMADO.';
+    		$arrData['flag'] = 0;
+    		$this->output
+			    ->set_content_type('application/json')
+			    ->set_output(json_encode($arrData));
+			return;
+    	}
+
+    	if($this->model_prog_cita->m_cita_tiene_atencion($allInputs['oldCita'])){
+    		$arrData['message'] = 'No puede modificar una cita con atención registrada.';
+    		$arrData['flag'] = 0;
+    		$this->output
+			    ->set_content_type('application/json')
+			    ->set_output(json_encode($arrData));
+			return;
+    	} 
+
+    	$this->db->trans_start();
+ 		//cupo a disponible
+		$data = array(
+			'estado_cupo' => 2,
+			'iddetalleprogmedico' => $allInputs['oldCita']['iddetalleprogmedico'],
+			);	
+		$resulDetalle = $this->model_prog_medico->m_cambiar_estado_detalle_de_programacion($data);
+		//si cancelo y no es un adicional debo actualizar encabezado programacion
+		$resultOldCuposCanal = FALSE;
+		$resultOldCuposProg = FALSE;
+		if(!$allInputs['oldCita']['si_adicional']){
+			//actualizo cantidad de cupos disponibles y ocupados 
+			$resultOldCuposCanal = $this->model_prog_medico->m_revertir_cupos_canales($allInputs['oldCita']); 
+			$resultOldCuposProg = $this->model_prog_medico->m_revertir_cupos_programacion($allInputs['oldCita']);						
+		}else{
+			$resultOldCuposCanal = TRUE;
+			$resultOldCuposProg = TRUE;
+		}
+     	
+		if($resulDetalle && $resultOldCuposCanal && $resultOldCuposProg){
+			//cambio id de cupo en cita
+			$resultCita = FALSE;
+			$datos = array(
+				'idprogcita' => $allInputs['oldCita']['idprogcita'],
+				'iddetalleprogmedico' => $allInputs['seleccion']['iddetalleprogmedico'],
+				'fecha_atencion_cita' => $allInputs['seleccion']['fecha_programada'] . ' ' . $allInputs['seleccion']['hora_inicio_det'],
+				);
+			$resultCita = $this->model_prog_cita->m_cambiar_datos_en_cita($datos); //cita con nuevo iddetalleprogmedico
+			if($resultCita ){
+				$resultCuposCanal = $this->model_prog_medico->m_cambiar_cupos_canales($allInputs['seleccion']); 
+				$resultCuposProg = $this->model_prog_medico->m_cambiar_cupos_programacion($allInputs['seleccion']);	
+				$data = array(
+					'estado_cupo' => 1,
+					'iddetalleprogmedico' => $allInputs['seleccion']['iddetalleprogmedico'],
+					);	
+				$resulDetalleNuevo = $this->model_prog_medico->m_cambiar_estado_detalle_de_programacion($data);
+
+				
+				if($resulDetalle && $resultOldCuposCanal && $resultOldCuposProg && $resultCita && $resultCuposCanal && $resultCuposProg && $resulDetalleNuevo){
+					$arrData['message'] = 'La cita ha sido modificada correctamente';
+	    			$arrData['flag'] = 1;
+	    			$citaPaciente = array(
+						'paciente' => $allInputs['oldCita']['paciente'],
+						'email' => $allInputs['oldCita']['email'],
+						'especialidad' => $allInputs['oldCita']['especialidad'],
+						'medico' => $allInputs['oldCita']['medico'],
+
+						'fecha_programada' => $allInputs['seleccion']['fecha_str'],
+						'turno' => $allInputs['seleccion']['turno'],					
+						'ambiente' => $allInputs['seleccion']['ambiente'],
+						'sede' => $this->sessionHospital['sede'],
+						);
+	    			$resultMail = enviar_mail_paciente(3,$citaPaciente);
+					$arrData['flagMail']  = $resultMail['flag'];
+					$arrData['msgMail']  = $resultMail['msgMail'];
+				}
+			}
+						
+		}	    		
+    	
+		$this->db->trans_complete();   
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
 }

@@ -33,5 +33,6 @@
 	</div>
 </div>
 <div class="modal-footer formulario-pariente-btn-registro">
-	<a href ng-click="btnReservarTurno(); $event.preventDefault();" > SELECCIONAR </a>    
+	<a href ng-click="btnReservarTurno(); $event.preventDefault();" ng-if="!boolExterno" > SELECCIONAR </a>    
+	<a href ng-click="btnCambiarTurno(); $event.preventDefault();" ng-if="boolExterno"> REPROGRAMAR </a>    
 </div>

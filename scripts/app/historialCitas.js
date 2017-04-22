@@ -1,10 +1,11 @@
 angular.module('theme.historialCitas', ['theme.core.services'])
-  .controller('historialCitasController', function($scope, $theme, $filter,
+  .controller('historialCitasController', function($scope, $controller, $filter, $sce, $uibModal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, blockUI,
     historialCitasServices,
     sedeServices,
     especialidadServices,
     parienteServices,
-    rootServices ){
+    rootServices,
+    programarCitaServices ){
       'use strict';
       shortcut.remove("F2"); 
       $scope.modulo = 'historialCitas'; 
@@ -79,18 +80,114 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       }
       $scope.listarHistorial();
 
-      $scope.reprogramarCita = function(cita){
-        console.log(cita);
+      $scope.reprogramarCita = function(cita){        
+        programarCitaServices.sVerificaEstadoCita(cita).then(function(rpta){
+          if(rpta.flag == 1){
+            $scope.viewPlanning(cita);
+          }else if(rpta.flag == 0){
+            $uibModal.open({ 
+              templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_aviso',
+              size: 'sm',
+              //backdrop: 'static',
+              //keyboard:false,
+              scope: $scope,
+              controller: function ($scope, $modalInstance) {                 
+                $scope.titleForm = 'Aviso'; 
+                $scope.msj = rpta.message;
 
+                $scope.btnCancel = function(){
+                  $modalInstance.dismiss('btnCancel');
+                }
+              }
+            });
+          }else{
+            alert('Error inesperado');
+          }
+        });
+
+        $scope.viewPlanning = function(cita){
+          $uibModal.open({ 
+            templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_planning',
+            size: 'xlg',
+            //backdrop: 'static',
+            //keyboard:false,
+            scope: $scope,
+            controller: function ($scope, $modalInstance) {
+              $scope.fBusquedaRep = {};
+              $scope.fBusquedaPlanning = {};
+              $scope.fBusquedaPlanning = cita;
+
+              console.log($scope.listaFamiliares);
+              angular.forEach($scope.listaFamiliares, function(value, key) {
+                if(value.idusuariowebpariente == $scope.fBusquedaPlanning.itemFamiliar.idusuariowebpariente){
+                  $scope.fBusquedaRep.itemFamiliar = $scope.listaFamiliares[key];
+                }                
+              });
+
+              angular.forEach($scope.listaSedes, function(value, key) {
+                if(value.id == $scope.fBusquedaPlanning.itemSede.id){
+                  $scope.fBusquedaRep.itemSede = $scope.listaSedes[key];
+                }                
+              });
+
+              var datos = {
+                idsede : $scope.fBusquedaRep.itemSede.id,
+              }
+              especialidadServices.sListarEspecialidadesProgAsistencial(datos).then(function (rpta) {
+                $scope.listaEspecialidadRep = rpta.datos;
+                $scope.listaEspecialidadRep.splice(0,0,{ id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '});
+                angular.forEach($scope.listaEspecialidadRep, function(value, key) {
+                  if(value.id == $scope.fBusquedaPlanning.itemEspecialidad.id){
+                    $scope.fBusquedaRep.itemEspecialidad = $scope.listaEspecialidadRep[key];
+                  }                
+                });
+              });
+
+              var fechaHasta = moment().add(6,'days');
+              $scope.fBusquedaPlanning.desde =  $filter('date')(moment().toDate(),'dd-MM-yyyy'); 
+              $scope.fBusquedaPlanning.hasta =  $filter('date')(fechaHasta.toDate(),'dd-MM-yyyy');              
+
+              $scope.btnCancel = function(){
+                $modalInstance.dismiss('btnCancel');
+              }
+
+              $scope.cargarPlanning = function(){
+                programarCitaServices.sCargarPlanning($scope.fBusquedaPlanning).then(function(rpta){
+                  $scope.fPlanning = rpta.planning;
+                });
+              }
+              $scope.cargarPlanning();
+
+              $scope.viewTurnos = function(item){
+                $scope.fPlanning.citas = {};
+                $scope.fPlanning.citas.oldCita = cita;
+                var callback = function (){
+                  
+                }
+                $controller('programarCitaController', { 
+                  $scope : $scope
+                });
+                $scope.verTurnosDisponibles(item, callback);
+              }
+            }
+          });
+        }
       }
 
       $scope.cambiarVista = function(){
-        //console.log($scope.fBusqueda.tipoCita);
         $scope.listarHistorial();
       }
 
       $scope.resumenReserva = function(){
         $scope.goToUrl('/resumen-cita');          
+      }
+
+      $scope.quitarDeLista = function(index, fila){
+        //console.log(index, fila);
+        $scope.fSessionCI.listaCitas.splice( index, 1 );
+        programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
+          console.log(rpta);
+        });
       }
   })
   .service("historialCitasServices",function($http, $q) {

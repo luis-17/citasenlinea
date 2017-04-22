@@ -80,13 +80,13 @@
                       {{cita.paciente}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:14%;">
-                      {{cita.sede}}
+                      {{cita.itemSede.sede}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:12%;">
-                      {{cita.especialidad}}
+                      {{cita.itemEspecialidad.especialidad}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:17%;">
-                      {{cita.medico}}
+                      {{cita.itemMedico.medico}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:9%; text-align:center;">
                       {{cita.fecha_formato}}
@@ -95,7 +95,7 @@
                       {{cita.hora_inicio_formato}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:10%; text-align:center;">
-                      {{cita.numero_ambiente}}
+                      {{cita.itemAmbiente.numero_ambiente}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:9%; text-align:center;cursor: pointer;">
                       <span class="nro-doc" ng-click="descargaComprobante(cita);">

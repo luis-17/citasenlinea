@@ -16,6 +16,8 @@ class Model_historial_citas extends CI_Model {
 		$this->db->select('cli.nombres, cli.apellido_paterno, cli.apellido_materno');	
 
 		$this->db->select('se.idsede, se.descripcion as sede');	
+
+		$this->db->select('uwp.idusuariowebpariente, uwp.idparentesco, cp.descripcion as parentesco');	
 		
 		$this->db->from('ce_usuario_web_cita uwc');
 		$this->db->join('pa_prog_cita ppc','ppc.idprogcita = uwc.idprogcita ');
@@ -36,7 +38,8 @@ class Model_historial_citas extends CI_Model {
 			$this->db->join('cliente cli','cli.idcliente = ppc.idcliente');
 		}
 		
-		$this->db->join('ce_parentesco cp','cp.idparentesco = uwc.idparentesco','left');
+		$this->db->join('ce_usuario_web_pariente uwp','cli.idcliente = uwp.idclientepariente','left');
+		$this->db->join('ce_parentesco cp','uwp.idparentesco = cp.idparentesco','left');
 
 		$this->db->join('sede_empresa_admin sea','sea.idsedeempresaadmin = ppc.idsedeempresaadmin');
 		if(!empty($datos['sede']['id'])){

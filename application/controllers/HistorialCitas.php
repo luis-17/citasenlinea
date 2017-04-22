@@ -49,24 +49,41 @@ class HistorialCitas extends CI_Controller {
           'hora_fin_formato' => darFormatoHora($row['hora_fin_det']),
           'si_adicional' => $row['si_adicional'],
           'numero_cupo' => $row['numero_cupo'], 
-          'idprogmedico' => (int)$row['idprogmedico'],         
-          'idmedico' => (int)$row['idmedico'],
+          'idprogmedico' => (int)$row['idprogmedico'], 
           'fecha_programada' => $row['fecha_programada'],         
-          'fecha_formato' => date('d-m-Y',strtotime($row['fecha_programada'])),         
-          'medico' => $medico,  
-          'idambiente' => (int)$row['idambiente'],       
-          'numero_ambiente' => $row['numero_ambiente'],       
-          'idespecialidad' => (int)$row['idespecialidad'], 
-          'especialidad' => $row['especialidad'],
+          'fecha_formato' => date('d-m-Y',strtotime($row['fecha_programada'])),
+          
+          'itemAmbiente' => array(
+            'idambiente' => (int)$row['idambiente'],       
+            'numero_ambiente' => $row['numero_ambiente'],
+            ), 
+          'itemEspecialidad' => array(
+            'id' => (int)$row['idespecialidad'],
+            'idespecialidad' => (int)$row['idespecialidad'],
+            'especialidad' => $row['especialidad'], 
+            ),
+          'itemMedico' => array(
+            'idmedico' => (int)$row['idmedico'],
+            'medico' => $medico,   
+            ),  
+          'itemSede' => array(
+            'id' => (int)$row['idsede'],   
+            'idsede' => (int)$row['idsede'],   
+            'sede' => $row['sede'],   
+            ),
+          'itemFamiliar' => array(
+            'idusuariowebpariente' => empty($row['idusuariowebpariente']) ? 0 : $row['idusuariowebpariente'],
+            'idparentesco' => empty($row['idparentesco']) ? 0 : $row['idparentesco'],
+            'parentesco' => empty($row['parentesco']) ? 'TITULAR' : $row['parentesco']
+            ), 
           'paciente' => $paciente,                  
-          'idsede' => (int)$row['idsede'],   
-          'sede' => $row['sede'],              
+                        
         )
       );
     }
-      $arrData['datos'] = $arrListado;
-      $arrData['message'] = '';
-      $arrData['flag'] = 1;
+    $arrData['datos'] = $arrListado;
+    $arrData['message'] = '';
+    $arrData['flag'] = 1;
     if(empty($lista)){
       $arrData['flag'] = 0;
     }
@@ -74,5 +91,4 @@ class HistorialCitas extends CI_Controller {
         ->set_content_type('application/json')
         ->set_output(json_encode($arrData));
   }
-
 }

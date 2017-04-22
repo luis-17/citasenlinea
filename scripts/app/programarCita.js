@@ -15,20 +15,19 @@ angular.module('theme.programarCita', ['theme.core.services'])
     'use strict';
     shortcut.remove("F2"); 
     $scope.modulo = 'programarCita';
-    
-    $scope.fBusqueda = {};
-    var fechaHasta = moment().add(6,'days');
-    $scope.fBusqueda.desde =  $filter('date')(moment().toDate(),'dd-MM-yyyy'); 
-    $scope.fBusqueda.hasta =  $filter('date')(fechaHasta.toDate(),'dd-MM-yyyy');
-    $scope.fSeleccion = {};
-    $scope.fPlanning = null; 
-    $scope.fBusqueda.itemFamiliar = null; 
-    $scope.listaEspecialidad = [
-      { id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '}
-    ];
-    $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[0];
 
     $scope.initSeleccionarCita=function(){
+      $scope.fBusqueda = {};
+      var fechaHasta = moment().add(6,'days');
+      $scope.fBusqueda.desde =  $filter('date')(moment().toDate(),'dd-MM-yyyy'); 
+      $scope.fBusqueda.hasta =  $filter('date')(fechaHasta.toDate(),'dd-MM-yyyy');
+      $scope.fSeleccion = {};
+      $scope.fPlanning = null; 
+      $scope.fBusqueda.itemFamiliar = null; 
+      $scope.listaEspecialidad = [
+        { id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '}
+      ];
+      $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[0];
       var datos = {
         search:1,
         nameColumn:'tiene_prog_cita'
@@ -119,7 +118,12 @@ angular.module('theme.programarCita', ['theme.core.services'])
       $scope.btnNuevoPariente(callback);
     }
 
-    $scope.verTurnosDisponibles = function(item){
+    $scope.verTurnosDisponibles = function(item, boolExterno, callback){
+      if(boolExterno){
+        $scope.boolExterno = true;
+      } else {
+        $scope.boolExterno = false;
+      }
       blockUI.start('Abriendo formulario...');
       $uibModal.open({ 
         templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_turnos',
@@ -181,6 +185,11 @@ angular.module('theme.programarCita', ['theme.core.services'])
               });
               $scope.btnCancel();
             }
+          }
+
+          $scope.btnCambiarTurno = function(){
+            $scope.fPlanning.citas.seleccion = $scope.fSeleccion;
+            console.log($scope.fPlanning.citas);
           }
         
           blockUI.stop();
@@ -403,6 +412,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
       sListarMedicosAutocomplete:sListarMedicosAutocomplete,  
       sActualizarListaCitasSession:sActualizarListaCitasSession,
       sGenerarVenta:sGenerarVenta,
+      sVerificaEstadoCita:sVerificaEstadoCita,
     });
     function sCargarPlanning(datos) { 
       var request = $http({
@@ -440,6 +450,14 @@ angular.module('theme.programarCita', ['theme.core.services'])
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"ProgramarCita/generar_venta", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }
+    function sVerificaEstadoCita(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ProgramarCita/verifica_estado_cita", 
             data : datos
       });
       return (request.then( handleSuccess,handleError ));
