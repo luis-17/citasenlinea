@@ -181,12 +181,12 @@ class Usuario extends CI_Controller {
       );
       
       if($this->model_usuario->m_update_estado_usuario($data, $id)){
-        $this->load->view('usuario/verificacion-cuenta');
+        $this->load->view('verificacion-cuenta');
       }else{
-        $this->load->view('usuario/error-verificacion-cuenta');
+        $this->load->view('error-verificacion-cuenta');
       } 
     }else{
-      $this->load->view('usuario/error-verificacion-cuenta');
+      $this->load->view('error-verificacion-cuenta');
     }       
 	}
 
