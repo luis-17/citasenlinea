@@ -14,4 +14,13 @@ class Model_prog_cita extends CI_Model {
 		$this->db->where("ppc.idprogcita", intval($idprogcita)); //cita
 		return $this->db->get()->row_array();
 	}
+
+	public function m_cambiar_datos_en_cita($datos){
+		$data = array( 
+			'iddetalleprogmedico'=> $datos['iddetalleprogmedico'], 
+			'fecha_atencion_cita'=> $datos['fecha_atencion_cita'], 
+		);
+		$this->db->where("idprogcita", $datos['idprogcita']);
+		return $this->db->update('pa_prog_cita', $data ); 
+	}
 }

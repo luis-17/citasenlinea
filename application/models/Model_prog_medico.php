@@ -32,4 +32,17 @@ class Model_prog_medico extends CI_Model {
 		return $this->db->get()->row_array();
 	}
 
+	public function m_revertir_cupos_canales($datos) {
+		return $this->db->simple_query("update pa_canal_prog_medico 
+							SET cupos_ocupados = cupos_ocupados -1, 
+								cupos_disponibles = cupos_disponibles +1
+							WHERE idprogmedico = ".$datos['idprogmedico'] . " AND idcanal = " . $datos['idcanal']);
+	}
+
+	public function m_revertir_cupos_programacion($datos) {
+		return $this->db->simple_query("update pa_prog_medico 
+							SET total_cupos_ocupados = total_cupos_ocupados -1 													
+							WHERE idprogmedico = ".intval($datos['idprogmedico']));
+	}
+
 }

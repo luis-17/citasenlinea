@@ -250,8 +250,10 @@ class ProgramarCita extends CI_Controller {
 			$row['hora_formato'] = $hora_formato;
 			$row['checked'] = false;
 			if($row['si_adicional']	== 1){
+				$row['si_adicional'] = true;
 				$row['adicional'] = true;
 			}else{
+				$row['si_adicional'] = false;
 				$row['adicional'] = false;
 			}		
 
@@ -509,13 +511,12 @@ class ProgramarCita extends CI_Controller {
 
 	public function cambiar_cita(){
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true); 
-		$arrData['message'] = 'La cita no pudo ser modificada. Intente nuevamente';
+		$arrData['message'] = 'La cita no pudo ser reprogramada. Intente nuevamente';
     	$arrData['flag'] = 0;
     	
-    	$cita = $this->model_prog_cita->m_conculta_cita_cupo($allInputs['oldCita']['iddetalleprogmedico']);
-    	$allInputs['oldCita']['idprogcita'] = $cita['idprogcita'];
+    	$cita = $this->model_prog_cita->m_consulta_cita($allInputs['oldCita']['idprogcita']);
     	if($cita['estado_cita'] != 2){
-    		$arrData['message'] = 'Solo puede modificar citas en estado CONFIRMADO.';
+    		$arrData['message'] = 'Solo puede reprogramar citas en estado Pendiente.';
     		$arrData['flag'] = 0;
     		$this->output
 			    ->set_content_type('application/json')
@@ -523,14 +524,15 @@ class ProgramarCita extends CI_Controller {
 			return;
     	}
 
+    	/*
     	if($this->model_prog_cita->m_cita_tiene_atencion($allInputs['oldCita'])){
-    		$arrData['message'] = 'No puede modificar una cita con atención registrada.';
+    		$arrData['message'] = 'No puede reprogramar citas con atención registrada.';
     		$arrData['flag'] = 0;
     		$this->output
 			    ->set_content_type('application/json')
 			    ->set_output(json_encode($arrData));
 			return;
-    	} 
+    	} */
 
     	$this->db->trans_start();
  		//cupo a disponible
@@ -571,9 +573,9 @@ class ProgramarCita extends CI_Controller {
 
 				
 				if($resulDetalle && $resultOldCuposCanal && $resultOldCuposProg && $resultCita && $resultCuposCanal && $resultCuposProg && $resulDetalleNuevo){
-					$arrData['message'] = 'La cita ha sido modificada correctamente';
+					$arrData['message'] = 'La cita ha sido reprogramada correctamente';
 	    			$arrData['flag'] = 1;
-	    			$citaPaciente = array(
+	    			/*$citaPaciente = array(
 						'paciente' => $allInputs['oldCita']['paciente'],
 						'email' => $allInputs['oldCita']['email'],
 						'especialidad' => $allInputs['oldCita']['especialidad'],
@@ -586,7 +588,7 @@ class ProgramarCita extends CI_Controller {
 						);
 	    			$resultMail = enviar_mail_paciente(3,$citaPaciente);
 					$arrData['flagMail']  = $resultMail['flag'];
-					$arrData['msgMail']  = $resultMail['msgMail'];
+					$arrData['msgMail']  = $resultMail['msgMail'];*/
 				}
 			}
 						

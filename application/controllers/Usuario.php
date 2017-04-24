@@ -122,10 +122,10 @@ class Usuario extends CI_Controller {
   			'createdAt' => date('Y-m-d H:i:s'),
  				'updatedAt' => date('Y-m-d H:i:s')
   			);
-  		//$resultUsuario = $this->model_usuario->m_registrar_usuario($datos);
+  		$resultUsuario = $this->model_usuario->m_registrar_usuario($datos);
   	}
 
-  	$resultUsuario = TRUE;
+  	//$resultUsuario = TRUE;
   	if($resultUsuario && $resultCliente){
   		/*ENVIAR CORREO PARA VERIFICAR*/
       $idusuarioweb = GetLastId('idusuarioweb','ce_usuario_web');

@@ -162,12 +162,13 @@ angular.module('theme.historialCitas', ['theme.core.services'])
                 $scope.fPlanning.citas = {};
                 $scope.fPlanning.citas.oldCita = cita;
                 var callback = function (){
-                  
+                  $scope.btnCancel();
+                  $scope.listarHistorial();
                 }
                 $controller('programarCitaController', { 
                   $scope : $scope
                 });
-                $scope.verTurnosDisponibles(item, callback);
+                $scope.verTurnosDisponibles(item, true, callback);
               }
             }
           });

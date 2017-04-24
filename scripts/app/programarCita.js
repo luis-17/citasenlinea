@@ -135,10 +135,14 @@ angular.module('theme.programarCita', ['theme.core.services'])
           $scope.titleForm = 'Turnos Disponibles'; 
           var datos = item;
           datos.medico = $scope.fBusqueda.itemMedico;
-          programarCitaServices.sCargarTurnosDisponibles(datos).then(function(rpta){
-            $scope.fPlanning.turnos=rpta.datos;
-            $scope.fPlanning.detalle = item;
-          });    
+          $scope.fPlanning.detalle = item;
+
+          $scope.cargarTurnos = function(){
+            programarCitaServices.sCargarTurnosDisponibles($scope.fPlanning.detalle).then(function(rpta){
+              $scope.fPlanning.turnos=rpta.datos;            
+            }); 
+          } 
+          $scope.cargarTurnos();            
 
           $scope.btnCancel = function(){
             $modalInstance.dismiss('btnCancel');
@@ -189,10 +193,49 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
           $scope.btnCambiarTurno = function(){
             $scope.fPlanning.citas.seleccion = $scope.fSeleccion;
-            console.log($scope.fPlanning.citas);
+            programarCitaServices.sCambiarCita($scope.fPlanning.citas).then(function(rpta){
+              var modal = false;
+              var titulo = '';
+              if(rpta.flag==1){
+                $scope.btnCancel();                  
+                modal = true;
+                titulo = 'Genial!';              
+              }else if(rpta.flag == 0){
+                modal = true;
+                titulo = 'Aviso'; 
+                $scope.cargarTurnos();  
+              }else{
+                alert('Erros inesperado');
+              }
+
+              if(modal){
+                 $scope.mostrarMsj(rpta.flag,titulo,rpta.message, callback);
+              }
+            });
           }
         
           blockUI.stop();
+        }
+      });
+    }
+
+    $scope.mostrarMsj = function(tipo,titulo, msg, callback){      
+      $uibModal.open({ 
+        templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_aviso',
+        size: 'sm',
+        //backdrop: 'static',
+        //keyboard:false,
+        scope: $scope,
+        controller: function ($scope, $modalInstance) {                 
+          $scope.titleForm = titulo; 
+          $scope.msj = msg;
+
+          $scope.btnCancel = function(){
+            $modalInstance.dismiss('btnCancel');
+            if(tipo==1){              
+              callback();
+            }
+          }
         }
       });
     }
@@ -413,6 +456,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
       sActualizarListaCitasSession:sActualizarListaCitasSession,
       sGenerarVenta:sGenerarVenta,
       sVerificaEstadoCita:sVerificaEstadoCita,
+      sCambiarCita:sCambiarCita,
     });
     function sCargarPlanning(datos) { 
       var request = $http({
@@ -458,6 +502,14 @@ angular.module('theme.programarCita', ['theme.core.services'])
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"ProgramarCita/verifica_estado_cita", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }    
+    function sCambiarCita(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ProgramarCita/cambiar_cita", 
             data : datos
       });
       return (request.then( handleSuccess,handleError ));
