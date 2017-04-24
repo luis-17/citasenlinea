@@ -1245,7 +1245,7 @@ input[type=radio]:checked + label:before {
     transform: scale(1);
   }
 }
-.dashboard .panel{
+.dashboard .panel, .perfil .panel{
   box-shadow: none;
 }
 
@@ -1531,6 +1531,10 @@ input[type=radio]:checked + label:before {
   font-size: 15px;
   font-weight: 800;
   color: #616161;  
+}
+
+.mi-grid .row-grid:nth-child(2){
+  margin-top: margin-top: 30px;
 }
 
 .mi-grid .header .cell-grid{

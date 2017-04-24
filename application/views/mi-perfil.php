@@ -22,7 +22,7 @@
         <div class="col-md-10 col-sm-12 col-xs-12" style="padding-bottom:20px;">
             <div class="tab-content">
                 <div class="tab-pane " ng-class="{active: selectedTab=='0'}">
-                    <div class=" panel-default" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+                    <div class="panel panel-default" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
                         <div class="panel-body">
                             <div class="col-sm-7">
                                 <div class="row"> 
@@ -139,7 +139,7 @@
             </div>
             <div class="tab-content">
                 <div class="tab-pane " ng-class="{active: selectedTab=='1'}">
-                    <div class=" panel-default" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+                    <div class="panel panel-default" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
                         <div class="panel-body">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="row">
@@ -216,7 +216,7 @@
             </div>
             <div class="tab-content">
                 <div class="tab-pane " ng-class="{active: selectedTab=='2'}" ng-controller="usuarioController">
-                    <div class=" panel-default" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+                    <div class="panel panel-default" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
                         <div class="panel-body">
                             <div class="col-md-12 col-sm-12">
                                 <div class="row">

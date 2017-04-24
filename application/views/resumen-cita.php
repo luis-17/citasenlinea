@@ -11,60 +11,59 @@
         </div>
 
       	<div class="mi-grid grid-citas col-md-12 col-xs-12 col-sm-12">
-      		<div class="header row-grid row-cita">
-      			<div class="cell-grid cell-cita" style="width:17%;">
-      				CITA PARA
-      			</div>
-      			<div class="cell-grid cell-cita" style="width:14%;">
-      				SEDE
-      			</div>
-      			<div class="cell-grid cell-cita" style="width:12%;">
-      				ESPECIALIDAD
-      			</div>
-      			<div class="cell-grid cell-cita" style="width:17%;">
-      				MÉDICO
-      			</div>
-      			<div class="cell-grid cell-cita" style="width:10%;">
-      				FECHA
-      			</div>
-      			<div class="cell-grid cell-cita" style="width:10%;">
-      				TURNO
-      			</div>
-      			<div class="cell-grid cell-cita" style="width:10%;">
-      				CONSULTORIO
-      			</div>
-      			<div class="cell-grid cell-cita" style="width:10%;">
-      				PRECIO (S/.)
-      			</div>
-      		</div>
-
       		<div class="body-grid">
-          		<div ng-repeat="cita in listaCitas" class="row-grid row-cita">
-          			<div class="cell-grid cell-cita" style="width:17%;">
-          				{{cita.busqueda.itemFamiliar.descripcion}}
-          			</div>
-          			<div class="cell-grid cell-cita" style="width:14%;">
-          				{{cita.busqueda.itemSede.descripcion}}
-          			</div>
-          			<div class="cell-grid cell-cita" style="width:12%;">
-          				{{cita.busqueda.itemEspecialidad.descripcion}}
-          			</div>
-          			<div class="cell-grid cell-cita" style="width:17%;">
-          				{{cita.seleccion.medico}}
-          			</div>
-          			<div class="cell-grid cell-cita" style="width:10%; text-align:center;">
-          				{{cita.seleccion.fecha_programada}}
-          			</div>
-          			<div class="cell-grid cell-cita" style="width:10%; text-align:center;">
-          				{{cita.seleccion.hora_formato}}
-          			</div>
-          			<div class="cell-grid cell-cita" style="width:10%; text-align:center;">
-          				{{cita.seleccion.numero_ambiente}}
-          			</div>
-          			<div class="cell-grid cell-cita" style="width:10%; text-align:right;">
-          				{{cita.producto.precio_sede}}
-          			</div>
-          		</div>		
+            <div class="header row-grid row-cita">
+              <div class="cell-grid cell-cita" style="width:17%;">
+                CITA PARA
+              </div>
+              <div class="cell-grid cell-cita" style="width:14%;">
+                SEDE
+              </div>
+              <div class="cell-grid cell-cita" style="width:12%;">
+                ESPECIALIDAD
+              </div>
+              <div class="cell-grid cell-cita" style="width:17%;">
+                MÉDICO
+              </div>
+              <div class="cell-grid cell-cita" style="width:10%;">
+                FECHA
+              </div>
+              <div class="cell-grid cell-cita" style="width:10%;">
+                TURNO
+              </div>
+              <div class="cell-grid cell-cita" style="width:10%;">
+                CONSULTORIO
+              </div>
+              <div class="cell-grid cell-cita" style="width:10%;">
+                PRECIO (S/.)
+              </div>
+            </div>
+        		<div ng-repeat="cita in listaCitas" class="row-grid row-cita">
+        			<div class="cell-grid cell-cita" style="width:17%;">
+        				{{cita.busqueda.itemFamiliar.descripcion}}
+        			</div>
+        			<div class="cell-grid cell-cita" style="width:14%;">
+        				{{cita.busqueda.itemSede.descripcion}}
+        			</div>
+        			<div class="cell-grid cell-cita" style="width:12%;">
+        				{{cita.busqueda.itemEspecialidad.descripcion}}
+        			</div>
+        			<div class="cell-grid cell-cita" style="width:17%;">
+        				{{cita.seleccion.medico}}
+        			</div>
+        			<div class="cell-grid cell-cita" style="width:10%; text-align:center;">
+        				{{cita.seleccion.fecha_programada}}
+        			</div>
+        			<div class="cell-grid cell-cita" style="width:10%; text-align:center;">
+        				{{cita.seleccion.hora_formato}}
+        			</div>
+        			<div class="cell-grid cell-cita" style="width:10%; text-align:center;">
+        				{{cita.seleccion.numero_ambiente}}
+        			</div>
+        			<div class="cell-grid cell-cita" style="width:10%; text-align:right;">
+        				{{cita.producto.precio_sede}}
+        			</div>
+        		</div>              		
       		</div>
       		<div class="totales">
       			<div class="total total-productos ">

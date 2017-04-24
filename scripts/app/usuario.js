@@ -321,7 +321,7 @@ angular.module('theme.usuario', ['theme.core.services'])
                 usuarioServices.sRecargarUsuarioSession($scope.dataUsuario).then(function (rpta) {
                   if(rpta.flag == 1){
                     $scope.session.nombre_imagen = nuevoArchivo;
-                    //$window.location.reload();
+                    $window.location.reload();
                   } else{
                     alert('Error inesperado');
                   }           

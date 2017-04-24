@@ -46,7 +46,7 @@
           <div class="historial-citas" >
             <div class="mi-grid grid-citas col-md-12 col-xs-12 col-sm-12">
               <div class="body-grid" style="min-height: 100px;" ng-show="listaDeCitas.length > 0">
-                <div class="header row-grid row-cita" style="position: fixed;width: 78.21%;">
+                <div class="header row-grid row-cita" style="position: fixed;width: {{width}}%;">
                   <div class="cell-grid cell-cita" style="width:17%;">
                     CITA PARA
                   </div>

@@ -139,8 +139,8 @@ class Usuario extends CI_Controller {
   		$subject = 'Confirma tu cuenta de Villa Salud';
   		$cuerpo = '<html> 
 				      <body style="font-family: sans-serif;padding: 10px 40px;" > 
-				        <div style="text-align: right;">
-				          <img style="width: 160px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/gm_small.png">
+				        <div style="text-align: center;">
+				          <img style="width: 160px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/logo-original.png">
 				        </div> <br />';
 	  	$cuerpo .= '	<div style="font-size:16px;">  
 	                		Estimado(a) paciente: '.$paciente .', <br /> <br /> ';
@@ -181,6 +181,34 @@ class Usuario extends CI_Controller {
       );
       
       if($this->model_usuario->m_update_estado_usuario($data, $id)){
+        //carga usuario
+        $usuario = $this->model_usuario->m_cargar_para_mail($id);
+        //envio mail
+        $listaDestinatarios = array();
+
+        array_push($listaDestinatarios, $usuario['email']);
+        $paciente = ucwords(strtolower( $usuario['nombres'] . ' ' . 
+                      $usuario['apellido_paterno'] . ' ' . 
+                      $usuario['apellido_materno']));
+
+        $setFromAleas = 'Villa Salud';
+        $subject = 'Activación de tu cuenta Villa Salud';
+        $cuerpo = '<html> 
+                <body style="font-family: sans-serif;padding: 10px 40px;" > 
+                  <div style="text-align: center;">
+                    <img style="width: 160px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/logo-original.png">
+                  </div> <br />';
+        $cuerpo .= '  <div style="font-size:16px;">  
+                        Estimado(a) paciente: '.$paciente .', <br /> <br /> ';
+        $cuerpo .= '    Tu cuenta ha sido verificada exitosamente y ya puedes iniciar sesión. <a href="'. base_url() .'">Haz clic aquí</a> para comenzar a disfrutar los beneficios de ser un paciente de Villa Salud!';
+        $cuerpo .=    '</div>';
+
+
+        $cuerpo .= '</body>';
+        $cuerpo .= '</html>';
+
+        $result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
+
         $this->load->view('verificacion-cuenta');
       }else{
         $this->load->view('error-verificacion-cuenta');
@@ -264,7 +292,7 @@ class Usuario extends CI_Controller {
     $arrPerfilUsuario['tipo_sangre']['id'] = empty($perfil['tipo_sangre']) ? null :$perfil['tipo_sangre'];
     $arrPerfilUsuario['tipo_sangre']['descripcion'] = empty($perfil['tipo_sangre']) ? null : $tipo_sangre[$perfil['tipo_sangre']] ;
     $arrPerfilUsuario['nombre_imagen'] = $perfil['nombre_imagen'];
-    $arrPerfilUsuario['listaCitas'] =array();
+    $arrPerfilUsuario['listaCitas'] = $this->sessionCitasEnLinea['listaCitas'];
 
     $paciente = ucwords(strtolower( $perfil['nombres'] . ' ' . 
                 $perfil['apellido_paterno'] . ' ' . 

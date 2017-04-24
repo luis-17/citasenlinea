@@ -374,6 +374,12 @@ angular.module('theme.programarCita', ['theme.core.services'])
         }       
 
         $scope.listaCitas = $scope.fSessionCI.listaCitas;
+        /*        
+        if($scope.listaCitas.length > 10){
+          $scope.width = 78.21;
+        }else{
+           $scope.width = 78.64;
+        }*/
         console.log($scope.listaCitas);
         window.initCulqi($scope.totales.total_pago_culqi);              
       });    
@@ -394,15 +400,6 @@ angular.module('theme.programarCita', ['theme.core.services'])
     $scope.descargaComprobante = function(cita){
       console.log(cita);
     }
-
-    /*    
-    $scope.initResumenCompra = function(){
-      if(!$scope.fSessionCI.compraFinalizada){
-        $scope.goToUrl('/seleccionar-cita');
-      }
-      //$scope.fSessionCI.listaCitasCompra = angular.copy($scope.fSessionCI.listaCitas); //temporal
-    }
-    */
 
     /* ============================ */
     /* ATAJOS DE TECLADO NAVEGACION */

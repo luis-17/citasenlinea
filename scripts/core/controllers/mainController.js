@@ -45,7 +45,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     $scope.fSessionCI = {};
     $scope.fSessionCI.listaEspecialidadesSession = [];
     $scope.fSessionCI.listaNotificaciones = {};
-    $scope.fSessionCI.listaCitas = [];
+
     
     $scope.arrMain.sea = {};
     $scope.localLang = {

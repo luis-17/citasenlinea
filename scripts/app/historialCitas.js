@@ -26,6 +26,17 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       ];
       var mes_actual = $filter('date')(new Date(),'M');
 
+      rootServices.sGetSessionCI().then(function (response) {
+        if(response.flag == 1){
+          $scope.fDataUser = response.datos;
+          $scope.fSessionCI = response.datos;
+          $scope.fSessionCI.compraFinalizada = false;
+          if(!$scope.fSessionCI.nombre_imagen || $scope.fSessionCI.nombre_imagen === ''){
+            $scope.fSessionCI.nombre_imagen = 'noimage.jpg';
+          }
+        }
+      });
+
       $scope.fBusqueda = {};
       $scope.fBusqueda.tipoCita = 'pendientes';
       var fechaHasta = moment().add(6,'days');
@@ -73,9 +84,14 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       }
 
       $scope.listarHistorial = function(){
-        historialCitasServices.sCargarHistorialCitas($scope.fBusqueda).then(function(rpta){
-          //console.log(rpta);
+        historialCitasServices.sCargarHistorialCitas($scope.fBusqueda).then(function(rpta){          
           $scope.listaDeCitas = rpta.datos;
+          console.log($scope.listaDeCitas.length);
+          if($scope.listaDeCitas.length > 10){
+            $scope.width = 78.21;
+          }else{
+             $scope.width = 78.64;
+          }          
         });
       }
       $scope.listarHistorial();
