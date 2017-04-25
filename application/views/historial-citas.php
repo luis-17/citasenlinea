@@ -77,7 +77,7 @@
                 </div>
                 <div ng-repeat="cita in listaDeCitas" class="row-grid row-cita">
                     <div class="cell-grid cell-cita" style="width:17%;text-transform: uppercase;">
-                      {{cita.paciente}}
+                      {{cita.itemFamiliar.paciente}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:14%;">
                       {{cita.itemSede.sede}}

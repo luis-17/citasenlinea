@@ -13,11 +13,10 @@ class Model_historial_citas extends CI_Model {
 		$this->db->select('med.med_nombres, med.med_apellido_paterno, med.med_apellido_materno, med.colegiatura_profesional');	
 
 		$this->db->select('am.idambiente, am.numero_ambiente, esp.idespecialidad, esp.nombre AS especialidad'); 
-		$this->db->select('cli.nombres, cli.apellido_paterno, cli.apellido_materno');	
+		$this->db->select('cli.nombres, cli.apellido_paterno, cli.apellido_materno');	//datos del familiar
 
 		$this->db->select('se.idsede, se.descripcion as sede');	
-
-		$this->db->select('uwp.idusuariowebpariente, uwp.idparentesco, cp.descripcion as parentesco');	
+		$this->db->select('uwp.idusuariowebpariente, uwp.idparentesco, cp.descripcion as parentesco');
 		
 		$this->db->from('ce_usuario_web_cita uwc');
 		$this->db->join('pa_prog_cita ppc','ppc.idprogcita = uwc.idprogcita ');
@@ -73,5 +72,7 @@ class Model_historial_citas extends CI_Model {
 		$fData = $this->db->get()->row_array();
 		return $fData['contador'];
 	}
+
+
 }
 ?>

@@ -378,10 +378,11 @@ class ProgramarCita extends CI_Controller {
 				)
 			);
 			// Respuesta
-			//$respuesta = json_encode($charge);
-			$arrData['flag'] = 1;
+			$respuesta = json_encode($charge);			
 		  	$arrData['datos']['cargo'] = get_object_vars($charge);		  	
 		  	$arrData['datos']['cargo']['outcome']= get_object_vars($arrData['datos']['cargo']['outcome']);
+		  	$arrData['flag'] = 1;
+		  	//$arrData['datos']['cargo']['id'] = '15';
 			
 		  	if($arrData['flag'] == 1 && !empty($arrData['datos']['cargo']['id'])){
 				$this->db->trans_start();
@@ -463,10 +464,20 @@ class ProgramarCita extends CI_Controller {
 					$arrData['datos']['session'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];
 					$arrData['datos']['session']['listaCitas'] = array();
 					$arrData['datos']['session']['listaCitasGeneradas'] = $listaCitasGeneradas;
-					$this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']['session']);
-
-					$arrData['flag'] = 1;
+					$this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']['session']);					
 					$arrData['message'] = $arrData['datos']['cargo']['outcome']['user_message'];
+					$arrData['flag'] = 1;
+					//$arrData['message'] = 'test enviando correo';
+
+					//envio de mails
+			        $listaDestinatarios = array();
+			        array_push($listaDestinatarios, $allInputs['usuario']['email']);			        
+			        $setFromAleas = 'Villa Salud';
+			        $subject = 'Citas Programadas';
+			        $cuerpo = $this->genera_body_mail_citas($allInputs, $listaCitasGeneradas);
+			        $result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
+			        $arrData['flagMail']  = $result['flag'];
+					$arrData['msgMail']  = $result['msgMail'];
 				}
 				$this->db->trans_complete();
 			}
@@ -479,6 +490,101 @@ class ProgramarCita extends CI_Controller {
 	        ->set_content_type('application/json')
 	        ->set_output(json_encode($arrData));
 	      return;
+  	}
+
+  	private function genera_body_mail_citas($allInputs, $listaCitasGeneradas){
+  		$cuerpo = '<!DOCTYPE html>
+					<html lang="es">
+					<head>
+					    <meta charset="utf-8">
+					    <meta name="author" content="Villa Salud">								    
+					</head>';
+        $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
+	                  <div style="text-align: center;">
+	                    <img style="width: 160px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/logo-original.png">
+	                  </div> <br />';
+        $cuerpo .= '  <div style="font-size:16px;">  
+                        Estimado(a) usuario: '.$allInputs['usuario']['paciente'] .', <br /> <br /> ';
+        $cuerpo .= '    Hemos han sido regitradas las siguientes citas en tu cuenta:';
+        $cuerpo .=    '</div>';
+  		$cuerpo .= '<div class="citas scroll-pane" style="width: 100%;">
+  						<ul class="list-citas">';
+		foreach ($listaCitasGeneradas as $key => $cita) {			
+			$cuerpo .= 		'<li style="">
+			                    <div class="cita" style="font-size: 13px;">
+			                      <div style="height: 30px;" >
+			                      	<div style="width:31px;float: left;">👪 </div>
+			                      	Cita para: <span class="cita-familiar">'.$cita['busqueda']['itemFamiliar']['descripcion'].'</span>
+			                      </div>
+			                      <div style="height: 30px;">
+			                      	<div style="width:31px;float: left;">🏨 </div> 
+			                      	Sede: <span class="cita-sede">'.$cita['busqueda']['itemSede']['descripcion'].'</span>
+			                      </div>
+			                      <div style="height: 30px;">
+			                      	<div style="width:31px;float: left;font-size: 20px;">⚕️ </div> 
+			                      	Especialidad: <span class="cita-esp">'.$cita['busqueda']['itemEspecialidad']['descripcion'].'</span>
+			                      </div>
+			                      <div style="height: 30px;">
+			                      	<div style="width:31px;float: left;">👨‍ </div> 
+			                      	Médico: <span class="cita-medico">'.$cita['seleccion']['medico'].'</span>
+			                      </div>
+			                      <div style="height: 30px;">
+			                      	<div style="width:31px;float: left;">🗓 </div> 
+			                      	Fecha: <span class="cita-turno">'.$cita['seleccion']['fecha_programada'].'</span>
+			                      </div>
+			                      <div style="height: 30px;">
+			                      	<div style="width:31px;float: left;">🕑 </div>
+			                      	Hora: <span class="cita-turno">'.$cita['seleccion']['hora_formato'].'</span>
+			                      </div>
+			                      <div style="height: 30px;">
+			                      	<div style="width:31px;float: left;"> 📍 </div>
+			                      	Consultorio: <span class="cita-ambiente">'.$cita['seleccion']['numero_ambiente'].'</span>
+			                      </div>
+			                      <div style="height: 30px;">
+			                      	<div style="width:31px;float: left;">💰 </div>
+			                      	Precio S/.: <span class="cita-precio">'.$cita['producto']['precio_sede'].'</span>
+			                      </div>
+			                    </div>                            
+			                </li>';
+			if($key < count($listaCitasGeneradas)-1){
+				$cuerpo .= '<div style="border-bottom: 1px dotted rgb(154, 153, 157); margin-bottom: 5px;width: 50%;"> </div>';
+			}   
+		} 
+
+		$cuerpo .= '	</ul>			            
+			        </div>';
+
+		$cuerpo .= '<div style="border-top: 2px dotted rgb(97, 97, 97); margin-bottom: 5px;"> </div>';
+
+		$cuerpo .= '<div style="padding: 3px 8px;
+					  height: 18px;
+					  font-size: 11px;
+					  font-weight: 800;
+					  color: #616161;">
+					  <span style="text-align:left;width:60%;">TOTAL PRODUCTOS: S/. </span>
+					  <span style="text-align:right;width:40%;">'.$allInputs['usuario']['totales']['total_productos'].'</span>
+					</div>';
+		$cuerpo .= '<div style="padding: 3px 8px;
+					  height: 18px;
+					  font-size: 11px;
+					  font-weight: 800;
+					  color: #616161;">
+					  <span style="text-align:left;width:60%;">USO SERVICIO WEB: S/.</span>
+					  <span style="text-align:right;width:40%;">'.$allInputs['usuario']['totales']['total_servicio'].'</span>
+					</div>';
+		$cuerpo .= '<div style="padding: 3px 8px;
+					  height: 18px;
+					  font-size: 11px;
+					  font-weight: 800;
+					  color: #212121;">
+					  <span style="text-align:left;width:60%;">TOTAL A PAGAR: S/. </span>
+					  <span style="text-align:right;width:40%;">'.$allInputs['usuario']['totales']['total_pago'].'</span>
+					</div>';
+
+      	$cuerpo .= '</body>';
+        $cuerpo .= '</html>';
+
+      	return $cuerpo;
   	}
 
 	public function verifica_estado_cita(){
@@ -575,20 +681,17 @@ class ProgramarCita extends CI_Controller {
 				if($resulDetalle && $resultOldCuposCanal && $resultOldCuposProg && $resultCita && $resultCuposCanal && $resultCuposProg && $resulDetalleNuevo){
 					$arrData['message'] = 'La cita ha sido reprogramada correctamente';
 	    			$arrData['flag'] = 1;
-	    			/*$citaPaciente = array(
-						'paciente' => $allInputs['oldCita']['paciente'],
-						'email' => $allInputs['oldCita']['email'],
-						'especialidad' => $allInputs['oldCita']['especialidad'],
-						'medico' => $allInputs['oldCita']['medico'],
+					
+					//envio de mails
+			        $listaDestinatarios = array();
+			        array_push($listaDestinatarios, $this->sessionCitasEnLinea['email']);			        
+			        $setFromAleas = 'Villa Salud';
+			        $subject = 'Reprogramación de Cita';
+					$cuerpo = $this->genera_body_mail_reprogramacion($allInputs);
+					$result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
 
-						'fecha_programada' => $allInputs['seleccion']['fecha_str'],
-						'turno' => $allInputs['seleccion']['turno'],					
-						'ambiente' => $allInputs['seleccion']['ambiente'],
-						'sede' => $this->sessionHospital['sede'],
-						);
-	    			$resultMail = enviar_mail_paciente(3,$citaPaciente);
-					$arrData['flagMail']  = $resultMail['flag'];
-					$arrData['msgMail']  = $resultMail['msgMail'];*/
+					$arrData['flagMail']  = $result[0]['flag'];
+					$arrData['msgMail']  = $result[0]['msgMail'];
 				}
 			}
 						
@@ -600,4 +703,62 @@ class ProgramarCita extends CI_Controller {
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));
 	}
+
+	public function ver_popup_confirmacion(){
+		$this->load->view('programar-cita/confirmaReprogramacion_formView');
+	}
+
+	private function genera_body_mail_reprogramacion($allInputs){
+  		$cuerpo = '<!DOCTYPE html>
+					<html lang="es">
+					<head>
+					    <meta charset="utf-8">
+					    <meta name="author" content="Villa Salud">								    
+					</head>';
+        $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
+	                  <div style="text-align: center;">
+	                    <img style="width: 160px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/logo-original.png">
+	                  </div> <br />';
+        $cuerpo .= '  <div style="font-size:16px;">  
+                        Estimado(a) usuario: '. $this->sessionCitasEnLinea['paciente'] .',';
+        $cuerpo .= '    Has reprogramado una de tus citas. Nueva cita:';
+        $cuerpo .=    '</div>';
+  		
+  		$cuerpo .=	'<div style="margin-top:15px;">
+	                    <div class="cita" style="font-size: 13px;">
+	                      <div style="height: 30px;" >
+	                      	<div style="width:31px;float: left;">👪 </div>
+	                      	Cita para: <span class="cita-familiar">'. strtoupper($allInputs['oldCita']['itemFamiliar']['paciente']).' ('.$allInputs['oldCita']['itemFamiliar']['parentesco'].')</span>
+	                      </div>
+	                      <div style="height: 30px;">
+	                      	<div style="width:31px;float: left;">🏨 </div> 
+	                      	Sede: <span class="cita-sede">'.$allInputs['oldCita']['itemSede']['sede'].'</span>
+	                      </div>
+	                      <div style="height: 30px;">
+	                      	<div style="width:31px;float: left;font-size: 20px;">⚕️ </div> 
+	                      	Especialidad: <span class="cita-esp">'.$allInputs['oldCita']['itemEspecialidad']['especialidad'].'</span>
+	                      </div>
+	                      <div style="height: 30px;">
+	                      	<div style="width:31px;float: left;">👨‍ </div> 
+	                      	Médico: <span class="cita-medico">'.$allInputs['seleccion']['medico'].'</span>
+	                      </div>
+	                      <div style="height: 30px;">
+	                      	<div style="width:31px;float: left;">🗓 </div> 
+	                      	Fecha: <span class="cita-turno">'.$allInputs['seleccion']['fecha_programada'].'</span>
+	                      </div>
+	                      <div style="height: 30px;">
+	                      	<div style="width:31px;float: left;">🕑 </div>
+	                      	Hora: <span class="cita-turno">'.$allInputs['seleccion']['hora_formato'].'</span>
+	                      </div>
+	                      <div style="height: 30px;">
+	                      	<div style="width:31px;float: left;"> 📍 </div>
+	                      	Consultorio: <span class="cita-ambiente">'.$allInputs['seleccion']['numero_ambiente'].'</span>
+	                      </div>
+	                    </div>                            
+	                </div>';
+      	$cuerpo .= '</body>';
+        $cuerpo .= '</html>';
+
+      	return $cuerpo;
+  	}
 }

@@ -193,25 +193,48 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
           $scope.btnCambiarTurno = function(){
             $scope.fPlanning.citas.seleccion = $scope.fSeleccion;
-            programarCitaServices.sCambiarCita($scope.fPlanning.citas).then(function(rpta){
-              var modal = false;
-              var titulo = '';
-              if(rpta.flag==1){
-                $scope.btnCancel();                  
-                modal = true;
-                titulo = 'Genial!';              
-              }else if(rpta.flag == 0){
-                modal = true;
-                titulo = 'Aviso'; 
-                $scope.cargarTurnos();  
-              }else{
-                alert('Erros inesperado');
-              }
+            $scope.fDataModal= $scope.fPlanning.citas;
+            $scope.fDataModal.oldCita.itemFamiliar.paciente = $scope.fDataModal.oldCita.itemFamiliar.paciente.toUpperCase(); 
+            $scope.fDataModal.mensaje = '¿Estas seguro de realizar el cambio?';
+            console.log($scope.fDataModal);
+            $uibModal.open({ 
+              templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_confirmacion',
+              size: '',
+              //backdrop: 'static',
+              //keyboard:false,
+              scope: $scope,
+              controller: function ($scope, $modalInstance) {                 
+                $scope.titleForm = 'Aviso'; 
+                $scope.msj = 'El turno seleccionado ya ha sido escogido para otra cita de su sesión';
 
-              if(modal){
-                 $scope.mostrarMsj(rpta.flag,titulo,rpta.message, callback);
+                $scope.btnClose = function(){
+                  $modalInstance.dismiss('btnClose');
+                }
+
+                $scope.btnOk = function(){
+                  programarCitaServices.sCambiarCita($scope.fPlanning.citas).then(function(rpta){
+                    var modal = false;
+                    var titulo = '';
+                    if(rpta.flag==1){
+                      $scope.btnClose();
+                      $scope.btnCancel();                  
+                      modal = true;
+                      titulo = 'Genial!';              
+                    }else if(rpta.flag == 0){
+                      modal = true;
+                      titulo = 'Aviso'; 
+                      $scope.cargarTurnos();  
+                    }else{
+                      alert('Erros inesperado');
+                    }
+
+                    if(modal){
+                       $scope.mostrarMsj(rpta.flag,titulo,rpta.message, callback);
+                    }
+                  });
+                }
               }
-            });
+            });            
           }
         
           blockUI.stop();
@@ -362,26 +385,20 @@ angular.module('theme.programarCita', ['theme.core.services'])
       rootServices.sGetSessionCI().then(function (response) {
         if(response.flag == 1){
           $scope.fSessionCI = response.datos;
-          $scope.totales = {};
-          $scope.totales.total_productos = response.datos.totales.total_productos;
-          $scope.totales.total_servicio = response.datos.totales.total_servicio;
-          $scope.totales.total_pago = response.datos.totales.total_pago;
-          $scope.totales.total_pago_culqi = response.datos.totales.total_pago_culqi;
-        } 
+          programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(response){
+            $scope.totales = {};
+            $scope.totales.total_productos = response.datos.totales.total_productos;
+            $scope.totales.total_servicio = response.datos.totales.total_servicio;
+            $scope.totales.total_pago = response.datos.totales.total_pago;
+            $scope.totales.total_pago_culqi = response.datos.totales.total_pago_culqi;
+            window.initCulqi($scope.totales.total_pago_culqi);  
+            if($scope.fSessionCI.listaCitas.length < 1){
+              $scope.goToUrl('/seleccionar-cita');
+            }       
 
-        if($scope.fSessionCI.listaCitas.length < 1){
-          $scope.goToUrl('/seleccionar-cita');
-        }       
-
-        $scope.listaCitas = $scope.fSessionCI.listaCitas;
-        /*        
-        if($scope.listaCitas.length > 10){
-          $scope.width = 78.21;
-        }else{
-           $scope.width = 78.64;
-        }*/
-        console.log($scope.listaCitas);
-        window.initCulqi($scope.totales.total_pago_culqi);              
+            $scope.listaCitas = $scope.fSessionCI.listaCitas;
+          });          
+        }           
       });    
     }
 

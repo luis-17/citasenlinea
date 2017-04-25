@@ -74,10 +74,10 @@ class HistorialCitas extends CI_Controller {
           'itemFamiliar' => array(
             'idusuariowebpariente' => empty($row['idusuariowebpariente']) ? 0 : $row['idusuariowebpariente'],
             'idparentesco' => empty($row['idparentesco']) ? 0 : $row['idparentesco'],
-            'parentesco' => empty($row['parentesco']) ? 'TITULAR' : $row['parentesco']
+            'parentesco' => empty($row['parentesco']) ? 'TITULAR' : $row['parentesco'],
+            'paciente' => $paciente, 
             ), 
-          'paciente' => $paciente,                  
-                        
+          'nombre_usuario'  => $this->sessionCitasEnLinea['paciente']
         )
       );
     }

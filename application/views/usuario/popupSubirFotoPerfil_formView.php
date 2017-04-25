@@ -19,13 +19,13 @@
 				</div>
 			</div>
 		</div>
-	</form>
-	<div class="col-sm-12">
-		<alert type="{{fAlertSubida.type}}" close="fAlertSubida = null" ng-show='fAlertSubida.type' class="p-sm">
-	        <strong> {{ fAlertSubida.strStrong }} <i class='{{fAlertSubida.icon}}'></i></strong> 
-	        <span ng-bind-html="fAlertSubida.msg"> </span>
-	    </alert>
-	</div>	
+		<div class="col-sm-12">
+			<alert type="{{fAlertSubida.type}}" close="fAlertSubida = null" ng-show='fAlertSubida.type' class="p-sm m-n" style="font-size: 16px;">
+		        <strong> {{ fAlertSubida.strStrong }} <i class='{{fAlertSubida.icon}}'></i></strong> 
+		        <span ng-bind-html="fAlertSubida.msg"> </span>
+		    </alert>
+		</div>
+	</form>		
 </div>
 <div class="modal-footer formulario-pariente-btn-registro">
     <a ng-click="aceptarSubida(); $event.preventDefault();" ng-disabled="formSubirFoto.$invalid">SUBIR</a>    

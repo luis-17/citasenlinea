@@ -86,7 +86,6 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       $scope.listarHistorial = function(){
         historialCitasServices.sCargarHistorialCitas($scope.fBusqueda).then(function(rpta){          
           $scope.listaDeCitas = rpta.datos;
-          console.log($scope.listaDeCitas.length);
           if($scope.listaDeCitas.length > 10){
             $scope.width = 78.21;
           }else{
@@ -133,7 +132,6 @@ angular.module('theme.historialCitas', ['theme.core.services'])
               $scope.fBusquedaPlanning = {};
               $scope.fBusquedaPlanning = cita;
 
-              console.log($scope.listaFamiliares);
               angular.forEach($scope.listaFamiliares, function(value, key) {
                 if(value.idusuariowebpariente == $scope.fBusquedaPlanning.itemFamiliar.idusuariowebpariente){
                   $scope.fBusquedaRep.itemFamiliar = $scope.listaFamiliares[key];
