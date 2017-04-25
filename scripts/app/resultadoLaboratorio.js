@@ -25,29 +25,29 @@ angular.module('theme.resultadolaboratorio', ['theme.core.services'])
               iconsLibrary: 'fontawesome',
               fontSize: '13px',
               selectionType: 'single',
-              selectionMethod: 'checkbox' , 
+              //selectionMethod: 'checkbox' , 
               notFoundText: 'No records found custom message',            
               columns: [ 
                   { field: 'id' , title : 'ID' , hidden : true}, 
                   { field: 'orden_lab' , title : 'ORDEN LAB' , hidden : true}, 
-                  { field: 'idsedeempresaadmin' , title : 'Empresa Admin' , hidden : true},                    
+                  { field: 'idsedeempresaadmin' , title : 'Sede Empresa Admin' , hidden : true},  
+                  { field: 'idempresaadmin' , title : 'Empresa Admin' , hidden : true},                                     
                   { field: 'orden_venta' , title : 'Numero de Orden' , headerCssClass: 'gridheader'},
                   { field: 'idhistoria' , title : 'Historia Clinica' , headerCssClass: 'gridheader'} ,
                   { field: 'fecha_recepcion' , title : 'Fecha de Recepción' , headerCssClass: 'gridheader'}, 
                   { field: 'tipomuestra' , title : 'Tipo de Muestra' , headerCssClass: 'gridheader'}, 
                   { field: 'sede' , title : 'Sede' , headerCssClass: 'gridheader' } ,
-                  { title: '', field: 'ver', width: 30, type: 'icon', icon: 'fa fa-search', tooltip: 'Mostrar Resultados.' , events: { 'click': function (e) { $scope.btnVerResultados(e.data.record.orden_lab , e.data.record.idsedeempresaadmin);}} , headerCssClass: 'gridheader' },
+                  { title: '', field: 'ver', width: 30, type: 'icon', icon: 'fa fa-search', tooltip: 'Mostrar Resultados.' , events: { 'click': function (e) { $scope.btnVerResultados(e.data.record.orden_lab , e.data.record.idsedeempresaadmin ,e.data.record.idempresaadmin);}} , headerCssClass: 'gridheader' },
               ]
           });
       });
 
-      $scope.btnVerResultados = function($ord_lab,$idsea){
+      $scope.btnVerResultados = function($ord_lab,$idsea,$idea){
         $scope.gridDetail = null ;
         $scope.objects = [];
         $scope.vistabla1 = true ;
         $scope.vistabla2 = true ;
         $scope.vistabla3 = false ; 
-
 
         $scope.orden['orden_lab'] = $ord_lab ;
         $scope.orden['idsedeempresaadmin'] = $idsea ;
@@ -57,7 +57,6 @@ angular.module('theme.resultadolaboratorio', ['theme.core.services'])
         }
 
         resultadolaboratorioServices.sListarPacienteConResultados($scope.orden).then(function (rpta) { 
-
             var createFunct = function() {
               $scope.gridDetail = $('#gridDetail').grid({
                   dataSource: rpta.arrAnalisis,
@@ -89,6 +88,7 @@ angular.module('theme.resultadolaboratorio', ['theme.core.services'])
             $scope.pacEncontrado = true;
             $scope.siexiste = true ;
             $scope.fData = rpta.datos;
+            $scope.fData['idempresaadmin'] = $idea;
             $scope.fDataArrPrincipal = rpta.arrSecciones;
             //$scope.gridOptions.data = rpta.arrAnalisis;
 
@@ -115,7 +115,6 @@ angular.module('theme.resultadolaboratorio', ['theme.core.services'])
           $('#gridDetail').grid('destroy', true, true);
         }              
       }
-
     
       $scope.btnImprimirSel = function (){
         var objSel = [];
@@ -136,39 +135,38 @@ angular.module('theme.resultadolaboratorio', ['theme.core.services'])
             objSel[i-1] = $scope.gridDetail.get(this);
         });
 
-          console.log("selection: ",objSel.length);
-          console.log("data principal",$scope.fDataArrPrincipal);
-          if( objSel.length >= 1 ){
-            angular.forEach(objSel , function(value,key){
-              angular.forEach($scope.fDataArrPrincipal,function(valueAP, keyAP){ 
-                angular.forEach(valueAP.analisis,function(valueAnal, keyAnal){ 
-                  if( valueAP.idseccion == value.idseccion && valueAnal.idanalisis == value.idanalisis ){
-                    $scope.fDataArrPrincipal[keyAP].analisis[keyAnal].seleccionado = true;
-                    $scope.fDataArrPrincipal[keyAP].seleccionado = true;
-                  }
-                });
-              });            
-            });
-            $scope.fData.arrSecciones = $scope.fDataArrPrincipal; 
-            // $scope.fBusqueda.titulo = $scope.selectedReport.name;
-            // $scope.fBusqueda.tituloAbv = $scope.selectedReport.id;
-            var arrParams = {
-              titulo: 'RESULTADO DE LABORATORIO',
-              datos:{
-                resultado: $scope.fData,
-                salida: 'pdf',
-                tituloAbv: 'LAB-RL',
-                titulo: 'RESULTADO DE LABORATORIO'
-              },
-              metodo: 'php'
-            } 
-            arrParams.url = angular.patchURLCI+'CentralReportesMPDF/report_resultado_laboratorio', 
-            ModalReporteFactory.getPopupReporte(arrParams); 
-            console.log("arrParams :",arrParams);
-            return false; 
-          }else{
-            pinesNotifications.notify({ title: 'Advertencia', text: 'No seleccionó ninguna orden.', type: 'warning', delay: 3500 });
-          }
+        if( objSel.length >= 1 ){
+          angular.forEach(objSel , function(value,key){
+            angular.forEach($scope.fDataArrPrincipal,function(valueAP, keyAP){ 
+              angular.forEach(valueAP.analisis,function(valueAnal, keyAnal){ 
+                if( valueAP.idseccion == value.idseccion && valueAnal.idanalisis == value.idanalisis ){
+                  $scope.fDataArrPrincipal[keyAP].analisis[keyAnal].seleccionado = true;
+                  $scope.fDataArrPrincipal[keyAP].seleccionado = true;
+                }
+              });
+            });            
+          });
+          $scope.fData.arrSecciones = $scope.fDataArrPrincipal; 
+          console.log("parametros: ",$scope.fData);
+          // $scope.fBusqueda.titulo = $scope.selectedReport.name;
+          // $scope.fBusqueda.tituloAbv = $scope.selectedReport.id;
+          var arrParams = {
+            titulo: 'RESULTADO DE LABORATORIO',
+            datos:{
+              resultado: $scope.fData,
+              salida: 'pdf',
+              tituloAbv: 'LAB-RL',
+              titulo: 'RESULTADO DE LABORATORIO'
+            },
+            metodo: 'php'
+          } 
+          arrParams.url = angular.patchURLCI+'CentralReportesMPDF/report_resultado_laboratorio', 
+          ModalReporteFactory.getPopupReporte(arrParams); 
+          console.log("arrParams :",arrParams);
+          return false; 
+        }else{
+          pinesNotifications.notify({ title: 'Advertencia', text: 'No seleccionó ninguna orden.', type: 'warning', delay: 3500 });
+        }
       }    
 
 

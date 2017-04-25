@@ -7,7 +7,7 @@ class CentralReportesMPDF extends CI_Controller {
   {
     parent::__construct();
     $this->load->helper(array('security','reportes_helper','imagen_helper','fechas_helper','otros_helper','pdf_helper','contable_helper'));
-    $this->load->model(array('model_config')); 
+    $this->load->model(array('model_config','model_resultadolaboratorio')); 
     //cache 
     $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
     $this->output->set_header("Pragma: no-cache");
@@ -29,6 +29,7 @@ class CentralReportesMPDF extends CI_Controller {
     $allInputs = json_decode(trim($this->input->raw_input_stream),true); 
     $this->pdf = new Fpdfext(); 
     $fechaRecepcion = $allInputs['resultado']['fecha_muestra']; 
+    $idempresaadmin = $allInputs['resultado']['idempresaadmin'];
     $formatFechaRecepcion = date('d/m/Y',strtotime("$fechaRecepcion"));
     $this->pdf->setNumeroHistoria($allInputs['resultado']['idhistoria']);  
     $this->pdf->setNumeroExamen($allInputs['resultado']['orden_lab']);  
@@ -37,8 +38,12 @@ class CentralReportesMPDF extends CI_Controller {
     $this->pdf->setFechaRecepcion($formatFechaRecepcion); 
     $this->pdf->setPaciente(utf8_decode($allInputs['resultado']['paciente'])); 
  
-    
-    mostrar_plantilla_pdf($this->pdf,$allInputs['titulo'],FALSE,$allInputs['tituloAbv']);
+    $empresaAdmin = $this->model_resultadolaboratorio->m_cargar_esta_empresa_por_codigo($idempresaadmin);
+    //var_dump($empresaAdmin);
+    $empresaAdmin['estado'] = $empresaAdmin['estado_emp'];
+    $empresaAdmin['mode_report'] = FALSE;
+
+    mostrar_plantilla_pdf($this->pdf,$allInputs['titulo'],FALSE,$allInputs['tituloAbv'],$empresaAdmin);
     // $this->pdf->SetFont('Courier','',12);
     $this->pdf->AddPage('P','A4');
     $this->pdf->AliasNbPages(); 

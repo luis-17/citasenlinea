@@ -15,7 +15,7 @@ class Model_config extends CI_Model {
 		public function m_cargar_empresa_usuario_activa(){ 
 		$this->db->select('idempresaadmin, razon_social, nombre_legal, domicilio_fiscal, 
 			direccion, ruc, nombre_logo, estado_emp, rs_facebook, rs_twitter, rs_youtube, idusers, username, email',FALSE);
-		$this->db->from('empresa_admin, users');
+		$this->db->from('xxxxempresa_admin, users');
 		$this->db->where('estado_emp', 1); // activo 
 		//$this->db->where('idusers', $this->sessionHospital['idusers']); 
 		$this->db->limit(1);

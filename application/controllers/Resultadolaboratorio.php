@@ -33,7 +33,8 @@ class Resultadolaboratorio extends CI_Controller {
 					'fecha_recepcion' => $row['fecha_recepcion'],
 					'tipomuestra' => $row['tipomuestra'],
 					'sede' => $row['sede'],
-					'idsedeempresaadmin' => $row['idsedeempresaadmin']
+					'idsedeempresaadmin' => $row['idsedeempresaadmin'],
+					'idempresaadmin' => $row['idempresaadmin']
 					
 				)
 			);

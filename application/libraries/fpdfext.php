@@ -521,9 +521,37 @@
         // var_dump($this->tituloAbr); exit(); 
         $this->SetAutoPageBreak(TRUE,25);
         if( $this->tituloAbr  == 'LAB-RL' ){ // y_final_izquierda
+
+
+          $this->SetFont('Arial','',6);
+          $this->SetXY(-70,0);
+          $this->MultiCell(120,6,'USUARIO: Web  /   FECHA DE IMPRESION: '.date('Y-m-d H:i:s'));
+          $this->Image($this->getImagenCab(),2,2,50); 
+          $varXPositionNE= 16;
+          $varXPositionDIR= 16;
+          // MODO FARMACIAA
+          if( $this->getModeReport() == 'F'  && $this->idEmpresaFarm == '12' ){ 
+            $varXPositionNE= 2;
+            $varXPositionDIR= 2;
+            $this->SetTextColor(255,255,255);
+          }
+          $this->SetFont('Arial','',5);
+          $this->SetXY($varXPositionNE,10);
+          $this->MultiCell( 120,6,strtoupper($this->getNombreEmpresa()) ); 
+          $this->SetXY($varXPositionDIR,12);
+          $this->SetFont('Arial','',4);
+          $this->MultiCell( 120,6,strtoupper($this->getDireccion()) ); 
+          $this->SetTextColor(0,0,0);
+          $this->SetFont('Arial','B',13);
+          $this->SetXY(100,10);
+          $this->Cell(120,10,utf8_decode($this->getTitulo()),0,0);
+          $this->Line(205,20,4,20);
+          $this->Ln(2);
+
+
           $this->SetFillColor(234,236,239);
           $this->SetMargins(8,8,6); 
-          $this->Ln(28);
+          $this->Ln(16);
           $this->SetFont('Arial','B',10); 
           $this->Cell(30,6,'NOMBRES: ','LT','','',1); 
           $this->Cell(100,6,strtoupper($this->getPaciente()),'T','','',1); 

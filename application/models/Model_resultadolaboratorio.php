@@ -6,7 +6,7 @@ class Model_resultadolaboratorio extends CI_Model {
 	}
 
 	public function m_cargar_resultados_usuario($datos){ 
-		$this->db->select('m.idmuestrapaciente, m.orden_lab, m.orden_venta, m.idhistoria, m.fecha_recepcion, m.idsedeempresaadmin ,tm.descripcion as tipomuestra, s.descripcion as sede');
+		$this->db->select('m.idmuestrapaciente, m.orden_lab, m.orden_venta, m.idhistoria, m.fecha_recepcion, m.idsedeempresaadmin ,tm.descripcion as tipomuestra, s.descripcion as sede , ea.idempresaadmin');
 		$this->db->from('muestra_paciente m');
 		$this->db->join('tipomuestra tm','tm.idtipomuestra = m.idtipomuestra');
 		$this->db->join('sede_empresa_admin sea','sea.idsedeempresaadmin = m.idsedeempresaadmin');
@@ -151,6 +151,16 @@ class Model_resultadolaboratorio extends CI_Model {
 		$this->db->order_by('elemento_combo');
 		return $this->db->get()->result_array(); 	
 	}		
-			
+	/*------------- EMPRESA ADMIN -----------*/
+	public function m_cargar_esta_empresa_por_codigo($datos)
+	{
+		$this->db->select('idempresaadmin, razon_social, nombre_legal, domicilio_fiscal, 
+			direccion, ruc, nombre_logo, estado_emp, rs_facebook, rs_twitter, rs_youtube');
+		$this->db->from('empresa_admin');
+		$this->db->where('idempresaadmin', $datos);
+		$this->db->where('estado_emp <>', 0);
+		$this->db->limit(1);
+		return $this->db->get()->row_array();
+	}		
 	
 }
