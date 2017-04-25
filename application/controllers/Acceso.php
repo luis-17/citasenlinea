@@ -40,7 +40,7 @@ class Acceso extends CI_Controller {
 					$arrPerfilUsuario['celular'] = $perfil['celular'];
 					$arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($perfil['fecha_nacimiento']));
 					$arrPerfilUsuario['email'] = $perfil['email'];
-					$arrPerfilUsuario['nombre_imagen'] = $perfil['nombre_imagen'];
+					$arrPerfilUsuario['nombre_imagen'] = empty($perfil['nombre_imagen']) ? 'noomage.png' : $perfil['nombre_imagen'];
 					$arrPerfilUsuario['peso'] = $perfil['peso'];
 				    $arrPerfilUsuario['estatura'] = $perfil['estatura'];
 				    $arrPerfilUsuario['tipo_sangre']['id'] = empty($perfil['tipo_sangre']) ? null  :$perfil['tipo_sangre'];

@@ -1,9 +1,12 @@
 <div class="msj modal-close" >
 	<a href ng-click="cancelSubida(); $event.preventDefault();" class="btn-close"><i class="ti ti-close"></i></a>
 </div>
-<div class="modal-body pt-n" style="top: 45px;padding-bottom: 0;margin-bottom: 20px;">
+<div class="msj modal-header" style="padding-top: 50px;     visibility: hidden;">
+	{{titleForm}}	
+</div>
+<div class="modal-body pt-n" style="">
     <form class="row" name="formSubirFoto" novalidate  > 
-		<div class="form-group mb-md col-sm-12" style="position: relative;top: -45px;">
+		<div class="form-group mb-md col-sm-12" >
 			<label class="control-label mb-xs"> Seleccione archivo a subir (Peso Máximo: 1MB)</label>
 			<div class="fileinput fileinput-new" data-provides="fileinput" style="width: 100%;">
 				<div class="fileinput-preview thumbnail mb20" data-trigger="fileinput" style="width: 100%; height: 150px;"></div>
@@ -17,11 +20,13 @@
 			</div>
 		</div>
 	</form>
-	<alert type="{{fAlertSubida.type}}" close="fAlertSubida = null" ng-show='fAlertSubida.type' class="p-sm">
-        <strong> {{ fAlertSubida.strStrong }} <i class='{{fAlertSubida.icon}}'></i></strong> 
-        <span ng-bind-html="fAlertSubida.msg"> </span>
-    </alert>
+	<div class="col-sm-12">
+		<alert type="{{fAlertSubida.type}}" close="fAlertSubida = null" ng-show='fAlertSubida.type' class="p-sm">
+	        <strong> {{ fAlertSubida.strStrong }} <i class='{{fAlertSubida.icon}}'></i></strong> 
+	        <span ng-bind-html="fAlertSubida.msg"> </span>
+	    </alert>
+	</div>	
 </div>
-<div class="modal-footer">
-    <button class="btn btn-page" ng-click="aceptarSubida(); $event.preventDefault();" ng-disabled="formSubirFoto.$invalid">SUBIR</button>    
+<div class="modal-footer formulario-pariente-btn-registro">
+    <a ng-click="aceptarSubida(); $event.preventDefault();" ng-disabled="formSubirFoto.$invalid">SUBIR</a>    
 </div>
