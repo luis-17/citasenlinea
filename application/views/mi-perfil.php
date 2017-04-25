@@ -197,9 +197,9 @@
                                               </div>
                                               
                                               <div class="cell-grid cell-cita" style="width:20%; text-align:center;">
-                                                <button class="btn btn-warning btn-sm"><i class="ti ti-calendar"></i></button>
-                                                <button class="btn btn-info btn-sm" ng-click="btnEditarPariente(row);"><i class="ti ti-pencil"></i></button>
-                                                <button class="btn btn-danger btn-sm" ng-click="btnEliminarPariente(row);"><i class="ti ti-close"></i></button>
+                                                <button class="btn btn-warning btn-sm"  ng-click="btnGenerarCita(row)" ><i class="ti ti-calendar"></i></button>
+                                                <button class="btn btn-info btn-sm"     ng-click="btnEditarPariente(row);"><i class="ti ti-pencil"></i></button>
+                                                <button class="btn btn-danger btn-sm"   ng-click="btnEliminarPariente(row);"><i class="ti ti-close"></i></button>
                                                 <!-- <a class="label label-warning btn-sm"><i class="ti ti-calendar"></i></a>
                                                 <a class="label label-info btn-sm" ng-click="btnEditarPariente(row);"><i class="ti ti-pencil"></i></a>
                                                 <a class="label label-danger btn-sm" ng-click="btnEliminarPariente(row);"><i class="ti ti-close"></i></a> -->

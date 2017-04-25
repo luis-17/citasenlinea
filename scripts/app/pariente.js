@@ -1,14 +1,15 @@
 angular.module('theme.pariente', ['theme.core.services'])
-  .controller('parienteController', ['$scope', '$sce', '$uibModal', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys', 'blockUI',
+  .controller('parienteController', ['$scope', '$controller', '$sce', '$uibModal', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys', 'blockUI',
     'parienteServices',
     'parentescoServices',
-    function($scope, $sce, $uibModal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, blockUI,
+    function($scope, $controller, $sce, $uibModal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, blockUI,
      parienteServices,
      parentescoServices
     ){
     'use strict';
     shortcut.remove("F2"); 
     $scope.modulo = 'pariente';
+    $scope.cargarItemFamiliar(null);
     $scope.listaSexos = [
       {id:'-', descripcion:'SELECCIONE SEXO'},
       {id:'F', descripcion:'FEMENINO'},
@@ -271,6 +272,11 @@ angular.module('theme.pariente', ['theme.core.services'])
           }
         }
       });
+    }
+
+    $scope.btnGenerarCita = function(row){
+      $scope.cargarItemFamiliar(row);
+      $scope.goToUrl('/seleccionar-cita');
     }
 
     $scope.initPariente = function(){

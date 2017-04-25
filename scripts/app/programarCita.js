@@ -16,7 +16,8 @@ angular.module('theme.programarCita', ['theme.core.services'])
     shortcut.remove("F2"); 
     $scope.modulo = 'programarCita';
 
-    $scope.initSeleccionarCita=function(){
+    $scope.initSeleccionarCita=function(){      
+      console.log('$scope.familiarSeleccionado', $scope.familiarSeleccionado);
       $scope.fBusqueda = {};
       var fechaHasta = moment().add(6,'days');
       $scope.fBusqueda.desde =  $filter('date')(moment().toDate(),'dd-MM-yyyy'); 
@@ -57,6 +58,14 @@ angular.module('theme.programarCita', ['theme.core.services'])
             $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[$scope.listaFamiliares.length-1]; 
           }else{
             $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[0];
+          }
+
+          if($scope.familiarSeleccionado){
+            angular.forEach($scope.listaFamiliares, function(value, key) {
+              if(value.idusuariowebpariente == $scope.familiarSeleccionado.idusuariowebpariente){
+                $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[key];
+              }                
+            });
           }
         });
       }

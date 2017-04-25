@@ -161,6 +161,10 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       $location.path( path );
     };
     
+    $scope.cargarItemFamiliar = function(item){
+      $scope.familiarSeleccionado = item;
+    }
+      
     $scope.btnLogoutToSystem = function () {
       rootServices.sLogoutSessionCI().then(function () {
         $scope.fSessionCI = {};
@@ -251,6 +255,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     $scope.btnViewLogin = function (){
       $scope.viewRegister = false;
     }
+
     /* END */
   }])
   .service("rootServices", function($http, $q) {
