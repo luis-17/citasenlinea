@@ -73,7 +73,7 @@
 			</div>
 			<div class="col-md-12 col-xs-12 col-sm-12 ">
 				<div class="col-md-offset-2 col-md-4 col-xs-12 col-sm-12 ">
-					<div class="caja caja-1 panel" style="margin-left: 40px;">
+					<div class="caja caja-1 panel" style="">
 						<div class="division division-1">	
 							<div class="texto">
 								PROGRAMA TUS CITAS</br>
@@ -96,7 +96,7 @@
 					</div>
 				</div>
 				<div class="col-md-4 col-md-offset-right-2 col-xs-12 col-sm-12 ">
-					<div class="caja caja-2 panel" style="margin-bottom: 5px; margin-right: 40px;">	              			
+					<div class="caja caja-2 panel" >	              			
 						<div class="division division-1">	              				
 							<div class="imagen">
 								<img class src="{{ dirImages + 'dashboard/historial-citas.png' }}" />
