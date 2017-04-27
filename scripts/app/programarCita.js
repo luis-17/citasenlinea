@@ -290,7 +290,9 @@ angular.module('theme.programarCita', ['theme.core.services'])
     }
 
     $scope.resumenReserva = function(){
-      $scope.goToUrl('/resumen-cita');          
+      programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
+        $scope.goToUrl('/resumen-cita'); 
+      });         
     }
 
     $scope.initResumenReserva = function(){
@@ -388,6 +390,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
       }
 
       $scope.pagar = function(){
+        console.log($scope.fSessionCI);
         Culqi.open();
       }
 
@@ -414,7 +417,8 @@ angular.module('theme.programarCita', ['theme.core.services'])
     $scope.goToResumenCompra = function(callback){
       rootServices.sGetSessionCI().then(function (response) {
         if(response.flag == 1){
-          $scope.fSessionCI = response.datos;          
+          $scope.fSessionCI = response.datos; 
+          $scope.getNotificacionesEventos();         
         } 
 
         $scope.viewResumenCita = false;

@@ -6,6 +6,7 @@ class Usuario extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('security', 'otros_helper','imagen_helper'));
 		$this->load->model(array('model_usuario','model_historial_citas'));
+    $this->load->library(array('ci_pusher'));
 		//cache
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
 		$this->output->set_header("Pragma: no-cache");
@@ -90,6 +91,7 @@ class Usuario extends CI_Controller {
  				'celular' => $allInputs['celular'], 
         'telefono' => $allInputs['telefono'], 
  				'si_registro_web' => 1, 
+        'idprocedencia' => 13, 
  				'createdAt' => date('Y-m-d H:i:s'),
  				'updatedAt' => date('Y-m-d H:i:s')
  				);
@@ -104,8 +106,9 @@ class Usuario extends CI_Controller {
  				'email' => $allInputs['email'], 
  				'sexo' => $allInputs['sexo'], 
  				'fecha_nacimiento' => $allInputs['fecha_nacimiento'], 
- 				'celular' => $allInputs['celular'], 
+        'celular' => $allInputs['celular'],  				 
  				'telefono' => $allInputs['telefono'], 
+        'idprocedencia' => 13,
  				'updatedAt' => date('Y-m-d H:i:s')
  				);
   		$idcliente =  $usuario['idcliente'];

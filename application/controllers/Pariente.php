@@ -169,7 +169,8 @@ class Pariente extends CI_Controller {
         'email' => $allInputs['email'], 
         'sexo' => $allInputs['sexo'], 
         'fecha_nacimiento' => $allInputs['fecha_nacimiento'], 
-        'si_registro_web' => 1,  
+        'si_registro_web' => 1, 
+        'idprocedencia' => 13, 
         'createdAt' => date('Y-m-d H:i:s'),
         'updatedAt' => date('Y-m-d H:i:s')
         );
@@ -184,6 +185,7 @@ class Pariente extends CI_Controller {
         'email' => $allInputs['email'], 
         'sexo' => $allInputs['sexo'], 
         'fecha_nacimiento' => $allInputs['fecha_nacimiento'],  
+        'idprocedencia' => 13,
         'updatedAt' => date('Y-m-d H:i:s')
         );
       $idcliente =  $usuario['idcliente'];

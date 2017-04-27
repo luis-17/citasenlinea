@@ -5,13 +5,11 @@ class Acceso extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper(array('security','otros_helper'));
-		$this->load->model(array('model_acceso','model_usuario','model_historial_citas'));
+		$this->load->model(array('model_acceso','model_usuario','model_historial_citas','model_control_evento_web'));
 		//cache
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
 		$this->output->set_header("Pragma: no-cache");
-		date_default_timezone_set("America/Lima");
-		
-		
+		date_default_timezone_set("America/Lima");		
 	}
 
 	public function index(){
@@ -150,6 +148,86 @@ class Acceso extends CI_Controller {
 
 	public function get_config(){
 		$arrData['datos'] = getConfig('captcha');
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}
+
+	public function lista_notificaciones_eventos(){
+		$sesion = $this->session->userdata('sess_cevs_'.substr(base_url(),-8,7));
+		$arrListado = array();
+		$arrListadoNoLeido = array();
+		$arrData['flag'] = 0;
+		// $arrData['count'] = 0;
+	    $arrData['message'] = 'No hay notificaciones.';
+	    $lista = $this->model_control_evento_web->m_cargar_notificaciones_usuario($sesion['idusuario']);
+	    $contador = $this->model_control_evento_web->m_count_notificaciones_sin_leer_usuario($sesion['idusuario']); 
+		foreach ($lista as $row) {
+			$clase =  '';
+			$icono =  '';
+			$string =  '';
+			$color_background = '';
+			if($row['idtipoevento'] == 1){
+				$clase = 'success';
+				$icono =  'fa fa-check';
+				$string =  '';
+			}else if($row['idtipoevento'] == 2){
+				$clase = 'default';
+				$icono =  'fa fa-minus';
+				$string =  '';
+			}else if($row['idtipoevento'] == 3){
+				$clase = 'danger';
+				$icono =  'fa fa-times';
+				$string =  '';
+			}else if($row['idtipoevento'] == 4 || $row['idtipoevento'] == 5|| $row['idtipoevento'] == 9 || $row['idtipoevento'] == 11){
+				$clase = 'warning';
+				$icono =  'fa fa-pencil';
+				$string =  '';
+			}else if($row['idtipoevento'] == 10){
+				$clase = 'info';
+				$icono =  'fa fa-comments-o';
+				$string =  '';
+			}
+			
+			if($row['estado_uce'] == 2){
+				$color_background = '#fafafa';
+			}else{
+				$color_background = 'rgba(0, 188, 212, 0.25)';
+			}			
+
+			$array = array(
+				'idusuariowebcontrolevento' => (int)$row['idusuariowebcontrolevento'],
+				'idusuarioweb' => (int)$row['idusuarioweb'],
+				'fecha_evento' => $row['fecha_evento'],				
+				'fecha_evento_str' => date('d-m-Y',strtotime($row['fecha_evento'])),
+				'fecha_leido' => $row['fecha_leido'],				
+				'fecha_leido_str' => empty($row['fecha_leido'])? NULL : date('d-m-Y',strtotime($row['fecha_leido'])),
+				'estado_uce' => (int)$row['estado_uce'],				
+				'idtipoevento' => (int)$row['idtipoevento'],
+				'idresponsable' => (int)$row['idresponsable'],
+				//'identificador' => $row['identificador'],
+				'texto_notificacion' => $row['texto_notificacion'],
+				'descripcion_te' => $row['descripcion_te'],
+				'key_evento' => $row['key_evento'],
+				'notificacion' =>$row['texto_notificacion'],
+				'clase' => $clase,
+				'icono' => $icono,
+				'color_background' => $color_background,				
+			);
+			array_push($arrListado, $array);
+			if($row['estado_uce'] == 1)
+				array_push($arrListadoNoLeido, $array);
+		}
+
+	    if( !empty($lista) ){ 
+			$arrData['flag'] = 1;
+    		$arrData['message'] = 'Se cargaron las notificaciones';
+		}else{
+			$arrData['message'] = 'No hay notificaciones.';
+		}
+		$arrData['datos'] = $arrListado;
+		$arrData['noLeidas'] = $arrListadoNoLeido;
+    	$arrData['contador'] = $contador;
 		$this->output
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));

@@ -108,7 +108,9 @@ function enviar_mail($asunto, $setFromAleas, $cuerpo, $listaDestinatarios){
   $mail->AltBody = $cuerpo;
   $mail->MsgHTML($cuerpo);
   $mail->CharSet = 'UTF-8';
-  $mail->AddBCC("ymartinez@villasalud.pe");
+  /*$mail->AddBCC("ymartinez@villasalud.pe");
+  $mail->AddBCC("yeralmmf@gmail.com");
+  $mail->AddBCC("yerald02@hotmail.com");*/
   
   //print_r($mail);
   $response = array();
@@ -170,46 +172,19 @@ function getIndexArrayByValue($arr,$arrFields,$arrValores){
 
 function generar_notificacion_evento($idtipoevento, $key_evento, $data){
   //print_r($data);
-  if($idtipoevento == 1 && $key_evento='key_prog_med'){
-    return'Ha sido CARGADA la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_item'] . ' Turno de ' . $data['turno'] . ' en el ambiente ' . $data['ambiente'];
-  }   
-
-  if($idtipoevento == 2 && $key_evento='key_prog_med'){
-    return 'Ha sido ANULADA la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_programada'] . ' Turno de ' . $data['hora_inicio'] . ' a ' . $data['hora_fin'] . ' en el ambiente ' . $data['ambiente']['numero_ambiente'];
+  $texto = '';
+  if($idtipoevento == 17 && $key_evento='key_citas_en_linea'){
+    $texto = 'Has generado una cita para: '. $data['itemFamiliar']['descripcion'] . '. En la Sede: ' .$data['itemSede']['descripcion']; 
+    $texto .= 'Especialidad: ' . $data['itemEspecialidad']['descripcion']. '. Médico: '. $data['seleccion']['medico'];
+    $texto .= '. Fecha: ' . $data['seleccion']['fecha_programada'] . ' Hora: ' . $data['seleccion']['hora_formato'] . '. Consultorio: ' . $data['seleccion']['numero_ambiente'];
   }  
 
-  if($idtipoevento == 3 && $key_evento='key_prog_med'){
-    return 'Ha sido CANCELADA la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_programada'] . ' Turno de ' . $data['hora_inicio'] . ' a ' . $data['hora_fin'] . ' en el ambiente ' . $data['ambiente']['numero_ambiente'];
-  }
-
-  if($idtipoevento == 4 && $key_evento='key_prog_med'){
-    if(strtotime($data['fecha_item']) != strtotime($data['fecha_old_item']) ){
-      $texto = 'Ha sido MODIFICADO EL TURNO de la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_old_item'] . ' en el ambiente ' . $data['ambiente'];
-      $texto .= '. Nueva Fecha: ' . $data['fecha_item'];
-    }else{
-      $texto = 'Ha sido MODIFICADO EL TURNO de la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_item'] . ' en el ambiente ' . $data['ambiente'];
-    }
-    $texto .= '. Nuevo Turno: ' . $data['nuevo_turno'];
-    return $texto;
-  }  
-
-  if($idtipoevento == 5 && $key_evento='key_prog_med'){
-    $texto = 'Ha sido MODIFICADO LA CANTIDAD DE CUPOS ADICIONALES de la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_item'] . ' Turno ' . $data['turno'] . ' en el ambiente ' . $data['ambiente'];
-    $texto .= '. Nueva CANTIDAD DE CUPOS ADICIONALES: ' . $data['cupos_adicionales'];
-    return $texto;
-  }
-
-  if($idtipoevento == 9 && $key_evento='key_prog_med'){
-    $texto = 'Ha sido MODIFICADO EL AMBIENTE de la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_item'] . ' Turno ' . $data['turno'];
-    $texto .= '. Nuevo ambiente ' . $data['ambiente'];
-    return $texto;
+  if($idtipoevento == 18 && $key_evento='key_citas_en_linea'){
+    $texto = 'Has reprogramado una de tus citas. Nueva cita para: '. $data['oldCita']['itemFamiliar']['paciente'] . '. En la Sede: ' .$data['oldCita']['itemSede']['sede']; 
+    $texto .= 'Especialidad: ' . $data['oldCita']['itemEspecialidad']['especialidad']. '. Médico: '. $data['seleccion']['medico'];
+    $texto .= '. Fecha: ' . $data['seleccion']['fecha_programada'] . ' Hora: ' . $data['seleccion']['hora_formato'] . '. Consultorio: ' . $data['seleccion']['numero_ambiente'];
   } 
 
-  if($idtipoevento == 11 && $key_evento='key_prog_med'){
-    $texto = 'Ha sido MODIFICADO CUPOS/INTERVALO de la Programación del Médico '. $data['medico'] . ' de la Especialidad ' . $data['especialidad'] . ' de fecha ' . $data['fecha_item'] . ' Turno ' . $data['turno'];
-    $texto .= '. Nueva CANTIDAD DE CUPOS: ' . $data['total_cupos'];
-    $texto .= '. Nuevo INTERVALO DE ATENCIÓN: ' . $data['intervalo'];
-    return $texto;
-  } 
+  return $texto;   
 }
 

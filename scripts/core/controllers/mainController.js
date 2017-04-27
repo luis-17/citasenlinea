@@ -183,6 +183,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
           if(!$scope.fSessionCI.nombre_imagen || $scope.fSessionCI.nombre_imagen == ''){
             $scope.fSessionCI.nombre_imagen = 'noimage.jpg';
           }
+          $scope.getNotificacionesEventos();
           $scope.logIn();
           if( $location.path() == '/login' ){
             $scope.goToUrl('/');
@@ -256,6 +257,36 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       $scope.viewRegister = false;
     }
 
+    $scope.getNotificacionesEventos = function (firtsTime) {
+      $scope.fSessionCI.listaNotificacionesEventos = {};
+      rootServices.sListarNotificacionesEventos().then(function (rpta) {
+        $scope.fSessionCI.listaNotificacionesEventos.datos = rpta.datos;
+        $scope.fSessionCI.listaNotificacionesEventos.noLeidas = rpta.noLeidas;
+        $scope.fSessionCI.listaNotificacionesEventos.contador = rpta.contador;
+        /*
+        if(firtsTime && $location.path() == '/'){ 
+          console.log('window.Notification',window.Notification);
+          console.log('window.mozNotification',window.mozNotification);
+          console.log('window.webkitNotifications',window.webkitNotifications);
+          console.log('window.notifications', window.notifications);
+
+          var Notificacion = window.Notification || window.mozNotification || window.webkitNotification;
+          if(Notificacion){
+            if(Notification.permission != 'granted'){
+              Notification.requestPermission();
+            }
+
+            //notificación por cada no leida
+            var title = "Notificación Programación Asistencial";
+            var icon = $scope.dirImages +'dinamic/empresa/' + $scope.fSessionCI.nombre_logo;
+            angular.forEach( $scope.fSessionCI.listaNotificacionesEventos.noLeidas, function(value, key) {              
+                newNotificacion(value.notificacion,icon,title, value.idcontroleventousuario);
+            });
+          }
+        }   */             
+      });
+    }
+
     /* END */
   }])
   .service("rootServices", function($http, $q) {
@@ -263,6 +294,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
         sGetSessionCI: sGetSessionCI,
         sLogoutSessionCI: sLogoutSessionCI,
         sGetConfig:sGetConfig,
+        sListarNotificacionesEventos: sListarNotificacionesEventos,
     });
     function sGetSessionCI() {
       var request = $http({
@@ -285,6 +317,14 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       });
       return (request.then( handleSuccess,handleError ));
     }   
+    function sListarNotificacionesEventos (datos) {
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"acceso/lista_notificaciones_eventos",
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }
   });
 /* DIRECTIVAS */
 appRoot.

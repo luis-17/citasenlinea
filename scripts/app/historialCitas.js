@@ -178,6 +178,7 @@ angular.module('theme.historialCitas', ['theme.core.services'])
                 var callback = function (){
                   $scope.btnCancel();
                   $scope.listarHistorial();
+                  $scope.getNotificacionesEventos();
                 }
                 $controller('programarCitaController', { 
                   $scope : $scope

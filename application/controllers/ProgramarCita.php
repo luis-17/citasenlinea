@@ -10,7 +10,8 @@ class ProgramarCita extends CI_Controller {
 								 'model_sede', 
 								 'model_especialidad',
 								 'model_prog_medico',
-								 'model_prog_cita'
+								 'model_prog_cita',
+								 'model_control_evento_web'
 								 ));
 
 		//cache 
@@ -378,17 +379,20 @@ class ProgramarCita extends CI_Controller {
 				)
 			);
 			// Respuesta
-			$respuesta = json_encode($charge);			
-		  	$arrData['datos']['cargo'] = get_object_vars($charge);		  	
-		  	$arrData['datos']['cargo']['outcome']= get_object_vars($arrData['datos']['cargo']['outcome']);
-		  	$arrData['flag'] = 1;
+			$respuesta = json_encode($charge);
+		  	if(!empty($respuesta['cargo'])){
+		  		$arrData['flag'] = 1;
+		  		$arrData['datos']['cargo'] = get_object_vars($charge);
+		  	}
 		  	//$arrData['datos']['cargo']['id'] = '15';
 			
 		  	if($arrData['flag'] == 1 && !empty($arrData['datos']['cargo']['id'])){
+				$arrData['datos']['cargo']['outcome']= get_object_vars($arrData['datos']['cargo']['outcome']);
 				$this->db->trans_start();
 				$arrData['flag'] = 0;
 				$listaCitas = $allInputs['usuario']['listaCitas'];
 				$listaCitasGeneradas = $allInputs['usuario']['listaCitas'];
+				$listNotificaciones = array();
 				$error = FALSE;
 				foreach ($listaCitas as $key => $cita) {
 					$result = FALSE;
@@ -421,6 +425,18 @@ class ProgramarCita extends CI_Controller {
 						$listaCitasGeneradas[$key]['idprogcita'] =  $idprogcita;
 						$listaCitasGeneradas[$key]['idventa'] =  '';
 						$listaCitasGeneradas[$key]['idculqitracking'] =  $arrData['datos']['cargo']['id'];
+
+						$texto_notificacion = generar_notificacion_evento(17, 'key_citas_en_linea', $cita);
+						$data = array(
+							'fecha_evento' => date('Y-m-d H:i:s'),
+							'idtipoevento' => 17,
+							'identificador' => $idprogcita,
+							'idusuarioweb' => $this->sessionCitasEnLinea['idusuario'],
+							'texto_notificacion' => $texto_notificacion,
+							'idresponsable' => $this->sessionCitasEnLinea['idusuario'],
+							);
+						
+						array_push($listNotificaciones, $data);
 
 						//actualizacipn de programacion
 						$data = array(
@@ -467,23 +483,28 @@ class ProgramarCita extends CI_Controller {
 					$this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']['session']);					
 					$arrData['message'] = $arrData['datos']['cargo']['outcome']['user_message'];
 					$arrData['flag'] = 1;
-					//$arrData['message'] = 'test enviando correo';
+					$arrData['message'] = 'test enviando correo';
 
 					//envio de mails
+			        $listaCitasGeneradas = $allInputs['usuario']['listaCitas'];
 			        $listaDestinatarios = array();
 			        array_push($listaDestinatarios, $allInputs['usuario']['email']);			        
 			        $setFromAleas = 'Villa Salud';
 			        $subject = 'Citas Programadas';
 			        $cuerpo = $this->genera_body_mail_citas($allInputs, $listaCitasGeneradas);
 			        $result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
-			        $arrData['flagMail']  = $result['flag'];
-					$arrData['msgMail']  = $result['msgMail'];
+			        $arrData['flagMail']  = $result[0]['flag'];
+					$arrData['msgMail']  = $result[0]['msgMail'];
+
+					foreach ($listNotificaciones as $key => $noti) {
+						$this->model_control_evento_web->m_registrar_notificacion_evento($noti);
+					}
 				}
 				$this->db->trans_complete();
 			}
 		}catch (Exception $e) {
 		  	$arrData['datos']['error'] = get_object_vars(json_decode($e->getMessage()));
-		  	$arrData['message'] = $arrData['datos']['error']['user_message'];
+		  	$arrData['message'] = $arrData['datos']['error']['merchant_message'];
 		}
 
 	    $this->output
@@ -501,8 +522,9 @@ class ProgramarCita extends CI_Controller {
 					</head>';
         $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
 	                  <div style="text-align: center;">
-	                    <img style="width: 160px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/logo-original.png">
-	                  </div> <br />';
+	                    <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+	                  </div>';
+	   	$cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';             
         $cuerpo .= '  <div style="font-size:16px;">  
                         Estimado(a) usuario: '.$allInputs['usuario']['paciente'] .', <br /> <br /> ';
         $cuerpo .= '    Hemos han sido regitradas las siguientes citas en tu cuenta:';
@@ -580,7 +602,10 @@ class ProgramarCita extends CI_Controller {
 					  <span style="text-align:left;width:60%;">TOTAL A PAGAR: S/. </span>
 					  <span style="text-align:right;width:40%;">'.$allInputs['usuario']['totales']['total_pago'].'</span>
 					</div>';
-
+		$cuerpo .=    '</div>';
+	    $cuerpo .= '<div style="text-align: center;">
+	    				<img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
+	    			</div>';
       	$cuerpo .= '</body>';
         $cuerpo .= '</html>';
 
@@ -680,8 +705,7 @@ class ProgramarCita extends CI_Controller {
 				
 				if($resulDetalle && $resultOldCuposCanal && $resultOldCuposProg && $resultCita && $resultCuposCanal && $resultCuposProg && $resulDetalleNuevo){
 					$arrData['message'] = 'La cita ha sido reprogramada correctamente';
-	    			$arrData['flag'] = 1;
-					
+	    			$arrData['flag'] = 1;					
 					//envio de mails
 			        $listaDestinatarios = array();
 			        array_push($listaDestinatarios, $this->sessionCitasEnLinea['email']);			        
@@ -692,9 +716,19 @@ class ProgramarCita extends CI_Controller {
 
 					$arrData['flagMail']  = $result[0]['flag'];
 					$arrData['msgMail']  = $result[0]['msgMail'];
+
+					$texto_notificacion = generar_notificacion_evento(18, 'key_citas_en_linea', $allInputs);
+					$data = array(						
+						'idtipoevento' => 18,
+						'identificador' => $allInputs['oldCita']['idprogcita'],
+						'idusuarioweb' => $this->sessionCitasEnLinea['idusuario'],
+						'texto_notificacion' => $texto_notificacion,
+						'idresponsable' => $this->sessionCitasEnLinea['idusuario'],
+						'fecha_evento' => date('Y-m-d H:i:s'),
+						);
+					$this->model_control_evento_web->m_registrar_notificacion_evento($data);
 				}
-			}
-						
+			}						
 		}	    		
     	
 		$this->db->trans_complete();   
@@ -717,14 +751,15 @@ class ProgramarCita extends CI_Controller {
 					</head>';
         $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
 	                  <div style="text-align: center;">
-	                    <img style="width: 160px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/logo-original.png">
-	                  </div> <br />';
+	                    <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+	                  </div>';
+	    $cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';
         $cuerpo .= '  <div style="font-size:16px;">  
                         Estimado(a) usuario: '. $this->sessionCitasEnLinea['paciente'] .',';
         $cuerpo .= '    Has reprogramado una de tus citas. Nueva cita:';
         $cuerpo .=    '</div>';
   		
-  		$cuerpo .=	'<div style="margin-top:15px;">
+  		$cuerpo .=	'  <div style="">
 	                    <div class="cita" style="font-size: 13px;">
 	                      <div style="height: 30px;" >
 	                      	<div style="width:31px;float: left;">👪 </div>
@@ -755,7 +790,11 @@ class ProgramarCita extends CI_Controller {
 	                      	Consultorio: <span class="cita-ambiente">'.$allInputs['seleccion']['numero_ambiente'].'</span>
 	                      </div>
 	                    </div>                            
-	                </div>';
+	                    </div>';
+	    $cuerpo .=    '</div>';
+	    $cuerpo .= '<div style="text-align: center;">
+	    				<img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
+	    			</div>';
       	$cuerpo .= '</body>';
         $cuerpo .= '</html>';
 
