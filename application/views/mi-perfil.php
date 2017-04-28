@@ -19,17 +19,18 @@
             <div class="panel-profile score-puntos" >                        
             </div>
         </div><!-- col-sm-3 -->
-        <div class="col-md-10 col-sm-12 col-xs-12" style="padding-bottom:20px;">
+        <div class="col-md-8 col-sm-12 col-xs-12" style="padding-bottom:20px;">
             <div class="tab-content">
                 <div class="tab-pane " ng-class="{active: selectedTab=='0'}">
                     <div class="panel panel-default" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
                         <div class="panel-body">
-                            <div class="col-sm-7">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="row"> 
-                                    <div class="tab-heading col-sm-7">
-                                        <span class="icon"><i class="ti ti-pencil"></i></span> 
+                                    <div class="tab-heading col-sm-7">                                         
                                         <div>
-                                            <h2 class="title">Editar</h2> 
+                                            <h2 class="title">
+                                                <span class="icon"><i class="ti ti-pencil"></i></span>Editar
+                                            </h2> 
                                             <p class="descripcion">Queremos saber más de ti.</p>
                                         </div>
                                     </div>
@@ -39,45 +40,45 @@
                                             <alert type="{{fAlert.type}}" close="fAlert = null;" ng-show='fAlert.type' class="p-sm">
                                                 <strong> {{ fAlert.strStrong }} </strong> <span ng-bind-html="fAlert.msg"></span>
                                             </alert>                                                   
-                                            <div class="form-group col-sm-6">
+                                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                                 <label class="control-label mb-xs"> DNI ó Documento de Identidad </label>
                                                 <input type="text" class="form-control " ng-model="fDataUser.num_documento" required disabled tabindex="1" />
                                             </div>                                                       
 
-                                            <div class="form-group col-sm-6">
+                                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                                 <label class="control-label mb-xs">Nombres <small class="text-danger">(*)</small> </label>
                                                 <input type="text" class="form-control " ng-model="fDataUser.nombres" placeholder="Registre su nombre" required tabindex="2" />
                                             </div>
                                       
-                                            <div class="form-group col-sm-6">
+                                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                                 <label class="control-label mb-xs">Apellido Paterno <small class="text-danger">(*)</small> </label>
                                                 <input type="text" class="form-control " ng-model="fDataUser.apellido_paterno" placeholder="Registre su apellido paterno" required tabindex="3" /> 
                                             </div>
-                                            <div class="form-group col-sm-6">
+                                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                                 <label class="control-label mb-xs">Apellido Materno <small class="text-danger">(*)</small> </label>
                                                 <input type="text" class="form-control " ng-model="fDataUser.apellido_materno" placeholder="Registre su apellido materno" required tabindex="4" /> 
                                             </div>          
                                         
-                                            <div class="form-group col-sm-6" >
+                                            <div class="form-group col-md-6 col-sm-6 col-xs-12" >
                                                 <label class="control-label mb-xs">E-mail <small class="text-danger">(*)</small></label>
                                                 <input type="email" class="form-control " ng-model="fDataUser.email" required tabindex="5" />
                                             </div>
 
-                                            <div class="form-group col-sm-3" >
+                                            <div class="form-group col-md-3 col-sm-6 col-xs-12" >
                                                 <label class="block" style="margin-bottom: 4px;"> Sexo <small class="text-danger">(*)</small> </label>
                                                 <select class="form-control " ng-model="fDataUser.sexo" ng-options="item.id as item.descripcion for item in listaSexos" tabindex="6" required > </select>
                                             </div>
 
-                                            <div class="form-group col-sm-3" >
+                                            <div class="form-group col-md-3 col-sm-6 col-xs-12" >
                                                 <label class="control-label mb-xs">Fecha Nacimiento <small class="text-danger">(*)</small> </label>  
                                                 <input type="text" class="form-control  mask" data-inputmask="'alias': 'dd-mm-yyyy'" ng-model="fDataUser.fecha_nacimiento" required tabindex="7"/> 
                                             </div>
                                         
-                                            <div class="form-group col-sm-3">
+                                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
                                                 <label class="control-label mb-xs">Teléfono Móvil <small class="text-danger">(*)</small> </label>
                                                 <input type="tel" class="form-control " ng-model="fDataUser.celular" placeholder="Registre su celular" ng-minlength="9" required tabindex="8" />
                                             </div>
-                                            <div class="form-group col-sm-3">
+                                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
                                                 <label class="control-label mb-xs">Teléfono Casa  </label>
                                                 <input type="tel" class="form-control " ng-model="fDataUser.telefono" placeholder="Registre su teléfono" ng-minlength="6" tabindex="9" />
                                             </div> 
@@ -102,19 +103,19 @@
                                                 <div class="row">
                                                     <div class="form-group col-sm-12">
                                                         <div class="row">
-                                                            <div class="form-group mb-n col-md-4 col-sm-12">
+                                                            <div class="form-group mb-n col-md-4 col-sm-12 col-xs-12">
                                                                 <label class="control-label mb-xs">Contraseña Actual <small class="text-danger">(*)</small> </label> 
                                                                 <input id="clave" required type="password" class="form-control " ng-model="fDataUserUsuario.clave" placeholder="Ingresa su contraseña actual" />
                                                             </div>
                                                     
-                                                            <div class="form-group mb-n col-md-4 col-sm-12">
+                                                            <div class="form-group mb-n col-md-4 col-sm-12 col-xs-12">
                                                             <label class="control-label mb-xs">Nueva Contraseña <small class="text-danger">(*)</small> </label> 
                                                             <input id="nuevoPass" required ng-minlength="8" type="password" class="form-control " ng-model="fDataUserUsuario.claveNueva" 
                                                                 placeholder="Nueva contraseña (Min 8 caracteres)" tooltip-placement="top-left" 
                                                                 uib-tooltip="Por seguridad, te recomendamos que tu contraseña sea de 8 caracteres y contenga al menos 1 mayúscula, 1 minúscula y 1 número"/>
                                                             </div>
                                                     
-                                                            <div class="form-group mb-n col-md-4 col-sm-12">
+                                                            <div class="form-group mb-n col-md-4 col-sm-12 col-xs-12">
                                                                 <label class="control-label mb-xs">Confirmar Nueva Contraseña <small class="text-danger">(*)</small> </label> 
                                                                 <input required ng-minlength="8" type="password" class="form-control " ng-model="fDataUserUsuario.claveConfirmar" placeholder="Confirme su nueva contraseña" />
                                                             </div>
@@ -143,16 +144,17 @@
                         <div class="panel-body">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="row">
-                                    <div class="tab-heading col-sm-7">
-                                        <span class="icon"><i class="fa fa-users"></i></span> 
+                                    <div class="tab-heading col-sm-7">                                        
                                         <div>
-                                            <h2 class="title">Gestionar Familiares</h2> 
+                                            <h2 class="title">
+                                                <span class="icon"><i class="fa fa-users"></i></span> Gestionar Familiares
+                                            </h2> 
                                             <p class="descripcion">Puedes agregar a tus familiares y agendar citas para ellos.</p>                                            
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">                                          
-                                    <div class="col-md-9 col-sm-12 col-xs-12">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="header-parientes btn-group-btn ">
                                             <button type="button" class="btn btn-page" ng-click="btnNuevoPariente();"><i class="fa fa-plus"></i> NUEVO</button>
                                         </div>
@@ -220,16 +222,17 @@
                         <div class="panel-body">
                             <div class="col-md-12 col-sm-12">
                                 <div class="row">
-                                    <div class="tab-heading col-sm-7">
-                                        <span class="icon"><i class="ti ti-check-box"></i></span> 
+                                    <div class="tab-heading col-sm-7">                                        
                                         <div>
-                                            <h2 class="title">Perfil Clínico</h2> 
+                                            <h2 class="title">
+                                                <span class="icon"><i class="ti ti-check-box"></i></span> Perfil Clínico
+                                            </h2> 
                                             <p class="descripcion">Mantén tu perfil clínico actualizado</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">                                              
-                                    <div class="col-md-9 col-xs-12 col-sm-12 dashboard">                                              
+                                    <div class="col-md-12 col-xs-12 col-sm-12 dashboard">                                              
                                         <div class="row">
                                             <div class="col-md-12 col-xs-12 col-sm-12">
                                                 <div class="valores">
@@ -251,7 +254,7 @@
                                                             <div class="data">{{fSessionCI.estatura}} <span class="medida" >Mts.</span></div>
                                                         </div>
                                                     </div>
-                                                    <div class="item imc" uib-tooltip="Índice de Masa Corporal (IMC): {{fSessionCI.imc.tipo}}" tooltip-placement="right">
+                                                    <div class="item imc" uib-tooltip="Índice de Masa Corporal (IMC): {{fSessionCI.imc.tipo}}" tooltip-placement="top">
                                                         <div class="imagen">
                                                             <img src="{{ dirImages + 'dashboard/icon-imc.png' }}"  />
                                                         </div>

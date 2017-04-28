@@ -25,7 +25,7 @@
 							<div class="data">{{fSessionCI.estatura}} <span class="medida" >Mts.</span></div>
 						</div>
 					</div>
-					<div class="item imc" uib-tooltip="Índice de Masa Corporal (IMC): {{fSessionCI.imc.tipo}}" tooltip-placement="right">
+					<div class="item imc" uib-tooltip="Índice de Masa Corporal (IMC): {{fSessionCI.imc.tipo}}" tooltip-placement="top">
 						<div class="imagen">
 							<img src="{{ dirImages + 'dashboard/icon-imc.png' }}"  />
 						</div>

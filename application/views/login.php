@@ -3,7 +3,8 @@
         .static-content-wrapper {
             padding: 0;
             margin-bottom: 0;
-            background: url("{{ dirImages + 'dinamic/empresa/banner.jpg'  }}") no-repeat left ;
+            background: url("{{ dirImages + 'dinamic/empresa/banner-2.jpg'  }}") no-repeat left top;
+            background-size: cover;
         }
     </style>
     <div class="row">                   
@@ -22,7 +23,7 @@
             </div>
         </div>
 
-        <div class="col-sm-12 col-md-4" > 
+        <div class="col-xs-12 col-sm-12 col-md-4" > 
             <div class="formulario formulario-login" ng-show="!viewRegister">                
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -79,11 +80,13 @@
             </div>
         </div>
 
-        <div class="col-sm-12 col-md-5" >
+        <div class="col-xs-12 col-sm-12 col-md-5" >
             <div class="formulario formulario-registro" ng-show="viewRegister" ng-controller="usuarioController">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <a style="position: relative;left: -20%; color:#36c0d1;" ng-click="btnViewLogin();"><i class="fa fa-angle-left"></i></a>{{ titleForm }} 
+                        <a style="" ng-click="btnViewLogin();" class="ir-atras">
+                            <i class="fa fa-angle-left"></i>
+                        </a>{{ titleForm }} 
                     </div>
                     <div class="panel-body" style="padding-bottom: 0px;padding-top: 0px;">
                         <form class="" name="formUsuario" novalidate>
@@ -96,7 +99,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group mb-md col-md-6">
+                                <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                     <label class="control-label mb-xs"> DNI ó Documento de Identidad </label>
                                     <div class="input-group">
                                         <input type="text" class="form-control input-sm" ng-model="fDataUser.num_documento" placeholder="Ingresa tu DNI ó Documento de Identidad" tabindex="1" focus-me ng-minlength="8" ng-pattern="/^[0-9]*$/"/> 
@@ -106,29 +109,29 @@
                                     </div>
                                     <!-- <input ng-init="verificaDNI();" type="text" class="form-control input-sm" ng-model="fData.num_documento" placeholder="Registre su dni" tabindex="1" focus-me ng-minlength="8" ng-pattern="/^[0-9]*$/" ng-change="verificaDNI();" />  -->
                                 </div>                                 
-                                <div class="form-group mb-md col-md-6">
+                                <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                     <label class="control-label mb-xs">Nombres <small class="text-danger">(*)</small> </label>
                                     <input type="text" class="form-control input-sm" ng-model="fDataUser.nombres" placeholder="Ingresa tus nombre" required tabindex="2" />
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group mb-md col-md-6">
+                                <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                     <label class="control-label mb-xs">Apellido Paterno <small class="text-danger">(*)</small> </label>
                                     <input type="text" class="form-control input-sm" ng-model="fDataUser.apellido_paterno" placeholder="Ingresa tu apellido paterno" required tabindex="3" /> 
                                 </div>
-                                <div class="form-group mb-md col-md-6">
+                                <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                     <label class="control-label mb-xs">Apellido Materno <small class="text-danger">(*)</small> </label>
                                     <input type="text" class="form-control input-sm" ng-model="fDataUser.apellido_materno" placeholder="Ingresa tu apellido materno" required tabindex="4" /> 
                                 </div>          
                             </div>      
 
                             <div class="row">
-                                <div class="form-group mb-md col-md-6" >
+                                <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12" >
                                     <label class="control-label mb-xs">E-mail <small class="text-danger">(*)</small></label>
                                     <input type="email" class="form-control input-sm" ng-model="fDataUser.email" placeholder="Ingresa tu e-mail" required tabindex="5" />
                                 </div>                                   
 
-                                <div class="form-group mb-md col-md-6" >
+                                <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12" >
                                     <label class="control-label mb-xs">Fecha Nacimiento <small class="text-danger">(*)</small> </label>  
                                     <input type="text" class="form-control input-sm mask" data-inputmask="'alias': 'dd-mm-yyyy'" placeholder="Ingresa tu fecha de nacimiento" ng-model="fDataUser.fecha_nacimiento" required tabindex="6"/> 
                                 </div>
@@ -136,7 +139,7 @@
 
                             <div class="row">                                   
 
-                                <div class="form-group mb-md col-md-6">
+                                <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                     <label class="control-label mb-xs">Teléfono Móvil <small class="text-danger">(*)</small> </label>
                                     <input type="tel" class="form-control input-sm" ng-model="fDataUser.celular" placeholder="Ingresa tu celular" ng-minlength="9" required tabindex="7" />
                                 </div>
@@ -144,20 +147,20 @@
                                     <label class="control-label mb-xs">Teléfono Casa  </label>
                                     <input type="tel" class="form-control input-sm" ng-model="fDataUser.telefono" placeholder="Ingresa tu teléfono" ng-minlength="6" tabindex="9" />
                                 </div> -->
-                                <div class="form-group mb-md col-md-6" >
+                                <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12" >
                                     <label class="block" style="margin-bottom: 4px;"> Sexo <small class="text-danger">(*)</small> </label>
                                     <select class="form-control input-sm" ng-model="fDataUser.sexo" ng-options="item.id as item.descripcion for item in listaSexos" tabindex="8" required > </select>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group mb-md col-md-6">
+                                <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                     <label class="control-label mb-xs">Contraseña <small class="text-danger">(*)</small> </label>
                                     <input type="password" class="form-control input-sm" ng-model="fDataUser.clave" placeholder="Contraseña" ng-minlength="8" 
                                            required tabindex="9" tooltip-placement="top-left" 
                                            uib-tooltip="Por seguridad, te recomendamos que tu contraseña sea de 8 caracteres y contenga al menos 1 mayúscula, 1 minúscula y 1 número"/> 
                                 </div>
 
-                                <div class="form-group mb-md col-md-6">
+                                <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                     <label class="control-label mb-xs">Repita Contraseña <small class="text-danger">(*)</small> </label>
                                     <input type="password" class="form-control input-sm" ng-model="fDataUser.repeat_clave" placeholder="Repita Contraseña" 
                                            ng-minlength="8" required tabindex="10" tooltip-placement="top-left" 
@@ -166,7 +169,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="form-group mb-md col-md-6">
+                                <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                     <div id="recaptcha-registro" data-ng-controller="usuarioController" data-ng-init="initRecaptchaReg();"
                                             class="g-recaptcha" data-sitekey="{{keyRecaptcha}}" data-callback="recaptchaResponse"></div>
                                 </div>

@@ -579,9 +579,10 @@ a.link-password:hover{
 }
 
 .page-login .capa-info{
-  text-align: left; /*#ef635f*/
-  padding-top: 11%;
-  color: #fff;
+  text-align: left;
+  padding-top: 5%;
+  color: #9a999d;
+  font-weight: bold;
 }
 
 .page-login .capa-info .info-heading{   
@@ -597,7 +598,7 @@ a.link-password:hover{
 
 .page-login .capa-info .info-lema{
   padding-top: 1%;
-  color: #9a999d;
+  color: #36c0d1;
   text-transform: none;
   font-size: 30px;
   font-weight: bold;
@@ -635,6 +636,10 @@ a.link-password:hover{
 
 .page-login .btn-registro a{
   color:#fff;
+}
+
+#recaptcha-login{
+  overflow: hidden;
 }
 
 .list-group{
@@ -1253,6 +1258,18 @@ input[type=radio]:checked + label:before {
     transform: scale(1);
   }
 }
+
+.ir-atras{
+  position: relative;
+  left: -20px;
+  color:#36c0d1;
+}
+
+.ir-atras i{
+  font-size: 25px;
+  font-weight: bold;
+}
+
 .dashboard .panel, .perfil .panel{
   box-shadow: none;
 }
@@ -1268,6 +1285,7 @@ input[type=radio]:checked + label:before {
 .dashboard .valores{
   margin: 25px auto;
   min-height: 70px;
+  background: transparent;
 }
 
 .dashboard .valores .item{
@@ -1384,6 +1402,7 @@ input[type=radio]:checked + label:before {
   margin-bottom: 25px;
   border-radius: 25px;
   padding: 15px;
+  background-color: transparent;
 }
 
 .dashboard .caja-1{
@@ -1776,16 +1795,12 @@ input[type=radio]:checked + label:before {
   font-size: 18px;
 }
    
-/*media querys*/
-@media (min-width: 992px){
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+  /*perfil*/
   .perfil .col-md-2 {
       padding-right: 40px;
   }
-}
-
-/* Large Devices, Wide Screens */
-@media only screen and (max-width : 1200px) {
-
 }
 
 /* Medium Devices, Desktops */
@@ -1847,7 +1862,7 @@ input[type=radio]:checked + label:before {
   .dashboard .caja-2 .texto {
     font-size: 15px;
   }
-      
+     
 }
 
 /* Small Devices, Tablets */
@@ -1861,6 +1876,27 @@ input[type=radio]:checked + label:before {
   .dashboard .caja{
     margin-bottom: 15px;
   } 
+
+  .perfil .dashboard .valores .item {
+      width: 30%;
+  }
+
+  .edit-dashboard{
+    margin-top: 25px;
+  }
+
+}
+
+@media only screen and (max-width : 1024px) and (min-width: 768px) {
+  /*perfil*/
+  .perfil .col-md-2 {
+    width: 25%;
+    padding-right: 0;
+  }
+
+  .perfil .col-md-8 {
+      width: 75%;
+  }
 }
 
 /* Extra Small Devices, Phones */ 
@@ -1915,6 +1951,7 @@ input[type=radio]:checked + label:before {
 
 /* Custom, iPhone Retina */ 
 @media only screen and (max-width : 470px) {
+    /*inicio*/
     #topnav.navbar-default .navbar-brand{
       width: 125px !important;
     }
@@ -1945,11 +1982,11 @@ input[type=radio]:checked + label:before {
 
     .dashboard .valores {
       margin-top: 0;
-      left: 20%;
+      left: 15%;
     }
 
     .dashboard .valores .item {
-      width: 60%;
+      width: 70%;
       margin-top: 15px;
     }
 
@@ -1996,4 +2033,44 @@ input[type=radio]:checked + label:before {
         width: 50px;
     }
 
+    /*perfil*/
+    .tab-heading div {
+        float: left;
+        width: 100%;
+    }
+    .tab-heading .title {
+      font-size: 22px;
+    }
+
+    .edit-dashboard{
+      margin-top: 25px;
+    }
+
+    .mi-grid .header.row-grid {
+      display: none;
+    }
+
+    .mi-grid .row-grid {
+      border: 1px solid #ddd;
+    }
+
+    .mi-grid .cell-grid {
+        width: 100% !important;
+        border: 0;
+    }
+    .perfil .dashboard .valores{
+      margin-left: 15%;
+    }
+
+    .perfil .dashboard .valores .item {
+        width: 70%;
+    }
+
+    
+}
+
+.col-sm-12 .formulario-login{
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
