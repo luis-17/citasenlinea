@@ -155,6 +155,9 @@ class ProgramarCita extends CI_Controller {
    			$fin = -1;
    			$anterior = '';
    			$ite = 0;
+   			$total_prog = 0;
+   			$arrGridTotal[$i][24]['total'] = $total_prog;
+   			$arrGridTotal[$i][24]['unset'] = TRUE;
 	    	foreach ($arrHoras as $row => $value) {  
 	    		$actual =  empty($arrGridTotal[$i][$row]['ids']) ? '' : $arrGridTotal[$i][$row]['ids']; 
 
@@ -179,7 +182,15 @@ class ProgramarCita extends CI_Controller {
 
 	    		if($inicio != -1 && $fin != -1){
 	    			$rowspan =($fin - $inicio) + 1;
+
+	    			if(!empty($arrGridTotal[$i][$inicio]['ids'])){
+	    				$total_prog += 1; 
+	    				$arrGridTotal[$i][24]['total'] = $total_prog;
+	    			}
+	    			
 	    			$arrGridTotal[$i][$inicio]['rowspan'] = $rowspan;
+	    			$arrGridTotal[$i][$inicio]['inicio_bloque'] = $arrHoras[$inicio];
+					$arrGridTotal[$i][$inicio]['fin_bloque'] = $arrHoras[$fin];
 					for ($fila=$inicio+1; $fila <= $fin; $fila++) { 						
 						$arrGridTotal[$i][$fila]['unset'] = TRUE;
 						if(strlen($arrGridTotal[$i][$inicio+1]['ids']) < strlen($arrGridTotal[$i][$fila]['ids'])){
@@ -194,7 +205,13 @@ class ProgramarCita extends CI_Controller {
 	    		}else if($row == $cellTotal-1){
 	    			$fin = $row;
     				$rowspan =($fin - $inicio) + 1;
+    				if(!empty($arrGridTotal[$i][$inicio]['ids'])){
+	    				$total_prog += 1; 
+	    				$arrGridTotal[$i][24]['total'] = $total_prog;
+	    			}
 					$arrGridTotal[$i][$inicio]['rowspan'] = $rowspan;
+					$arrGridTotal[$i][$inicio]['inicio_bloque'] = $arrHoras[$inicio];
+					$arrGridTotal[$i][$inicio]['fin_bloque'] = $arrHoras[$fin];
 					for ($fila=$inicio+1; $fila <= $fin; $fila++) { 
     					$arrGridTotal[$i][$fila]['unset'] = TRUE;
     					if(strlen($arrGridTotal[$i][$inicio+1]['ids']) < strlen($arrGridTotal[$i][$fila]['ids'])){

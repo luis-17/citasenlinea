@@ -82,6 +82,20 @@ angular.module('theme.programarCita', ['theme.core.services'])
           $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[0];
         });
       }
+
+      $scope.formats = ['dd-MM-yyyy','dd-MMMM-yyyy','yyyy/MM/dd','dd.MM.yyyy','shortDate'];
+      $scope.format = $scope.formats[0]; // formato por defecto
+      $scope.datePikerOptions = {
+        formatYear: 'yy',
+        // startingDay: 1,
+        'show-weeks': false
+      };
+
+      $scope.openDP = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.opened = true;
+      }
     }
 
     $scope.getMedicoAutocomplete = function (value) {

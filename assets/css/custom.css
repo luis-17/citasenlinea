@@ -362,6 +362,11 @@ ul.externo{text-transform:uppercase;}
   padding: 0;
 }
 
+#topnav .navbar-nav.toolbar > li > a {
+    padding: 14px 8px;
+    font-size: 12px;
+}
+
 .form-control{
   border-radius: 10px !important;
 }
@@ -854,6 +859,11 @@ a.link-password:hover{
   animation-delay: 2s;*/
 }
 
+.datepicker-movil, 
+.toggle-filtros{
+  display: none;
+}
+
 .gridheader {
   background-color: #97dee7 !important;
   color: #616161 !important;
@@ -970,7 +980,7 @@ a.link-password:hover{
 .planning .hora-sidebar,  
 .planning .cell-programacion,
 .planning .cell-vacia  {  
-  width: 120px;  
+  width: 94px;  
   text-align: center;
   border: 1px solid #36c0d1;
   border-collapse: collapse;
@@ -981,14 +991,18 @@ a.link-password:hover{
 .planning .desc-header,   
 .planning .fecha-header{
   height: 40px;
-  padding: 10px 20px;
+  padding: 10px 5px;
 }
 
 .planning .hora-sidebar,  
 .planning .cell-programacion,
 .planning .cell-vacia  {
   height: 30px;
-  padding: 5px 20px;
+  padding: 5px 10px;
+}
+
+.planning .cell-programacion .label{
+  font-size: 75%;
 }
 
 .planning .desc-header,
@@ -1001,7 +1015,7 @@ a.link-password:hover{
 .planning .hora-sidebar{
   background-color: #dcf4f7;
   color: #191970;
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 500;
 }
 
@@ -1026,6 +1040,14 @@ a.link-password:hover{
   cursor: pointer;
 }
 
+.planning.large{
+  float:right;
+}
+
+.planning.movil{
+  display: none;
+}
+
 /*animaciones planning*/
 .planning.visible{
   animation: bounceIn .5s;
@@ -1046,15 +1068,13 @@ a.link-password:hover{
 }
 
 .planning .body .favorito{
-  position: relative;
-  bottom: 0px;
-  right: -45px;
   color: #ff9800;
   font-size: 15px;
 }
 
 .leyenda .favorito,
-.turnos-disponibles .medico .favorito{
+.turnos-disponibles .medico .favorito,
+.bloque-planning .favorito{
   position: relative;
   color: #ff9800;
   font-size: 15px;
@@ -1062,7 +1082,8 @@ a.link-password:hover{
 
 .planning .body .favorito.animation,
 .leyenda .favorito.animation,
-.turnos-disponibles .medico .favorito.animation{
+.turnos-disponibles .medico .favorito.animation,
+.bloque-planning .favorito.animation{
   animation: bounceInFavorito 1.5s infinite;
 }
 
@@ -1193,7 +1214,7 @@ input[type=radio]:checked + label:before {
 }
 
 .list-citas .sin-citas{
-  font-size: 25px;
+  font-size: 15px;
   font-weight: 300;
   text-align: center;
   color: #ce1d19;
@@ -1212,6 +1233,10 @@ input[type=radio]:checked + label:before {
 .citas .list-citas{
   height: 450px;
   overflow: auto;
+}
+
+.citas-movil{
+  display: none;
 }
 
 .turnos-list::-webkit-scrollbar {
@@ -1861,8 +1886,7 @@ input[type=radio]:checked + label:before {
 
   .dashboard .caja-2 .texto {
     font-size: 15px;
-  }
-     
+  }     
 }
 
 /* Small Devices, Tablets */
@@ -1887,7 +1911,68 @@ input[type=radio]:checked + label:before {
 
 }
 
-@media only screen and (max-width : 1024px) and (min-width: 768px) {
+@media only screen and (min-width: 992px) and (max-width : 1024px) {
+ .page-planning .filtros {
+    text-align: center;
+    font-size: 14px;
+  } 
+
+  .page-planning .filtros li {
+    padding: 0 10px;
+  }
+
+  .page-planning .filtros .form-control{
+    max-width: 180px;
+    min-width: 0;
+    font-size: 14px;
+  }
+
+ .page-planning .filtros li:nth-child(2){
+    padding: 0 !important;
+  }
+}
+
+@media only screen and (min-width: 992px){
+  .planning.large {
+      width: 100%;
+  }
+  .planning.large .header{
+      width: 100%;
+  }  
+  .planning.large .header .fecha-header{
+      width: 12.5% !important;
+  }
+  .planning.large .block-visible-planning{
+      width: 100%;
+  }
+
+  .planning.large .sidebar {
+     width: 12.5%;
+  }  
+
+  .planning.large .hora-sidebar  {
+     width: 100%;
+  }
+
+  .planning.large .body {
+      width: 87.5%;
+  }
+
+  .planning.large .body .column {
+      width: 14.28571428571429%;
+  }  
+
+  .planning.large .body .column .cell-programacion,
+  .planning.large .body .column .cell-vacia{
+     width: 100%;
+  }
+
+  .planning.large .cell-programacion .label {
+      font-size: 85%;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width : 1024px)  {
   /*perfil*/
   .perfil .col-md-2 {
     width: 25%;
@@ -1898,6 +1983,149 @@ input[type=radio]:checked + label:before {
       width: 75%;
   }
 }
+
+@media only screen and (max-width : 991px) {
+   .container-fluid {
+    padding-bottom: 20px;
+  }
+ 
+  .datepicker-movil .datepicker{
+    font-size: 15px;
+    font-weight: bold;
+    color: navy;
+    text-align: center;
+  }  
+
+  .datepicker-movil .dropdown-menu{
+    width: 120%;
+  }  
+
+  .datepicker-movil .dropdown-menu table{
+    width: 100%;
+  }
+
+  .grid-fecha table{
+    width: 98%;
+    margin-left: 1%;
+  }
+
+  .datepicker-large{
+    display: none;
+  }
+
+  .planning.large{
+    display: none;
+  }
+
+  .planning.movil{
+    display: block;
+    margin-top: 20px;
+  }
+
+  .block-visible-planning-movil{
+    margin-top: 10px;
+  }
+
+  .bloque-planning .fecha{
+    text-align: center;
+    padding: 2px;
+    font-size: 15px;
+    color: navy;
+    font-weight: 400;
+    background-color: #dcf4f7;
+    border: 1px solid #36c0d1;
+  }
+
+  .citas-large{
+    display: none;
+  }
+
+  .citas-movil{
+    display: block;
+  }
+
+  .boton-toggle{
+    background: #00bcd4;
+    padding: 5px;
+    color: #fff;
+    font-size: 15px;
+    text-transform: uppercase;
+  }
+
+  .citas-movil .citas.scroll-pane {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }  
+
+  .citas-movil .list-citas {
+        height: 200px;
+  }
+
+  .turnos-list {
+    max-height: 300px;
+  }
+
+ .filtros {
+    text-align: left;
+    font-size: 14px;
+    padding: 25px 10px 25px 10px;
+    max-height: none;
+  }
+
+  .toggle-filtros{
+    position: relative;
+    float: right;
+    top: -15px;
+  }
+
+  .filtros.sticky {
+      position: initial;
+      top: initial;
+  }
+
+  .seleccion {
+    margin-top: -20px !important;
+  }
+
+  .seleccion .citas-movil{
+    margin-top: 20px;
+  }
+
+  .datepicker-movil{
+    display: inline-flex;
+  }
+
+  .toggle-filtros{
+    display: block;
+  }
+}
+
+
+
+@media only screen and (min-width: 992px) {
+ .page-planning .filtros {
+    text-align: center;
+    font-size: 14px;
+  } 
+
+  .page-planning .filtros li {
+    padding: 0 10px;
+  }
+
+  .page-planning .filtros .form-control{
+    max-width: 180px;
+    min-width: 0;
+    font-size: 14px;
+  }
+
+ .page-planning .filtros li:nth-child(2){
+    padding: 0 !important;
+  }
+}
+
+
+
+
 
 /* Extra Small Devices, Phones */ 
 @media only screen and (max-width : 480px) {

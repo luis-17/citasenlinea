@@ -396,11 +396,9 @@ appRoot.
             }*/
             var height_header = $('.navbar').height();
             if($(window).scrollTop() >= height_header){
-              $('.filtros').addClass("sticky"); 
-              $('.seleccion').css('margin-top',60);  
+              $('.filtros').addClass("sticky");  
             }else{
-              $('.filtros').removeClass("sticky");
-              $('.seleccion').css('margin-top',20);  
+              $('.filtros').removeClass("sticky"); 
             }
           });
       };
