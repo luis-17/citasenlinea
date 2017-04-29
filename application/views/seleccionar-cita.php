@@ -57,8 +57,8 @@
   					</div>
             <div class="col-sm-12 col-xs-12 col-md-2 p-n m-n grid-fecha" style="">
               <label class="control-label mb-xs">Fecha seleccionada: </label>
-              <div class="input-group" style="width: 180px;"> <!-- datepicker-movil -->
-                <input type="text" placeholder="Desde"  class="form-control datepicker" 
+              <div class="input-group" style="width: 200px;"> <!-- datepicker-movil -->
+                <input type="text" placeholder="Desde"  class="form-control datepicker input-fecha" 
                                 uib-datepicker-popup="{{format}}" popup-placement="auto right-top"
                                 ng-model="fBusqueda.desde" is-open="opened" 
                                 datepicker-options="datePikerOptions" ng-required="true" 

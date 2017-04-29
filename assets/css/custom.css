@@ -929,8 +929,8 @@ a.link-password:hover{
 }
 
 .grid-fecha .input-fecha{
-  width: 50%;
   font-size: 15px;
+  background: transparent;
   font-weight: bold;
   color: navy;
   text-align: center;
@@ -947,9 +947,10 @@ a.link-password:hover{
   border-color: #00a5bb !important;
 }
 
-.grid-fecha .full-width table{
-  width:97%;
-}
+.grid-fecha table{
+  width: 98%;
+  margin-left: 1%;
+}   
 
 /*planning*/
 .planning .desc-header,   
