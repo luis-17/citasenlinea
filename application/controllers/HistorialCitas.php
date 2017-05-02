@@ -26,10 +26,10 @@ class HistorialCitas extends CI_Controller {
 
       if($row['estado_cita'] == 2){
         $icon_cita = 'fa fa-calendar';
-        $color_cita = '#ffc107';
+        $color_cita = 'btn-warning';
       }else if($row['estado_cita'] == 5){
         $icon_cita = 'fa fa-check-square-o';
-        $color_cita = '#8bc34a';
+        $color_cita = 'btn-success';
       }
 
       array_push($arrListado, 

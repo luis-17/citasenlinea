@@ -52,7 +52,7 @@
 </head>
 
 <body ng-app="themesApp" ng-controller="MainController" class="animated-content" ng-click="hideHeaderBar();hideChatBox()"
-  to-top-on-load faux-offcanvas scroll ng-init="getValidateSession();">
+  to-top-on-load faux-offcanvas scroll ng-init="getValidateSession();">    
     <header id="topnav" class="navbar {{getLayoutOption('topNavThemeClass')}}" role="banner" ng-cloak >
         <section class="page-header logo-left secondary-page" >
             <div class="container col-md-12 ">
@@ -147,7 +147,7 @@
                                 </li>
                             </ul>
 
-                            <div class="menu-mobile dropdown">
+                            <div class="menu-mobile dropdown"   >
                                 <ul class="nav navbar-nav options pull-right">
                                     <li class="dropdown toolbar-icon-bg " tooltip-placement="bottom" tooltip="Ver Notificaciones">
                                         <a href="" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
@@ -188,10 +188,16 @@
                                     </li>
                                 </ul>
                                 <a class="btn btn-page dropdown-toggle pull-right" style="position: relative;top: 10px;" 
-                                    data-toggle="dropdown">
-                                    <i class="ti ti-view-list"></i>
+                                    data-toggle="dropdown" >
+                                    <i class="fa fa-reorder"></i>
                                 </a>
-                                <ul class="nav navbar-nav dropdown-menu" >
+                                <div class="static-content-modal"></div>
+                                <ul class="nav navbar-nav dropdown-menu" >                                    
+                                    <span class="msj modal-close" >
+                                        <a href class="btn-close">
+                                            <i class="ti ti-close"></i>
+                                        </a>
+                                    </span>
                                     <li class="menu-item" >
                                         <a href="#/mi-perfil" class="username">
                                             <img ng-src="{{ dirImages + 'dinamic/usuario/' + fSessionCI.nombre_imagen }}" 
@@ -240,7 +246,7 @@
             <div class="static-content-wrapper">
                 <div class="static-content">
                     <div class="page-content" ng-view="" class="mainview-animation animated"> </div> <!--wrap -->
-                </div>
+                </div>                
                 <footer role="contentinfo" ng-show="!layoutLoading" ng-cloak>
                     <div class="container">
                         <div class="clearfix">
@@ -255,7 +261,7 @@
                 </footer>
             </div>
         </div>
-    </div>
+    </div>    
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>

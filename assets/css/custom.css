@@ -1246,7 +1246,7 @@ input[type=radio]:checked + label:before {
 
 .body-grid::-webkit-scrollbar,
 .citas .list-citas::-webkit-scrollbar {
-  width: 5px;
+  width: 3px;
 }
 
 .body-grid::-webkit-scrollbar-thumb,
@@ -1564,6 +1564,7 @@ input[type=radio]:checked + label:before {
   max-height: 300px;  
   overflow: auto;
   width: 100%;
+  font-size: 12px;
 }
 
 .mi-grid .cell-grid{
@@ -1579,6 +1580,11 @@ input[type=radio]:checked + label:before {
   height: 30px;
 }
 
+.mi-grid .cell-grid .icono-cita, 
+.mi-grid .divisor-movil{
+  display: none;
+}
+
 .mi-grid .row-grid{
   clear: left;
 }
@@ -1590,7 +1596,7 @@ input[type=radio]:checked + label:before {
 }
 
 .mi-grid .row-grid:nth-child(2){
-  margin-top: margin-top: 30px;
+  margin-top: 30px;
 }
 
 .mi-grid .header .cell-grid{
@@ -1663,13 +1669,13 @@ input[type=radio]:checked + label:before {
 
 .call-actions .lema{
   color: white;
-  font-size: 25px;
+  font-size: 20px;
   text-shadow: 1px 1px 2px #08446f;
   cursor: pointer;
 }
 
 .call-actions .btn-go-historial{
-  font-size: 18px;
+  font-size: 15px;
   top: 4px;
   position: relative;
   color: #ce1d19;
@@ -1820,6 +1826,10 @@ input[type=radio]:checked + label:before {
   color: #36c0d1;
   font-size: 18px;
 }
+
+.notifications .media {
+  width: 100%;
+}
    
 /* Large Devices, Wide Screens */
 @media only screen and (max-width : 1200px) {
@@ -1840,11 +1850,58 @@ input[type=radio]:checked + label:before {
   }
 
   nav .menu-mobile.dropdown .dropdown-menu li.menu-item {
-      clear: left;
+    clear: left;
+  }  
+
+  nav .menu-mobile.dropdown .dropdown-menu li.menu-item:hover {
+    cursor: pointer;
+  }
+
+  nav .menu-mobile.dropdown .dropdown-menu{
+    position: fixed;
+    top: 0;
+    height: 100%;
+    background-color: #eaeaef;
+  }  
+
+  nav .menu-mobile.dropdown .dropdown-menu .msj.modal-close{
+    top: -5px;    
+  }  
+
+  nav .menu-mobile.dropdown .dropdown-menu .msj.modal-close a{
+    margin: 0px 3px;
+  }
+
+  nav .menu-mobile.dropdown .dropdown-menu li.menu-item:after {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: #ce1d19;
+    position: absolute;
+    left: 12px;
+    bottom: 0;
+  }
+
+  nav .menu-mobile.dropdown .dropdown-menu li.menu-item{
+    z-index: 3;
   }
 
   nav .menu-mobile.dropdown .dropdown-menu .username {
       margin-left: 15px;
+  }  
+
+  .menu-mobile.dropdown.open .static-content-modal{
+    background-color: rgba(0,0,0,0.6);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }    
+
+  .menu-mobile .options li{
+    display: inline-block;
   }
 
   .dashboard .valores {
@@ -1909,6 +1966,71 @@ input[type=radio]:checked + label:before {
   .edit-dashboard{
     margin-top: 25px;
   }
+
+  .mi-grid{
+    padding-bottom: 15px;
+  }
+
+  .mi-grid .header.row-grid {
+    display: none;
+  }
+
+  .mi-grid .row-grid {
+    border: 0; 
+  }  
+
+  .mi-grid .row-grid:nth-child(2){
+    margin-top: 0;
+  } 
+
+  .mi-grid .cell-grid {
+      width: 100% !important;
+      text-align: left !important;
+      border: 0;
+  }
+  
+  .mi-grid .row-grid .cell-grid:last-child {
+    border-bottom: 2px dotted #ddd;
+    margin-bottom: 5px;
+  }
+
+  .mi-grid .row-grid:last-child .cell-grid:last-child{
+    border: 0; 
+  }
+
+  .mi-grid .cell-grid .icono-cita{
+    display: inline-block;
+  }  
+
+  .mi-grid .cell-grid .icono-cita i{
+    margin-right: 5px;
+    width: 12px;
+  }
+ 
+  .mi-grid .totales{
+    clear: left;
+    text-align: left;
+  }
+
+  .mi-grid .totales .divisor-movil{
+    display: block;
+    width: 90%;
+    border-bottom: 2px dotted rgb(154, 153, 157);
+  } 
+
+  .call-actions{
+    display: none;
+  }
+
+  .page-pagos .botones{
+    margin-bottom: 25px;
+  }
+
+  .filtros.historial ul li:nth-child(4){
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+    
 
 }
 
@@ -1984,7 +2106,16 @@ input[type=radio]:checked + label:before {
       width: 75%;
   }
 }
-
+@media only screen and (min-width: 992px) and (max-width : 1023px)  {
+  .filtros.historial{
+      text-align: left;
+  }  
+  .filtros.historial ul li:nth-child(4){
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 0px;
+  }
+}
 @media only screen and (max-width : 991px) {
    .container-fluid {
     padding-bottom: 20px;
@@ -2176,13 +2307,18 @@ input[type=radio]:checked + label:before {
         margin-left: 0;
         margin-right:0;
     }
+
+    .mi-grid{
+      padding-left: 0;
+      padding-right: 0;
+    }
 }
 
 /* Custom, iPhone Retina */ 
 @media only screen and (max-width : 470px) {
     /*inicio*/
     #topnav.navbar-default .navbar-brand{
-      width: 125px !important;
+      width: 155px !important;
     }
 
     .menu-mobile.dropdown {
@@ -2275,18 +2411,6 @@ input[type=radio]:checked + label:before {
       margin-top: 25px;
     }
 
-    .mi-grid .header.row-grid {
-      display: none;
-    }
-
-    .mi-grid .row-grid {
-      border: 1px solid #ddd;
-    }
-
-    .mi-grid .cell-grid {
-        width: 100% !important;
-        border: 0;
-    }
     .perfil .dashboard .valores{
       margin-left: 15%;
     }

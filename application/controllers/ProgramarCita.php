@@ -586,7 +586,7 @@ class ProgramarCita extends CI_Controller {
 			                    </div>                            
 			                </li>';
 			if($key < count($listaCitasGeneradas)-1){
-				$cuerpo .= '<div style="border-bottom: 1px dotted rgb(154, 153, 157); margin-bottom: 5px;width: 50%;"> </div>';
+				$cuerpo .= '<div style="border-bottom: 1px dotted rgb(154, 153, 157); margin-bottom: 15px;width: 50%;"> </div>';
 			}   
 		} 
 
@@ -773,7 +773,7 @@ class ProgramarCita extends CI_Controller {
 	    $cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';
         $cuerpo .= '  <div style="font-size:16px;">  
                         Estimado(a) usuario: '. $this->sessionCitasEnLinea['paciente'] .',';
-        $cuerpo .= '    Has reprogramado una de tus citas. Nueva cita:';
+        $cuerpo .= '    Has reprogramado una de tus citas.</br> Nueva cita:';
         $cuerpo .=    '</div>';
   		
   		$cuerpo .=	'  <div style="">

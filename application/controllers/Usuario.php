@@ -140,22 +140,24 @@ class Usuario extends CI_Controller {
 
   		$setFromAleas = 'Villa Salud';
   		$subject = 'Confirma tu cuenta de Villa Salud';
-  		$cuerpo = '<html> 
-				      <body style="font-family: sans-serif;padding: 10px 40px;" > 
-				        <div style="text-align: center;">
-				          <img style="width: 160px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/logo-original.png">
-				        </div> <br />';
-	  	$cuerpo .= '	<div style="font-size:16px;">  
-	                		Estimado(a) paciente: '.$paciente .', <br /> <br /> ';
-	    $cuerpo .= '		<a href="'. base_url() .'ci.php/usuario/setCuentaUsuario?data='. base64_encode($idusuarioweb) .'">Haz clic aquí para continuar con el proceso de registro.</a>';
-	  	$cuerpo .= 		'</div>';
+  		$cuerpo = '<html lang="es">'; 
+			$cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
+                    <div style="text-align: center;">
+                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+                    </div>';
+      $cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';
+	  	$cuerpo .= '	  <div style="font-size:16px;">  
+  	                		 Estimado(a) paciente: '.$paciente .', <br /> <br /> ';
+  	    $cuerpo .= '		 <a href="'. base_url() .'ci.php/usuario/setCuentaUsuario?data='. base64_encode($idusuarioweb) .'">Haz clic aquí para continuar con el proceso de registro.</a>';
+	  	$cuerpo .= 		 '</div>';
 
-
-	  	$cuerpo .= '<div>
-	  					<p>Si no has solicitado la suscripción a este correo electrónico, ignóralo y la suscripción no se activará.</p>
-	  				</div>';
-
-
+	  	$cuerpo .= '  <div>
+	  					        <p>Si no has solicitado la suscripción a este correo electrónico, ignóralo y la suscripción no se activará.</p>
+	  				         </div>';
+      $cuerpo .=    '</div>';
+      $cuerpo .= '  <div style="text-align: center;">
+                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
+                    </div>';
 	  	$cuerpo .= '</body>';
 	  	$cuerpo .= '</html>';
 
@@ -196,17 +198,18 @@ class Usuario extends CI_Controller {
 
         $setFromAleas = 'Villa Salud';
         $subject = 'Activación de tu cuenta Villa Salud';
-        $cuerpo = '<html> 
-                <body style="font-family: sans-serif;padding: 10px 40px;" > 
-                  <div style="text-align: center;">
-                    <img style="width: 160px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/logo-original.png">
-                  </div> <br />';
-        $cuerpo .= '  <div style="font-size:16px;">  
-                        Estimado(a) paciente: '.$paciente .', <br /> <br /> ';
-        $cuerpo .= '    Tu cuenta ha sido verificada exitosamente y ya puedes iniciar sesión. <a href="'. base_url() .'">Haz clic aquí</a> para comenzar a disfrutar los beneficios de ser un paciente de Villa Salud!';
+        $cuerpo = '<html>'; 
+        $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
+                    <div style="text-align: center;">
+                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+                    </div>';
+        $cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';
+
+        $cuerpo .= '    <div style="font-size:16px;">  
+                          Estimado(a) paciente: '.$paciente .', <br /> <br /> ';
+        $cuerpo .= '      Tu cuenta ha sido verificada exitosamente y ya puedes iniciar sesión. <a href="'. base_url() .'">Haz clic aquí</a> para comenzar a disfrutar los beneficios de ser un paciente de Villa Salud!';
+        $cuerpo .=    ' </div>';
         $cuerpo .=    '</div>';
-
-
         $cuerpo .= '</body>';
         $cuerpo .= '</html>';
 

@@ -192,7 +192,7 @@ class Acceso extends CI_Controller {
 			if($row['estado_uce'] == 2){
 				$color_background = '#fafafa';
 			}else{
-				$color_background = 'rgba(0, 188, 212, 0.25)';
+				$color_background = 'rgb(178, 231, 237)';
 			}			
 
 			$array = array(

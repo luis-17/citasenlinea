@@ -1,6 +1,9 @@
 <div class="content" ng-controller="historialCitasController">       
   <div class="filtros historial btn-group-btn pl-n ml-n ">
-    <ul class="demo-btns">
+    <button type="button" class="btn btn-info btn-sm toggle-filtros" data-toggle="collapse" data-target="#filtros">
+      <i class="ti ti-more-alt"></i>  
+    </button>
+    <ul class="demo-btns collapse in" id="filtros">
       <li class="" >
         <select class="form-control " ng-model="fBusqueda.familiar"
             ng-change="listarHistorial();" 
@@ -44,9 +47,9 @@
             </div>
           </div>
           <div class="historial-citas" >
-            <div class="mi-grid grid-citas col-md-12 col-xs-12 col-sm-12">
+            <div class="mi-grid grid-citas mb-md col-md-12 col-xs-12 col-sm-12">
               <div class="body-grid" style="min-height: 100px;" ng-show="listaDeCitas.length > 0">
-                <div class="header row-grid row-cita" style="position: fixed;width: {{width}}%;">
+                <div class="header row-grid row-cita" >
                   <div class="cell-grid cell-cita" style="width:17%;">
                     CITA PARA
                   </div>
@@ -56,7 +59,7 @@
                   <div class="cell-grid cell-cita" style="width:12%;">
                     ESPECIALIDAD
                   </div>
-                  <div class="cell-grid cell-cita" style="width:17%;">
+                  <div class="cell-grid cell-cita" style="width:15%;">
                     MÉDICO
                   </div>
                   <div class="cell-grid cell-cita" style="width:9%;">
@@ -71,42 +74,53 @@
                   <div class="cell-grid cell-cita" style="width:9%;">
                     <i class="fa fa-download"></i>
                   </div>
-                  <div class="cell-grid cell-cita" style="width:3%;">
+                  <div class="cell-grid cell-cita" style="width:5%;">
                     <i class="fa "></i>
                   </div>
                 </div>
                 <div ng-repeat="cita in listaDeCitas" class="row-grid row-cita">
                     <div class="cell-grid cell-cita" style="width:17%;text-transform: uppercase;">
+                      <span class="icono-cita"><i class="fa fa-stethoscope" style="color: #36c0d1;" ></i> Cita para:</span>
                       {{cita.itemFamiliar.paciente}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:14%;">
+                      <span class="icono-cita"><i class="fa fa-hospital-o" style="color: #ce1d19;" ></i> Sede:</span>
                       {{cita.itemSede.sede}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:12%;">
+                      <span class="icono-cita"><i class="ti ti-slice" style="color: #ffc107;" ></i> Especialidad:</span>
                       {{cita.itemEspecialidad.especialidad}}
                     </div>
-                    <div class="cell-grid cell-cita" style="width:17%;">
+                    <div class="cell-grid cell-cita" style="width:15%;">
+                      <span class="icono-cita"><i class="fa fa-user-md" style="color: #191970;" ></i> Médico:</span>
                       {{cita.itemMedico.medico}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:9%; text-align:center;">
+                      <span class="icono-cita"><i class="ti ti-calendar" style="color: #929191;"></i> Fecha:</span>
                       {{cita.fecha_formato}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:9%; text-align:center;">
+                      <span class="icono-cita"><i class="fa fa-clock-o" style="color: #929191;" ></i> Hora:</span>
                       {{cita.hora_inicio_formato}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:10%; text-align:center;">
+                      <span class="icono-cita"><i class="ti ti-location-pin" style="color: #03a9f4;"></i> Consultorio:</span>
                       {{cita.itemAmbiente.numero_ambiente}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:9%; text-align:center;cursor: pointer;">
+                      <span class="icono-cita"><i class="fa fa-file-pdf-o" style="color: #4caf50;"></i> Comprobante:</span>
                       <span class="nro-doc" ng-click="descargaComprobante(cita);">
                         <i class="fa fa-file-pdf-o"></i>
                         <a href=""> nro-123654 </a>
                       </span>
                     </div>
-                    <div class="cell-grid cell-cita" style="width:3%; text-align:center;cursor: pointer;">
-                      <span class="reprog" ng-click="reprogramarCita(cita);" >
+                    <div class="cell-grid cell-cita" style="width:5%; text-align:center;cursor: pointer;">
+                      <!-- <span class="reprog" ng-click="reprogramarCita(cita);" >
                         <i class="{{cita.icon_cita}}" style="color:{{cita.color_cita}};"></i>                      
-                      </span>
+                      </span> -->
+                      <button class="btn btn-sm {{cita.color_cita}}"  ng-click="reprogramarCita(cita);" >
+                        <i class="{{cita.icon_cita}}"  style=""></i>
+                      </button>
                     </div>
                 </div>    
               </div>
@@ -115,14 +129,16 @@
           </div>           
         </div>
         <div class="col-sm-12 col-md-2 pl-n">
-          <div class="col-sm-12 col-md-12 col-xs-12" ng-show="fSessionCI.listaCitas.length > 0">            
-            <div class="text-guia noanimate">              
-              <p class="instruccion">{{fSessionCI.nombres}}, finaliza tu compra!... Haz click en "FINALIZAR"</p>
-              <p class="saludo">Villa Salud, Te Cuida!</p>
+          <div class="previo">
+            <div ng-show="fSessionCI.listaCitas.length > 0">            
+              <div class="text-guia noanimate">              
+                <p class="instruccion">{{fSessionCI.nombres}}, finaliza tu compra!... Haz click en "FINALIZAR"</p>
+                <p class="saludo">Villa Salud, Te Cuida!</p>
+              </div>
             </div>
           </div>
-          <div class="citas scroll-pane" ng-show="fSessionCI.listaCitas.length > 0">
-            <ul class="list-citas" style="height: 350px;">
+          <div class="citas scroll-pane citas-large" style="">
+            <ul class="list-citas">
                 <li ng-repeat="(index,fila) in fSessionCI.listaCitas" class="item-list-citas notification-{{fila.clase}}" >
                     <div class="cita" ng-click="" style="">
                       <span class="eliminar" ng-click="quitarDeLista(index,fila);"><i class="fa fa-times" style="color: #ce1d19;"></i></span>  
@@ -133,11 +149,42 @@
                       <div><i class="fa fa-clock-o"     style="color: #929191;"></i>  Turno:        <span class="cita-turno">{{fila.seleccion.fecha_programada}} {{fila.seleccion.hora_formato}}</span></div>
                     </div>                            
                 </li>
+                <li class="media" ng-show="fSessionCI.listaCitas.length < 1">
+                    <div class="sin-citas"> Comienza a registrar tus citas... </div>
+                </li>
             </ul>
-            <div class="boton-finalizar">
-              <a class="" ng-click="resumenReserva();">FINALIZAR  <i class="fa fa-angle-right"></i>
+            <div class="boton-finalizar" ng-show="fSessionCI.listaCitas.length > 0">
+              <a class="" ng-click="resumenReserva();" style="animation: pulse 2s ease infinite;">FINALIZAR  <i class="fa fa-angle-right"></i>
               </a>
             </div>            
+          </div>
+          <div class="citas-movil">
+            <div class="boton-toggle" data-toggle="collapse" data-target="#citas">Citas seleccionadas
+              <button type="button" class="btn btn-default btn-sm toggle-filtros">
+                <i class="ti ti-more-alt"></i>  
+              </button>
+            </div>
+            <div class="citas scroll-pane collapse in" id="citas" style="">            
+              <ul class="list-citas">
+                  <li ng-repeat="(index,fila) in fSessionCI.listaCitas" class="item-list-citas notification-{{fila.clase}}" >
+                      <div class="cita" ng-click="" style="">
+                        <span class="eliminar" ng-click="quitarDeLista(index,fila);"><i class="fa fa-times" style="color: #ce1d19;"></i></span>  
+                        <div><i class="fa fa-stethoscope" style="color: #36c0d1;"></i>  Cita para:    <span class="cita-familiar">{{fila.busqueda.itemFamiliar.descripcion}}</span></div>
+                        <div><i class="fa fa-hospital-o"  style="color: #ce1d19;"></i>  Sede:         <span class="cita-sede">{{fila.busqueda.itemSede.descripcion}}</span></div>
+                        <div><i class="ti ti-slice"       style="color: #ffc107;"></i>  Especialidad: <span class="cita-esp">{{fila.busqueda.itemEspecialidad.descripcion}}</span></div>
+                        <div><i class="fa fa-user-md"     style="color: #191970;"></i>  Médico:       <span class="cita-medico">{{fila.seleccion.medico}}</span></div>
+                        <div><i class="fa fa-clock-o"     style="color: #929191;"></i>  Turno:        <span class="cita-turno">{{fila.seleccion.fecha_programada}} {{fila.seleccion.hora_formato}}</span></div>
+                      </div>                            
+                  </li>
+                  <li class="media" ng-show="fSessionCI.listaCitas.length < 1">
+                      <div class="sin-citas"> Comienza a registrar tus citas... </div>
+                  </li>
+              </ul>
+              <div class="boton-finalizar" ng-show="fSessionCI.listaCitas.length > 0">
+                <a class="" ng-click="resumenReserva();" style="animation: pulse 2s ease infinite;">FINALIZAR  <i class="fa fa-angle-right"></i>
+                </a>
+              </div>          
+            </div>
           </div>
         </div>
       </div>
