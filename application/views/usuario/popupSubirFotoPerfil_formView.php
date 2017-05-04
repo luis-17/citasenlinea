@@ -7,7 +7,7 @@
 <div class="modal-body pt-n" style="">
     <form class="row" name="formSubirFoto" novalidate  > 
 		<div class="form-group mb-md col-sm-12" >
-			<label class="control-label mb-xs"> Seleccione archivo a subir (Peso Máximo: 1MB)</label>
+			<label class="control-label mb-xs"> Seleccione archivo a subir (Peso Máximo: 1MB. Tipo de archivo: jpg)</label>
 			<div class="fileinput fileinput-new" data-provides="fileinput" style="width: 100%;">
 				<div class="fileinput-preview thumbnail mb20" data-trigger="fileinput" style="width: 100%; height: 150px;"></div>
 				<div>

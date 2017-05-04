@@ -61,7 +61,7 @@
                                         
                                             <div class="form-group col-md-6 col-sm-6 col-xs-12" >
                                                 <label class="control-label mb-xs">E-mail <small class="text-danger">(*)</small></label>
-                                                <input type="email" class="form-control " ng-model="fDataUser.email" required tabindex="5" />
+                                                <input type="email" class="form-control " ng-model="fDataUser.email" required disabled tabindex="5" />
                                             </div>
 
                                             <div class="form-group col-md-3 col-sm-6 col-xs-12" >

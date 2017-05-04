@@ -213,7 +213,7 @@ class Usuario extends CI_Controller {
         $cuerpo .= '</body>';
         $cuerpo .= '</html>';
 
-        $result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
+        //$result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
 
         $this->load->view('verificacion-cuenta');
       }else{
@@ -431,7 +431,16 @@ class Usuario extends CI_Controller {
     }
     //print_r($_FILES);
     if($_FILES['archivo']['size'] > 1000000 ){
-      $arrData['message'] = 'Error al subir los archivos, PESO MÁXIMO: 1MB.';
+      $arrData['message'] = 'Error al subir imagen, PESO MÁXIMO: 1MB.';
+      $arrData['flag'] = 0;
+      $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));
+      return;
+    }    
+
+    if($_FILES['archivo']['type'] != 'image/jpeg'){
+      $arrData['message'] = 'Error al subir imagen, TIPO DE ARCHIVO: jpg.';
       $arrData['flag'] = 0;
       $this->output
         ->set_content_type('application/json')
