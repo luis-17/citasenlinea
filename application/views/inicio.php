@@ -5,7 +5,7 @@
 				<div ng-if="fSessionCI.sexo=='M'" class="saludo"> ¡BIENVENIDO {{fSessionCI.nombres}} {{fSessionCI.apellido_paterno}}! </div>
 				<div ng-if="fSessionCI.sexo=='F'"  class="saludo"> ¡BIENVENIDA {{fSessionCI.nombres}} {{fSessionCI.apellido_paterno}}! </div>
 			</div>
-			<div class="col-md-8 col-md-offset-2 col-xs-12 col-sm-12">
+			<div class="col-md-10 col-md-offset-1 col-xs-12 col-sm-12">
 				<div class="valores panel">
 					<div class="item">
 						<div class="imagen">
@@ -72,7 +72,7 @@
 				</div>
 			</div>
 			<div class="col-md-12 col-xs-12 col-sm-12 ">
-				<div class="col-md-offset-2 col-md-4 col-xs-12 col-sm-12 ">
+				<div class="col-md-offset-1 col-md-5 col-xs-12 col-sm-12 ">
 					<div class="caja caja-1 panel" style="">
 						<div class="division division-1">	
 							<div class="texto">
@@ -80,7 +80,7 @@
 								<span class="familiares" style="color: #0f7986;">Y DE TUS FAMILIARES</span></br>
 								<p class="pasos">Es muy sencillo... Selecciona una fecha, escoge la sede, la especialidad y un médico.</p>
 							</div>
-							<div class="btn btn-page btn-go-citas" ng-click="goToSelCita();">PROGRAMAR CITA <i class="fa fa-angle-right"></i></div>
+							<div class="btn btn-default btn-go-citas" ng-click="goToSelCita();">PROGRAMAR CITA <i class="fa fa-angle-right"></i></div>
 						</div>
 
 						<div class="division division-2">	              				
@@ -95,7 +95,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-4 col-md-offset-right-2 col-xs-12 col-sm-12 ">
+				<div class="col-md-5 col-md-offset-right-1 col-xs-12 col-sm-12 ">
 					<div class="caja caja-2 panel" >	              			
 						<div class="division division-1">	              				
 							<div class="imagen">
