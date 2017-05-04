@@ -11,7 +11,7 @@
             </div>
         </div>
 
-      	<div class="mi-grid grid-citas col-md-12 col-xs-12 col-sm-12">
+      	<div class="mi-grid grid-citas col-md-12 col-xs-12 col-sm-12 pb-md">
       		<div class="body-grid">
             <div class="header row-grid row-cita">
               <div class="cell-grid cell-cita" style="width:17%;">
@@ -105,27 +105,27 @@
       	</div>
         
       	<div class="col-md-12 col-xs-12 col-sm-12">
-      		<div class="terminos-condiciones">
-      		<div class="titulo" style="font-size: 17px;color: #36c5df;font-weight:600;">
-      			Términos y Condiciones (Lea detenidamente esta sección)
-      		</div>
-      		<ul>
-      			<li>
-      				Luego de efectuar el pago, el dinero no será reembolsado. 
-      			</li>
-      			<li>
-      				En caso de no poder asistir a su cita en la fecha pautada, podrá realizar una reprogramación de la misma (antes de la fecha programada). 
-      			</li>
-      		</ul>
-          	</div>
-          	<div class="botones">
-          		<button class="btn btn-blue" style="width: 120px;" ng-click="pagar();" ><i class="fa fa-credit-card" style="padding: 0 5px 0 0;"></i>PAGAR</button>
-          	</div>
+      		<div class="botones" style="text-align: right;">
+            <button class="btn btn-blue" style="width: 120px;" ng-click="pagar();" ><i class="fa fa-credit-card" style="padding: 0 5px 0 0;"></i>PAGAR</button>
+          </div>
+          <div class="terminos-condiciones">
+        		<div class="titulo" style="font-size: 17px;color: #36c5df;font-weight:600;">
+        			Términos y Condiciones (Lea detenidamente esta sección)
+        		</div>
+        		<ul>
+        			<li>
+        				Luego de efectuar el pago, el dinero no será reembolsado. 
+        			</li>
+        			<li>
+        				En caso de no poder asistir a su cita en la fecha pautada, podrá realizar una reprogramación de la misma (antes de la fecha programada). 
+        			</li>
+        		</ul>
+          </div>        	
       	</div>
         <div class="col-md-12 col-xs-12 col-sm-12">
           <div class="call-actions mt-md">
               <div class="col-md-4 col-xs-12 col-sm-4">
-                <div class="btn btn-page btn-go-citas" ng-click="goToSelCita();">
+                <div class="btn btn-default btn-go-citas" ng-click="goToSelCita();">
                   <i class="fa fa-angle-left"></i> PROGRAMAR OTRA CITA                             
                 </div>
               </div>
@@ -234,7 +234,7 @@
       <div class="col-md-12 col-xs-12 col-sm-12">
         <div class="call-actions mt-md">
             <div class="col-md-4 col-xs-12 col-sm-4">
-              <div class="btn btn-page btn-go-citas" ng-click="goToSelCita();">
+              <div class="btn btn-default btn-go-citas" ng-click="goToSelCita();">
                 <i class="fa fa-angle-left"></i> PROGRAMAR OTRA CITA                             
               </div>
             </div>

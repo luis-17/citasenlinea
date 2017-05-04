@@ -286,15 +286,6 @@ angular.module('theme.programarCita', ['theme.core.services'])
       });
     }
 
-    $scope.cambiarFechas = function() { 
-      var fecha = moment($scope.fBusqueda.fecha).format('DD-MM-YYYY'); 
-      var fechaHasta = moment($scope.fBusqueda.fecha).add(6,'days'); 
-      fechaHasta = $filter('date')(fechaHasta.toDate(),'dd-MM-yyyy'); 
-      $scope.fBusqueda.desde = fecha;
-      $scope.fBusqueda.hasta = fechaHasta;
-      $scope.cargarPlanning();
-    }
-
     $scope.quitarDeLista = function(index, fila){
       //console.log(index, fila);
       $scope.fSessionCI.listaCitas.splice( index, 1 );

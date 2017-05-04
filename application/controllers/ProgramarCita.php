@@ -23,8 +23,25 @@ class ProgramarCita extends CI_Controller {
 
 	public function cargar_planning(){
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+
+		$nuevafecha = strtotime ( '+6 day' , strtotime ( $allInputs['desde'] ) ) ;
+		$allInputs['hasta'] = date ( 'Y-m-j' , $nuevafecha );
+		
+
+		/*print_r($allInputs);
 		$allInputs['desde'] = date('d-m-Y', strtotime('23-03-2017'));
-		$allInputs['hasta'] = date('d-m-Y', strtotime('29-03-2017'));
+		$allInputs['hasta'] = date('d-m-Y', strtotime('29-03-2017'));*/
+
+		if(empty($allInputs['itemSede'])){
+			$arrData['planning']['mostrar'] = FALSE;
+			$arrData['flag'] = 0;
+			$arrData['planning']['mostraralerta'] = FALSE;
+			$arrData['message'] = 'Seleccionar Sede.';
+			$this->output
+			    ->set_content_type('application/json')
+			    ->set_output(json_encode($arrData));
+		    return;
+		}
 		
 		/*header*/
 		$datos = array('anyo' => date("Y"));
@@ -734,6 +751,7 @@ class ProgramarCita extends CI_Controller {
 					$arrData['flagMail']  = $result[0]['flag'];
 					$arrData['msgMail']  = $result[0]['msgMail'];
 
+					//generacion notificacion
 					$texto_notificacion = generar_notificacion_evento(18, 'key_citas_en_linea', $allInputs);
 					$data = array(						
 						'idtipoevento' => 18,
