@@ -37,6 +37,7 @@
 				<input type="text" class="form-control mask" ng-model="fBusquedaPlanning.desde" placeholder="Desde" data-inputmask="'alias': 'dd-mm-yyyy'" style="width:50px !important;" /> 
 			</li>
 			<li class="" >
+				<label class="control-label">Médico:</label>
 				<input type="text" ng-model="fBusquedaPlanning.medico" class="form-control " autocomplete="off"
 					placeholder="Digite el Médico..." 
 					typeahead-loading="loadingLocations" 

@@ -4,23 +4,32 @@
       <i class="ti ti-more-alt"></i>  
     </button>
     <ul class="demo-btns collapse in" id="filtros" >
-			<li class="" >
+			<!-- <li class="" >
         Programar cita para:
+      </li> -->
+      <li class="" style="">     
+          <label class="control-label">Cita para:</label>
+          <select class="form-control " ng-model="fBusqueda.itemFamiliar"
+              ng-change="" style="margin-right: 25px;" 
+              ng-options="item.descripcion for item in listaFamiliares">
+          </select>
+          <span class="" style="position: relative;
+                                float: right;
+                                white-space: nowrap;
+                                top: -25px;    
+                                ">
+            <button type="button" class="btn btn-page btn-sm" ng-click="btnAgregarNuevoPariente();"><i class="fa fa-plus"></i></button>
+          </span>
       </li>
-      <li class="" style="padding: 0 0 0 20px;">
-        <select class="form-control " ng-model="fBusqueda.itemFamiliar"
-            ng-change="" 
-            ng-options="item.descripcion for item in listaFamiliares">
-          </select>          
-      </li>
-      <li class="" style="padding: 0 0;">
+      <!-- <li class="" style="padding: 0 0;">
         <button type="button" class="btn btn-page btn-sm" ng-click="btnAgregarNuevoPariente();"><i class="fa fa-plus"></i></button>
-      </li>
-      <li class="" >
+      </li> -->
+      <!-- <li class="" >
         en:
-      </li>
+      </li> -->
 			<li class="" >
-				<select class="form-control " ng-model="fBusqueda.itemSede"
+				<label class="control-label">en:</label>
+        <select class="form-control " ng-model="fBusqueda.itemSede"
 					ng-change="listarEspecialidad();" 
 					ng-options="item.descripcion for item in listaSedes">
 				</select>
@@ -32,7 +41,8 @@
 				</select>
 			</li>
 			<li class="" >
-				<input type="text" ng-model="fBusqueda.medico" class="form-control " autocomplete="off"
+				<label class="control-label">Médico:</label>
+        <input type="text" ng-model="fBusqueda.medico" class="form-control " autocomplete="off"
                              placeholder="Digite el Médico..." 
                                   typeahead-loading="loadingLocations" 
                                   uib-typeahead="item as item.medico for item in getMedicoAutocomplete($viewValue)" 
