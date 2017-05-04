@@ -167,45 +167,37 @@ class Acceso extends CI_Controller {
 			$icono =  '';
 			$string =  '';
 			$color_background = '';
-			if($row['idtipoevento'] == 1){
+			if($row['idtipoevento'] == 17){
 				$clase = 'success';
-				$icono =  'fa fa-check';
+				$icono =  'fa fa-plus';
 				$string =  '';
-			}else if($row['idtipoevento'] == 2){
-				$clase = 'default';
-				$icono =  'fa fa-minus';
-				$string =  '';
-			}else if($row['idtipoevento'] == 3){
-				$clase = 'danger';
-				$icono =  'fa fa-times';
-				$string =  '';
-			}else if($row['idtipoevento'] == 4 || $row['idtipoevento'] == 5|| $row['idtipoevento'] == 9 || $row['idtipoevento'] == 11){
-				$clase = 'warning';
-				$icono =  'fa fa-pencil';
-				$string =  '';
-			}else if($row['idtipoevento'] == 10){
+			}else if($row['idtipoevento'] == 18){
 				$clase = 'info';
-				$icono =  'fa fa-comments-o';
+				$icono =  'fa fa-calendar';
+				$string =  '';
+			}else if($row['idtipoevento'] == 19){
+				$clase = 'warning';
+				$icono =  'fa fa-users';
 				$string =  '';
 			}
 			
 			if($row['estado_uce'] == 2){
 				$color_background = '#fafafa';
 			}else{
-				$color_background = 'rgb(178, 231, 237)';
+				$color_background = 'rgb(220, 244, 247)';
 			}			
 
 			$array = array(
 				'idusuariowebcontrolevento' => (int)$row['idusuariowebcontrolevento'],
 				'idusuarioweb' => (int)$row['idusuarioweb'],
 				'fecha_evento' => $row['fecha_evento'],				
-				'fecha_evento_str' => date('d-m-Y',strtotime($row['fecha_evento'])),
+				'fecha_evento_str' => date('d-m-Y H:i:s',strtotime($row['fecha_evento'])),
 				'fecha_leido' => $row['fecha_leido'],				
 				'fecha_leido_str' => empty($row['fecha_leido'])? NULL : date('d-m-Y',strtotime($row['fecha_leido'])),
 				'estado_uce' => (int)$row['estado_uce'],				
 				'idtipoevento' => (int)$row['idtipoevento'],
 				'idresponsable' => (int)$row['idresponsable'],
-				//'identificador' => $row['identificador'],
+				'identificador' => (int)$row['identificador'],
 				'texto_notificacion' => $row['texto_notificacion'],
 				'descripcion_te' => $row['descripcion_te'],
 				'key_evento' => $row['key_evento'],

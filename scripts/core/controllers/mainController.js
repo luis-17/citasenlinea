@@ -287,6 +287,36 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       });
     }
 
+    $scope.viewDetalleNotificacionEvento = function(fila){
+      console.log(fila);
+      rootServices.sUpdateLeidoNotificacion(fila).then(function (rpta) {
+        if(rpta.flag == 1){
+          $scope.getNotificacionesEventos(false);
+          $uibModal.open({
+            templateUrl: angular.patchURLCI+'ControlEventoWeb/ver_popup_notificacion_evento',
+            size: '',
+            backdrop: 'static',
+            keyboard:false,
+            scope: $scope,
+            controller: function ($scope, $modalInstance) { 
+              $scope.titleForm = 'DETALLE DE NOTIFICACIÓN';               
+              $scope.fData = fila;
+
+              $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+              }              
+            }
+          });
+        }else if(rpta.flag == 0){
+          var pTitle = 'Advertencia!';
+          var pType = 'warning';
+          pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 1000 });
+        }else{
+          alert('Error inesperado');
+        }
+      });
+    }
+
     /* END */
   }])
   .service("rootServices", function($http, $q) {
@@ -295,6 +325,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
         sLogoutSessionCI: sLogoutSessionCI,
         sGetConfig:sGetConfig,
         sListarNotificacionesEventos: sListarNotificacionesEventos,
+        sUpdateLeidoNotificacion: sUpdateLeidoNotificacion,
     });
     function sGetSessionCI() {
       var request = $http({
@@ -321,6 +352,14 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"acceso/lista_notificaciones_eventos",
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }    
+    function sUpdateLeidoNotificacion (datos) {
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ControlEventoWeb/update_leido_notificacion",
             data : datos
       });
       return (request.then( handleSuccess,handleError ));

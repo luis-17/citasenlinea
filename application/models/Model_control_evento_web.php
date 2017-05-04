@@ -37,7 +37,7 @@ class Model_control_evento_web extends CI_Model {
 
 	public function m_update_leido_notificacion($idusuariowebcontrolevento){
 		$data = array( 
-			'estado_ceu'=> 2,
+			'estado_uce'=> 2,
 			'fecha_leido'=> date('Y-m-d H:i:s') 
 		);
 		$this->db->where('idusuariowebcontrolevento',$idusuariowebcontrolevento); 

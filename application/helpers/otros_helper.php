@@ -183,6 +183,10 @@ function generar_notificacion_evento($idtipoevento, $key_evento, $data){
     $texto = 'Has reprogramado una de tus citas. Nueva cita para: '. $data['oldCita']['itemFamiliar']['paciente'] . '. En la Sede: ' .$data['oldCita']['itemSede']['sede']; 
     $texto .= 'Especialidad: ' . $data['oldCita']['itemEspecialidad']['especialidad']. '. Médico: '. $data['seleccion']['medico'];
     $texto .= '. Fecha: ' . $data['seleccion']['fecha_programada'] . ' Hora: ' . $data['seleccion']['hora_formato'] . '. Consultorio: ' . $data['seleccion']['numero_ambiente'];
+  }  
+
+  if($idtipoevento == 19 && $key_evento='key_citas_en_linea'){
+    $texto = 'Has registrado un nuevo familiar. '. $data['apellido_paterno'] . ' '. $data['apellido_materno'] . ' ' . $data['nombres'] . '. Parentesco: ' .$data['parentesco']['descripcion']; 
   } 
 
   return $texto;   

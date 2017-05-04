@@ -53,24 +53,43 @@
 
 <body ng-app="themesApp" ng-controller="MainController" class="animated-content" ng-click="hideHeaderBar();hideChatBox()"
   to-top-on-load faux-offcanvas scroll ng-init="getValidateSession();">    
-    <header id="topnav" class="navbar {{getLayoutOption('topNavThemeClass')}}" role="banner" ng-cloak >
+    <header id="topnav" class="navbar {{getLayoutOption('topNavThemeClass')}}" role="banner" ng-cloak ng-if="!isLoggedIn" >
+        <section class="page-header logo-left secondary-page" >
+            <div class="container col-md-12 ">
+                <div class="clearfix row">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="logo-area">
+                            <a href="#/" class="navbar-brand" >Villa Salud</a>                            
+                        </div>
+                    </div>    
+
+                    <div class="col-md-8 col-sm-8 col-xs-8" ng-if="!isLoggedIn">
+                        <div class="logo-central">
+                            <a href="#/" class="navbar-brand-central" >Villa Salud</a>
+                        </div>
+                        <div class="logo-whatsapp">
+                            <a href="#/" class="navbar-brand-whatsapp" >Villa Salud</a>
+                        </div>
+                    </div>  
+
+                    <!-- <div class="col-md-4 col-sm-4 col-xs-4" ng-if="!isLoggedIn">
+                        
+                    </div> -->            
+                </div>
+            </div>
+        </section>
+        <div class="page-separador"></div>    
+    </header>
+
+    <header id="topnav" class="navbar {{getLayoutOption('topNavThemeClass')}}" role="banner" ng-cloak ng-if="isLoggedIn" >
         <section class="page-header logo-left secondary-page" >
             <div class="container col-md-12 ">
                 <div class="clearfix row">
                     <div class="col-md-3 col-sm-5 col-xs-6">
                         <div class="logo-area">
-                            <a href="#/" class="navbar-brand" >Villa Salud</a>
-                            <div class="toolbar-icon-bg hidden-xs" id="toolbar-search" ng-class="{active: getLayoutOption('showSmallSearchBar')}">
-                                <div class="input-group">
-                                    <!-- <span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"> ESPECIALIDAD: </i></button></span> -->
-                                    <!-- <input type="text" class="form-control" placeholder="Search...">  -->
-                                    <span class="input-group-btn">
-                                        <button class="btn" type="button" ng-click="toggleSearchBar($event)"><i class="ti ti-close"></i></button>
-                                    </span>
-                                </div>
-                            </div>
+                            <a href="#/" class="navbar-brand" >Villa Salud</a>                            
                         </div>
-                    </div>                  
+                    </div>    
 
                     <div class="col-md-9 col-sm-7 col-xs-6 menu" >
                         <nav class="" ng-controller="NavigationController" ng-if="isLoggedIn" >
@@ -95,7 +114,8 @@
                                     </a>                                
                                 </li>
 
-                                <li class="dropdown toolbar-icon-bg pull-right" tooltip-placement="bottom" tooltip="Ver Notificaciones">
+                                <li class="dropdown toolbar-icon-bg pull-right" > 
+                                    <!-- tooltip-placement="bottom" tooltip="Ver Notificaciones" -->
                                     <a href="" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
                                         <span class="icon-bg"><i class="ti ti-bell" style="font-size: 20px;"></i></span>
                                         <span ng-show="fSessionCI.listaNotificacionesEventos.contador>0" class="badge badge-deeporange"> {{ fSessionCI.listaNotificacionesEventos.contador }} </span>
@@ -115,8 +135,10 @@
                                                             <span class="notification-icon"><i class="{{fila.icono}}"></i></span>
                                                         </div>
                                                         <div class="media-body">
-                                                            <h4 class="notification-heading" ng-bind-html="fila.notificacion" style="height: 60px;overflow-y: hidden;text-overflow: ellipsis;"></h4>
-                                                            <span style="color: white;" class="notification-time label label-{{fila.clase}}"> {{ fila.fecha }} </span>
+                                                            <h4 class="notification-heading" ng-bind-html="fila.notificacion" style="height: 40px;overflow-y: hidden;text-overflow: ellipsis;"></h4>
+                                                            <span style="color: white;" class="notification-time label label-{{fila.clase}}"> 
+                                                                {{fila.fecha_evento_str}} 
+                                                            </span>
                                                         </div>
                                                     </a>                            
                                                 </li>
@@ -149,7 +171,7 @@
 
                             <div class="menu-mobile dropdown"   >
                                 <ul class="nav navbar-nav options pull-right">
-                                    <li class="dropdown toolbar-icon-bg " tooltip-placement="bottom" tooltip="Ver Notificaciones">
+                                    <li class="dropdown toolbar-icon-bg" > <!-- tooltip-placement="bottom" tooltip="Ver Notificaciones" -->
                                         <a href="" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
                                             <span class="icon-bg"><i class="ti ti-bell" style="font-size: 20px;"></i></span>
                                             <span ng-show="fSessionCI.listaNotificacionesEventos.contador>0" class="badge badge-deeporange"> {{ fSessionCI.listaNotificacionesEventos.contador }} </span>
@@ -158,7 +180,8 @@
                                             <div class="topnav-dropdown-header">
                                                 <span> Notificaciones </span>
                                             </div>
-                                            <i class="fa fa-search ml-md"></i><input type="text" name="search" placeholder="" class="input_search ml" ng-model="fBusqueda.notificacion">
+                                            <i class="fa fa-search ml-md"></i>
+                                            <input type="text" name="search" placeholder="" class="input_search ml" ng-model="fBusqueda.notificacion">
                                             <div class="scroll-pane">
                                                 <ul class="media-list scroll-content">
                                                     <li ng-repeat="fila in fSessionCI.listaNotificacionesEventos.datos | filter:fBusqueda" 
@@ -235,6 +258,39 @@
           width: 250px;
           height: 60px;
         }
+
+        #topnav .navbar-brand-central,
+        #topnav .navbar-brand-whatsapp{
+            font: 0/0 a !important;
+            color: transparent !important;
+            text-shadow: none !important;
+            background-color: transparent !important;
+            border: 0 !important;
+            background-size: contain !important;
+            width: 200px;
+            height: 60px;
+            display: block;
+            float: left;            
+        } 
+
+        #topnav .logo-central{
+            /*width: 99%;
+            margin-left: auto;
+            margin-right: auto;*/
+            float: right;
+        }           
+
+        #topnav .logo-whatsapp{
+            float: right;
+        }       
+
+        #topnav .navbar-brand-central {
+          background: url("{{ dirImages + 'dinamic/empresa/central-250x60.png'  }}") no-repeat left 0 center;
+        }
+
+        #topnav .navbar-brand-whatsapp {
+          background: url("{{ dirImages + 'dinamic/empresa/whatsapp-250x60.png'  }}") no-repeat left 0 center;          
+        }
         #topnav .navbar-brand {
           background: url("{{ dirImages + 'dinamic/empresa/logo-250x60.png'  }}") no-repeat left 0 center;
           background-size: 166px;
@@ -247,7 +303,7 @@
                 <div class="static-content">
                     <div class="page-content" ng-view="" class="mainview-animation animated"> </div> <!--wrap -->
                 </div>                
-                <footer role="contentinfo" ng-show="!layoutLoading" ng-cloak>
+                <!-- <footer role="contentinfo" ng-show="!layoutLoading" ng-cloak>
                     <div class="container">
                         <div class="clearfix">
                             <ul class="list-unstyled list-inline pull-left">
@@ -258,7 +314,7 @@
                             <button class="pull-right btn btn-page btn-sm hidden-print" back-to-top><i class="ti ti-arrow-up"></i></button>
                         </div>
                     </div>
-                </footer>
+                </footer> -->
             </div>
         </div>
     </div>    
