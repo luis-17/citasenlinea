@@ -51,8 +51,8 @@
 					<input type="text" class="form-control  " ng-model="fData.apellido_materno" placeholder="Registre su apellido materno" required tabindex="6" /> 
 				</div>
 				<div class="form-group mb-md col-md-6 col-sm-12" >
-					<label class="control-label mb-xs">E-mail <small class="text-danger">(*)</small></label>
-					<input type="email" class="form-control  " ng-model="fData.email" placeholder="Registre su e-mail" required tabindex="7" />
+					<label class="control-label mb-xs">E-mail </label>
+					<input type="email" class="form-control  " ng-model="fData.email" placeholder="Registre su e-mail" tabindex="7" />
 				</div>
 				<div class="form-group mb-md col-md-6 col-sm-12" >
 					<label class="control-label mb-xs">Fecha Nacimiento <small class="text-danger">(*)</small> </label>  

@@ -184,6 +184,7 @@ angular.module('theme.pariente', ['theme.core.services'])
                 }else{
                   $scope.refreshListaParientes();
                 }
+                $scope.getNotificacionesEventos();
                 $scope.btnCancel();                
               }
               $scope.fAlert.flag = rpta.flag;
@@ -262,8 +263,25 @@ angular.module('theme.pariente', ['theme.core.services'])
 
           $scope.btnOk = function(){
             $scope.btnCancel();
-            parienteServices.sEliminarPariente(row).then(function (rpta) {
-              //$scope.refreshListaParientes();
+            parienteServices.sEliminarPariente(row).then(function (rpta) {                         
+              $scope.fAlert = {};
+              if(rpta.flag == 0){
+                $scope.fAlert = {};
+                $scope.fAlert.type= 'danger';
+                $scope.fAlert.msg= rpta.message;
+                $scope.fAlert.strStrong = 'Error';
+                $scope.fAlert.icon = 'fa fa-exclamation';                
+              }else if(rpta.flag == 1){
+                $scope.fData = {};
+                $scope.fData.sexo = '-';
+                $scope.fAlert.type= 'success';
+                $scope.fAlert.msg= rpta.message;
+                $scope.fAlert.icon= 'fa fa-smile-o';
+                $scope.fAlert.strStrong = 'Genial! ';
+                $scope.refreshListaParientes();
+              }
+              $scope.fAlert.flag = rpta.flag;
+              
             });
           }
 

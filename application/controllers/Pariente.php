@@ -5,7 +5,7 @@ class Pariente extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper(array('security','otros_helper'));
-		$this->load->model(array('model_pariente','model_usuario'));
+		$this->load->model(array('model_pariente','model_usuario','model_control_evento_web'));
 		//cache
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
 		$this->output->set_header("Pragma: no-cache");
@@ -201,12 +201,25 @@ class Pariente extends CI_Controller {
         'updatedAt' => date('Y-m-d H:i:s')
         );
       $resultPariente = $this->model_pariente->m_registrar_pariente($datos);
+      $idpariente = GetLastId('idusuariowebpariente','ce_usuario_web_pariente');
     }
     $this->db->trans_complete();
 
     if($resultCliente && $resultPariente){
       $arrData['message'] = 'Se ha registrado tu familiar exitosamente.';
       $arrData['flag'] = 1;
+
+      //generacion notificacion
+      $texto_notificacion = generar_notificacion_evento(19, 'key_citas_en_linea', $allInputs);
+      $noti = array(            
+        'idtipoevento' => 19,
+        'identificador' => $idpariente,
+        'idusuarioweb' => $this->sessionCitasEnLinea['idusuario'],
+        'texto_notificacion' => $texto_notificacion,
+        'idresponsable' => $this->sessionCitasEnLinea['idusuario'],
+        'fecha_evento' => date('Y-m-d H:i:s'),
+        );
+      $this->model_control_evento_web->m_registrar_notificacion_evento($noti);
     }
 
     $this->output
