@@ -902,7 +902,7 @@ a.link-password:hover{
 }
 
 .text-guia .saludo{
-  font-size: 22px;
+  font-size: 15px;
   font-weight: bold;
   color:#36c0d1;
 }
@@ -1646,16 +1646,20 @@ input[type=radio]:checked + label:before {
 }
 
 .mi-grid .totales .descripcion{
-  width: 200px;
+  width: 250px;
 }
 
 .mi-grid .totales .monto{
-  width:10%;
+  width:9%;
 }
 
 .mi-grid .totales .descripcion,
 .mi-grid .totales .monto{
   display: inline-block;
+}
+
+.mi-grid .totales .descripcion i:hover{
+  cursor: pointer;
 }
 
 .mi-grid .totales .total-pago{

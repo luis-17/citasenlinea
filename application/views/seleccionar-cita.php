@@ -61,11 +61,11 @@
 			<div class="seleccion">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-xs-12">
           <div class="row">
-  					<div class="col-sm-12 col-md-7 col-xs-12 mb-md p-n text-guia">
+  					<div class="col-sm-12 col-md-6 col-xs-12 mb-md p-n text-guia">
   						<p class="saludo p-n m-n">¡Hola {{fSessionCI.nombres}}!</p>
   						<p class="instruccion p-n m-n">Programar tu cita es muy sencillo... Selecciona una fecha, escoge la sede, la especialidad y un médico, si tienes algún favorito!</p>
   					</div>
-            <div class="col-sm-12 col-xs-12 col-md-2 p-n m-n grid-fecha" style="">
+            <div class="col-sm-12 col-xs-12 col-md-3 p-n m-n grid-fecha" style="">
               <label class="control-label mb-xs">Fecha seleccionada: </label>
               <div class="input-group" style="width: 200px;"> <!-- datepicker-movil -->
                 <input type="text" placeholder="Desde"  class="form-control datepicker input-fecha" ng-change="cargarPlanning();"

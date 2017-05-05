@@ -87,7 +87,7 @@
       			</div>
       			<div class="total total-servicio ">
       				<div class="descripcion">
-      					USO SERVICIO WEB: S/. 
+      					<i class="fa fa-info-circle" style="color:#00bcd4;"></i> CARGOS POR SERVICIO WEB: S/. 
       				</div> 
       				<div class="monto">
       					{{totales.total_servicio}}
