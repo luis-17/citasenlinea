@@ -131,7 +131,10 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
 
     $scope.keyRecaptcha='';
     window.onloadCallback = function(){      
-      rootServices.sGetConfig().then(function(rpta){
+      var datos = {
+        tipo: 'captcha'
+      }
+      rootServices.sGetConfig(datos).then(function(rpta){
         $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
         grecaptcha.render('recaptcha-login', {
           'sitekey' : $scope.keyRecaptcha,
@@ -341,10 +344,11 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       });
       return (request.then( handleSuccess,handleError ));
     }
-    function sGetConfig() {
+    function sGetConfig(datos) {
       var request = $http({
             method : "post",
-            url : angular.patchURLCI+"acceso/get_config"
+            url : angular.patchURLCI+"acceso/get_config",
+            data : datos
       });
       return (request.then( handleSuccess,handleError ));
     }   

@@ -297,8 +297,9 @@ class Usuario extends CI_Controller {
     $arrPerfilUsuario['estatura'] = $perfil['estatura'];
     $arrPerfilUsuario['tipo_sangre']['id'] = empty($perfil['tipo_sangre']) ? null :$perfil['tipo_sangre'];
     $arrPerfilUsuario['tipo_sangre']['descripcion'] = empty($perfil['tipo_sangre']) ? null : $tipo_sangre[$perfil['tipo_sangre']] ;
-    $arrPerfilUsuario['nombre_imagen'] = empty($perfil['nombre_imagen']) ? 'noomage.png' : $perfil['nombre_imagen'];
-    $arrPerfilUsuario['listaCitas'] = $this->sessionCitasEnLinea['listaCitas'];
+    $arrPerfilUsuario['nombre_imagen'] = empty($perfil['nombre_imagen']) ? 'noimage.png' : $perfil['nombre_imagen'];
+    $arrPerfilUsuario['compra'] = $this->sessionCitasEnLinea['compra'];
+    $arrPerfilUsuario['compra']['listaCitas']= $this->sessionCitasEnLinea['compra']['listaCitas'];
 
     $paciente = ucwords(strtolower( $perfil['nombres'] . ' ' . 
                 $perfil['apellido_paterno'] . ' ' . 

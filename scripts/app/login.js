@@ -9,7 +9,10 @@ angular.module('theme.login', ['theme.core.services'])
     $scope.modulo='login';    
 
     $scope.initLoginRecaptcha = function() {      
-      rootServices.sGetConfig().then(function(rpta){
+      var datos = {
+        tipo: 'captcha'
+      }
+      rootServices.sGetConfig(datos).then(function(rpta){
         $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
         grecaptcha.render('recaptcha-login', {
           'sitekey' : $scope.keyRecaptcha,

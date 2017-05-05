@@ -13,15 +13,23 @@ function GetLastId($campoId,$table){
     return $fData['id'];
 }
 
-function getConfig($tipo = FALSE){
+function getConfig($tipo = FALSE, $id = FALSE, $incluye_privados = FALSE){
   $ci2 =& get_instance();
   $ci2->db->select('cc.key, cc.value');
   $ci2->db->from('ce_configuracion cc');
 
   if($tipo){
     $ci2->db->where('cc.tipo ', $tipo);
+
+    if($id){
+      $ci2->db->where('cc.idsedeempresaadmin IS NULL OR cc.idsedeempresaadmin = '.$id);
+    }
   }
   
+  if(!$incluye_privados){
+    $ci2->db->where('cc.si_key_publico', 1);
+  }
+
   $fData = $ci2->db->get()->result_array();
 
   $data = array();

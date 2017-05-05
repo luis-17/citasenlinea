@@ -38,12 +38,13 @@ class Acceso extends CI_Controller {
 					$arrPerfilUsuario['celular'] = $perfil['celular'];
 					$arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($perfil['fecha_nacimiento']));
 					$arrPerfilUsuario['email'] = $perfil['email'];
-					$arrPerfilUsuario['nombre_imagen'] = empty($perfil['nombre_imagen']) ? 'noomage.png' : $perfil['nombre_imagen'];
+					$arrPerfilUsuario['nombre_imagen'] = empty($perfil['nombre_imagen']) ? 'noimage.png' : $perfil['nombre_imagen'];
 					$arrPerfilUsuario['peso'] = $perfil['peso'];
 				    $arrPerfilUsuario['estatura'] = $perfil['estatura'];
 				    $arrPerfilUsuario['tipo_sangre']['id'] = empty($perfil['tipo_sangre']) ? null  :$perfil['tipo_sangre'];
 				    $arrPerfilUsuario['tipo_sangre']['descripcion'] = empty($perfil['tipo_sangre']) ? null : $tipo_sangre[$perfil['tipo_sangre']] ;
-					$arrPerfilUsuario['listaCitas'] =array();
+					$arrPerfilUsuario['compra'] =array();
+					$arrPerfilUsuario['compra']['listaCitas'] =array();
 
 					$paciente = ucwords(strtolower( $perfil['nombres'] . ' ' . 
 											$perfil['apellido_paterno'] . ' ' . 
@@ -147,7 +148,8 @@ class Acceso extends CI_Controller {
 	}
 
 	public function get_config(){
-		$arrData['datos'] = getConfig('captcha');
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$arrData['datos'] = getConfig($allInputs['tipo'],empty($allInputs['idsedeempresaadmin']) ? null : $allInputs['idsedeempresaadmin']);
 		$this->output
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));

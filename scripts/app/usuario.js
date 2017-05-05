@@ -64,7 +64,10 @@ angular.module('theme.usuario', ['theme.core.services'])
     }
 
     $scope.initRecaptchaReg = function () {
-      rootServices.sGetConfig().then(function(rpta){
+      var datos = {
+        tipo: 'captcha'
+      }
+      rootServices.sGetConfig(datos).then(function(rpta){
         $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
           grecaptcha.render('recaptcha-registro', {
           'sitekey' : $scope.keyRecaptcha,

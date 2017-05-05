@@ -11,5 +11,6 @@ angular
     'theme.programarCita', 
     'theme.especialidad' ,
     'theme.resultadolaboratorio',     
-    'theme.especialidad' 
+    'theme.especialidad', 
+    'theme.venta' 
   ]);
