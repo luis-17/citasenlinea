@@ -21,7 +21,7 @@ class Model_especialidad extends CI_Model {
 		$this->db->where('pm.estado_pm', 1); 
 		$this->db->where('pm.idtipoproducto', 12); 
 		$this->db->where('pm.idespecialidad', (int)$datos['idespecialidad']); 
-		$this->db->where('pm.descripcion', 'CONSULTA - ' . $datos['especialidad']);
+		$this->db->where("pm.descripcion LIKE 'CONSULTA %" . $datos['especialidad'] ."%'");
 		$this->db->join('producto_precio_sede pps','pm.idproductomaster = pps.idproductomaster 
 													AND pps.estado_pps = 1');
 		$this->db->join('sede_empresa_admin sea','sea.idsedeempresaadmin = pps.idsedeempresaadmin 

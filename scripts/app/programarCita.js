@@ -5,19 +5,25 @@ angular.module('theme.programarCita', ['theme.core.services'])
     'especialidadServices',
     'parienteServices',
     'rootServices',
+    'ventaServices',
     function($scope, $controller, $filter, $sce, $uibModal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, blockUI,
       programarCitaServices,
       sedeServices,
       especialidadServices,
       parienteServices,
-      rootServices
+      rootServices,
+      ventaServices
       ){
     'use strict';
     shortcut.remove("F2"); 
     $scope.modulo = 'programarCita';
 
+    $scope.bloquearSelector = function(value){
+      $scope.bloqueaSelector = value;
+    }
+
     $scope.initSeleccionarCita=function(){      
-      console.log('$scope.familiarSeleccionado', $scope.familiarSeleccionado);
+      console.log('$scope.familiarSeleccionado', $scope.familiarSeleccionado);      
       $scope.fBusqueda = {};
       var fechaHasta = moment().add(6,'days');
       $scope.fBusqueda.desde =  $filter('date')(moment().toDate(),'dd-MM-yyyy'); 
@@ -33,22 +39,46 @@ angular.module('theme.programarCita', ['theme.core.services'])
         search:1,
         nameColumn:'tiene_prog_cita'
       };
-      sedeServices.sListarSedesCbo(datos).then(function (rpta) {
-        $scope.listaSedes = rpta.datos;
-        $scope.listaSedes.splice(0,0,{ id : 0, idsede:0, descripcion:'SEDE'});
-        $scope.fBusqueda.itemSede = $scope.listaSedes[0];
-      });
 
       rootServices.sGetSessionCI().then(function (response) {
         if(response.flag == 1){
           $scope.fDataUser = response.datos;
           $scope.fSessionCI = response.datos;
           $scope.fSessionCI.compraFinalizada = false;
-          if(!$scope.fSessionCI.nombre_imagen || $scope.fSessionCI.nombre_imagen === ''){
-            $scope.fSessionCI.nombre_imagen = 'noimage.jpg';
+          if($scope.fSessionCI.compra.listaCitas.length > 0){
+            $scope.bloquearSelector(true);
+          }else{
+            $scope.bloquearSelector(false); 
           }
         }
-      });
+
+        sedeServices.sListarSedesCbo(datos).then(function (rpta) {
+          $scope.listaSedes = rpta.datos;
+          $scope.listaSedes.splice(0,0,{ id : 0, idsede:0, descripcion:'SEDE'});
+          $scope.fBusqueda.itemSede = $scope.listaSedes[0];
+
+          if($scope.bloqueaSelector){
+            angular.forEach($scope.listaSedes, function(value, key) {
+              if(value.id == $scope.fSessionCI.compra.itemSede.id){
+                $scope.fBusqueda.itemSede = $scope.listaSedes[key];
+              }                
+            });
+
+            var datos = {
+              idsede : $scope.fBusqueda.itemSede.id,
+            }
+            especialidadServices.sListarEspecialidadesProgAsistencial(datos).then(function (rpta) {
+              $scope.listaEspecialidad = rpta.datos;
+              $scope.listaEspecialidad.splice(0,0,{ id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '});
+              angular.forEach($scope.listaEspecialidad, function(value, key) {
+                if(value.id == $scope.fSessionCI.compra.itemEspecialidad.id){
+                  $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[key];
+                }                
+              });
+            });
+          }
+        });
+      });      
 
       $scope.listarParientes = function(externo){
         parienteServices.sListarParientesCbo().then(function (rpta) {
@@ -178,7 +208,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
           $scope.btnReservarTurno = function(){ 
             var encontro = false;
-            angular.forEach($scope.fSessionCI.listaCitas, function(value, key){              
+            angular.forEach($scope.fSessionCI.compra.listaCitas, function(value, key){              
               if(value.seleccion.iddetalleprogmedico == $scope.fSeleccion.iddetalleprogmedico){
                 encontro = true;
               }
@@ -202,13 +232,18 @@ angular.module('theme.programarCita', ['theme.core.services'])
               });
             }else{
               var datos = {
-                busqueda:angular.copy($scope.fBusqueda) ,
+                busqueda:angular.copy($scope.fBusqueda),
                 seleccion:angular.copy($scope.fSeleccion)
               }
 
-              $scope.fSessionCI.listaCitas.push(datos);
+              $scope.fSessionCI.compra.listaCitas.push(datos);
               programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
                 console.log(rpta);
+                if($scope.fSessionCI.compra.listaCitas.length > 0){
+                  $scope.bloquearSelector(true);
+                }else{
+                  $scope.bloquearSelector(false); 
+                }
               });
               $scope.btnCancel();
             }
@@ -288,7 +323,12 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
     $scope.quitarDeLista = function(index, fila){
       //console.log(index, fila);
-      $scope.fSessionCI.listaCitas.splice( index, 1 );
+      $scope.fSessionCI.compra.listaCitas.splice( index, 1 );
+      if($scope.fSessionCI.compra.listaCitas.length > 0){
+        $scope.bloquearSelector(true);
+      }else{
+        $scope.bloquearSelector(false); 
+      }
       programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
         console.log(rpta);
       });
@@ -302,7 +342,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
     $scope.initResumenReserva = function(){
       $scope.viewResumenCita = true;
-      $scope.viewResumenCompra = false;
+      $scope.viewResumenCompra = false;      
 
       /*  
       $scope.viewResumenCita = false;
@@ -316,7 +356,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
           token: token
         }
 
-        programarCitaServices.sGenerarVenta(datos).then(function(rpta){          
+        ventaServices.sGenerarVentaCitas(datos).then(function(rpta){          
           var titulo = '';
           var modal = true;
           if(rpta.flag == 1){
@@ -357,8 +397,8 @@ angular.module('theme.programarCita', ['theme.core.services'])
         });
       }
 
-      window.initCulqi = function(value) {
-        Culqi.publicKey = 'pk_test_5waw7MlH2GomYjCx'; //cambiar por servicio config
+      window.initCulqi = function(value, key) {        
+        Culqi.publicKey = key; //'pk_test_5waw7MlH2GomYjCx';
         Culqi.settings({
             title: 'Villa Salud',
             currency: 'PEN',
@@ -367,14 +407,12 @@ angular.module('theme.programarCita', ['theme.core.services'])
         });
         
         window.culqi = function(){
-          console.log('entro por aqui');
           if(Culqi.token) { // ¡Token creado exitosamente!
             // Get the token ID:
             var token = Culqi.token;
             $scope.generarCargo(token);
-          }else{ // ¡Hubo algún problema!
-            // Mostramos JSON de objeto error en consola
-            console.log(Culqi.error);
+          }else{ 
+            console.log('Culqi.error',Culqi.error);
             $uibModal.open({ 
               templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_aviso',
               size: 'sm',
@@ -395,7 +433,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
       }
 
       $scope.pagar = function(){
-        console.log($scope.fSessionCI);
+        console.log('$scope.fSessionCI',$scope.fSessionCI);
         Culqi.open();
       }
 
@@ -403,17 +441,26 @@ angular.module('theme.programarCita', ['theme.core.services'])
         if(response.flag == 1){
           $scope.fSessionCI = response.datos;
           programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(response){
+
             $scope.totales = {};
-            $scope.totales.total_productos = response.datos.totales.total_productos;
-            $scope.totales.total_servicio = response.datos.totales.total_servicio;
-            $scope.totales.total_pago = response.datos.totales.total_pago;
-            $scope.totales.total_pago_culqi = response.datos.totales.total_pago_culqi;
-            window.initCulqi($scope.totales.total_pago_culqi);  
-            if($scope.fSessionCI.listaCitas.length < 1){
+            $scope.totales.total_productos = response.datos.compra.totales.total_productos;
+            $scope.totales.total_servicio = response.datos.compra.totales.total_servicio;
+            $scope.totales.total_pago = response.datos.compra.totales.total_pago;
+            $scope.totales.total_pago_culqi = response.datos.compra.totales.total_pago_culqi;
+
+            var datos = {
+              tipo: 'pago',
+              idsedeempresaadmin: $scope.fSessionCI.compra.itemSede.idsedeempresaadmin,
+            }
+            rootServices.sGetConfig(datos).then(function(rpta){
+              window.initCulqi($scope.totales.total_pago_culqi,rpta.datos.CULQI_PUBLIC_KEY); 
+            });
+              
+            if($scope.fSessionCI.compra.listaCitas.length < 1){
               $scope.goToUrl('/seleccionar-cita');
             }       
 
-            $scope.listaCitas = $scope.fSessionCI.listaCitas;
+            $scope.listaCitas = $scope.fSessionCI.compra.listaCitas;
           });          
         }           
       });    

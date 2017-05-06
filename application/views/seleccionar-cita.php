@@ -1,12 +1,14 @@
+<style type="text/css">
+  .page-content{
+    margin-bottom: 100px;
+  }
+</style>
 <div class="content page-planning" ng-controller="programarCitaController" ng-init="initSeleccionarCita();" > 
 	<div class="filtros btn-group-btn pl-n ml-n">
 		<button type="button" class="btn btn-info btn-sm toggle-filtros" data-toggle="collapse" data-target="#filtros">
       <i class="ti ti-more-alt"></i>  
     </button>
     <ul class="demo-btns collapse in" id="filtros" >
-			<!-- <li class="" >
-        Programar cita para:
-      </li> -->
       <li class="" style="">     
           <label class="control-label">Cita para:</label>
           <select class="form-control " ng-model="fBusqueda.itemFamiliar"
@@ -21,22 +23,16 @@
             <button type="button" class="btn btn-page btn-sm" ng-click="btnAgregarNuevoPariente();"><i class="fa fa-plus"></i></button>
           </span>
       </li>
-      <!-- <li class="" style="padding: 0 0;">
-        <button type="button" class="btn btn-page btn-sm" ng-click="btnAgregarNuevoPariente();"><i class="fa fa-plus"></i></button>
-      </li> -->
-      <!-- <li class="" >
-        en:
-      </li> -->
 			<li class="" >
 				<label class="control-label">en:</label>
         <select class="form-control " ng-model="fBusqueda.itemSede"
-					ng-change="listarEspecialidad();" 
+					ng-change="listarEspecialidad();" ng-disabled="bloqueaSelector" 
 					ng-options="item.descripcion for item in listaSedes">
 				</select>
 			</li>
 			<li class="" >
 				<select class="form-control " ng-model="fBusqueda.itemEspecialidad"
-					ng-change="" 
+					ng-change="cargarPlanning();" ng-disabled="bloqueaSelector" 
 					ng-options="item.descripcion for item in listaEspecialidad">
 				</select>
 			</li>
@@ -52,7 +48,7 @@
 			</li>
 
 			<li class="">
-				<button class="btn btn-page btn-sm" ng-click="cargarPlanning(); " ><i class="ti ti-search"></i></button>
+				<button class="btn btn-page btn-sm" ng-click="cargarPlanning();" ><i class="ti ti-search"></i></button>
 			</li>
 		</ul>
 	</div>
@@ -88,8 +84,7 @@
           <div class="alert alert-warning" ng-if="!fPlanning.mostrar && fPlanning.mostraralerta">
             no hay turnos diponibles con las opciones seleccionadas, intenta con otros parámetros... 
           </div>
-          <div class="planning large pr-md" ng-class="{visible : fPlanning.mostrar}" ng-if="fPlanning.mostrar">
-            
+          <div class="planning large pr-md" ng-class="{visible : fPlanning.mostrar}" ng-if="fPlanning.mostrar">            
             <div class="header">
               <div class="desc-header fecha-header" style="width: 95px; ">
                 H./FECHAS
@@ -156,7 +151,7 @@
         <div class="col-xs-12 col-sm-12 col-md-2 pl-n pr-n">
           <div class="citas scroll-pane citas-large" style="">
             <ul class="list-citas">
-                <li ng-repeat="(index,fila) in fSessionCI.listaCitas" class="item-list-citas notification-{{fila.clase}}" >
+                <li ng-repeat="(index,fila) in fSessionCI.compra.listaCitas" class="item-list-citas notification-{{fila.clase}}" >
                     <div class="cita" ng-click="" style="">
                       <span class="eliminar" ng-click="quitarDeLista(index,fila);"><i class="fa fa-times" style="color: #ce1d19;"></i></span>  
                       <div><i class="fa fa-stethoscope" style="color: #36c0d1;"></i>  Cita para:    <span class="cita-familiar">{{fila.busqueda.itemFamiliar.descripcion}}</span></div>
@@ -166,11 +161,11 @@
                       <div><i class="fa fa-clock-o"     style="color: #929191;"></i>  Turno:        <span class="cita-turno">{{fila.seleccion.fecha_programada}} {{fila.seleccion.hora_formato}}</span></div>
                     </div>                            
                 </li>
-                <li class="media" ng-show="fSessionCI.listaCitas.length < 1">
+                <li class="media" ng-show="fSessionCI.compra.listaCitas.length < 1">
                     <div class="sin-citas"> Comienza a registrar tus citas... </div>
                 </li>
             </ul>
-            <div class="boton-finalizar" ng-show="fSessionCI.listaCitas.length > 0">
+            <div class="boton-finalizar" ng-show="fSessionCI.compra.listaCitas.length > 0">
               <a class="" ng-click="resumenReserva();" style="animation: pulse 2s ease infinite;">FINALIZAR  <i class="fa fa-angle-right"></i>
               </a>
             </div>            
@@ -183,7 +178,7 @@
             </div>
             <div class="citas scroll-pane collapse in" id="citas" style="">            
               <ul class="list-citas">
-                  <li ng-repeat="(index,fila) in fSessionCI.listaCitas" class="item-list-citas notification-{{fila.clase}}" >
+                  <li ng-repeat="(index,fila) in fSessionCI.compra.listaCitas" class="item-list-citas notification-{{fila.clase}}" >
                       <div class="cita" ng-click="" style="">
                         <span class="eliminar" ng-click="quitarDeLista(index,fila);"><i class="fa fa-times" style="color: #ce1d19;"></i></span>  
                         <div><i class="fa fa-stethoscope" style="color: #36c0d1;"></i>  Cita para:    <span class="cita-familiar">{{fila.busqueda.itemFamiliar.descripcion}}</span></div>
@@ -193,11 +188,11 @@
                         <div><i class="fa fa-clock-o"     style="color: #929191;"></i>  Turno:        <span class="cita-turno">{{fila.seleccion.fecha_programada}} {{fila.seleccion.hora_formato}}</span></div>
                       </div>                            
                   </li>
-                  <li class="media" ng-show="fSessionCI.listaCitas.length < 1">
+                  <li class="media" ng-show="fSessionCI.compra.listaCitas.length < 1">
                       <div class="sin-citas"> Comienza a registrar tus citas... </div>
                   </li>
               </ul>
-              <div class="boton-finalizar" ng-show="fSessionCI.listaCitas.length > 0">
+              <div class="boton-finalizar" ng-show="fSessionCI.compra.listaCitas.length > 0">
                 <a class="" ng-click="resumenReserva();" style="animation: pulse 2s ease infinite;">FINALIZAR  <i class="fa fa-angle-right"></i>
                 </a>
               </div>          

@@ -182,14 +182,14 @@ function generar_notificacion_evento($idtipoevento, $key_evento, $data){
   //print_r($data);
   $texto = '';
   if($idtipoevento == 17 && $key_evento='key_citas_en_linea'){
-    $texto = 'Has generado una cita para: '. $data['itemFamiliar']['descripcion'] . '. En la Sede: ' .$data['itemSede']['descripcion']; 
-    $texto .= 'Especialidad: ' . $data['itemEspecialidad']['descripcion']. '. Médico: '. $data['seleccion']['medico'];
+    $texto = 'Has generado una cita para: '. $data['busqueda']['itemFamiliar']['descripcion'] . '. En la Sede: ' .$data['busqueda']['itemSede']['descripcion']; 
+    $texto .= '. Especialidad: ' . $data['busqueda']['itemEspecialidad']['descripcion']. '. Médico: '. $data['seleccion']['medico'];
     $texto .= '. Fecha: ' . $data['seleccion']['fecha_programada'] . ' Hora: ' . $data['seleccion']['hora_formato'] . '. Consultorio: ' . $data['seleccion']['numero_ambiente'];
   }  
 
   if($idtipoevento == 18 && $key_evento='key_citas_en_linea'){
     $texto = 'Has reprogramado una de tus citas. Nueva cita para: '. $data['oldCita']['itemFamiliar']['paciente'] . '. En la Sede: ' .$data['oldCita']['itemSede']['sede']; 
-    $texto .= 'Especialidad: ' . $data['oldCita']['itemEspecialidad']['especialidad']. '. Médico: '. $data['seleccion']['medico'];
+    $texto .= '. Especialidad: ' . $data['oldCita']['itemEspecialidad']['especialidad']. '. Médico: '. $data['seleccion']['medico'];
     $texto .= '. Fecha: ' . $data['seleccion']['fecha_programada'] . ' Hora: ' . $data['seleccion']['hora_formato'] . '. Consultorio: ' . $data['seleccion']['numero_ambiente'];
   }  
 

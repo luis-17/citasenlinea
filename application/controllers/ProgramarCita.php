@@ -341,15 +341,13 @@ class ProgramarCita extends CI_Controller {
 	    
 	    $arrListado = array();
 	    $total_productos = 0;
-	    foreach ($allInputs['listaCitas'] as $key => $cita) {
-	    	if($cita['busqueda']['itemSede']['idsede'] == 1){
-	    		$cita['busqueda']['itemSede']['idempresaadmin'] = 14; //Sede Villa - Empresa GM
-	    	}
 
-	    	if($cita['busqueda']['itemSede']['idsede'] == 3){
-	    		$cita['busqueda']['itemSede']['idempresaadmin'] = 15; //Sede Lurin - Empresa Med. I. 
-	    	}
+	    if(count($allInputs['compra']['listaCitas']) == 1){
+	    	$arrData['datos']['compra']['itemEspecialidad'] = $allInputs['compra']['listaCitas'][0]['busqueda']['itemEspecialidad'];
+	    	$arrData['datos']['compra']['itemSede'] = $allInputs['compra']['listaCitas'][0]['busqueda']['itemSede'];
+	    }
 
+	    foreach ($allInputs['compra']['listaCitas'] as $key => $cita) {
 	    	$datosCita = array(
 	    		'idespecialidad' => $cita['busqueda']['itemEspecialidad']['id'],
 	    		'especialidad' => $cita['busqueda']['itemEspecialidad']['descripcion'],
@@ -363,20 +361,21 @@ class ProgramarCita extends CI_Controller {
 	    	array_push($arrListado, $cita);	    	
 	    }
 
-	    $config = getConfig('culqi');
-	    $porcentaje = (float)$config['PORCENTAJE']; //3.99;
-	    $comision = (float)$config['COMISION']; //0.15;
-	    $tasa_cambio = (float)$config['TASA_CAMBIO']; // 3.3; 
-	    $total_servicio =  ($total_productos * $porcentaje / 100) + ($comision * $tasa_cambio);
+	    $config = getConfig('pago');
+	    $porcentaje = (float)$config['COMISION_VARIABLE_CULQI']; //3.99
+	    $comision_fija = (float)$config['COMISION_FIJA_CULQI']; //0.50 S/.
+	    $comision_fe = (float)$config['COMISION_FE']; //facturacion electronica 0.50 S/.
+	    $igv = (float)$config['IGV'];
+	    $total_servicio =  (($total_productos * $porcentaje / 100) + $comision_fija + $comision_fe) * $igv;
 	    $total_pago = $total_productos + $total_servicio;
 
-	    $arrData['datos']['listaCitas'] = $arrListado;
-	    $arrData['datos']['totales']['total_productos'] = number_format(round($total_productos,2),2);
-	    $arrData['datos']['totales']['total_servicio'] = number_format(round($total_servicio,2),2);
-	    $arrData['datos']['totales']['total_pago'] = number_format(round($total_pago,2),2);
+	    $arrData['datos']['compra']['listaCitas'] = $arrListado;
+	    $arrData['datos']['compra']['totales']['total_productos'] = number_format(round($total_productos,2),2);
+	    $arrData['datos']['compra']['totales']['total_servicio'] = number_format(round($total_servicio,2),2);
+	    $arrData['datos']['compra']['totales']['total_pago'] = number_format(round($total_pago,2),2);
 	    
-	    $str_total = (string)$arrData['datos']['totales']['total_pago'];
-	    $arrData['datos']['totales']['total_pago_culqi'] = str_replace('.', '',$str_total);
+	    $str_total = (string)$arrData['datos']['compra']['totales']['total_pago'];
+	    $arrData['datos']['compra']['totales']['total_pago_culqi'] = str_replace('.', '',$str_total);
 
 	    $this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']);
 	    $arrData['flag'] = 1;
@@ -385,265 +384,6 @@ class ProgramarCita extends CI_Controller {
 	        ->set_content_type('application/json')
 	        ->set_output(json_encode($arrData));
 	    return;
-  	}
-
-  	public function validar_citas(){
-	}
-
-  	public function generar_venta(){
-  		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
-		$config = getConfig('culqi');
-		$arrData['flag'] = 0;
-		$arrData['message'] = 'Ha ocurrido un error procesando tu pago. Intenta nuevamente!.';
-	
-		$this->load->library(array('culqi_php'));	
-		$respuesta = array();
-
-		try{			
-			$culqi = new Culqi\Culqi(array('api_key' => $config['CULQI_PRIVATE_KEY']));
-
-			$charge = $culqi->Charges->create(
-				array(
-					"amount" => $allInputs['usuario']['totales']['total_pago_culqi'],
-					"currency_code" => "PEN",
-					"email" => $allInputs['token']['email'],
-					"description" => "Pago de Citas en linea - Villa Salud",
-					"installments" => 0,
-					"source_id" => $allInputs['token']['id'] 
-				)
-			);
-			// Respuesta
-			$respuesta = json_encode($charge);
-		  	if(!empty($respuesta['cargo'])){
-		  		$arrData['flag'] = 1;
-		  		$arrData['datos']['cargo'] = get_object_vars($charge);
-		  	}
-		  	//$arrData['datos']['cargo']['id'] = '15';
-			
-		  	if($arrData['flag'] == 1 && !empty($arrData['datos']['cargo']['id'])){
-				$arrData['datos']['cargo']['outcome']= get_object_vars($arrData['datos']['cargo']['outcome']);
-				$this->db->trans_start();
-				$arrData['flag'] = 0;
-				$listaCitas = $allInputs['usuario']['listaCitas'];
-				$listaCitasGeneradas = $allInputs['usuario']['listaCitas'];
-				$listNotificaciones = array();
-				$error = FALSE;
-				foreach ($listaCitas as $key => $cita) {
-					$result = FALSE;
-					$resultDetalle = FALSE;
-					$resultCanales = FALSE;
-					$resultProg = FALSE;
-
-					if($cita['busqueda']['itemFamiliar']['idusuariowebpariente'] == 0){
-						$cliente = $allInputs['usuario']['idcliente'];
-					}else{
-						$cliente = $cita['busqueda']['itemFamiliar']['idclientepariente'];
-					} 
-
-					//registro de cita
-					$data = array(
-						'iddetalleprogmedico' => $cita['seleccion']['iddetalleprogmedico'],
-						'fecha_reg_reserva' => date('Y-m-d H:i:s'),
-						'fecha_reg_cita' => date('Y-m-d H:i:s'),
-						'fecha_atencion_cita' => $cita['seleccion']['fecha_programada']. " " . $cita['seleccion']['hora_inicio_det'],
-						'idcliente' => $cliente,
-						'idempresacliente' =>  NULL,
-						'estado_cita' => 2,
-						'idproductomaster' => $cita['producto']['idproductomaster'],
-						'idsedeempresaadmin' => $cita['producto']['idsedeempresaadmin'],
-						);
-					$result = $this->model_prog_cita->m_registrar($data);
-
-					if($result){
-						$idprogcita = GetLastId('idprogcita','pa_prog_cita');
-						$listaCitasGeneradas[$key]['idprogcita'] =  $idprogcita;
-						$listaCitasGeneradas[$key]['idventa'] =  '';
-						$listaCitasGeneradas[$key]['idculqitracking'] =  $arrData['datos']['cargo']['id'];
-
-						$texto_notificacion = generar_notificacion_evento(17, 'key_citas_en_linea', $cita);
-						$data = array(
-							'fecha_evento' => date('Y-m-d H:i:s'),
-							'idtipoevento' => 17,
-							'identificador' => $idprogcita,
-							'idusuarioweb' => $this->sessionCitasEnLinea['idusuario'],
-							'texto_notificacion' => $texto_notificacion,
-							'idresponsable' => $this->sessionCitasEnLinea['idusuario'],
-							);
-						
-						array_push($listNotificaciones, $data);
-
-						//actualizacipn de programacion
-						$data = array(
-							'iddetalleprogmedico' => $cita['seleccion']['iddetalleprogmedico'],
-							'estado_cupo' => 1
-							);
-						$resultDetalle = $this->model_prog_medico->m_cambiar_estado_detalle_de_programacion($data);
-
-						$data = array(
-							'idprogmedico' => $cita['seleccion']['idprogmedico'],
-							'idcanal' => $cita['seleccion']['idcanal']
-							);
-						$resultCanales = $this->model_prog_medico->m_cambiar_cupos_canales($data);
-
-						$data = array(
-							'idprogmedico' => $cita['seleccion']['idprogmedico'],
-							);
-						$resultProg = $this->model_prog_medico->m_cambiar_cupos_programacion($data);						
-						//fin actualizacion de programacion -- 
-
-						//registro de relacion cita - usuario web
-						if($resultDetalle && $resultCanales && $resultProg){
-							$data=array(
-								'idusuarioweb' => $allInputs['usuario']['idusuario'],
-								'idprogcita' => $idprogcita,
-								'idcliente' => $cliente,
-								'idparentesco' => $cita['busqueda']['itemFamiliar']['idusuariowebpariente']
-								);
-							if(!$this->model_programar_cita->m_registrar_usuarioweb_cita($data)){
-								$error = TRUE;
-							}
-						}else{
-							$error = TRUE;
-						}
-					}else{
-						$error = TRUE;
-					}					
-				}
-
-				if(!$error){
-					$arrData['datos']['session'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];
-					$arrData['datos']['session']['listaCitas'] = array();
-					$arrData['datos']['session']['listaCitasGeneradas'] = $listaCitasGeneradas;
-					$this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']['session']);					
-					$arrData['message'] = $arrData['datos']['cargo']['outcome']['user_message'];
-					$arrData['flag'] = 1;
-					$arrData['message'] = 'test enviando correo';
-
-					//envio de mails
-			        $listaCitasGeneradas = $allInputs['usuario']['listaCitas'];
-			        $listaDestinatarios = array();
-			        array_push($listaDestinatarios, $allInputs['usuario']['email']);			        
-			        $setFromAleas = 'Villa Salud';
-			        $subject = 'Citas Programadas';
-			        $cuerpo = $this->genera_body_mail_citas($allInputs, $listaCitasGeneradas);
-			        $result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
-			        $arrData['flagMail']  = $result[0]['flag'];
-					$arrData['msgMail']  = $result[0]['msgMail'];
-
-					foreach ($listNotificaciones as $key => $noti) {
-						$this->model_control_evento_web->m_registrar_notificacion_evento($noti);
-					}
-				}
-				$this->db->trans_complete();
-			}
-		}catch (Exception $e) {
-		  	$arrData['datos']['error'] = get_object_vars(json_decode($e->getMessage()));
-		  	$arrData['message'] = $arrData['datos']['error']['merchant_message'];
-		}
-
-	    $this->output
-	        ->set_content_type('application/json')
-	        ->set_output(json_encode($arrData));
-	      return;
-  	}
-
-  	private function genera_body_mail_citas($allInputs, $listaCitasGeneradas){
-  		$cuerpo = '<!DOCTYPE html>
-					<html lang="es">
-					<head>
-					    <meta charset="utf-8">
-					    <meta name="author" content="Villa Salud">								    
-					</head>';
-        $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
-	                  <div style="text-align: center;">
-	                    <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
-	                  </div>';
-	   	$cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';             
-        $cuerpo .= '  <div style="font-size:16px;">  
-                        Estimado(a) usuario: '.$allInputs['usuario']['paciente'] .', <br /> <br /> ';
-        $cuerpo .= '    Hemos han sido regitradas las siguientes citas en tu cuenta:';
-        $cuerpo .=    '</div>';
-  		$cuerpo .= '<div class="citas scroll-pane" style="width: 100%;">
-  						<ul class="list-citas">';
-		foreach ($listaCitasGeneradas as $key => $cita) {			
-			$cuerpo .= 		'<li style="">
-			                    <div class="cita" style="font-size: 13px;">
-			                      <div style="height: 30px;" >
-			                      	<div style="width:31px;float: left;">👪 </div>
-			                      	Cita para: <span class="cita-familiar">'.$cita['busqueda']['itemFamiliar']['descripcion'].'</span>
-			                      </div>
-			                      <div style="height: 30px;">
-			                      	<div style="width:31px;float: left;">🏨 </div> 
-			                      	Sede: <span class="cita-sede">'.$cita['busqueda']['itemSede']['descripcion'].'</span>
-			                      </div>
-			                      <div style="height: 30px;">
-			                      	<div style="width:31px;float: left;font-size: 20px;">⚕️ </div> 
-			                      	Especialidad: <span class="cita-esp">'.$cita['busqueda']['itemEspecialidad']['descripcion'].'</span>
-			                      </div>
-			                      <div style="height: 30px;">
-			                      	<div style="width:31px;float: left;">👨‍ </div> 
-			                      	Médico: <span class="cita-medico">'.$cita['seleccion']['medico'].'</span>
-			                      </div>
-			                      <div style="height: 30px;">
-			                      	<div style="width:31px;float: left;">🗓 </div> 
-			                      	Fecha: <span class="cita-turno">'.$cita['seleccion']['fecha_programada'].'</span>
-			                      </div>
-			                      <div style="height: 30px;">
-			                      	<div style="width:31px;float: left;">🕑 </div>
-			                      	Hora: <span class="cita-turno">'.$cita['seleccion']['hora_formato'].'</span>
-			                      </div>
-			                      <div style="height: 30px;">
-			                      	<div style="width:31px;float: left;"> 📍 </div>
-			                      	Consultorio: <span class="cita-ambiente">'.$cita['seleccion']['numero_ambiente'].'</span>
-			                      </div>
-			                      <div style="height: 30px;">
-			                      	<div style="width:31px;float: left;">💰 </div>
-			                      	Precio S/.: <span class="cita-precio">'.$cita['producto']['precio_sede'].'</span>
-			                      </div>
-			                    </div>                            
-			                </li>';
-			if($key < count($listaCitasGeneradas)-1){
-				$cuerpo .= '<div style="border-bottom: 1px dotted rgb(154, 153, 157); margin-bottom: 15px;width: 50%;"> </div>';
-			}   
-		} 
-
-		$cuerpo .= '	</ul>			            
-			        </div>';
-
-		$cuerpo .= '<div style="border-top: 2px dotted rgb(97, 97, 97); margin-bottom: 5px;"> </div>';
-
-		$cuerpo .= '<div style="padding: 3px 8px;
-					  height: 18px;
-					  font-size: 11px;
-					  font-weight: 800;
-					  color: #616161;">
-					  <span style="text-align:left;width:60%;">TOTAL PRODUCTOS: S/. </span>
-					  <span style="text-align:right;width:40%;">'.$allInputs['usuario']['totales']['total_productos'].'</span>
-					</div>';
-		$cuerpo .= '<div style="padding: 3px 8px;
-					  height: 18px;
-					  font-size: 11px;
-					  font-weight: 800;
-					  color: #616161;">
-					  <span style="text-align:left;width:60%;">USO SERVICIO WEB: S/.</span>
-					  <span style="text-align:right;width:40%;">'.$allInputs['usuario']['totales']['total_servicio'].'</span>
-					</div>';
-		$cuerpo .= '<div style="padding: 3px 8px;
-					  height: 18px;
-					  font-size: 11px;
-					  font-weight: 800;
-					  color: #212121;">
-					  <span style="text-align:left;width:60%;">TOTAL A PAGAR: S/. </span>
-					  <span style="text-align:right;width:40%;">'.$allInputs['usuario']['totales']['total_pago'].'</span>
-					</div>';
-		$cuerpo .=    '</div>';
-	    $cuerpo .= '<div style="text-align: center;">
-	    				<img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
-	    			</div>';
-      	$cuerpo .= '</body>';
-        $cuerpo .= '</html>';
-
-      	return $cuerpo;
   	}
 
 	public function verifica_estado_cita(){
@@ -660,7 +400,7 @@ class ProgramarCita extends CI_Controller {
 		$arrData['fecha_atencion'] = $fecha_atencion;
 		$arrData['fecha_atencion_Formato'] = $cita['fecha_atencion_cita'];
 		
-		if($cita['estado_cita'] == 2){
+		if($cita['estado_cita'] == 2 && $fecha_atencion < $hoy){
 			$arrData['message'] = 'Reprogramar';
 			$arrData['flag'] = 1;
 		}

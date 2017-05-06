@@ -32,7 +32,9 @@ class Sede extends CI_Controller {
 					'idsede' => $row['idsede'],
 					'descripcion' => $row['descripcion'],
 					'hora_inicio' => $row['hora_inicio_atencion'],
-					'hora_final' => $row['hora_final_atencion']
+					'hora_final' => $row['hora_final_atencion'],
+					'idempresaadmin' => $row['idempresaadmin'],
+					'idsedeempresaadmin' => $row['idsedeempresaadmin'],
 				)
 			);
 		}
