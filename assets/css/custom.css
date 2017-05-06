@@ -779,6 +779,14 @@ a.link-password:hover{
   margin-left: 15px;
 }
 
+.msj.modal-header i {
+    font-size: inherit;
+    margin-right: 0;
+    margin-left: 0;
+}
+.msj.modal-header .item-fecha .dropdown-menu{
+  width: 200px;
+}
 
 .filtros{
   text-align: center;
@@ -2502,6 +2510,39 @@ input[type=radio]:checked + label:before {
   }
 }
 
+@media only screen and (min-width : 1025px) {
+  .dashboard .caja{
+    max-width: 400px;
+    margin-right: auto;
+    margin-left: auto;
+  }  
+
+  .dashboard .caja.caja-1{
+    margin-right: 20px;
+  }
+
+  .dashboard .caja.caja-2{
+    margin-left: 20px;
+  }
+
+  .dashboard .valores .item {
+    text-align: center;
+  }  
+
+  .dashboard .valores .item .box-item{
+    max-width: 140px;
+    margin-left: auto;
+    margin-right: auto;
+  }    
+}
+
+@media only screen and (min-width : 1200px) {
+  .page-header{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 
 .modal-xlg {
   width: inherit;

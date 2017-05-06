@@ -32,9 +32,25 @@
 			<!-- <li class="" >	    		 
 				<label class="control-label">Fecha:</label>	        
 			</li> -->
-			<li class="" >	    		 
+			<li class="item-fecha grid-fecha" >	    		 
 				<label class="control-label">Fecha:</label>	
-				<input type="text" class="form-control mask" ng-model="fBusquedaPlanning.desde" placeholder="Desde" data-inputmask="'alias': 'dd-mm-yyyy'" style="width:50px !important;" /> 
+				<input type="text" placeholder="Fecha"  class="form-control datepicker " ng-change="cargarPlanning();"
+                                uib-datepicker-popup="{{format}}" popup-placement="auto right-top"
+                                ng-model="fBusquedaPlanning.desde" is-open="opened" style="width:50px !important;margin-right: 26px;"
+                                datepicker-options="datePikerOptions" ng-required="true" 
+                                close-text="Cerrar" alt-input-formats="altInputFormats"
+                                 />
+
+                <span class="" style="position: relative;
+                                float: right;
+                                white-space: nowrap;
+                                top: -25px;    
+                                ">
+	            	<button type="button" class="btn btn-page btn-sm" ng-click="openDP($event)">
+	            		<i class="ti ti-calendar" style="font-size: 10px;"></i>
+	            	</button>
+	          	</span>
+				<!-- <input type="text" class="form-control mask" ng-model="fBusquedaPlanning.desde" placeholder="Desde" data-inputmask="'alias': 'dd-mm-yyyy'" style="width:50px !important;" />  -->
 			</li>
 			<li class="" >
 				<label class="control-label">Médico:</label>
