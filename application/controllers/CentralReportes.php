@@ -13,7 +13,7 @@ class CentralReportes extends CI_Controller {
   {
     parent::__construct();
     $this->load->helper(array('security','reportes_helper','imagen_helper','fechas_helper','otros_helper'));
-    $this->load->model(array('model_config'));
+    $this->load->model(array('model_config','model_prog_cita'));
     
 
     $this->load->library('excel');

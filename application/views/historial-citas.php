@@ -108,9 +108,12 @@
                       {{cita.itemAmbiente.numero_ambiente}}
                     </div>
                     <div class="cell-grid cell-cita" style="width:9%; text-align:center;cursor: pointer;">
-                      <span class="icono-cita"><i class="fa fa-file-pdf-o" style="color: #4caf50;"></i> Comprobante:</span>
-                      <span class="nro-doc" ng-click="descargaComprobanteCita(cita);">
+                      <span class="icono-cita"><i class="fa fa-download" style="color: #4caf50;"></i> Comprobante:</span>
+                      <span class="cita" ng-click="descargaComprobanteCita(cita);" style="font-size: 15px;">
                         <i class="fa fa-file-pdf-o"></i>
+                      </span>
+                      <span class="nro-doc" ng-click="descargaComprobantePago(cita);" style="padding-left: 5px;font-size: 15px;">
+                        <i class="fa fa-file-text-o"></i>
                         <a href=""> nro-123654 </a>
                       </span>
                     </div>

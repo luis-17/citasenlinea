@@ -23,4 +23,16 @@ class Model_prog_cita extends CI_Model {
 		$this->db->where("idprogcita", $datos['idprogcita']);
 		return $this->db->update('pa_prog_cita', $data ); 
 	}
+
+	public function m_consulta_cita_venta($idprogcita){
+		$this->db->select('cv.idventa, cv.orden_venta, cv.fecha_venta'); 
+		$this->db->select('cd.iddetalle, cd.paciente_atendido_det, cd.fecha_atencion_det'); 
+		$this->db->select('ppc.idprogcita, ppc.estado_cita'); 
+		$this->db->from("pa_prog_cita ppc");
+		$this->db->join('ce_detalle cd','cd.idprogcita  = ppc.idprogcita');		
+		$this->db->join('ce_venta cv','cd.idventa  = cv.idventa');		
+		$this->db->where("ppc.idprogcita", intval($idprogcita)); //cita
+		$this->db->where("ppc.idprogcita <> ", 0); //estado cita (no cancelada)
+		return $this->db->get()->row_array();
+	}
 }

@@ -94,6 +94,7 @@ function getPlantillaGeneralReporte($arrContent,$datos,$paramPageOrientation=FAL
 function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrientation=FALSE,$paramPageSize=FALSE,$arrPageMargins=FALSE){
     $ci2 =& get_instance();
     $fConfig = $ci2->model_config->m_cargar_datos_sede($datos['itemSede']['id']);
+    $fDataCita = $ci2->model_prog_cita->m_consulta_cita_venta($datos['idprogcita']);
     
     // var_dump(base_url('assets/img/dinamic/empresa/'.$fConfig['nombre_logo'])); exit();
     $arrImages = array( 
@@ -126,17 +127,6 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
           'alignment'=> 'right',
           'italic' => true
         ),
-        'tableHeader'=> array(
-          'bold'=> true,
-          'fontSize'=> 10,
-          'color'=> 'black'
-        ),
-        'tableHeaderLG' => array(
-          'bold'=> true,
-          'fontSize'=> 12,
-          'color'=> 'black',
-          'alignment'=> 'center'
-        )
     );
     // var_dump($fConfig); exit(); 
     $strLines = null;
@@ -169,6 +159,14 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
       )
     );
 
+    /*codigo QR*/
+    $ci2->load->library('qr_php');
+    $textoQR = 'Este comprobante pertenece a una cita del Hospital Villa Salud. Sede: ' . $datos['itemSede']['sede'];
+    $textoQR .= '. Proveniente de la orden número: '.$fDataCita['orden_venta'];
+
+    QRcode::png($textoQR,"assets/img/dinamic/temp/01.png",QR_ECLEVEL_H,2);
+    /*fin codigo QR*/
+
     $arrFooterContent = array( 
       array( 
           'text'=> $strLines,
@@ -176,9 +174,16 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
       ),
       array(
         'text'=> array(' ')
+      ), 
+      array(
+        'image'=> convertImageToBase64('assets/img/dinamic/temp/01.png'),
+        'alignment'=> 'center',
+      ), 
+      array(
+        'text'=> array(' ')
       ),      
       array(
-        'text'=> array('Recuerde llegar 20 minutos antes de su cita.'),
+        'text'=> array('Recuerda llegar 20 minutos antes de la hora seleccionada en la cita.'),
         'style'=> array('headerPage',array('alignment'=> 'center','fontSize'=> 10) ),
       ),
       array(

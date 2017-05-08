@@ -1,3 +1,6 @@
+<div class="msj modal-close" >
+	<a href ng-click="cancel(); $event.preventDefault();" class="btn-close"><i class="ti ti-close"></i></a>
+</div>
 <div class="modal-header">
 	<h4 class="modal-title"> {{ titleModalReporte }}  </h4>
 </div>
@@ -7,7 +10,4 @@
 			<iframe id="frameReporte" style="width: 100%; height: 500px;" type="application/pdf"></iframe> 
 		</div>
 	</form>
-</div>
-<div class="modal-footer">
-    <button class="btn btn-warning" ng-click="cancel()">Salir</button>
 </div>
