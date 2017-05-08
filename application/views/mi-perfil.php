@@ -163,10 +163,10 @@
                                             <div class="cell-grid cell-cita" style="width:8%;">
                                               ID
                                             </div>
-                                            <div class="cell-grid cell-cita" style="width:21%;">
+                                            <div class="cell-grid cell-cita" style="width:23%;">
                                               Nombres
                                             </div>
-                                            <div class="cell-grid cell-cita" style="width:21%;">
+                                            <div class="cell-grid cell-cita" style="width:23%;">
                                               Apellidos
                                             </div>
                                             <div class="cell-grid cell-cita" style="width:15%;">
@@ -175,7 +175,7 @@
                                             <div class="cell-grid cell-cita" style="width:15%;">
                                               sexo
                                             </div>                                                
-                                            <div class="cell-grid cell-cita" style="width:20%;">
+                                            <div class="cell-grid cell-cita" style="width:16%;">
                                               
                                             </div>
                                           </div>
@@ -185,10 +185,10 @@
                                               <div class="cell-grid cell-cita" style="width:8%;">
                                                 {{row.idusuariowebpariente}}
                                               </div>
-                                              <div class="cell-grid cell-cita" style="width:21%;">
+                                              <div class="cell-grid cell-cita" style="width:23%;">
                                                 {{row.nombres}}
                                               </div>
-                                              <div class="cell-grid cell-cita" style="width:21%;">
+                                              <div class="cell-grid cell-cita" style="width:23%;">
                                                 {{row.apellido_paterno}} {{row.apellido_materno}}
                                               </div>
                                               <div class="cell-grid cell-cita" style="width:15%;">
@@ -196,15 +196,11 @@
                                               </div>
                                               <div class="cell-grid cell-cita" style="width:15%;">
                                                 <span><i class="{{row.icon}}" style="color:{{row.color_sexo}};margin-right:3px;"></i></span>{{row.desc_sexo}}
-                                              </div>
-                                              
-                                              <div class="cell-grid cell-cita" style="width:20%; text-align:center;">
+                                              </div>                                              
+                                              <div class="cell-grid cell-cita" style="width:16%; text-align:center;">
                                                 <button class="btn btn-warning btn-sm"  ng-click="btnGenerarCita(row)" ><i class="fa fa-calendar"></i></button>
                                                 <button class="btn btn-info btn-sm"     ng-click="btnEditarPariente(row);"><i class="ti ti-pencil"></i></button>
                                                 <button class="btn btn-danger btn-sm"   ng-click="btnEliminarPariente(row);"><i class="ti ti-close"></i></button>
-                                                <!-- <a class="label label-warning btn-sm"><i class="ti ti-calendar"></i></a>
-                                                <a class="label label-info btn-sm" ng-click="btnEditarPariente(row);"><i class="ti ti-pencil"></i></a>
-                                                <a class="label label-danger btn-sm" ng-click="btnEliminarPariente(row);"><i class="ti ti-close"></i></a> -->
                                               </div>
                                             </div>    
                                           </div>

@@ -794,7 +794,7 @@ a.link-password:hover{
   font-weight: 300;
   padding: 5px 10px;  
   width: 100%;
-  z-index: 10;
+  z-index: 2;
   left: 0;
   max-height: 64px;
   background: -webkit-linear-gradient(left, #b2e7ed 0%, #dcf4f7 100%);
@@ -1486,7 +1486,7 @@ input[type=radio]:checked + label:before {
   line-height: 1;
   text-align: left;
   margin-left: 10px;
-  padding: 0px;
+  padding: 5px 5px 0 5px;
   cursor: pointer;
   float: right;
 }
@@ -1500,7 +1500,7 @@ input[type=radio]:checked + label:before {
 }
 
 .dashboard .caja-1 .division-2 .citas .count-citas{
-  font-size: 30px;
+  font-size: 28px;
   letter-spacing: normal;
   position: relative;
   float: left;
@@ -1832,7 +1832,7 @@ input[type=radio]:checked + label:before {
 
 .reprogramacion .filtros .form-control {
   min-width: 120px;
-    max-width: 180px;
+    max-width: 160px;
 }
 
 /*paginas verificacion cuentas*/
