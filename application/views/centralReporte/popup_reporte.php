@@ -4,7 +4,7 @@
 <div class="modal-body">
     <form class="row" name="formExamen"> 
 		<div class="col-md-12"> 
-			<iframe id="frameReporte" style="width: 100%; height: 650px;" type="application/pdf"></iframe> 
+			<iframe id="frameReporte" style="width: 100%; height: 500px;" type="application/pdf"></iframe> 
 		</div>
 	</form>
 </div>

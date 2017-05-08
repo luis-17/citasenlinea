@@ -90,6 +90,121 @@ function getPlantillaGeneralReporte($arrContent,$datos,$paramPageOrientation=FAL
     return $arrDataPDF;
     // return $fData['id'];
 }
+
+function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrientation=FALSE,$paramPageSize=FALSE,$arrPageMargins=FALSE){
+    $ci2 =& get_instance();
+    $fConfig = $ci2->model_config->m_cargar_datos_sede($datos['itemSede']['id']);
+    
+    // var_dump(base_url('assets/img/dinamic/empresa/'.$fConfig['nombre_logo'])); exit();
+    $arrImages = array( 
+      'imageHeaderPage'=> convertImageToBase64('assets/img/dinamic/empresa/logo-original.png')
+    );
+    $arrHeader = array( 
+        array(
+        'text'=> array(' ')
+      ),
+    );
+    $arrFooter = array(
+      array( 
+          'text'=> 'USUARIO: '.strtoupper($ci2->sessionCitasEnLinea['nombre_usuario']).'    /   FECHA DE IMPRESIÓN: '.date('Y-m-d H:i:s'),
+          'style'=> 'headerPage'
+      )
+    );
+    $arrStyles = array( 
+        'headerTitle'=> array( 
+          'fontSize'=> 17,
+          'bold'=> true
+          // 'alignment'=> 'center'
+        ),
+        'filterTitle'=> array( 
+          'fontSize'=> 12,
+          'bold'=> true
+          // 'alignment'=> 'center'
+        ),
+        'headerPage'=> array(
+          'fontSize'=> 6,
+          'alignment'=> 'right',
+          'italic' => true
+        ),
+        'tableHeader'=> array(
+          'bold'=> true,
+          'fontSize'=> 10,
+          'color'=> 'black'
+        ),
+        'tableHeaderLG' => array(
+          'bold'=> true,
+          'fontSize'=> 12,
+          'color'=> 'black',
+          'alignment'=> 'center'
+        )
+    );
+    // var_dump($fConfig); exit(); 
+    $strLines = null;
+    for ($i=0; $i < 55; $i++) { 
+      $strLines.= '_';
+    }
+
+    $arrMainContent = array( 
+      array(
+        'text'=> array(' ')
+      ),
+      array(
+        'image'=> 'imageHeaderPage',
+          'alignment'=> 'center',
+          'width' => 180,
+          'margin' => array(0,0,0,0)
+      ),
+      array( 
+        'text'=> $fConfig['direccion_se'],
+        'style'=> array('headerPage',array('alignment'=> 'center','fontSize'=> 10) ),
+        'margin' => array(0,0,0,0)
+      ),
+      array(
+          'text'=> $titulo,
+          'style'=> array('headerTitle',array('alignment'=> 'center','fontSize'=> 12)),
+      ),
+      array( 
+          'text'=> $strLines,
+          'margin'=> array(0,0,0,0)
+      )
+    );
+
+    $arrFooterContent = array( 
+      array( 
+          'text'=> $strLines,
+          'margin'=> array(0,0,0,0)
+      ),
+      array(
+        'text'=> array(' ')
+      ),      
+      array(
+        'text'=> array('Recuerde llegar 20 minutos antes de su cita.'),
+        'style'=> array('headerPage',array('alignment'=> 'center','fontSize'=> 10) ),
+      ),
+      array(
+        'text'=> array('Gracias por confiarnos tu salud...'),
+        'style'=> array('headerPage',array('alignment'=> 'center','fontSize'=> 10) ),
+      ),
+      array(
+        'text'=> array('Villa Salud, Te Cuida!'),
+        'style'=> array('headerTitle',array('alignment'=> 'center','fontSize'=> 10)),
+      ),
+    );
+    $arrDataPDF = array( 
+      //'background'=> null,
+      'header'=> $arrHeader,
+      'footer'=> $arrFooter,
+      'content'=> array_merge($arrMainContent,$arrContent,$arrFooterContent),
+      'styles' => $arrStyles,
+      'images' => $arrImages,
+      'pageSize' => ($paramPageSize === FALSE ? 'A5' : $paramPageSize), 
+      'pageOrientation' => ($paramPageOrientation === FALSE ? 'portrait' : $paramPageOrientation),  // $paramPageOrientation || 'portrait', // portrait/landscape
+      'pageMargins' => ($arrPageMargins === FALSE ? array(60,10,60,10) : $arrPageMargins)  // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+    );
+    return $arrDataPDF;
+    // return $fData['id'];
+}
+
 function getPlantillaGeneralReporteHTML($objPdf,$htmlContent,$datos,$paramPageOrientation=FALSE,$paramPageSize=FALSE,$arrPageMargins=FALSE)
 {
   $ci2 =& get_instance();

@@ -5,7 +5,8 @@ angular.module('theme.historialCitas', ['theme.core.services'])
     especialidadServices,
     parienteServices,
     rootServices,
-    programarCitaServices ){
+    programarCitaServices
+     ){
       'use strict';
       shortcut.remove("F2"); 
       $scope.modulo = 'historialCitas'; 

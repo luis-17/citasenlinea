@@ -479,10 +479,6 @@ angular.module('theme.programarCita', ['theme.core.services'])
       });
     }
 
-    $scope.descargaComprobante = function(cita){
-      console.log(cita);
-    }
-
     /* ============================ */
     /* ATAJOS DE TECLADO NAVEGACION */
     /* ============================ */

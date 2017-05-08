@@ -36,5 +36,12 @@ class Model_config extends CI_Model {
 		$this->db->from('configuracion');
 		$this->db->where('estado_cf', 1); // activo
 		return $this->db->get()->result_array();
+	}	
+
+	public function m_cargar_datos_sede($idsede){
+		$this->db->select('*');
+		$this->db->from('sede');
+		$this->db->where('idsede',$idsede); // activo
+		return $this->db->get()->row_array();
 	}
 }

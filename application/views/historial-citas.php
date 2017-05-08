@@ -109,7 +109,7 @@
                     </div>
                     <div class="cell-grid cell-cita" style="width:9%; text-align:center;cursor: pointer;">
                       <span class="icono-cita"><i class="fa fa-file-pdf-o" style="color: #4caf50;"></i> Comprobante:</span>
-                      <span class="nro-doc" ng-click="descargaComprobante(cita);">
+                      <span class="nro-doc" ng-click="descargaComprobanteCita(cita);">
                         <i class="fa fa-file-pdf-o"></i>
                         <a href=""> nro-123654 </a>
                       </span>

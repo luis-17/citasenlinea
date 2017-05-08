@@ -35,10 +35,12 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     , 'blockUI', 'uiGridConstants', 'pinesNotifications',
     'rootServices',
     'usuarioServices',
+    'ModalReporteFactory',
     function($scope, $route, $uibModal, $document, $theme, $timeout, progressLoader, wijetsService, $routeParams, $location, $controller
       , blockUI, uiGridConstants, pinesNotifications,
       rootServices,
-      usuarioServices) {
+      usuarioServices,
+      ModalReporteFactory) {
     //'use strict';
     $scope.fAlert = {};
     $scope.arrMain = {};
@@ -318,6 +320,19 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
           alert('Error inesperado');
         }
       });
+    }
+
+    $scope.descargaComprobanteCita = function(cita){
+      var strControllerJS = 'CentralReportes';
+      var strControllerPHP = 'CentralReportesMPDF';
+      var arrParams = {
+        titulo: 'COMPROBANTE DE CITA',
+        datos: cita,
+        metodo: 'js'
+      }
+      var strController = arrParams.metodo == 'js' ? strControllerJS : strControllerPHP; 
+      arrParams.url = angular.patchURLCI+strController+'/report_comprobante_cita'; 
+      ModalReporteFactory.getPopupReporte(arrParams); 
     }
 
     /* END */
