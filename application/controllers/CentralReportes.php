@@ -13,9 +13,7 @@ class CentralReportes extends CI_Controller {
   {
     parent::__construct();
     $this->load->helper(array('security','reportes_helper','imagen_helper','fechas_helper','otros_helper'));
-    $this->load->model(array('model_config','model_prog_cita'));
-    
-
+    $this->load->model(array('model_config'));
     $this->load->library('excel');
     //cache 
     $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
@@ -34,8 +32,7 @@ class CentralReportes extends CI_Controller {
   {
     $this->load->view('centralReporte/popup_grafico');
   }
-  public function guardar_pdf_en_temporal()
-  {
+  public function guardar_pdf_en_temporal(){
     $data = substr($_POST['data'], strpos($_POST['data'], ",") + 1); 
     $decodedData = base64_decode($data);
     // subir_fichero();
@@ -79,86 +76,4 @@ class CentralReportes extends CI_Controller {
 
     $writer->close();
   }
-
-  public function report_comprobante_cita(){ 
-    $allInputs = json_decode(trim($this->input->raw_input_stream),true);
-
-    $arrDatos = array( 
-      array(
-        'text'=> array(' ')
-      ),
-      array(
-        'text'=> array(
-            array(
-              'text'=>'Sede: ',
-              'style'=> 'filterTitle'
-            ),
-            $allInputs['itemSede']['sede']
-        )
-      ),
-      array(
-        'text'=> array(
-            array(
-              'text'=>'Paciente: ',
-              'style'=> 'filterTitle'
-            ),
-            strtoupper($allInputs['itemFamiliar']['paciente'])
-        )
-      ),
-      array(
-        'text'=> array(
-            array(
-              'text'=>'Fecha/Hora: ',
-              'style'=> 'filterTitle'
-            ),
-            $allInputs['fecha_formato'] . ' ' . $allInputs['hora_inicio_formato']
-        )
-      ),
-      array(
-        'text'=> array(
-            array(
-              'text'=>'Médico: ',
-              'style'=> 'filterTitle'
-            ),
-            $allInputs['itemMedico']['medico']
-        )
-      ),
-      array(
-        'text'=> array(
-            array(
-              'text'=>'Especialidad: ',
-              'style'=> 'filterTitle'
-            ),
-            $allInputs['itemEspecialidad']['especialidad']
-        )
-      ),
-      array(
-        'text'=> array(
-            array(
-              'text'=>'Consultorio: ',
-              'style'=> 'filterTitle'
-            ),
-            $allInputs['itemAmbiente']['numero_ambiente']
-        )
-      ),
-      array(
-        'text'=> array(' ')
-      )
-    );
-
-    $arrContent[] = array( 
-      $arrDatos,
-    );
-    $arrData['message'] = '';
-    $arrData['flag'] = 1;
-    $arrDataPDF = getPlantillaComprobanteCita($arrContent,$allInputs,'COMPROBANTE DE CITA','portrait');
-    
-    $arrData['dataPDF'] = $arrDataPDF;
-    $arrData['message'] = 'OK';
-    $arrData['flag'] = 1;
-    $this->output
-        ->set_content_type('application/json')
-        ->set_output(json_encode($arrData));
-  }
-
 }

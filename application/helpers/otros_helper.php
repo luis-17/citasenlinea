@@ -86,7 +86,7 @@ function comprobar_email($email){
     return $mail_correcto; 
 }
 
-function enviar_mail($asunto, $setFromAleas, $cuerpo, $listaDestinatarios){
+function enviar_mail($asunto, $setFromAleas, $cuerpo, $listaDestinatarios, $adjunto = FALSE){
   $ci2 =& get_instance();
   $ci2->load->library('My_PHPMailer');
 

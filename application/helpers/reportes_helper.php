@@ -93,7 +93,7 @@ function getPlantillaGeneralReporte($arrContent,$datos,$paramPageOrientation=FAL
 
 function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrientation=FALSE,$paramPageSize=FALSE,$arrPageMargins=FALSE){
     $ci2 =& get_instance();
-    $fConfig = $ci2->model_config->m_cargar_datos_sede($datos['itemSede']['id']);
+    $fConfig = $ci2->model_sede->m_cargar_sede_por_id($datos['itemSede']['id']);
     $fDataCita = $ci2->model_prog_cita->m_consulta_cita_venta($datos['idprogcita']);
     
     // var_dump(base_url('assets/img/dinamic/empresa/'.$fConfig['nombre_logo'])); exit();

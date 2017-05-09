@@ -68,4 +68,19 @@ class Model_prog_cita extends CI_Model {
 
 		return $this->db->get()->row_array();
 	}
+
+	public function m_cita_tiene_atencion($datos){
+		$this->db->select('COUNT(*) AS result'); 
+		$this->db->from("pa_prog_cita ppc, ce_detalle d, atencion_medica am");		
+		$this->db->where("ppc.idprogcita", intval($datos['idprogcita'])); //cita
+		$this->db->where("d.idprogcita = ppc.idprogcita");	
+		$this->db->where("am.iddetalle = d.iddetalle");
+		$this->db->where("d.origen_venta = 'W'");		
+		$this->db->where("d.paciente_atendido_det = 1"); //detalle
+		$this->db->where("am.estado_am = 1"); //atencion
+
+		$fData = $this->db->get()->row_array();
+		return empty($fData['result']) ? FALSE : TRUE; 	
+	}
+
 }

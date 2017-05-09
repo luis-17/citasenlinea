@@ -306,8 +306,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
             scope: $scope,
             controller: function ($scope, $modalInstance) { 
               $scope.titleForm = 'DETALLE DE NOTIFICACIÓN';               
-              console.log('$scope.fData.cita',$scope.fData.cita)
-
+              //console.log('$scope.fData.cita',$scope.fData.cita);
               $scope.cancel = function () {
                 $modalInstance.dismiss('cancel');
               }
@@ -320,8 +319,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
                 });
               }              
             }
-          });         
-          
+          });
         }else if(rpta.flag == 0){
           var pTitle = 'Advertencia!';
           var pType = 'warning';
@@ -333,15 +331,12 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     }
 
     $scope.descargaComprobanteCita = function(cita){
-      var strControllerJS = 'CentralReportes';
-      var strControllerPHP = 'CentralReportesMPDF';
       var arrParams = {
         titulo: 'COMPROBANTE DE CITA',
         datos: cita,
         metodo: 'js'
       }
-      var strController = arrParams.metodo == 'js' ? strControllerJS : strControllerPHP; 
-      arrParams.url = angular.patchURLCI+strController+'/report_comprobante_cita'; 
+      arrParams.url = angular.patchURLCI+'ProgramarCita/report_comprobante_cita'; 
       ModalReporteFactory.getPopupReporte(arrParams); 
     }
 

@@ -5,7 +5,7 @@ class ProgramarCita extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->helper(array('security', 'fechas_helper', 'otros_helper'));
+		$this->load->helper(array('security','reportes_helper','imagen_helper','fechas_helper','otros_helper'));
 		$this->load->model(array('model_programar_cita',
 								 'model_sede', 
 								 'model_especialidad',
@@ -429,7 +429,7 @@ class ProgramarCita extends CI_Controller {
 			return;
     	}
 
-    	/*
+    	
     	if($this->model_prog_cita->m_cita_tiene_atencion($allInputs['oldCita'])){
     		$arrData['message'] = 'No puede reprogramar citas con atención registrada.';
     		$arrData['flag'] = 0;
@@ -437,7 +437,7 @@ class ProgramarCita extends CI_Controller {
 			    ->set_content_type('application/json')
 			    ->set_output(json_encode($arrData));
 			return;
-    	} */
+    	} 
 
     	$this->db->trans_start();
  		//cupo a disponible
@@ -575,4 +575,88 @@ class ProgramarCita extends CI_Controller {
 
       	return $cuerpo;
   	}
+
+  	private function genera_pdf_cita($allInputs){
+  		$arrDatos = array( 
+	      array(
+	        'text'=> array(' ')
+	      ),
+	      array(
+	        'text'=> array(
+	            array(
+	              'text'=>'Sede: ',
+	              'style'=> 'filterTitle'
+	            ),
+	            $allInputs['itemSede']['sede']
+	        )
+	      ),
+	      array(
+	        'text'=> array(
+	            array(
+	              'text'=>'Paciente: ',
+	              'style'=> 'filterTitle'
+	            ),
+	            strtoupper($allInputs['itemFamiliar']['paciente'])
+	        )
+	      ),
+	      array(
+	        'text'=> array(
+	            array(
+	              'text'=>'Fecha/Hora: ',
+	              'style'=> 'filterTitle'
+	            ),
+	            $allInputs['fecha_formato'] . ' ' . $allInputs['hora_inicio_formato']
+	        )
+	      ),
+	      array(
+	        'text'=> array(
+	            array(
+	              'text'=>'Médico: ',
+	              'style'=> 'filterTitle'
+	            ),
+	            $allInputs['itemMedico']['medico']
+	        )
+	      ),
+	      array(
+	        'text'=> array(
+	            array(
+	              'text'=>'Especialidad: ',
+	              'style'=> 'filterTitle'
+	            ),
+	            $allInputs['itemEspecialidad']['especialidad']
+	        )
+	      ),
+	      array(
+	        'text'=> array(
+	            array(
+	              'text'=>'Consultorio: ',
+	              'style'=> 'filterTitle'
+	            ),
+	            $allInputs['itemAmbiente']['numero_ambiente']
+	        )
+	      ),
+	      array(
+	        'text'=> array(' ')
+	      )
+	    );
+
+	    $arrContent[] = array( 
+	      $arrDatos,
+	    );
+	    $arrData['message'] = '';
+	    $arrData['flag'] = 1;
+	    $arrDataPDF = getPlantillaComprobanteCita($arrContent,$allInputs,'COMPROBANTE DE CITA','portrait');
+  		return $arrDataPDF;
+  	}
+
+  	public function report_comprobante_cita(){ 
+	    $allInputs = json_decode(trim($this->input->raw_input_stream),true);
+	    $arrDataPDF = $this->genera_pdf_cita($allInputs);
+	    $arrData['dataPDF'] = $arrDataPDF;
+	    $arrData['message'] = 'OK';
+	    $arrData['flag'] = 1;
+	    $this->output
+	        ->set_content_type('application/json')
+	        ->set_output(json_encode($arrData));
+	}
 }
