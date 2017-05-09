@@ -191,7 +191,7 @@
         </div>
 
         <div class="body-grid" style="min-height: 100px;">
-          <div ng-repeat="cita in fSessionCI.listaCitasGeneradas" class="row-grid row-cita">
+          <div ng-repeat="cita in fSessionCI.compra.listaCitasGeneradas" class="row-grid row-cita">
             <div class="cell-grid cell-cita" style="width:17%;">
               <span class="icono-cita"><i class="fa fa-stethoscope" style="color: #36c0d1;" ></i> Cita para:</span>
               {{cita.busqueda.itemFamiliar.descripcion}}

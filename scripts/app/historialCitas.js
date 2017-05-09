@@ -5,7 +5,8 @@ angular.module('theme.historialCitas', ['theme.core.services'])
     especialidadServices,
     parienteServices,
     rootServices,
-    programarCitaServices
+    programarCitaServices,
+    ventaServices
      ){
       'use strict';
       shortcut.remove("F2"); 
@@ -210,7 +211,13 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       }
 
       $scope.resumenReserva = function(){
-        $scope.goToUrl('/resumen-cita');          
+        ventaServices.sValidarCitas($scope.fSessionCI).then(function(rpta){
+          if(rpta.flag == 1){
+            programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
+              $scope.goToUrl('/resumen-cita'); 
+            });
+          }        
+        });     
       }
 
       $scope.quitarDeLista = function(index, fila){

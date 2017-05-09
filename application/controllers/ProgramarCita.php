@@ -500,7 +500,7 @@ class ProgramarCita extends CI_Controller {
 
 					//assets/img/dinamic/pdfTemporales/tempPDFreprogramacion.pdf
 
-					$result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios, array($url));
+					$result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
 					$arrData['flagMail']  = $result[0]['flag'];
 					$arrData['msgMail']  = $result[0]['msgMail'];
 

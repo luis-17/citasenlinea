@@ -136,13 +136,15 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       var datos = {
         tipo: 'captcha'
       }
-      rootServices.sGetConfig(datos).then(function(rpta){
-        $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
-        grecaptcha.render('recaptcha-login', {
-          'sitekey' : $scope.keyRecaptcha,
-          'callback' : recaptchaResponse,
-        }); 
-      });          
+      if( $location.path() == '/login' ){
+        rootServices.sGetConfig(datos).then(function(rpta){
+          $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
+          grecaptcha.render('recaptcha-login', {
+            'sitekey' : $scope.keyRecaptcha,
+            'callback' : recaptchaResponse,
+          }); 
+        });
+      }          
     }
  
     $scope.getLayoutOption = function(key) {

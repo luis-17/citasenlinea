@@ -147,8 +147,10 @@ angular.module('theme.programarCita', ['theme.core.services'])
     }
 
     $scope.cargarPlanning = function(){
+      blockUI.start('Cargando programación...');
       programarCitaServices.sCargarPlanning($scope.fBusqueda).then(function(rpta){
         $scope.fPlanning = rpta.planning;
+        blockUI.stop();
       });
     }
 
@@ -177,7 +179,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
       } else {
         $scope.boolExterno = false;
       }
-      blockUI.start('Abriendo formulario...');
+      blockUI.start('Cargando turnos disponibles...');
       $uibModal.open({ 
         templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_turnos',
         size: '',
@@ -250,6 +252,10 @@ angular.module('theme.programarCita', ['theme.core.services'])
           }
 
           $scope.btnCambiarTurno = function(){
+            if(!$scope.fSeleccion){
+              return;
+            }
+
             $scope.fPlanning.citas.seleccion = $scope.fSeleccion;
             $scope.fDataModal= $scope.fPlanning.citas;
             $scope.fDataModal.oldCita.itemFamiliar.paciente = $scope.fDataModal.oldCita.itemFamiliar.paciente.toUpperCase(); 
@@ -270,9 +276,11 @@ angular.module('theme.programarCita', ['theme.core.services'])
                 }
 
                 $scope.btnOk = function(){
+                  blockUI.start('Reprogramando cita...');
                   programarCitaServices.sCambiarCita($scope.fPlanning.citas).then(function(rpta){
                     var modal = false;
                     var titulo = '';
+                    blockUI.stop();
                     if(rpta.flag==1){
                       $scope.btnClose();
                       $scope.btnCancel();                  
@@ -335,9 +343,13 @@ angular.module('theme.programarCita', ['theme.core.services'])
     }
 
     $scope.resumenReserva = function(){
-      programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
-        $scope.goToUrl('/resumen-cita'); 
-      });         
+      ventaServices.sValidarCitas($scope.fSessionCI).then(function(rpta){
+        if(rpta.flag == 1){
+          programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
+            $scope.goToUrl('/resumen-cita'); 
+          });
+        }        
+      });               
     }
 
     $scope.initResumenReserva = function(){
@@ -411,6 +423,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
             // Get the token ID:
             var token = Culqi.token;
             $scope.generarCargo(token);
+            //console.log(token);
           }else{ 
             console.log('Culqi.error',Culqi.error);
             $uibModal.open({ 
@@ -422,7 +435,6 @@ angular.module('theme.programarCita', ['theme.core.services'])
               controller: function ($scope, $modalInstance) {                 
                 $scope.titleForm = 'Aviso'; 
                 $scope.msj = rpta.message;
-
                 $scope.btnCancel = function(){
                   $modalInstance.dismiss('btnCancel');
                 }
@@ -531,7 +543,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
       sActualizarListaCitasSession:sActualizarListaCitasSession,
       sGenerarVenta:sGenerarVenta,
       sVerificaEstadoCita:sVerificaEstadoCita,
-      sCambiarCita:sCambiarCita,
+      sCambiarCita:sCambiarCita,      
     });
     function sCargarPlanning(datos) { 
       var request = $http({

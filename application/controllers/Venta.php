@@ -21,133 +21,135 @@ class Venta extends CI_Controller {
 	}
 
   	public function validar_citas(){
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$ocupado = FALSE;
+		$arrData['flag'] = 0;
+		$arrData['message'] = 'Hemos refrescado tu lista de citas, tenias seleccionadas citas que ya fueron tomadas.';
+		$arrayEliminar= array();
+	
+		foreach ($allInputs['compra']['listaCitas'] as $key => $cita) {			
+			$cupo = $this->model_prog_medico->m_consulta_cupo($cita['seleccion']['iddetalleprogmedico']);
+			if($cupo['estado_cupo'] != 2 ){
+				$ocupado = TRUE;
+				array_push($arrayEliminar, $key);				
+			}
+		}
+  		
+  		if(!$ocupado){
+  			$arrData['flag'] = 1;
+			$arrData['message'] = 'OK.';
+  		}
+
+  		$arrData['listaEliminar'] = $arrayEliminar;
+  		$this->output
+	        ->set_content_type('application/json')
+	        ->set_output(json_encode($arrData));
+	      return;
+  		
 	}
 
   	public function generar_venta_citas(){
   		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
 		$config = getConfig('pago', $allInputs['usuario']['compra']['itemSede']['idsedeempresaadmin'], TRUE);
-
 		$arrData['flag'] = 0;
 		$arrData['message'] = 'Ha ocurrido un error procesando tu pago. Contacta a nuestro equipo de soporte mediante: citasenlinea@villasalud.pe';
-	
-		$this->load->library(array('culqi_php'));	
-		$respuesta = array();
+		
+		$ocupado = FALSE;
+		foreach ($allInputs['usuario']['compra']['listaCitas'] as $key => $cita) {			
+			$cupo = $this->model_prog_medico->m_consulta_cupo($cita['seleccion']['iddetalleprogmedico']);
+			if($cupo['estado_cupo'] != 2 ){
+				$ocupado = TRUE;
+				array_push($arrayEliminar, $key);				
+			}
+		}
 
-		try{			
-			$culqi = new Culqi\Culqi(array('api_key' => $config['CULQI_PRIVATE_KEY']));
-			$charge = $culqi->Charges->create(
-				array(
-					"amount" => $allInputs['usuario']['compra']['totales']['total_pago_culqi'],
-					"currency_code" => "PEN",
-					"email" => $allInputs['token']['email'],
-					"description" => $config['DESCRIPCION_CARGO'],
-					"installments" => 0,
-					"source_id" => $allInputs['token']['id'] 
-				)
-			);
-			
-			// Respuesta
-			$arrData['datos']['cargo'] = get_object_vars($charge);			
-		  	if(!empty($arrData['datos']['cargo']['id'])){
-		  		$arrData['flag'] = 1;		  		
-		  	}
-			
-			/*$arrData['datos']['cargo']['id'] = 'chr_live_kEazTaQBDtzNdwFr';
-			$arrData['datos']['cargo']['reference_code'] = '1jKsutQy4s';
-			$arrData['flag'] = 1;*/
+		if($ocupado){
+			$arrData['flag'] = 0;
+			$arrData['message'] = 'Una o más de tus citas seleccionadas, ya no está disponible.';
+			$this->output
+		        ->set_content_type('application/json')
+		        ->set_output(json_encode($arrData));
+		      return;
+		}
 
-		  	if($arrData['flag'] == 1 && !empty($arrData['datos']['cargo']['id'])){
-				$arrData['datos']['cargo']['outcome']= get_object_vars($arrData['datos']['cargo']['outcome']);
-				$this->db->trans_start();
-				$listaCitas = $allInputs['usuario']['compra']['listaCitas'];
-				$listaCitasGeneradas = $allInputs['usuario']['compra']['listaCitas'];
-				$listNotificaciones = array();
-				
-				//registro de la venta
-				$dataVenta = array(
-					'idcliente' => $allInputs['usuario']['idcliente'],
-					'idusuarioweb' => $allInputs['usuario']['idusuario'],
-					'orden_venta' => $this->genera_codigo_orden($allInputs['usuario']['compra']['itemSede']['id'],$allInputs['usuario']['compra']['itemSede']['idsedeempresaadmin']),
-					'idtipodocumento' => 11, //de momento solo boleta
-					'sub_total' => round($allInputs['usuario']['compra']['totales']['total_pago'] / $config['IGV'],2), 
-					'total_igv' => round($allInputs['usuario']['compra']['totales']['total_pago'] - ($allInputs['usuario']['compra']['totales']['total_pago'] / $config['IGV']),2),
-					'monto_comision' => $allInputs['usuario']['compra']['totales']['total_servicio'], 
-					'monto_productos' => $allInputs['usuario']['compra']['totales']['total_productos'], 
-					'total_a_pagar' => $allInputs['usuario']['compra']['totales']['total_pago'],
-					'idmediopago' => 2, //para pruebas
-					'idsedeempresaadmin' => $allInputs['usuario']['compra']['itemSede']['idsedeempresaadmin'],
-					'idespecialidad' => $allInputs['usuario']['compra']['itemEspecialidad']['id'],
-					'fecha_venta' =>  date('Y-m-d H:i:s'),
-					'createdAt' =>  date('Y-m-d H:i:s'),
-					'updatedAt' =>  date('Y-m-d H:i:s'),
-				);
-				$resultVenta = $this->model_venta->m_registrar_venta($dataVenta);
-				$idventa = GetLastId('idventa','ce_venta');
+		$this->db->trans_begin();	  
+		$listaCitas = $allInputs['usuario']['compra']['listaCitas'];
+		$listaCitasGeneradas = $allInputs['usuario']['compra']['listaCitas'];
+		$listNotificaciones = array();
+		
+		//registro de la venta
+		$orden_venta = $this->genera_codigo_orden($allInputs['usuario']['compra']['itemSede']['id'],$allInputs['usuario']['compra']['itemSede']['idsedeempresaadmin']);
+		$idmediopago = $this->model_venta->m_consulta_medio_pago($allInputs['token']['iin']['card_brand']);
+		$dataVenta = array(
+			'idcliente' => $allInputs['usuario']['idcliente'],
+			'idusuarioweb' => $allInputs['usuario']['idusuario'],
+			'orden_venta' => $orden_venta,
+			'idtipodocumento' => 11, //de momento solo boleta
+			'sub_total' => round($allInputs['usuario']['compra']['totales']['total_pago'] / $config['IGV'],2), 
+			'total_igv' => round($allInputs['usuario']['compra']['totales']['total_pago'] - ($allInputs['usuario']['compra']['totales']['total_pago'] / $config['IGV']),2),
+			'monto_comision' => $allInputs['usuario']['compra']['totales']['total_servicio'], 
+			'monto_productos' => $allInputs['usuario']['compra']['totales']['total_productos'], 
+			'total_a_pagar' => $allInputs['usuario']['compra']['totales']['total_pago'],
+			'idmediopago' => $idmediopago, //según la marca de tarjeta
+			'idsedeempresaadmin' => $allInputs['usuario']['compra']['itemSede']['idsedeempresaadmin'],
+			'idespecialidad' => $allInputs['usuario']['compra']['itemEspecialidad']['id'],
+			'fecha_venta' =>  date('Y-m-d H:i:s'),
+			'createdAt' =>  date('Y-m-d H:i:s'),
+			'updatedAt' =>  date('Y-m-d H:i:s'),
+		);
+		$resultVenta = $this->model_venta->m_registrar_venta($dataVenta);
+		$idventa = GetLastId('idventa','ce_venta');
 
-				//registro del pago
-				$dataPago = array(
-					'idusuarioweb' => $allInputs['usuario']['idusuario'],
-					'idventa' => $idventa,
-					'idculqitracking' => $arrData['datos']['cargo']['id'],
-					'codigo_referencia_culqi' => $arrData['datos']['cargo']['reference_code'],
-					'descripcion_cargo' => $config['DESCRIPCION_CARGO'],
-					'createdAt' =>  date('Y-m-d H:i:s'),
-					'updatedAt' =>  date('Y-m-d H:i:s'),
-				);
+		if($resultVenta){
+			$error = FALSE;
+			foreach ($listaCitas as $key => $cita) {
+				$result = FALSE;
+				$resultDetalle = FALSE;
+				$resultCanales = FALSE;
+				$resultProg = FALSE;
 
-				$resultPago = $this->model_venta->m_registrar_pago($dataPago);
-			
-				$error = FALSE;
-				foreach ($listaCitas as $key => $cita) {
-					$result = FALSE;
-					$resultDetalle = FALSE;
-					$resultCanales = FALSE;
-					$resultProg = FALSE;
+				if($cita['busqueda']['itemFamiliar']['idusuariowebpariente'] == 0){
+					$cliente = $allInputs['usuario']['idcliente'];
+				}else{
+					$cliente = $cita['busqueda']['itemFamiliar']['idclientepariente'];
+				} 
 
-					if($cita['busqueda']['itemFamiliar']['idusuariowebpariente'] == 0){
-						$cliente = $allInputs['usuario']['idcliente'];
-					}else{
-						$cliente = $cita['busqueda']['itemFamiliar']['idclientepariente'];
-					} 
+				//registro de cita
+				$data = array(
+					'iddetalleprogmedico' => $cita['seleccion']['iddetalleprogmedico'],
+					'fecha_reg_reserva' => date('Y-m-d H:i:s'),
+					'fecha_reg_cita' => date('Y-m-d H:i:s'),
+					'fecha_atencion_cita' => $cita['seleccion']['fecha_programada']. " " . $cita['seleccion']['hora_inicio_det'],
+					'idcliente' => $cliente,
+					'idempresacliente' =>  NULL,
+					'estado_cita' => 2,
+					'idproductomaster' => $cita['producto']['idproductomaster'],
+					'idsedeempresaadmin' => $cita['producto']['idsedeempresaadmin'],
+					);
+				$result = $this->model_prog_cita->m_registrar($data);
 
-					//registro de cita
-					$data = array(
-						'iddetalleprogmedico' => $cita['seleccion']['iddetalleprogmedico'],
-						'fecha_reg_reserva' => date('Y-m-d H:i:s'),
-						'fecha_reg_cita' => date('Y-m-d H:i:s'),
-						'fecha_atencion_cita' => $cita['seleccion']['fecha_programada']. " " . $cita['seleccion']['hora_inicio_det'],
-						'idcliente' => $cliente,
-						'idempresacliente' =>  NULL,
-						'estado_cita' => 2,
+				if($result){
+					$idprogcita = GetLastId('idprogcita','pa_prog_cita');
+					//registro de detalle venta
+					$dataDetalle = array(
+						'idventa' => $idventa,
+						'idespecialidad' => $allInputs['usuario']['compra']['itemEspecialidad']['id'],
+						'cantidad' => 1,
+						'precio_unitario' => $cita['producto']['precio_sede'],
+						'total_detalle' => $cita['producto']['precio_sede'],
 						'idproductomaster' => $cita['producto']['idproductomaster'],
-						'idsedeempresaadmin' => $cita['producto']['idsedeempresaadmin'],
-						);
-					$result = $this->model_prog_cita->m_registrar($data);
+						'idprogcita' => $idprogcita,
+						'createdAt' =>  date('Y-m-d H:i:s'),
+						'updatedAt' =>  date('Y-m-d H:i:s'),
+					);
+					$resultVentaDetalle = $this->model_venta->m_registrar_detalle_venta($dataDetalle);
+					$iddetalle = GetLastId('iddetalle','ce_detalle');
+					//fin registro detalle venta
 
-
-
-					if($result){
-						$idprogcita = GetLastId('idprogcita','pa_prog_cita');
-						//registro de detalle venta
-						$dataDetalle = array(
-							'idventa' => $idventa,
-							'idespecialidad' => $allInputs['usuario']['compra']['itemEspecialidad']['id'],
-							'cantidad' => 1,
-							'precio_unitario' => $cita['producto']['precio_sede'],
-							'total_detalle' => $cita['producto']['precio_sede'],
-							'idproductomaster' => $cita['producto']['idproductomaster'],
-							'idprogcita' => $idprogcita,
-							'createdAt' =>  date('Y-m-d H:i:s'),
-							'updatedAt' =>  date('Y-m-d H:i:s'),
-						);
-						$resultVentaDetalle = $this->model_venta->m_registrar_detalle_venta($dataDetalle);
-						$iddetalle = GetLastId('iddetalle','ce_detalle');
-						//fin registro detalle venta
-
+					if($resultVentaDetalle){
 						$listaCitasGeneradas[$key]['idprogcita'] =  $idprogcita;
 						$listaCitasGeneradas[$key]['idventa'] =  $idventa;
 						$listaCitasGeneradas[$key]['iddetalle'] =  $iddetalle;
-						$listaCitasGeneradas[$key]['idculqitracking'] =  $arrData['datos']['cargo']['id'];
 
 						$texto_notificacion = generar_notificacion_evento(17, 'key_citas_en_linea', $cita);
 						$data = array(
@@ -158,7 +160,6 @@ class Venta extends CI_Controller {
 							'texto_notificacion' => $texto_notificacion,
 							'idresponsable' => $this->sessionCitasEnLinea['idusuario'],
 							);
-						
 						array_push($listNotificaciones, $data);						
 
 						//actualización de programacion
@@ -196,38 +197,87 @@ class Venta extends CI_Controller {
 						}
 					}else{
 						$error = TRUE;
-					}					
-				}
-
-				if(!$error){
-					$arrData['datos']['session'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];
-					$arrData['datos']['session']['compra']['listaCitas'] = array();
-					$arrData['datos']['session']['compra']['listaCitasGeneradas'] = $listaCitasGeneradas;
-					$this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']['session']);					
-					$arrData['message'] = $arrData['datos']['cargo']['outcome']['user_message'];
-					//$arrData['message'] = 'Todo bien';
-
-					//envio de mails
-			        $listaCitasGeneradas = $allInputs['usuario']['compra']['listaCitas'];
-			        $listaDestinatarios = array();
-			        array_push($listaDestinatarios, $allInputs['usuario']['email']);			        
-			        $setFromAleas = 'Villa Salud';
-			        $subject = 'Citas Programadas';
-			        $cuerpo = $this->genera_body_mail_citas($allInputs, $listaCitasGeneradas);
-			        $result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
-			        $arrData['flagMail']  = $result[0]['flag'];
-					$arrData['msgMail']  = $result[0]['msgMail'];
-
-					foreach ($listNotificaciones as $key => $noti) {
-						$this->model_control_evento_web->m_registrar_notificacion_evento($noti);
 					}
-				}
-				$this->db->trans_complete();
+					
+				}else{
+					$error = TRUE;
+				}					
 			}
-		}catch (Exception $e) {
-		  	$arrData['datos']['error'] = get_object_vars(json_decode($e->getMessage()));
-		  	$arrData['message'] = $arrData['datos']['error']['merchant_message'];
+
+			if(!$error){
+				try{
+					$this->load->library(array('culqi_php'));
+					$culqi = new Culqi\Culqi(array('api_key' => $config['CULQI_PRIVATE_KEY']));
+					$charge = $culqi->Charges->create(
+						array(
+							"amount" 		=> $allInputs['usuario']['compra']['totales']['total_pago_culqi'],
+							"currency_code" => "PEN",
+							"email" 		=> $allInputs['token']['email'],
+							"description" 	=> $config['DESCRIPCION_CARGO'],
+							"installments" 	=> 0,
+							"source_id" 	=> $allInputs['token']['id'] ,
+							"metadata" 		=> array(
+												"orden_venta" => $orden_venta,
+												"idventa" => $idventa,
+												"idusuario" => $allInputs['usuario']['idusuario']
+							    				)						   
+							)
+					);					
+
+					$arrData['datos']['cargo'] = get_object_vars($charge);			
+				  	if(!empty($arrData['datos']['cargo']['id'])){
+				  		$arrData['flag'] = 1;	
+				  		$arrData['datos']['cargo']['outcome']= get_object_vars($arrData['datos']['cargo']['outcome']);	 
+				  		//registro del pago
+						$dataPago = array(
+							'idusuarioweb' => $allInputs['usuario']['idusuario'],
+							'idventa' => $idventa,
+							'idculqitracking' => $arrData['datos']['cargo']['id'],
+							'codigo_referencia_culqi' => $arrData['datos']['cargo']['reference_code'],
+							'descripcion_cargo' => $config['DESCRIPCION_CARGO'],
+							'createdAt' =>  date('Y-m-d H:i:s'),
+							'updatedAt' =>  date('Y-m-d H:i:s'),
+						);
+						$resultPago = $this->model_venta->m_registrar_pago($dataPago); 
+
+						$arrData['datos']['session'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];
+						$arrData['datos']['session']['compra']['listaCitas'] = array();
+						$arrData['datos']['session']['compra']['listaCitasGeneradas'] = $listaCitasGeneradas;
+						$this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']['session']);					
+						$arrData['message'] = $arrData['datos']['cargo']['outcome']['user_message'];
+
+						//envio de mails
+				        $listaCitasGeneradas = $allInputs['usuario']['compra']['listaCitas'];
+				        $listaDestinatarios = array();
+				        array_push($listaDestinatarios, $allInputs['usuario']['email']);			        
+				        $setFromAleas = 'Villa Salud';
+				        $subject = 'Citas Programadas';
+				        $cuerpo = $this->genera_body_mail_citas($allInputs, $listaCitasGeneradas);
+				        $result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
+				        $arrData['flagMail']  = $result[0]['flag'];
+						$arrData['msgMail']  = $result[0]['msgMail'];
+
+						foreach ($listNotificaciones as $key => $noti) {
+							$this->model_control_evento_web->m_registrar_notificacion_evento($noti);
+						}		
+				  	}else{
+				  		$error = TRUE;
+				  	}
+				}catch (Exception $e) {
+				  	$arrData['datos']['error'] = get_object_vars(json_decode($e->getMessage()));
+				  	$arrData['message'] = $arrData['datos']['error']['merchant_message'];
+				  	$arrData['flag'] = 0;
+				}				
+			}
+		}else{
+			$error = TRUE;
 		}
+		
+		if ($this->db->trans_status() === TRUE && !$error){
+		    $this->db->trans_commit();
+		}else{
+			$this->db->trans_rollback();        
+		}		
 
 	    $this->output
 	        ->set_content_type('application/json')

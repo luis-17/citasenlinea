@@ -12,11 +12,20 @@ angular.module('theme.venta', ['theme.core.services'])
   .service("ventaServices",function($http, $q) {
     return({
       sGenerarVentaCitas:sGenerarVentaCitas,
+      sValidarCitas: sValidarCitas,
     });    
     function sGenerarVentaCitas(datos) { 
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"Venta/generar_venta_citas", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }    
+    function sValidarCitas(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"Venta/validar_citas", 
             data : datos
       });
       return (request.then( handleSuccess,handleError ));

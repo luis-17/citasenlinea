@@ -24,4 +24,14 @@ class Model_venta extends CI_Model {
 	public function m_registrar_detalle_venta($data){
 		return $this->db->insert('ce_detalle', $data);
 	}
+
+	public function m_consulta_medio_pago($tipotarjeta){
+		$this->db->select('idmediopago');
+		$this->db->from('medio_pago mp');
+		$this->db->where('mp.key_marca', strtolower($tipotarjeta)); 
+		$this->db->limit(1); 
+		$row = $this->db->get()->row_array();
+
+		return  $row['idmediopago'];
+	}
 }

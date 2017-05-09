@@ -25,7 +25,7 @@ class Model_prog_medico extends CI_Model {
 							WHERE idprogmedico = ".intval($datos['idprogmedico']));
 	}
 
-	public function m_conculta_cupo($iddetalleprogmedico){
+	public function m_consulta_cupo($iddetalleprogmedico){
 		$this->db->select('*'); 
 		$this->db->from("pa_detalle_prog_medico dpm");		
 		$this->db->where("dpm.iddetalleprogmedico", intval($iddetalleprogmedico)); //cupo

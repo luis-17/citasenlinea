@@ -133,7 +133,7 @@
         </div>
         <div class="col-sm-12 col-md-2 pl-n">
           <div class="previo">
-            <div ng-show="fSessionCI.listaCitas.length > 0">            
+            <div ng-show="fSessionCI.compra.listaCitas.length > 0">            
               <div class="text-guia noanimate">              
                 <p class="instruccion">{{fSessionCI.nombres}}, finaliza tu compra!... Haz click en "FINALIZAR"</p>
                 <p class="saludo">Villa Salud, Te Cuida!</p>
@@ -142,7 +142,7 @@
           </div>
           <div class="citas scroll-pane citas-large" style="">
             <ul class="list-citas">
-                <li ng-repeat="(index,fila) in fSessionCI.listaCitas" class="item-list-citas notification-{{fila.clase}}" >
+                <li ng-repeat="(index,fila) in fSessionCI.compra.listaCitas" class="item-list-citas notification-{{fila.clase}}" >
                     <div class="cita" ng-click="" style="">
                       <span class="eliminar" ng-click="quitarDeLista(index,fila);"><i class="fa fa-times" style="color: #ce1d19;"></i></span>  
                       <div><i class="fa fa-stethoscope" style="color: #36c0d1;"></i>  Cita para:    <span class="cita-familiar">{{fila.busqueda.itemFamiliar.descripcion}}</span></div>
@@ -152,11 +152,11 @@
                       <div><i class="fa fa-clock-o"     style="color: #929191;"></i>  Turno:        <span class="cita-turno">{{fila.seleccion.fecha_programada}} {{fila.seleccion.hora_formato}}</span></div>
                     </div>                            
                 </li>
-                <li class="media" ng-show="fSessionCI.listaCitas.length < 1">
+                <li class="media" ng-show="fSessionCI.compra.listaCitas.length < 1">
                     <div class="sin-citas"> Comienza a registrar tus citas... </div>
                 </li>
             </ul>
-            <div class="boton-finalizar" ng-show="fSessionCI.listaCitas.length > 0">
+            <div class="boton-finalizar" ng-show="fSessionCI.compra.listaCitas.length > 0">
               <a class="" ng-click="resumenReserva();" style="animation: pulse 2s ease infinite;">FINALIZAR  <i class="fa fa-angle-right"></i>
               </a>
             </div>            
@@ -169,7 +169,7 @@
             </div>
             <div class="citas scroll-pane collapse in" id="citas" style="">            
               <ul class="list-citas">
-                  <li ng-repeat="(index,fila) in fSessionCI.listaCitas" class="item-list-citas notification-{{fila.clase}}" >
+                  <li ng-repeat="(index,fila) in fSessionCI.compra.listaCitas" class="item-list-citas notification-{{fila.clase}}" >
                       <div class="cita" ng-click="" style="">
                         <span class="eliminar" ng-click="quitarDeLista(index,fila);"><i class="fa fa-times" style="color: #ce1d19;"></i></span>  
                         <div><i class="fa fa-stethoscope" style="color: #36c0d1;"></i>  Cita para:    <span class="cita-familiar">{{fila.busqueda.itemFamiliar.descripcion}}</span></div>
@@ -179,11 +179,11 @@
                         <div><i class="fa fa-clock-o"     style="color: #929191;"></i>  Turno:        <span class="cita-turno">{{fila.seleccion.fecha_programada}} {{fila.seleccion.hora_formato}}</span></div>
                       </div>                            
                   </li>
-                  <li class="media" ng-show="fSessionCI.listaCitas.length < 1">
+                  <li class="media" ng-show="fSessionCI.compra.listaCitas.length < 1">
                       <div class="sin-citas"> Comienza a registrar tus citas... </div>
                   </li>
               </ul>
-              <div class="boton-finalizar" ng-show="fSessionCI.listaCitas.length > 0">
+              <div class="boton-finalizar" ng-show="fSessionCI.compra.listaCitas.length > 0">
                 <a class="" ng-click="resumenReserva();" style="animation: pulse 2s ease infinite;">FINALIZAR  <i class="fa fa-angle-right"></i>
                 </a>
               </div>          

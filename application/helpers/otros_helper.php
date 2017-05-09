@@ -120,12 +120,12 @@ function enviar_mail($asunto, $setFromAleas, $cuerpo, $listaDestinatarios, $list
   $mail->AddBCC("yeralmmf@gmail.com");
   $mail->AddBCC("yerald02@hotmail.com");*/
 
-  if($listaAdjuntos){
+/*  if($listaAdjuntos){
     foreach ($listaAdjuntos as $key => $fileUrl) {
       $fichero = file_get_contents($fileUrl);
       $mail->addStringAttachment($fichero, 'comprobanteCita.pdf');
     }
-  }
+  }*/
   
   //print_r($mail);
   $response = array();
