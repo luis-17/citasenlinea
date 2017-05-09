@@ -26,7 +26,7 @@
       <div class="row">
         <div class="mb-n col-md-12 col-sm-12 col-xs-12" ng-if="fData.idtipoevento == 17">
           <div class="col-md-12 col-sm-12 col-xs-12 ">
-            <a ng-click="viewComprobante(fData); $event.preventDefault();" style="color:#ce1d19;" class="pull-right"> 
+            <a ng-click="viewComprobante(); $event.preventDefault();" style="color:#ce1d19;" class="pull-right"> 
               <i class="fa fa-file-pdf-o"></i> Comprobante de cita
             </a>   
           </div>
@@ -34,7 +34,7 @@
 
         <div class="mb-n col-md-12 col-sm-12 col-xs-12" ng-if="fData.idtipoevento == 18">
           <div class="col-md-12 col-sm-12 col-xs-12  pull-right">
-            <a ng-click="viewComprobante(fData); $event.preventDefault();" style="color:#ce1d19;" class="pull-right"> 
+            <a ng-click="viewComprobante(); $event.preventDefault();" style="color:#ce1d19;" class="pull-right"> 
               <i class="fa fa-file-pdf-o"></i> Comprobante de cita
             </a>   
           </div>                             

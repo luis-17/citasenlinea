@@ -35,4 +35,37 @@ class Model_prog_cita extends CI_Model {
 		$this->db->where("ppc.idprogcita <> ", 0); //estado cita (no cancelada)
 		return $this->db->get()->row_array();
 	}
+
+	public function m_carga_esta_cita($idprogcita){ 
+		$this->db->select('ppc.idprogcita, ppc.estado_cita, ppc.idcliente');
+		$this->db->select('dpm.iddetalleprogmedico, dpm.idcanal, dpm.hora_inicio_det, dpm.hora_fin_det, dpm.si_adicional, dpm.numero_cupo');
+		$this->db->select('prm.idprogmedico, prm.idmedico, prm.fecha_programada');
+		$this->db->select('med.med_nombres, med.med_apellido_paterno, med.med_apellido_materno, med.colegiatura_profesional');	
+
+		$this->db->select('am.idambiente, am.numero_ambiente, esp.idespecialidad, esp.nombre AS especialidad'); 
+		$this->db->select('cli.nombres, cli.apellido_paterno, cli.apellido_materno');	//datos del familiar
+
+		$this->db->select('se.idsede, se.descripcion as sede');	
+		$this->db->select('uwp.idusuariowebpariente, uwp.idparentesco, cp.descripcion as parentesco');
+		
+		$this->db->from('pa_prog_cita ppc');
+		$this->db->join('pa_detalle_prog_medico dpm','ppc.iddetalleprogmedico = dpm.iddetalleprogmedico AND dpm.idcanal = 3');	
+		$this->db->join('pa_prog_medico prm','dpm.idprogmedico = prm.idprogmedico');
+		$this->db->join('medico med', 'med.idmedico = prm.idmedico');			
+
+		$this->db->join('pa_ambiente am','prm.idambiente = am.idambiente');	
+		$this->db->join('especialidad esp','prm.idespecialidad = esp.idespecialidad');
+		$this->db->join('cliente cli','cli.idcliente = ppc.idcliente');		
+		
+		$this->db->join('ce_usuario_web_pariente uwp','cli.idcliente = uwp.idclientepariente','left');
+		$this->db->join('ce_parentesco cp','uwp.idparentesco = cp.idparentesco','left');
+
+		$this->db->join('sede_empresa_admin sea','sea.idsedeempresaadmin = ppc.idsedeempresaadmin');
+		$this->db->join('sede se','sea.idsede = se.idsede');							
+
+		$this->db->where('ppc.idprogcita', $idprogcita);
+		$this->db->where('ppc.estado_cita <>', '0');
+
+		return $this->db->get()->row_array();
+	}
 }

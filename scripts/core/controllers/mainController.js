@@ -295,8 +295,9 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     $scope.viewDetalleNotificacionEvento = function(fila){
       console.log(fila);
       rootServices.sUpdateLeidoNotificacion(fila).then(function (rpta) {
+        $scope.fData = fila;
         if(rpta.flag == 1){
-          $scope.getNotificacionesEventos(false);
+          $scope.getNotificacionesEventos(false);         
           $uibModal.open({
             templateUrl: angular.patchURLCI+'ControlEventoWeb/ver_popup_notificacion_evento',
             size: '',
@@ -305,13 +306,22 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
             scope: $scope,
             controller: function ($scope, $modalInstance) { 
               $scope.titleForm = 'DETALLE DE NOTIFICACIÓN';               
-              $scope.fData = fila;
+              console.log('$scope.fData.cita',$scope.fData.cita)
 
               $scope.cancel = function () {
                 $modalInstance.dismiss('cancel');
+              }
+
+              $scope.viewComprobante = function(){
+                rootServices.sCargaObjetoNotificacion(fila).then(function(rpta){
+                  $scope.fData.cita = rpta.cita;
+                  $scope.cancel();
+                  $scope.descargaComprobanteCita($scope.fData.cita);
+                });
               }              
             }
-          });
+          });         
+          
         }else if(rpta.flag == 0){
           var pTitle = 'Advertencia!';
           var pType = 'warning';
@@ -344,6 +354,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
         sGetConfig:sGetConfig,
         sListarNotificacionesEventos: sListarNotificacionesEventos,
         sUpdateLeidoNotificacion: sUpdateLeidoNotificacion,
+        sCargaObjetoNotificacion: sCargaObjetoNotificacion
     });
     function sGetSessionCI() {
       var request = $http({
@@ -379,6 +390,14 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"ControlEventoWeb/update_leido_notificacion",
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    } 
+    function sCargaObjetoNotificacion (datos) {
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ControlEventoWeb/carga_objeto_notificacion",
             data : datos
       });
       return (request.then( handleSuccess,handleError ));
