@@ -86,7 +86,7 @@ function comprobar_email($email){
     return $mail_correcto; 
 }
 
-function enviar_mail($asunto, $setFromAleas, $cuerpo, $listaDestinatarios, $adjunto = FALSE){
+function enviar_mail($asunto, $setFromAleas, $cuerpo, $listaDestinatarios, $listaAdjuntos = FALSE){
   $ci2 =& get_instance();
   $ci2->load->library('My_PHPMailer');
 
@@ -119,6 +119,13 @@ function enviar_mail($asunto, $setFromAleas, $cuerpo, $listaDestinatarios, $adju
   /*$mail->AddBCC("ymartinez@villasalud.pe");
   $mail->AddBCC("yeralmmf@gmail.com");
   $mail->AddBCC("yerald02@hotmail.com");*/
+
+  if($listaAdjuntos){
+    foreach ($listaAdjuntos as $key => $fileUrl) {
+      $fichero = file_get_contents($fileUrl);
+      $mail->addStringAttachment($fichero, 'comprobanteCita.pdf');
+    }
+  }
   
   //print_r($mail);
   $response = array();

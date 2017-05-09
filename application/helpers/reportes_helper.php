@@ -91,6 +91,63 @@ function getPlantillaGeneralReporte($arrContent,$datos,$paramPageOrientation=FAL
     // return $fData['id'];
 }
 
+function getPlantillaGeneralReporteHTML($objPdf,$htmlContent,$datos,$paramPageOrientation=FALSE,$paramPageSize=FALSE,$arrPageMargins=FALSE)
+{
+  $ci2 =& get_instance();
+  $fConfig = $ci2->model_config->m_cargar_empresa_usuario_activa(); 
+  $style = ' <style>
+      @page { margin-top: 0.2cm; margin-left: 0.7cm; margin-right: 0.5cm; margin-bottom: 0.6cm; }
+      .header-mini { font-size: 6px; text-align: right; }
+      .header-logo { margin-top: -8px;} 
+      .block { display: block !important;}
+      .headerTitle { font-size: 20px; font-weight:bold; margin-left: 360px; margin-top: -28px; color: #313a3e; }
+      .razon_social { font-size: 10px; margin-left: 58px; margin-top: -20px; }
+      .domicilio_fiscal { font-size: 5px; margin-left: 58px; margin-top: -1px; }
+      .filterTitle { font-size: 12px; font-weight; bold; } 
+      .text-center { text-align: center; }
+      table {
+        margin-top: 2pt;
+        margin-bottom: 5pt;
+        border-collapse: collapse;
+      }
+      thead td, thead th, tfoot td, tfoot th {
+          font-variant: small-caps;
+      }
+
+      table.mainTable th { 
+          vertical-align: top;
+          padding-top: 3mm;
+          padding-bottom: 3mm;
+      }
+      table.subTable th { 
+        font-size: 11px;
+      }
+      table.detalleTable th { 
+        font-size: 11px;
+      }
+      table.detalleTable td { 
+        font-size: 10px;
+
+      }
+      table.detalleTable tfoot td { 
+        font-size: 10px;
+        font-weight: bold;
+      }
+    </style>
+  ';
+  $htmlPlantilla = '';
+  $htmlPlantilla .= '<html> <head> '.$style.' </head> <body>';
+  $htmlPlantilla .= '<div class="header-mini"> USUARIO:'.strtoupper($ci2->sessionHospital['username']).'    /   FECHA DE IMPRESIÓN: '.date('Y-m-d H:i:s') .'</div>';
+  $htmlPlantilla .= '<div class="header-logo"> <img width="200" src="'.base_url('assets/img/dinamic/empresa/'.$fConfig['nombre_logo']).'" /> '; 
+  $htmlPlantilla .= '<div class="block razon_social">'.$fConfig['razon_social'].'</div>';
+  $htmlPlantilla .= '<div class="block domicilio_fiscal">'.$fConfig['domicilio_fiscal'].'</div>';
+  $htmlPlantilla .= '</div>';
+  $htmlPlantilla .= '<div class="headerTitle">'.$datos['titulo'].'</div> <hr />';
+  $htmlPlantilla .= $htmlContent;
+  $htmlPlantilla .= '</body></html>';
+  return $htmlPlantilla;
+}
+
 function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrientation=FALSE,$paramPageSize=FALSE,$arrPageMargins=FALSE){
     $ci2 =& get_instance();
     $fConfig = $ci2->model_sede->m_cargar_sede_por_id($datos['itemSede']['id']);
@@ -210,59 +267,75 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
     // return $fData['id'];
 }
 
-function getPlantillaGeneralReporteHTML($objPdf,$htmlContent,$datos,$paramPageOrientation=FALSE,$paramPageSize=FALSE,$arrPageMargins=FALSE)
-{
-  $ci2 =& get_instance();
-  $fConfig = $ci2->model_config->m_cargar_empresa_usuario_activa(); 
-  $style = ' <style>
-      @page { margin-top: 0.2cm; margin-left: 0.7cm; margin-right: 0.5cm; margin-bottom: 0.6cm; }
-      .header-mini { font-size: 6px; text-align: right; }
-      .header-logo { margin-top: -8px;} 
-      .block { display: block !important;}
-      .headerTitle { font-size: 20px; font-weight:bold; margin-left: 360px; margin-top: -28px; color: #313a3e; }
-      .razon_social { font-size: 10px; margin-left: 58px; margin-top: -20px; }
-      .domicilio_fiscal { font-size: 5px; margin-left: 58px; margin-top: -1px; }
-      .filterTitle { font-size: 12px; font-weight; bold; } 
-      .text-center { text-align: center; }
-      table {
-        margin-top: 2pt;
-        margin-bottom: 5pt;
-        border-collapse: collapse;
-      }
-      thead td, thead th, tfoot td, tfoot th {
-          font-variant: small-caps;
-      }
+function genera_pdf_cita($allInputs){
+  $arrDatos = array( 
+    array(
+      'text'=> array(' ')
+    ),
+    array(
+      'text'=> array(
+          array(
+            'text'=>'Sede: ',
+            'style'=> 'filterTitle'
+          ),
+          $allInputs['itemSede']['sede']
+      )
+    ),
+    array(
+      'text'=> array(
+          array(
+            'text'=>'Paciente: ',
+            'style'=> 'filterTitle'
+          ),
+          strtoupper($allInputs['itemFamiliar']['paciente'])
+      )
+    ),
+    array(
+      'text'=> array(
+          array(
+            'text'=>'Fecha/Hora: ',
+            'style'=> 'filterTitle'
+          ),
+          $allInputs['fecha_formato'] . ' ' . $allInputs['hora_inicio_formato']
+      )
+    ),
+    array(
+      'text'=> array(
+          array(
+            'text'=>'Médico: ',
+            'style'=> 'filterTitle'
+          ),
+          $allInputs['itemMedico']['medico']
+      )
+    ),
+    array(
+      'text'=> array(
+          array(
+            'text'=>'Especialidad: ',
+            'style'=> 'filterTitle'
+          ),
+          $allInputs['itemEspecialidad']['especialidad']
+      )
+    ),
+    array(
+      'text'=> array(
+          array(
+            'text'=>'Consultorio: ',
+            'style'=> 'filterTitle'
+          ),
+          $allInputs['itemAmbiente']['numero_ambiente']
+      )
+    ),
+    array(
+      'text'=> array(' ')
+    )
+  );
 
-      table.mainTable th { 
-          vertical-align: top;
-          padding-top: 3mm;
-          padding-bottom: 3mm;
-      }
-      table.subTable th { 
-        font-size: 11px;
-      }
-      table.detalleTable th { 
-        font-size: 11px;
-      }
-      table.detalleTable td { 
-        font-size: 10px;
-
-      }
-      table.detalleTable tfoot td { 
-        font-size: 10px;
-        font-weight: bold;
-      }
-    </style>
-  ';
-  $htmlPlantilla = '';
-  $htmlPlantilla .= '<html> <head> '.$style.' </head> <body>';
-  $htmlPlantilla .= '<div class="header-mini"> USUARIO:'.strtoupper($ci2->sessionHospital['username']).'    /   FECHA DE IMPRESIÓN: '.date('Y-m-d H:i:s') .'</div>';
-  $htmlPlantilla .= '<div class="header-logo"> <img width="200" src="'.base_url('assets/img/dinamic/empresa/'.$fConfig['nombre_logo']).'" /> '; 
-  $htmlPlantilla .= '<div class="block razon_social">'.$fConfig['razon_social'].'</div>';
-  $htmlPlantilla .= '<div class="block domicilio_fiscal">'.$fConfig['domicilio_fiscal'].'</div>';
-  $htmlPlantilla .= '</div>';
-  $htmlPlantilla .= '<div class="headerTitle">'.$datos['titulo'].'</div> <hr />';
-  $htmlPlantilla .= $htmlContent;
-  $htmlPlantilla .= '</body></html>';
-  return $htmlPlantilla;
+  $arrContent[] = array( 
+    $arrDatos,
+  );
+  $arrData['message'] = '';
+  $arrData['flag'] = 1;
+  $arrDataPDF = getPlantillaComprobanteCita($arrContent,$allInputs,'COMPROBANTE DE CITA','portrait');
+  return $arrDataPDF;
 }

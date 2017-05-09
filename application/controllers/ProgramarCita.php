@@ -486,8 +486,21 @@ class ProgramarCita extends CI_Controller {
 			        $setFromAleas = 'Villa Salud';
 			        $subject = 'Reprogramación de Cita';
 					$cuerpo = $this->genera_body_mail_reprogramacion($allInputs);
-					$result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
 
+					$dataPDF = array(
+						'idprogcita' => $allInputs['oldCita']['idprogcita'],
+						'fecha_formato' => $allInputs['seleccion']['fecha_programada'],
+						'hora_inicio_formato' => $allInputs['seleccion']['hora_inicio_det'],
+						'itemSede' => $allInputs['oldCita']['itemSede'],
+						'itemEspecialidad' => $allInputs['oldCita']['itemEspecialidad'],
+						'itemFamiliar' => $allInputs['oldCita']['itemFamiliar'],
+						'itemMedico' => $allInputs['oldCita']['itemMedico'],
+						'itemAmbiente' => $allInputs['oldCita']['itemAmbiente'],
+						);
+
+					//assets/img/dinamic/pdfTemporales/tempPDFreprogramacion.pdf
+
+					$result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios, array($url));
 					$arrData['flagMail']  = $result[0]['flag'];
 					$arrData['msgMail']  = $result[0]['msgMail'];
 
@@ -576,82 +589,9 @@ class ProgramarCita extends CI_Controller {
       	return $cuerpo;
   	}
 
-  	private function genera_pdf_cita($allInputs){
-  		$arrDatos = array( 
-	      array(
-	        'text'=> array(' ')
-	      ),
-	      array(
-	        'text'=> array(
-	            array(
-	              'text'=>'Sede: ',
-	              'style'=> 'filterTitle'
-	            ),
-	            $allInputs['itemSede']['sede']
-	        )
-	      ),
-	      array(
-	        'text'=> array(
-	            array(
-	              'text'=>'Paciente: ',
-	              'style'=> 'filterTitle'
-	            ),
-	            strtoupper($allInputs['itemFamiliar']['paciente'])
-	        )
-	      ),
-	      array(
-	        'text'=> array(
-	            array(
-	              'text'=>'Fecha/Hora: ',
-	              'style'=> 'filterTitle'
-	            ),
-	            $allInputs['fecha_formato'] . ' ' . $allInputs['hora_inicio_formato']
-	        )
-	      ),
-	      array(
-	        'text'=> array(
-	            array(
-	              'text'=>'Médico: ',
-	              'style'=> 'filterTitle'
-	            ),
-	            $allInputs['itemMedico']['medico']
-	        )
-	      ),
-	      array(
-	        'text'=> array(
-	            array(
-	              'text'=>'Especialidad: ',
-	              'style'=> 'filterTitle'
-	            ),
-	            $allInputs['itemEspecialidad']['especialidad']
-	        )
-	      ),
-	      array(
-	        'text'=> array(
-	            array(
-	              'text'=>'Consultorio: ',
-	              'style'=> 'filterTitle'
-	            ),
-	            $allInputs['itemAmbiente']['numero_ambiente']
-	        )
-	      ),
-	      array(
-	        'text'=> array(' ')
-	      )
-	    );
-
-	    $arrContent[] = array( 
-	      $arrDatos,
-	    );
-	    $arrData['message'] = '';
-	    $arrData['flag'] = 1;
-	    $arrDataPDF = getPlantillaComprobanteCita($arrContent,$allInputs,'COMPROBANTE DE CITA','portrait');
-  		return $arrDataPDF;
-  	}
-
   	public function report_comprobante_cita(){ 
 	    $allInputs = json_decode(trim($this->input->raw_input_stream),true);
-	    $arrDataPDF = $this->genera_pdf_cita($allInputs);
+	    $arrDataPDF = genera_pdf_cita($allInputs);
 	    $arrData['dataPDF'] = $arrDataPDF;
 	    $arrData['message'] = 'OK';
 	    $arrData['flag'] = 1;
