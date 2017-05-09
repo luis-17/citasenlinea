@@ -1065,6 +1065,41 @@ a.link-password:hover{
   float:right;
 }
 
+.planning.large .icon-scroll{
+  font-size: 30px;
+  color: #ff9800;
+  position: fixed;
+  right: 19.5%;
+  animation: shake 2s ease-in-out infinite;
+} 
+
+.planning.large .icon-scroll i{
+  clear: both;
+  float: right;
+}    
+
+@keyframes shake {
+  0% {
+    transform: translateY(0);
+  }
+
+  25% {
+    transform: translateY(10px);
+  }
+
+  50% {
+    transform: translateY(25px);
+  }
+
+  75% {
+    transform: translateY(35px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .planning.movil{
   display: none;
 }

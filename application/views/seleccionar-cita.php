@@ -85,14 +85,18 @@
             no hay turnos diponibles con las opciones seleccionadas, intenta con otros parámetros... 
           </div>
           <div class="planning large pr-md" ng-class="{visible : fPlanning.mostrar}" ng-if="fPlanning.mostrar">            
+            <span class="icon-scroll">
+              <i class="ti ti-mouse-alt" style="left: 6px;position: relative;"></i>
+              <i class="fa fa-angle-double-down"></i>
+            </span> 
             <div class="header">
               <div class="desc-header fecha-header" style="width: 95px; ">
                 H./FECHAS
               </div>                
               <div ng-repeat="fecha in fPlanning.fechas" class="{{fecha.class}}">
                 <div class="cell-fecha">{{fecha.dato}}</div>
-              </div>                    
-            </div>
+              </div>                                 
+            </div>            
             <div class="block-visible-planning">
               <div class="sidebar">              
                 <div ng-repeat="hora in fPlanning.horas" class="{{hora.class}}">
