@@ -280,10 +280,14 @@ class Pariente extends CI_Controller {
     $allInputs = json_decode(trim($this->input->raw_input_stream),true);
     $paramPaginate = $allInputs['paginate'];
     $datos = $this->sessionCitasEnLinea;
-    $lista = $this->model_pariente->m_cargar_parientes_cbo($datos, $paramPaginate);
+    $lista = $this->model_pariente->m_cargar_parientes_cbo($datos, $paramPaginate);     
 
     $arrListado = array();
     foreach ($lista as $row) {
+      $paciente = strtoupper($row['nombres']) . ' ' . 
+                  strtoupper($row['apellido_paterno']) . ' ' . 
+                  strtoupper($row['apellido_materno']);
+
       array_push($arrListado, 
         array(
           'idusuariowebpariente' => $row['idusuariowebpariente'],
@@ -301,6 +305,7 @@ class Pariente extends CI_Controller {
           'num_documento' => $row['num_documento'],
           'fecha_nacimiento' => date('d-m-Y',strtotime($row['fecha_nacimiento'])),
           'email' => $row['email'],
+          'paciente' => $paciente,
         )
       );
     }

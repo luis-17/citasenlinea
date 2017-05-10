@@ -150,6 +150,17 @@ class Venta extends CI_Controller {
 						$listaCitasGeneradas[$key]['idprogcita'] =  $idprogcita;
 						$listaCitasGeneradas[$key]['idventa'] =  $idventa;
 						$listaCitasGeneradas[$key]['iddetalle'] =  $iddetalle;
+						$listaCitasGeneradas[$key]['itemFamiliar'] =  $cita['busqueda']['itemFamiliar'];
+						$listaCitasGeneradas[$key]['itemSede'] =  $cita['busqueda']['itemSede'];
+						$listaCitasGeneradas[$key]['itemEspecialidad'] =  $cita['busqueda']['itemEspecialidad'];
+						$listaCitasGeneradas[$key]['itemAmbiente'] =  array(
+																			'idambiente' => $cita['seleccion']['idambiente'],
+																			'numero_ambiente' => $cita['seleccion']['numero_ambiente'],
+																		);
+						$listaCitasGeneradas[$key]['itemMedico'] =  array(
+																			'idmedico' => $cita['seleccion']['idmedico'],
+																			'medico' => $cita['seleccion']['medico'],
+																		);
 
 						$texto_notificacion = generar_notificacion_evento(17, 'key_citas_en_linea', $cita);
 						$data = array(

@@ -83,7 +83,10 @@ angular.module('theme.programarCita', ['theme.core.services'])
       $scope.listarParientes = function(externo){
         parienteServices.sListarParientesCbo().then(function (rpta) {
           $scope.listaFamiliares = rpta.datos;
-          $scope.listaFamiliares.splice(0,0,{ idusuariowebpariente:0, descripcion: $scope.fSessionCI.nombres + ' (titular)'});
+          $scope.listaFamiliares.splice(0,0,{ idusuariowebpariente:0, 
+                                              descripcion: $scope.fSessionCI.nombres + ' (titular)',
+                                              paciente: $scope.fSessionCI.paciente
+                                            });
           if(externo){          
             $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[$scope.listaFamiliares.length-1]; 
           }else{
@@ -344,6 +347,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
     $scope.resumenReserva = function(){
       ventaServices.sValidarCitas($scope.fSessionCI).then(function(rpta){
+        console.log();
         if(rpta.flag == 1){
           programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
             $scope.goToUrl('/resumen-cita'); 

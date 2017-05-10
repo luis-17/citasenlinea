@@ -91,8 +91,7 @@ function getPlantillaGeneralReporte($arrContent,$datos,$paramPageOrientation=FAL
     // return $fData['id'];
 }
 
-function getPlantillaGeneralReporteHTML($objPdf,$htmlContent,$datos,$paramPageOrientation=FALSE,$paramPageSize=FALSE,$arrPageMargins=FALSE)
-{
+function getPlantillaGeneralReporteHTML($objPdf,$htmlContent,$datos,$paramPageOrientation=FALSE,$paramPageSize=FALSE,$arrPageMargins=FALSE){
   $ci2 =& get_instance();
   $fConfig = $ci2->model_config->m_cargar_empresa_usuario_activa(); 
   $style = ' <style>
@@ -164,18 +163,17 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
     );
     $arrFooter = array(
       array( 
-          'text'=> 'USUARIO: '.strtoupper($ci2->sessionCitasEnLinea['nombre_usuario']).'    /   FECHA DE IMPRESIÓN: '.date('Y-m-d H:i:s'),
-          'style'=> 'headerPage'
+          'text'=> '',
       )
     );
     $arrStyles = array( 
         'headerTitle'=> array( 
-          'fontSize'=> 17,
+          'fontSize'=> 15,
           'bold'=> true
           // 'alignment'=> 'center'
         ),
         'filterTitle'=> array( 
-          'fontSize'=> 12,
+          'fontSize'=> 10,
           'bold'=> true
           // 'alignment'=> 'center'
         ),
@@ -187,7 +185,7 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
     );
     // var_dump($fConfig); exit(); 
     $strLines = null;
-    for ($i=0; $i < 55; $i++) { 
+    for ($i=0; $i < 53; $i++) { 
       $strLines.= '_';
     }
 
@@ -198,7 +196,7 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
       array(
         'image'=> 'imageHeaderPage',
           'alignment'=> 'center',
-          'width' => 180,
+          'width' => 160,
           'margin' => array(0,0,0,0)
       ),
       array( 
@@ -217,11 +215,11 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
     );
 
     /*codigo QR*/
-    $ci2->load->library('qr_php');
-    $textoQR = 'Este comprobante pertenece a una cita del Hospital Villa Salud. Sede: ' . $datos['itemSede']['sede'];
+    $ci2->load->library('qr_php');    
+    $textoQR = 'Este comprobante pertenece a una cita del Hospital Villa Salud. Sede: ' . $fConfig['descripcion'] ;
     $textoQR .= '. Proveniente de la orden número: '.$fDataCita['orden_venta'];
 
-    QRcode::png($textoQR,"assets/img/dinamic/temp/01.png",QR_ECLEVEL_H,2);
+    QRcode::png($textoQR,"assets/img/dinamic/temp/01.png",QR_ECLEVEL_L,2);
     /*fin codigo QR*/
 
     $arrFooterContent = array( 
@@ -241,16 +239,29 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
       ),      
       array(
         'text'=> array('Recuerda llegar 20 minutos antes de la hora seleccionada en la cita.'),
-        'style'=> array('headerPage',array('alignment'=> 'center','fontSize'=> 10) ),
+        'style'=> array('headerPage',array('alignment'=> 'center','fontSize'=> 9) ),
       ),
       array(
         'text'=> array('Gracias por confiarnos tu salud...'),
-        'style'=> array('headerPage',array('alignment'=> 'center','fontSize'=> 10) ),
+        'style'=> array('headerPage',array('alignment'=> 'center','fontSize'=> 9) ),
       ),
       array(
         'text'=> array('Villa Salud, Te Cuida!'),
-        'style'=> array('headerTitle',array('alignment'=> 'center','fontSize'=> 10)),
+        'style'=> array('headerTitle',array('alignment'=> 'center','fontSize'=> 9)),
+      ),      
+      array(
+        'text'=> array(' '),
       ),
+      array(
+        'text'=> array(' '),
+      ),
+      array(
+        'text'=> 'USUARIO: '.strtoupper($ci2->sessionCitasEnLinea['nombre_usuario']).'    /   FECHA DE IMPRESIÓN: '.date('Y-m-d H:i:s'),
+        'style'=> 'headerPage',
+        //'margin' => array(0,0,300,0),
+        'style'=> array('headerPage',array('alignment'=> 'right','fontSize'=> 4)),
+      )
+
     );
     $arrDataPDF = array( 
       //'background'=> null,
@@ -259,15 +270,20 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
       'content'=> array_merge($arrMainContent,$arrContent,$arrFooterContent),
       'styles' => $arrStyles,
       'images' => $arrImages,
-      'pageSize' => ($paramPageSize === FALSE ? 'A5' : $paramPageSize), 
+      'pageSize' => ($paramPageSize === FALSE ? 'A4' : $paramPageSize), 
       'pageOrientation' => ($paramPageOrientation === FALSE ? 'portrait' : $paramPageOrientation),  // $paramPageOrientation || 'portrait', // portrait/landscape
-      'pageMargins' => ($arrPageMargins === FALSE ? array(60,10,60,10) : $arrPageMargins)  // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+      'pageMargins' => ($arrPageMargins === FALSE ? array(30,5,280,400) : $arrPageMargins)  // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
     );
     return $arrDataPDF;
     // return $fData['id'];
 }
 
 function genera_pdf_cita($allInputs){
+  $sede = empty($allInputs['itemSede']['sede']) ? $allInputs['itemSede']['descripcion'] : $allInputs['itemSede']['sede'];
+  $especialidad = empty($allInputs['itemEspecialidad']['especialidad']) ? $allInputs['itemEspecialidad']['descripcion'] : $allInputs['itemEspecialidad']['especialidad'];
+  $fecha = empty($allInputs['fecha_formato']) ? $allInputs['seleccion']['fecha_programada'] : $allInputs['fecha_formato'];
+  $hora = empty($allInputs['hora_inicio_formato']) ? $allInputs['seleccion']['hora_formato'] : $allInputs['hora_inicio_formato'];
+  
   $arrDatos = array( 
     array(
       'text'=> array(' ')
@@ -278,7 +294,7 @@ function genera_pdf_cita($allInputs){
             'text'=>'Sede: ',
             'style'=> 'filterTitle'
           ),
-          $allInputs['itemSede']['sede']
+          $sede
       )
     ),
     array(
@@ -296,7 +312,7 @@ function genera_pdf_cita($allInputs){
             'text'=>'Fecha/Hora: ',
             'style'=> 'filterTitle'
           ),
-          $allInputs['fecha_formato'] . ' ' . $allInputs['hora_inicio_formato']
+          $fecha . ' ' . $hora
       )
     ),
     array(
@@ -314,7 +330,7 @@ function genera_pdf_cita($allInputs){
             'text'=>'Especialidad: ',
             'style'=> 'filterTitle'
           ),
-          $allInputs['itemEspecialidad']['especialidad']
+          $especialidad
       )
     ),
     array(
@@ -326,9 +342,6 @@ function genera_pdf_cita($allInputs){
           $allInputs['itemAmbiente']['numero_ambiente']
       )
     ),
-    array(
-      'text'=> array(' ')
-    )
   );
 
   $arrContent[] = array( 
@@ -336,6 +349,6 @@ function genera_pdf_cita($allInputs){
   );
   $arrData['message'] = '';
   $arrData['flag'] = 1;
-  $arrDataPDF = getPlantillaComprobanteCita($arrContent,$allInputs,'COMPROBANTE DE CITA','portrait');
+  $arrDataPDF = getPlantillaComprobanteCita($arrContent,$allInputs,'COMPROBANTE DE CITA','portrait','A4');
   return $arrDataPDF;
 }
