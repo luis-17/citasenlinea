@@ -17,12 +17,18 @@ class Model_historial_citas extends CI_Model {
 
 		$this->db->select('se.idsede, se.descripcion as sede');	
 		$this->db->select('uwp.idusuariowebpariente, uwp.idparentesco, cp.descripcion as parentesco');
+
+		$this->db->select('cd.idventa, cd.iddetalle');
+		$this->db->select('wp.numero_comprobante, wp.fecha_comprobante, wp.estado_comprobante, wp.nombre_archivo');
 		
 		$this->db->from('ce_usuario_web_cita uwc');
 		$this->db->join('pa_prog_cita ppc','ppc.idprogcita = uwc.idprogcita ');
 		$this->db->join('pa_detalle_prog_medico dpm','ppc.iddetalleprogmedico = dpm.iddetalleprogmedico AND dpm.idcanal = 3');	
 		$this->db->join('pa_prog_medico prm','dpm.idprogmedico = prm.idprogmedico');
-		$this->db->join('medico med', 'med.idmedico = prm.idmedico');			
+		$this->db->join('medico med', 'med.idmedico = prm.idmedico');	
+
+		$this->db->join('ce_detalle cd','cd.idprogcita = uwc.idprogcita');		
+		$this->db->join('ce_usuario_web_pago wp','cd.idventa = wp.idventa');		
 
 		$this->db->join('pa_ambiente am','prm.idambiente = am.idambiente');	
 		if(!empty($datos['especialidad']['id'])){

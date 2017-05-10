@@ -32,6 +32,16 @@ class HistorialCitas extends CI_Controller {
         $color_cita = 'btn-success';
       }
 
+      if($row['estado_comprobante'] == 1){
+        $icon_comprobante = 'fa fa-file-text-o';
+        $color_comprobante = '#ce1d19';
+        $font_size = '15px;';
+      }else if($row['estado_comprobante'] == 2){
+        $icon_comprobante = 'fa fa-info-circle';
+        $color_comprobante = '#00bcd4';
+        $font_size = '18px;';
+      }
+
       array_push($arrListado, 
         array(
           'idusuariowebcita' => (int)$row['idusuariowebcita'],
@@ -77,7 +87,16 @@ class HistorialCitas extends CI_Controller {
             'parentesco' => empty($row['parentesco']) ? 'TITULAR' : $row['parentesco'],
             'paciente' => $paciente, 
             ), 
-          'nombre_usuario'  => $this->sessionCitasEnLinea['paciente']
+          'nombre_usuario'  => $this->sessionCitasEnLinea['paciente'],
+          'idventa'  => $row['idventa'],
+          'iddetalle'  => $row['iddetalle'],
+          'numero_comprobante'  => $row['numero_comprobante'],
+          'fecha_comprobante'  => $row['fecha_comprobante'],
+          'estado_comprobante'  => $row['estado_comprobante'],
+          'icon_comprobante'  => $icon_comprobante,
+          'font_size'  => $font_size,
+          'color_comprobante'  => $color_comprobante,
+          'nombre_archivo'  => $row['nombre_archivo'],
         )
       );
     }

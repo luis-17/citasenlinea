@@ -66,7 +66,7 @@
                     FECHA
                   </div>
                   <div class="cell-grid cell-cita" style="width:9%;">
-                    TURNO
+                    HORA
                   </div>
                   <div class="cell-grid cell-cita" style="width:10%;">
                     CONSULTORIO
@@ -112,9 +112,11 @@
                       <span class="cita" ng-click="descargaComprobanteCita(cita);" style="font-size: 15px;">
                         <i class="fa fa-file-pdf-o"></i>
                       </span>
-                      <span class="nro-doc" ng-click="descargaComprobantePago(cita);" style="padding-left: 5px;font-size: 15px;">
-                        <i class="fa fa-file-text-o"></i>
-                        <a href=""> nro-123654 </a>
+                      <span class="nro-doc" ng-click="descargaComprobantePago(cita);" 
+                        style="padding-left: 5px;font-size: 15px;color:{{cita.color_comprobante}}"
+                        uib-popover="Tu comprobante está en proceso de ser emitido. Recibirás un mail cuando esté listo!" popover-trigger="'mouseenter'">
+                        <i class="{{cita.icon_comprobante}}" style="font-size:{{cita.font_size}}"></i>
+                        <a href=""> {{cita.numero_comprobante}} </a>
                       </span>
                     </div>
                     <div class="cell-grid cell-cita" style="width:5%; text-align:center;cursor: pointer;">
