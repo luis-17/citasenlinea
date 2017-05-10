@@ -190,8 +190,8 @@ class ProgramarCita extends CI_Controller {
 	    			if($actual == ''){
 	    				$fin = $row-1;
 	    			}else if(!( 
-	    				( strlen($actual) < strlen($anterior) && mb_strstr($anterior, $actual) ) || 
-	    				( strlen($actual) > strlen($anterior) && mb_strstr($actual, $anterior)) 
+	    				( strlen($actual) < strlen($anterior) && strpos($anterior,$actual) === TRUE) || 
+	    				( strlen($actual) > strlen($anterior) && $anterior != '' && strpos($actual, $anterior) === TRUE) 
 	    			)){
 	    				$fin = $row-1;
 	    			}	    				    			
@@ -400,7 +400,7 @@ class ProgramarCita extends CI_Controller {
 		$arrData['fecha_atencion'] = $fecha_atencion;
 		$arrData['fecha_atencion_Formato'] = $cita['fecha_atencion_cita'];
 		
-		if($cita['estado_cita'] == 2 && $fecha_atencion < $hoy){
+		if($cita['estado_cita'] == 2 && $fecha_atencion > $hoy){
 			$arrData['message'] = 'Reprogramar';
 			$arrData['flag'] = 1;
 		}
