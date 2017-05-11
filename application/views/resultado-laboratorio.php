@@ -52,9 +52,12 @@
                     <span ng-bind-html="item.descripcion_anal | highlight: $select.search"></span>
                   </ui-select-choices>
                 </ui-select>
-                <div class="row ml-sm pt-sm" ng-if="!ctrl.verlist" >
+                <div class="row ml-sm pt-sm" ng-if="ctrl.verEx" >
                   <span ><i class="fa fa-circle-o-notch fa-spin" style="font-size:18px"></i> Cargando Examenes ...</span>
                 </div>
+                <div class="row ml-sm pt-sm" ng-if="ctrl.verRes" >
+                  <span > El usuario no tiene examenes.</span>
+                </div>                
 
               </div>
 

@@ -43,6 +43,7 @@ angular.module('theme.resultadolaboratorio', ['theme.core.services'])
     var vm = this;
 
     vm.listaParams = {};
+    vm.examen = {};
 
     vm.disabled = undefined;
     vm.searchEnabled = undefined;
@@ -117,10 +118,18 @@ angular.module('theme.resultadolaboratorio', ['theme.core.services'])
     };
 
     resultadolaboratorioServices.sCargaResultadoUsuario($scope.datosGridAte).then(function (rpta) {
+      vm.verRes = false ;
+      vm.verlist = false ;
+      vm.verEx = false;
+
       vm.atenciones = rpta.datos;
       if(vm.atenciones.length>0){
         vm.atenc.selected =  rpta.datos[0];
         vm.ListarAnalisis();
+      }else{
+        vm.verRes = true ;
+        vm.verEx = false;
+        vm.verlist = false;
       }
     });
 
@@ -129,10 +138,11 @@ angular.module('theme.resultadolaboratorio', ['theme.core.services'])
 
     vm.ListarAnalisis = function(){
       vm.verlist = false;
+      vm.verEx = true;
+      vm.verRes = false;
       if(vm.listaParams.length > 0){
         vm.listaParams.length = 0; 
       }
-
 
       $scope.fData = {};
       $scope.orden = {};
@@ -145,6 +155,8 @@ angular.module('theme.resultadolaboratorio', ['theme.core.services'])
         $scope.fData = rpta.datos;
         $scope.fDataArrPrincipal = rpta.arrSecciones;
         vm.verlist = true ;
+        vm.verEx = false;
+        vm.verRes = false;
         vm.clear(); 
       });  
 

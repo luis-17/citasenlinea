@@ -18,9 +18,9 @@ class Resultadolaboratorio extends CI_Controller {
 
 	public function carga_resultados_usuario(){
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
-		$allInputs['idcliente'] = $this->sessionCitasEnLinea['idusuario'];
+		//var_dump($this->sessionCitasEnLinea);exit();
+		$allInputs['idcliente'] = $this->sessionCitasEnLinea['idcliente'];
 		//$paramPaginate = $allInputs['paginate'];
-
 		$lista = $this->model_resultadolaboratorio->m_cargar_resultados_usuario($allInputs);
 		//$totalRows = $this->model_resultadolaboratorio->m_count_resultados_usuario($allInputs,$paramPaginate);		
 
