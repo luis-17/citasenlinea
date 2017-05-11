@@ -165,7 +165,7 @@ class Usuario extends CI_Controller {
 	  	//print_r($result);
 	  	$arrData['flagMail'] = $result[0]['flag'];
 	  	if($result[0]['flag'] == 1){
-	  		$arrData['message'] = 'El registro fue satisfactorio. Recibirás un mensaje en el correo para verificar la cuenta.';
+	  		$arrData['message'] = 'El registro fue satisfactorio. Recibirás un mensaje en el correo para verificar la cuenta. En caso de no verlo en tu bandeja de entrada, no olvides revisar la bandeja de spam.';
   			$arrData['flag'] = 1;
 	  	}    		
   	}
