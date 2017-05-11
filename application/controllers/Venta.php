@@ -408,6 +408,7 @@ class Venta extends CI_Controller {
 					  <span style="text-align:right;width:40%;">'.$allInputs['usuario']['compra']['totales']['total_pago'].'</span>
 					</div>';
 		$cuerpo .=    '</div>';
+		$cuerpo .= '<div>Tu comprobante está en proceso de ser emitido. Recibirás un mail cuando esté listo! </div>';
 	    $cuerpo .= '<div style="text-align: center;">
 	    				<img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
 	    			</div>';
