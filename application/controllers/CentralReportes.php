@@ -14,14 +14,12 @@ class CentralReportes extends CI_Controller {
     parent::__construct();
     $this->load->helper(array('security','reportes_helper','imagen_helper','fechas_helper','otros_helper'));
     $this->load->model(array('model_config'));
-    
-
     $this->load->library('excel');
     //cache 
     $this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
     $this->output->set_header("Pragma: no-cache");
 
-    $this->sessionHospital = @$this->session->userdata('sess_vs_'.substr(base_url(),-8,7));
+    $this->sessionCitasEnLinea = @$this->session->userdata('sess_cevs_'.substr(base_url(),-8,7));
     date_default_timezone_set("America/Lima");
     //if(!@$this->user) redirect ('inicio/login');
     //$permisos = cargar_permisos_del_usuario($this->user->idusuario);
@@ -34,8 +32,7 @@ class CentralReportes extends CI_Controller {
   {
     $this->load->view('centralReporte/popup_grafico');
   }
-  public function guardar_pdf_en_temporal()
-  {
+  public function guardar_pdf_en_temporal(){
     $data = substr($_POST['data'], strpos($_POST['data'], ",") + 1); 
     $decodedData = base64_decode($data);
     // subir_fichero();
@@ -79,5 +76,4 @@ class CentralReportes extends CI_Controller {
 
     $writer->close();
   }
-
 }

@@ -35,17 +35,19 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     , 'blockUI', 'uiGridConstants', 'pinesNotifications',
     'rootServices',
     'usuarioServices',
+    'ModalReporteFactory',
     function($scope, $route, $uibModal, $document, $theme, $timeout, progressLoader, wijetsService, $routeParams, $location, $controller
       , blockUI, uiGridConstants, pinesNotifications,
       rootServices,
-      usuarioServices) {
+      usuarioServices,
+      ModalReporteFactory) {
     //'use strict';
     $scope.fAlert = {};
     $scope.arrMain = {};
     $scope.fSessionCI = {};
     $scope.fSessionCI.listaEspecialidadesSession = [];
     $scope.fSessionCI.listaNotificaciones = {};
-    $scope.fSessionCI.listaCitas = [];
+
     
     $scope.arrMain.sea = {};
     $scope.localLang = {
@@ -119,8 +121,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       }
       wijetsService.make();
     });
-
-    $scope.keyRecaptcha = '6LeP4BoUAAAAAH7QZfe8sM5GAyVkMy1aak4Ztuhs'; //cambiar por servicio de configuracion
+    
     $scope.captchaValido = false;
     window.recaptchaResponse = function(key) {
       $scope.captchaValido = true;
@@ -130,21 +131,29 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       $scope.captchaValidoReg = true;
     }
 
-    window.onloadCallback = function(){
-      grecaptcha.render('recaptcha-login', {
-        'sitekey' : $scope.keyRecaptcha,
-        'callback' : recaptchaResponse,
-      });
-
-      grecaptcha.render('recaptcha-registro', {
-        'sitekey' : $scope.keyRecaptcha,
-        'callback' : recaptchaResponseReg,
-      });
+    $scope.keyRecaptcha='';
+    window.onloadCallback = function(){      
+      var datos = {
+        tipo: 'captcha'
+      }
+      if( $location.path() == '/login' ){
+        rootServices.sGetConfig(datos).then(function(rpta){
+          $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
+          grecaptcha.render('recaptcha-login', {
+            'sitekey' : $scope.keyRecaptcha,
+            'callback' : recaptchaResponse,
+          }); 
+        });
+      }          
     }
  
     $scope.getLayoutOption = function(key) {
       return $theme.get(key);
     };
+
+    $scope.getUrlActual = function(){
+      return $location.path();
+    }
 
     $scope.isLoggedIn = false;
     $scope.logOut = function() {
@@ -158,6 +167,11 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     $scope.goToUrl = function ( path ) {
       $location.path( path );
     };
+    
+    $scope.cargarItemFamiliar = function(item){
+      $scope.familiarSeleccionado = item;
+    }
+      
     $scope.btnLogoutToSystem = function () {
       rootServices.sLogoutSessionCI().then(function () {
         $scope.fSessionCI = {};
@@ -176,6 +190,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
           if(!$scope.fSessionCI.nombre_imagen || $scope.fSessionCI.nombre_imagen == ''){
             $scope.fSessionCI.nombre_imagen = 'noimage.jpg';
           }
+          $scope.getNotificacionesEventos();
           $scope.logIn();
           if( $location.path() == '/login' ){
             $scope.goToUrl('/');
@@ -242,17 +257,105 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       }); 
       $scope.initRegistrarUsuario();
       $scope.viewRegister = true;
+      $scope.initRecaptchaReg();
+      $scope.fAlert = null;
+      $scope.fDataUser = {};
+      $scope.fDataUser.sexo = '-';
     }
 
     $scope.btnViewLogin = function (){
       $scope.viewRegister = false;
+      $scope.fAlert = null;
     }
+
+    $scope.getNotificacionesEventos = function (firtsTime) {
+      $scope.fSessionCI.listaNotificacionesEventos = {};
+      rootServices.sListarNotificacionesEventos().then(function (rpta) {
+        $scope.fSessionCI.listaNotificacionesEventos.datos = rpta.datos;
+        $scope.fSessionCI.listaNotificacionesEventos.noLeidas = rpta.noLeidas;
+        $scope.fSessionCI.listaNotificacionesEventos.contador = rpta.contador;
+        /*
+        if(firtsTime && $location.path() == '/'){ 
+          console.log('window.Notification',window.Notification);
+          console.log('window.mozNotification',window.mozNotification);
+          console.log('window.webkitNotifications',window.webkitNotifications);
+          console.log('window.notifications', window.notifications);
+
+          var Notificacion = window.Notification || window.mozNotification || window.webkitNotification;
+          if(Notificacion){
+            if(Notification.permission != 'granted'){
+              Notification.requestPermission();
+            }
+
+            //notificación por cada no leida
+            var title = "Notificación Programación Asistencial";
+            var icon = $scope.dirImages +'dinamic/empresa/' + $scope.fSessionCI.nombre_logo;
+            angular.forEach( $scope.fSessionCI.listaNotificacionesEventos.noLeidas, function(value, key) {              
+                newNotificacion(value.notificacion,icon,title, value.idcontroleventousuario);
+            });
+          }
+        }   */             
+      });
+    }
+
+    $scope.viewDetalleNotificacionEvento = function(fila){
+      console.log(fila);
+      rootServices.sUpdateLeidoNotificacion(fila).then(function (rpta) {
+        $scope.fData = fila;
+        if(rpta.flag == 1){
+          $scope.getNotificacionesEventos(false);         
+          $uibModal.open({
+            templateUrl: angular.patchURLCI+'ControlEventoWeb/ver_popup_notificacion_evento',
+            size: '',
+            backdrop: 'static',
+            keyboard:false,
+            scope: $scope,
+            controller: function ($scope, $modalInstance) { 
+              $scope.titleForm = 'DETALLE DE NOTIFICACIÓN';               
+              //console.log('$scope.fData.cita',$scope.fData.cita);
+              $scope.cancel = function () {
+                $modalInstance.dismiss('cancel');
+              }
+
+              $scope.viewComprobante = function(){
+                rootServices.sCargaObjetoNotificacion(fila).then(function(rpta){
+                  $scope.fData.cita = rpta.cita;
+                  $scope.cancel();
+                  $scope.descargaComprobanteCita($scope.fData.cita);
+                });
+              }              
+            }
+          });
+        }else if(rpta.flag == 0){
+          var pTitle = 'Advertencia!';
+          var pType = 'warning';
+          pinesNotifications.notify({ title: pTitle, text: rpta.message, type: pType, delay: 1000 });
+        }else{
+          alert('Error inesperado');
+        }
+      });
+    }
+
+    $scope.descargaComprobanteCita = function(cita){
+      var arrParams = {
+        titulo: 'COMPROBANTE DE CITA',
+        datos: cita,
+        metodo: 'js'
+      }
+      arrParams.url = angular.patchURLCI+'ProgramarCita/report_comprobante_cita'; 
+      ModalReporteFactory.getPopupReporte(arrParams); 
+    }
+
     /* END */
   }])
   .service("rootServices", function($http, $q) {
     return({
         sGetSessionCI: sGetSessionCI,
         sLogoutSessionCI: sLogoutSessionCI,
+        sGetConfig:sGetConfig,
+        sListarNotificacionesEventos: sListarNotificacionesEventos,
+        sUpdateLeidoNotificacion: sUpdateLeidoNotificacion,
+        sCargaObjetoNotificacion: sCargaObjetoNotificacion
     });
     function sGetSessionCI() {
       var request = $http({
@@ -267,23 +370,50 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
             url : angular.patchURLCI+"acceso/logoutSessionCI"
       });
       return (request.then( handleSuccess,handleError ));
+    }
+    function sGetConfig(datos) {
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"acceso/get_config",
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
     }   
+    function sListarNotificacionesEventos (datos) {
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"acceso/lista_notificaciones_eventos",
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }    
+    function sUpdateLeidoNotificacion (datos) {
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ControlEventoWeb/update_leido_notificacion",
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    } 
+    function sCargaObjetoNotificacion (datos) {
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ControlEventoWeb/carga_objeto_notificacion",
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }
   });
 /* DIRECTIVAS */
 appRoot.
   directive('ngEnter', function() {
     return function(scope, element, attrs) {
       element.bind("keydown", function(event) {
-
           if(event.which === 13) {
-            //event.preventDefault();
             scope.$apply(function(){
               scope.$eval(attrs.ngEnter);
             });
-            //event.stopPropagation();
           }
-          //event.stopPropagation();
-          //event.preventDefault();
       });
     };
   })
@@ -327,13 +457,27 @@ appRoot.
   })
  .directive("scroll", function ($window) {
       return function(scope, element, attrs) {
-          angular.element($window).bind("scroll", function() {
-              //$('.filtros').css('top',-$(this).scrollTop());
-              if($(window).scrollTop() > 100){
-                $('.filtros').css('top',0);
-              }else{
-                $('.filtros').css('top','initial');
-              }
+          angular.element($window).bind("scroll", function() {            
+            /*var top_filtro = $('.filtros').position().top;
+            var height_header = $('.navbar').height();
+            var pos_scroll = $(this).scrollTop();
+            var top = top_filtro - pos_scroll;
+
+            //console.log($(this).scrollTop(), (top_filtro - pos_scroll), height_header);
+            
+            if($(window).scrollTop() == 0){
+              $('.filtros').css('top','initial');
+            }else if($(window).scrollTop() >= height_header){
+              $('.filtros').css('top',0);            
+            }else{
+              $('.filtros').css('top', top );
+            }*/
+            var height_header = $('.navbar').height();
+            if($(window).scrollTop() >= height_header){
+              $('.filtros').addClass("sticky");  
+            }else{
+              $('.filtros').removeClass("sticky"); 
+            }
           });
       };
   })
@@ -539,7 +683,7 @@ appRoot.
       },
       getPopupGraph: function(arrParams) {
         if( arrParams.datos.tipoCuadro == 'grafico' || arrParams.datos.tiposalida == 'grafico' || angular.isUndefined(arrParams.datos.tipoCuadro) ){
-          $modal.open({
+          $uibModal.open({
             templateUrl: angular.patchURLCI+'CentralReportes/ver_popup_grafico',
             size: 'xlg',
             controller: function ($scope,$modalInstance,arrParams) {

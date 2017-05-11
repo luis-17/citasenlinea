@@ -12,5 +12,7 @@ angular
     'theme.especialidad' ,
     'theme.resultadolaboratorio',     
     'theme.especialidad',
-    'theme.analisis' 
+    'theme.analisis', 
+    'theme.especialidad', 
+    'theme.venta' 
   ]);

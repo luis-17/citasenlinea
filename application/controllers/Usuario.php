@@ -5,7 +5,8 @@ class Usuario extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper(array('security', 'otros_helper','imagen_helper'));
-		$this->load->model(array('model_usuario'));
+		$this->load->model(array('model_usuario','model_historial_citas'));
+    //$this->load->library(array('ci_pusher'));
 		//cache
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
 		$this->output->set_header("Pragma: no-cache");
@@ -90,6 +91,7 @@ class Usuario extends CI_Controller {
  				'celular' => $allInputs['celular'], 
         'telefono' => $allInputs['telefono'], 
  				'si_registro_web' => 1, 
+        'idprocedencia' => 13, 
  				'createdAt' => date('Y-m-d H:i:s'),
  				'updatedAt' => date('Y-m-d H:i:s')
  				);
@@ -104,8 +106,9 @@ class Usuario extends CI_Controller {
  				'email' => $allInputs['email'], 
  				'sexo' => $allInputs['sexo'], 
  				'fecha_nacimiento' => $allInputs['fecha_nacimiento'], 
- 				'celular' => $allInputs['celular'], 
+        'celular' => $allInputs['celular'],  				 
  				'telefono' => $allInputs['telefono'], 
+        'idprocedencia' => 13,
  				'updatedAt' => date('Y-m-d H:i:s')
  				);
   		$idcliente =  $usuario['idcliente'];
@@ -122,10 +125,10 @@ class Usuario extends CI_Controller {
   			'createdAt' => date('Y-m-d H:i:s'),
  				'updatedAt' => date('Y-m-d H:i:s')
   			);
-  		//$resultUsuario = $this->model_usuario->m_registrar_usuario($datos);
+  		$resultUsuario = $this->model_usuario->m_registrar_usuario($datos);
   	}
 
-  	$resultUsuario = TRUE;
+  	//$resultUsuario = TRUE;
   	if($resultUsuario && $resultCliente){
   		/*ENVIAR CORREO PARA VERIFICAR*/
       $idusuarioweb = GetLastId('idusuarioweb','ce_usuario_web');
@@ -137,22 +140,24 @@ class Usuario extends CI_Controller {
 
   		$setFromAleas = 'Villa Salud';
   		$subject = 'Confirma tu cuenta de Villa Salud';
-  		$cuerpo = '<html> 
-				      <body style="font-family: sans-serif;padding: 10px 40px;" > 
-				        <div style="text-align: right;">
-				          <img style="width: 160px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/gm_small.png">
-				        </div> <br />';
-	  	$cuerpo .= '	<div style="font-size:16px;">  
-	                		Estimado(a) paciente: '.$paciente .', <br /> <br /> ';
-	    $cuerpo .= '		<a href="'. base_url() .'ci.php/usuario/setCuentaUsuario?data='. base64_encode($idusuarioweb) .'">Haz clic aquí para continuar con el proceso de registro.</a>';
-	  	$cuerpo .= 		'</div>';
+  		$cuerpo = '<html lang="es">'; 
+			$cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
+                    <div style="text-align: center;">
+                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+                    </div>';
+      $cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';
+	  	$cuerpo .= '	  <div style="font-size:16px;">  
+  	                		 Estimado(a) paciente: '.$paciente .', <br /> <br /> ';
+  	    $cuerpo .= '		 <a href="'. base_url() .'ci.php/usuario/setCuentaUsuario?data='. base64_encode($idusuarioweb) .'">Haz clic aquí para continuar con el proceso de registro.</a>';
+	  	$cuerpo .= 		 '</div>';
 
-
-	  	$cuerpo .= '<div>
-	  					<p>Si no has solicitado la suscripción a este correo electrónico, ignóralo y la suscripción no se activará.</p>
-	  				</div>';
-
-
+	  	$cuerpo .= '  <div>
+	  					        <p>Si no has solicitado la suscripción a este correo electrónico, ignóralo y la suscripción no se activará.</p>
+	  				         </div>';
+      $cuerpo .=    '</div>';
+      $cuerpo .= '  <div style="text-align: center;">
+                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
+                    </div>';
 	  	$cuerpo .= '</body>';
 	  	$cuerpo .= '</html>';
 
@@ -160,7 +165,7 @@ class Usuario extends CI_Controller {
 	  	//print_r($result);
 	  	$arrData['flagMail'] = $result[0]['flag'];
 	  	if($result[0]['flag'] == 1){
-	  		$arrData['message'] = 'El registro fue satisfactorio. Recibirás un mensaje en el correo para verificar la cuenta.';
+	  		$arrData['message'] = 'El registro fue satisfactorio. Recibirás un mensaje en el correo para verificar la cuenta. En caso de no verlo en tu bandeja de entrada, no olvides revisar la bandeja de spam.';
   			$arrData['flag'] = 1;
 	  	}    		
   	}
@@ -181,12 +186,41 @@ class Usuario extends CI_Controller {
       );
       
       if($this->model_usuario->m_update_estado_usuario($data, $id)){
-        $this->load->view('usuario/verificacion-cuenta');
+        //carga usuario
+        $usuario = $this->model_usuario->m_cargar_para_mail($id);
+        //envio mail
+        $listaDestinatarios = array();
+
+        array_push($listaDestinatarios, $usuario['email']);
+        $paciente = ucwords(strtolower( $usuario['nombres'] . ' ' . 
+                      $usuario['apellido_paterno'] . ' ' . 
+                      $usuario['apellido_materno']));
+
+        $setFromAleas = 'Villa Salud';
+        $subject = 'Activación de tu cuenta Villa Salud';
+        $cuerpo = '<html>'; 
+        $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
+                    <div style="text-align: center;">
+                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+                    </div>';
+        $cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';
+
+        $cuerpo .= '    <div style="font-size:16px;">  
+                          Estimado(a) paciente: '.$paciente .', <br /> <br /> ';
+        $cuerpo .= '      Tu cuenta ha sido verificada exitosamente y ya puedes iniciar sesión. <a href="'. base_url() .'">Haz clic aquí</a> para comenzar a disfrutar los beneficios de ser un paciente de Villa Salud!';
+        $cuerpo .=    ' </div>';
+        $cuerpo .=    '</div>';
+        $cuerpo .= '</body>';
+        $cuerpo .= '</html>';
+
+        //$result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
+
+        $this->load->view('verificacion-cuenta');
       }else{
-        $this->load->view('usuario/error-verificacion-cuenta');
+        $this->load->view('error-verificacion-cuenta');
       } 
     }else{
-      $this->load->view('usuario/error-verificacion-cuenta');
+      $this->load->view('error-verificacion-cuenta');
     }       
 	}
 
@@ -244,6 +278,8 @@ class Usuario extends CI_Controller {
     }
     $perfil = $this->model_usuario->m_cargar_usuario($allInputs);
 
+    $tipo_sangre = array('', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-' ,'AB+', 'AB-');
+
     $arrPerfilUsuario['nombre_usuario'] = $perfil['nombre_usuario'];
     $arrPerfilUsuario['idusuario'] = $perfil['idusuarioweb'];
     $arrPerfilUsuario['idcliente'] = $perfil['idcliente'];
@@ -257,8 +293,13 @@ class Usuario extends CI_Controller {
     $arrPerfilUsuario['celular'] = $perfil['celular'];
     $arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($perfil['fecha_nacimiento']));
     $arrPerfilUsuario['email'] = $perfil['email'];
-    $arrPerfilUsuario['nombre_imagen'] = $perfil['nombre_imagen'];
-    $arrPerfilUsuario['listaCitas'] =array();
+    $arrPerfilUsuario['peso'] = $perfil['peso'];
+    $arrPerfilUsuario['estatura'] = $perfil['estatura'];
+    $arrPerfilUsuario['tipo_sangre']['id'] = empty($perfil['tipo_sangre']) ? null :$perfil['tipo_sangre'];
+    $arrPerfilUsuario['tipo_sangre']['descripcion'] = empty($perfil['tipo_sangre']) ? null : $tipo_sangre[$perfil['tipo_sangre']] ;
+    $arrPerfilUsuario['nombre_imagen'] = empty($perfil['nombre_imagen']) ? 'noimage.png' : $perfil['nombre_imagen'];
+    $arrPerfilUsuario['compra'] = $this->sessionCitasEnLinea['compra'];
+    $arrPerfilUsuario['compra']['listaCitas']= $this->sessionCitasEnLinea['compra']['listaCitas'];
 
     $paciente = ucwords(strtolower( $perfil['nombres'] . ' ' . 
                 $perfil['apellido_paterno'] . ' ' . 
@@ -266,9 +307,55 @@ class Usuario extends CI_Controller {
     
     $arrPerfilUsuario['paciente'] = $paciente;
 
+    $arrPerfilUsuario['imc'] = array();
+    if(!empty($perfil['peso']) && !empty($perfil['estatura'])){
+      $imc = round($perfil['peso'] / ($perfil['estatura'] * $perfil['estatura']),2);
+      $arrPerfilUsuario['imc']['dato'] = (float)$imc;
+
+      if($imc < 18){
+        $tipoImc = 'Bajo peso';
+        $color = '#DEBD07';
+      }else if($imc >= 18 && $imc <=24.9){
+        $tipoImc = 'Normal';
+        $color = '#55DE40';
+      }else if($imc >= 25 && $imc <=26.9){
+        $tipoImc = 'Sobrepeso';
+        $color = '#DEBD07';
+      }else if($imc >= 27 && $imc <=29.9){
+        $tipoImc = 'Obesidad grado I';
+        $color = '#EDA94F';
+      }else if($imc >= 30 && $imc <=39.9){
+        $tipoImc = 'Obesidad grado II';
+        $color = '#E17317';
+      }else if($imc >= 40){
+        $tipoImc = 'Obesidad grado III';
+        $color = '#ce1d19';
+      }
+
+      $arrPerfilUsuario['imc']['tipo'] = $tipoImc;      
+      $arrPerfilUsuario['imc']['color'] = $color;     
+    }
+
+    if( isset($arrPerfilUsuario['idusuario']) ){
+      $data = array(
+        'idusuario' => $arrPerfilUsuario['idusuario'],
+        'estado_cita' => 5
+        );
+      $citas_realizadas = $this->model_historial_citas->m_count_cant_citas($data);
+      $arrPerfilUsuario['citas_realizadas'] = $citas_realizadas;
+
+      $data = array(
+        'idusuario' => $arrPerfilUsuario['idusuario'],
+        'estado_cita' => 2
+        );
+      $citas_pendientes = $this->model_historial_citas->m_count_cant_citas($data);
+      $arrPerfilUsuario['citas_pendientes'] = $citas_pendientes;
+    }
+
     if( isset($arrPerfilUsuario['idusuario']) ){ 
       $arrData['flag'] = 1;
       $this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrPerfilUsuario);
+      $arrData['datos'] = $arrPerfilUsuario;
     }else{
       $arrData['flag'] = 0;
     }
@@ -345,7 +432,16 @@ class Usuario extends CI_Controller {
     }
     //print_r($_FILES);
     if($_FILES['archivo']['size'] > 1000000 ){
-      $arrData['message'] = 'Error al subir los archivos, PESO MÁXIMO: 1MB.';
+      $arrData['message'] = 'Error al subir imagen, PESO MÁXIMO: 1MB.';
+      $arrData['flag'] = 0;
+      $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));
+      return;
+    }    
+
+    if($_FILES['archivo']['type'] != 'image/jpeg'){
+      $arrData['message'] = 'Error al subir imagen, TIPO DE ARCHIVO: jpg.';
       $arrData['flag'] = 0;
       $this->output
         ->set_content_type('application/json')
@@ -371,4 +467,53 @@ class Usuario extends CI_Controller {
         ->set_output(json_encode($arrData));
   } 
 
+  public function actualizar_perfil_clinico(){
+    $allInputs = json_decode(trim($this->input->raw_input_stream),true);
+    $arrData['message'] = 'No se pudo actualizar el perfil clínico. Intenta nuevamente.';
+    $arrData['flag'] = 0; 
+
+    /*print_r($this->sessionCitasEnLinea);
+    print_r($allInputs);*/
+    if(empty($allInputs['peso']) || !is_numeric($allInputs['peso'])){
+      $arrData['message'] = 'Debes ingresar valores númerico válidos';
+      $arrData['flag'] = 0; 
+      $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));
+        return;
+    }    
+
+    if(empty($allInputs['estatura']) || !is_numeric($allInputs['estatura'])){
+      $arrData['message'] = 'Debes ingresar valores númerico válidos';
+      $arrData['flag'] = 0; 
+      $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));
+        return;
+    }    
+
+    if($allInputs['tipo_sangre']['id'] == 0){
+      $arrData['message'] = 'Debes seleccionar un tipo de sangre';
+      $arrData['flag'] = 0; 
+      $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode($arrData));
+        return;
+    }
+
+    $allInputs['idusuario'] = $this->sessionCitasEnLinea['idusuario'];
+
+    if($this->model_usuario->m_actualizar_perfil_clinico($allInputs)){
+      $arrData['message'] = 'El perfil clínico fue actualizado correctamente.';
+      $arrData['flag'] = 1;   
+    }
+
+    $this->output
+      ->set_content_type('application/json')
+      ->set_output(json_encode($arrData));
+  }
+
+  public function ver_popup_aviso(){
+    $this->load->view('mensajes/alerta');
+  }
 }

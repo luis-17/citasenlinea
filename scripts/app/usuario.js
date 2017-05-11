@@ -11,11 +11,11 @@ angular.module('theme.usuario', ['theme.core.services'])
     $scope.titleForm = 'Registro en Citas en Linea';
     //$scope.fDataUser = {}; 
     $scope.listaSexos = [
-        {id:'-', descripcion:'SELECCIONE SEXO'},
-        {id:'F', descripcion:'FEMENINO'},
-        {id:'M', descripcion:'MASCULINO'}
-      ];
-    console.log('paso por aqui');
+      {id:'-', descripcion:'SELECCIONE SEXO'},
+      {id:'F', descripcion:'FEMENINO'},
+      {id:'M', descripcion:'MASCULINO'}
+    ];
+
     $scope.fDataUsuario = {};
     $scope.init = function(){
       rootServices.sGetSessionCI().then(function (response) {
@@ -34,84 +34,123 @@ angular.module('theme.usuario', ['theme.core.services'])
       $scope.initPariente();
     }
 
+    $scope.initPerfil = function(){
+      $scope.listaTiposSangre = [
+        {id:0, descripcion: 'SELECCIONE TIPO SANGRE'},
+        {id:1, descripcion: 'A+'},
+        {id:2, descripcion: 'A-'},
+        {id:3, descripcion: 'B+'},
+        {id:4, descripcion: 'B-'},
+        {id:5, descripcion: 'O+'},
+        {id:6, descripcion: 'O-'},
+        {id:7, descripcion: 'AB+'},
+        {id:8, descripcion: 'AB-'},
+      ];
+      $scope.fDataDashboard={};
+      var ind = 0;
+      angular.forEach($scope.listaTiposSangre, function(value, key) {
+        if(value.id == $scope.fSessionCI.tipo_sangre.id){
+          ind = key;
+        }
+      });
+      $scope.fDataDashboard.tipo_sangre = $scope.listaTiposSangre[ind];
+      $scope.fDataDashboard.peso = $scope.fSessionCI.peso;
+      $scope.fDataDashboard.estatura = $scope.fSessionCI.estatura;
+
+      $scope.fAlertPerfilCli = null;
+      
+      /*console.log($scope.fDataDashboard.tipo_sangre);
+      console.log($scope.listaTiposSangre);*/
+    }
+
     $scope.initRecaptchaReg = function () {
-      grecaptcha.render('recaptcha-registro', {
-        'sitekey' : $scope.keyRecaptcha,
-        'callback' : recaptchaResponseReg,
+      var datos = {
+        tipo: 'captcha'
+      }
+      rootServices.sGetConfig(datos).then(function(rpta){
+        $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
+          grecaptcha.render('recaptcha-registro', {
+          'sitekey' : $scope.keyRecaptcha,
+          'callback' : recaptchaResponseReg,
+        });
       });
     }
     
     $scope.initRegistrarUsuario = function(){ 
       $scope.fDataUser = {}; 
       $scope.fDataUser.sexo = '-'; 
-      $scope.captchaValidoReg = false;
-             
+      $scope.captchaValidoReg = false;             
 
       $scope.btnCancel = function(){
         $modalInstance.dismiss('btnCancel');
       }
 
-      $scope.verificarDoc = function(){
-        console.log("doc:",$scope.fDataUser);
-        if(!$scope.fDataUser.num_documento || $scope.fDataUser.num_documento == null || $scope.fDataUser.num_documento == ''){
-          $scope.fAlert = {};
-          $scope.fAlert.type= 'danger';
-          $scope.fAlert.msg='Debe ingresar un Número de documento.';
-          $scope.fAlert.strStrong = 'Error';
-          $scope.fAlert.icon = 'fa fa-exclamation';
-          return;
-        }
-        usuarioServices.sVerificarUsuarioPorDocumento($scope.fDataUser).then(function (rpta) {              
-          $scope.fAlert = {};
-          if( rpta.flag == 2 ){ //Cliente registrado en Sistema Hospitalario
-            $scope.fDataUser = rpta.usuario;
-            $scope.fAlert.type= 'info';
-            $scope.fAlert.msg= rpta.message;
-            $scope.fAlert.icon= 'fa fa-smile-o';
-            $scope.fAlert.strStrong = 'Genial! ';
-          }else if( rpta.flag == 1 ){ // Usuario ya registrado en web
-            //$scope.fDataUser = rpta.usuario;
-            $scope.fAlert.type= 'danger';
-            $scope.fAlert.msg= rpta.message;
-            $scope.fAlert.strStrong = 'Aviso! ';
-            $scope.fAlert.icon = 'fa  fa-exclamation-circle';
-          }else if(rpta.flag == 0){
-            var num_documento = $scope.fDataUser.num_documento;                
-            $scope.fAlert.type= 'warning';
-            $scope.fAlert.msg= rpta.message;
-            $scope.fAlert.strStrong = 'Aviso! ';
-            $scope.fAlert.icon = 'fa fa-frown-o';
-            $scope.fDataUser = {};
-            $scope.fDataUser.num_documento = num_documento;
-            $scope.fDataUser.sexo = '-';
-          }
-          $scope.fAlert.flag = rpta.flag;
-        });
-      }
-
       $scope.registrarUsuario = function (){
-        if($scope.fDataUser.clave !== $scope.fDataUser.repeat_clave){
+        $scope.crearAlerta = function(msg){
           $scope.fAlert = {};
           $scope.fAlert.type= 'danger';
-          $scope.fAlert.msg='Las claves ingresadas no coinciden';
+          $scope.fAlert.msg= msg;
           $scope.fAlert.strStrong = 'Error';
           $scope.fAlert.icon = 'fa fa-exclamation';
           return;
         }
+        
+        if(!$scope.fDataUser.num_documento || $scope.fDataUser.num_documento == null || $scope.fDataUser.num_documento == ''){          
+          $scope.crearAlerta('Debe ingresar un Número de documento.');
+          return;
+        }
 
-        if($scope.fDataUser.sexo==='-'){
-          $scope.fAlert = {};
-          $scope.fAlert.type= 'danger';
-          $scope.fAlert.msg='Las claves ingresadas no coinciden';
-          $scope.fAlert.strStrong = 'Error';
-          $scope.fAlert.icon = 'fa fa-exclamation';
+        if(!$scope.fDataUser.nombres || $scope.fDataUser.nombres == null || $scope.fDataUser.nombres == ''){
+          $scope.crearAlerta('Debe ingresar Nombres.');
+          return;
+        }
+
+        if(!$scope.fDataUser.apellido_paterno || $scope.fDataUser.apellido_paterno == null || $scope.fDataUser.apellido_paterno == ''){
+          $scope.crearAlerta('Debe ingresar Apellido paterno.');
+          return;
+        }
+
+        if(!$scope.fDataUser.apellido_materno || $scope.fDataUser.apellido_materno == null || $scope.fDataUser.apellido_materno == ''){
+          $scope.crearAlerta('Debe ingresar Apellido materno.');
+          return;
+        } 
+
+        if(!$scope.fDataUser.email || $scope.fDataUser.email == null || $scope.fDataUser.email == ''){
+          $scope.crearAlerta('Debe ingresar E-mail.');
+          return;
+        }         
+
+        if(!$scope.fDataUser.fecha_nacimiento || $scope.fDataUser.fecha_nacimiento == null || $scope.fDataUser.fecha_nacimiento == ''){
+          $scope.crearAlerta('Debe ingresar Fecha Nacimiento.');
+          return;
+        }
+
+        if(!$scope.fDataUser.celular || $scope.fDataUser.celular == null || $scope.fDataUser.celular == ''){
+          $scope.crearAlerta('Debe ingresar Celular.');
+          return;
+        }         
+
+        if($scope.fDataUser.sexo =='-'){
+          $scope.crearAlerta('Seleccione sexo.');
+          return;
+        }
+
+        if(!$scope.fDataUser.clave || $scope.fDataUser.clave == null || $scope.fDataUser.clave == ''
+           || !$scope.fDataUser.repeat_clave || $scope.fDataUser.repeat_clave == null || $scope.fDataUser.repeat_clave == ''){
+          $scope.crearAlerta('Debe ingresar Claves.');
+          return;
+        }
+
+        if($scope.fDataUser.clave !== $scope.fDataUser.repeat_clave){
+          $scope.crearAlerta('Las claves ingresadas no coinciden');
+          return;
         }
 
         if(!$scope.captchaValidoReg){
           $scope.fAlert = {};
           $scope.fAlert.type= 'danger';
           $scope.fAlert.msg= 'Debe completar reCaptcha';
-          $scope.fAlert.strStrong = 'Error.';
+          $scope.fAlert.strStrong = 'Error';
           return;
         }
 
@@ -125,13 +164,63 @@ angular.module('theme.usuario', ['theme.core.services'])
           }else if(rpta.flag == 1){
             $scope.fDataUser = {};
             $scope.fDataUser.sexo = '-';
-            $scope.fAlert.type= 'success';
-            $scope.fAlert.msg= rpta.message;
-            $scope.fAlert.icon= 'fa fa-smile-o';
-            $scope.fAlert.strStrong = 'Genial! ';
+            $scope.fAlert = {};
+            $scope.btnViewLogin();
+            $uibModal.open({ 
+              templateUrl: angular.patchURLCI+'Usuario/ver_popup_aviso',
+              size: 'sm',
+              //backdrop: 'static',
+              //keyboard:false,
+              scope: $scope,
+              controller: function ($scope, $modalInstance) {                 
+                $scope.titleForm = 'Genial! '; 
+                $scope.msj = rpta.message;
+
+                $scope.btnCancel = function(){
+                  $modalInstance.dismiss('btnCancel');
+                }
+              }
+            });
           }
         });
       }   
+    }
+
+    $scope.verificarDoc = function(){
+      if(!$scope.fDataUser.num_documento || $scope.fDataUser.num_documento == null || $scope.fDataUser.num_documento == ''){
+        $scope.fAlert = {};
+        $scope.fAlert.type= 'danger';
+        $scope.fAlert.msg='Debe ingresar un Número de documento.';
+        $scope.fAlert.strStrong = 'Error';
+        $scope.fAlert.icon = 'fa fa-exclamation';
+        return;
+      }
+      usuarioServices.sVerificarUsuarioPorDocumento($scope.fDataUser).then(function (rpta) {              
+        $scope.fAlert = {};
+        if( rpta.flag == 2 ){ //Cliente registrado en Sistema Hospitalario
+          $scope.fDataUser = rpta.usuario;
+          $scope.fAlert.type= 'info';
+          $scope.fAlert.msg= rpta.message;
+          $scope.fAlert.icon= 'fa fa-smile-o';
+          $scope.fAlert.strStrong = 'Genial! ';
+        }else if( rpta.flag == 1 ){ // Usuario ya registrado en web
+          //$scope.fDataUser = rpta.usuario;
+          $scope.fAlert.type= 'danger';
+          $scope.fAlert.msg= rpta.message;
+          $scope.fAlert.strStrong = 'Aviso! ';
+          $scope.fAlert.icon = 'fa  fa-exclamation-circle';
+        }else if(rpta.flag == 0){
+          var num_documento = $scope.fDataUser.num_documento;                
+          $scope.fAlert.type= 'warning';
+          $scope.fAlert.msg= rpta.message;
+          $scope.fAlert.strStrong = 'Aviso! ';
+          $scope.fAlert.icon = 'fa fa-frown-o';
+          $scope.fDataUser = {};
+          $scope.fDataUser.num_documento = num_documento;
+          $scope.fDataUser.sexo = '-';
+        }
+        $scope.fAlert.flag = rpta.flag;
+      });
     }
 
     $scope.closeAlert = function() {
@@ -235,7 +324,7 @@ angular.module('theme.usuario', ['theme.core.services'])
                 usuarioServices.sRecargarUsuarioSession($scope.dataUsuario).then(function (rpta) {
                   if(rpta.flag == 1){
                     $scope.session.nombre_imagen = nuevoArchivo;
-                    //$window.location.reload();
+                    $window.location.reload();
                   } else{
                     alert('Error inesperado');
                   }           
@@ -262,7 +351,32 @@ angular.module('theme.usuario', ['theme.core.services'])
           }
         }
       });
-    }  
+    } 
+
+    $scope.btnActualizarPerfilClinico = function (){
+      $scope.fAlertPerfilCli = null;
+      usuarioServices.sActualizarPerfilClinico($scope.fDataDashboard).then(function(rpta){
+        var msg = rpta.message;
+        if(rpta.flag == 1){
+          usuarioServices.sRecargarUsuarioSession($scope.fSessionCI).then(function(rpta){
+            if(rpta.flag == 1){
+              $scope.fSessionCI = rpta.datos;
+              $scope.initPerfil();
+              $scope.fAlertPerfilCli = {};
+              $scope.fAlertPerfilCli.type= 'success';
+              $scope.fAlertPerfilCli.msg= msg;
+              $scope.fAlertPerfilCli.strStrong = 'Genial!';              
+            } 
+          });
+        }else{
+          $scope.fAlertPerfilCli = {};
+          $scope.fAlertPerfilCli.type= 'warning';
+          $scope.fAlertPerfilCli.msg= rpta.message;
+          $scope.fAlertPerfilCli.strStrong = 'Advertencia.';
+        }
+      });
+    } 
+
   }])
   .service("usuarioServices",function($http, $q) {
     return({
@@ -272,6 +386,7 @@ angular.module('theme.usuario', ['theme.core.services'])
       sRecargarUsuarioSession: sRecargarUsuarioSession,
       sActualizarPasswordUsuario: sActualizarPasswordUsuario,
       sSubirFotoPerfil:sSubirFotoPerfil,
+      sActualizarPerfilClinico: sActualizarPerfilClinico,
     });
     function sVerificarUsuarioPorDocumento(datos) {
       var request = $http({
@@ -313,15 +428,22 @@ angular.module('theme.usuario', ['theme.core.services'])
       });
       return (request.then( handleSuccess,handleError ));
     }
-    function sSubirFotoPerfil(pDatos) {
+    function sSubirFotoPerfil(datos) {
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"Usuario/subir_foto_perfil", 
-            data : pDatos,
+            data : datos,
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
       });
       return (request.then( handleSuccess,handleError ));
+    }
+    function sActualizarPerfilClinico(datos) {
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"Usuario/actualizar_perfil_clinico", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
     }    
-
   }); 

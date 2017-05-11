@@ -20,6 +20,7 @@ class Model_usuario extends CI_Model {
 							c.sexo, c.telefono, c.celular, c.fecha_nacimiento, c.email', FALSE); 
 		$this->db->select("DATE_PART('YEAR',AGE(c.fecha_nacimiento)) AS edad",FALSE);
 		$this->db->select('uw.idusuarioweb, uw.nombre_usuario, uw.nombre_imagen, uw.estado_uw', FALSE); 
+		$this->db->select('uw.peso, uw.estatura, uw.tipo_sangre', FALSE); 
 		$this->db->from('ce_usuario_web uw');
 		$this->db->join('cliente c','uw.idcliente = c.idcliente AND c.estado_cli = 1', 'left');
 		$this->db->where('uw.estado_uw', 1); 
@@ -90,5 +91,27 @@ class Model_usuario extends CI_Model {
 		);
 		$this->db->where('idusuarioweb',$datos['idusuario']);
 		return $this->db->update('ce_usuario_web', $data);
+	}
+
+	public function m_actualizar_perfil_clinico($datos){
+		$data = array(
+			'peso' => $datos['peso'],
+			'estatura' => $datos['estatura'],
+			'tipo_sangre' => $datos['tipo_sangre']['id'],
+			'updatedAt' => date('Y-m-d H:i:s')
+		);
+		$this->db->where('idusuarioweb',$datos['idusuario']);
+		return $this->db->update('ce_usuario_web', $data);
+	}
+
+	public function m_cargar_para_mail($idusuario){
+		$this->db->select('c.idcliente, c.num_documento, c.nombres, c.apellido_paterno, c.apellido_materno, 
+							c.sexo, c.telefono, c.celular, c.fecha_nacimiento, c.email', FALSE); 
+		$this->db->select('uw.idusuarioweb, uw.nombre_imagen, uw.estado_uw', FALSE); 
+		$this->db->from('ce_usuario_web uw');
+		$this->db->join('cliente c','uw.idcliente = c.idcliente AND c.estado_cli = 1', 'left');
+		$this->db->where('uw.estado_uw', 1); 
+		$this->db->where('uw.idusuarioweb',$idusuario);
+		return $this->db->get()->row_array();
 	}
 }

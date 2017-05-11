@@ -1,17 +1,24 @@
 angular.module('theme.login', ['theme.core.services'])
-  .controller('loginController', function($scope, $theme, $controller, loginServices ){
+  .controller('loginController', function($scope, $theme, $controller, loginServices, rootServices ){
     //'use strict';
     $theme.set('fullscreen', true);
 
     $scope.$on('$destroy', function() {
       $theme.set('fullscreen', false);
     });
-    $scope.modulo='login';
-    $scope.initLoginRecaptcha = function() {
-      grecaptcha.render('recaptcha-login', {
-        'sitekey' : $scope.keyRecaptcha,
-        'callback' : recaptchaResponse,
-      });
+    $scope.modulo='login';    
+
+    $scope.initLoginRecaptcha = function() {      
+      var datos = {
+        tipo: 'captcha'
+      }
+      rootServices.sGetConfig(datos).then(function(rpta){
+        $scope.keyRecaptcha =  rpta.datos.KEY_RECAPTCHA;
+        grecaptcha.render('recaptcha-login', {
+          'sitekey' : $scope.keyRecaptcha,
+          'callback' : recaptchaResponse,
+        });
+      });            
     };
 
     $scope.fLogin = {};
@@ -26,13 +33,13 @@ angular.module('theme.login', ['theme.core.services'])
         return;
       }
 
-      /*if(!$scope.captchaValido){
+      if(!$scope.captchaValido){
         $scope.fAlert = {};
         $scope.fAlert.type= 'danger';
         $scope.fAlert.msg= 'Debe completar reCaptcha';
         $scope.fAlert.strStrong = 'Error.';
         return;
-      }*/
+      }
 
       loginServices.sLoginToSystem($scope.fLogin).then(function (response) { 
         $scope.fAlert = {};

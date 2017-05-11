@@ -1,11 +1,11 @@
 angular.module('theme.inicio', ['theme.core.services'])
   .controller('inicioController', function($scope, $theme, $filter
     ,inicioServices
-    ,sedeServices ){
+    ,sedeServices
+    ,usuarioServices ){
       'use strict';
       shortcut.remove("F2"); 
       $scope.modulo = 'inicio'; 
-      $scope.pageTittle = 'Inicio';
       $scope.arrays = {};
       $scope.fDataFiltro = {};
       $scope.fBusqueda = {};
@@ -29,8 +29,28 @@ angular.module('theme.inicio', ['theme.core.services'])
         { 'id': 12, 'mes': 'Diciembre' }
       ];
       var mes_actual = $filter('date')(new Date(),'M');
+
+      usuarioServices.sRecargarUsuarioSession($scope.fSessionCI).then(function(rpta){
+        if(rpta.flag == 1){
+          $scope.fSessionCI = rpta.datos;            
+        } 
+      });
       
-      
+      $scope.goToPerfil = function(){
+        $scope.goToUrl('/mi-perfil');
+      }
+
+      $scope.goToHistorial = function(){
+        $scope.goToUrl('/historial-citas');
+      }
+
+      $scope.goToResultados = function(){
+        $scope.goToUrl('/resultado-laboratorio');
+      } 
+
+      $scope.goToSelCita = function(){
+        $scope.goToUrl('/seleccionar-cita');
+      } 
   })
   .service("inicioServices",function($http, $q) {
     return({

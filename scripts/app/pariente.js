@@ -1,14 +1,15 @@
 angular.module('theme.pariente', ['theme.core.services'])
-  .controller('parienteController', ['$scope', '$sce', '$uibModal', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys', 'blockUI',
+  .controller('parienteController', ['$scope', '$controller', '$sce', '$uibModal', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys', 'blockUI',
     'parienteServices',
     'parentescoServices',
-    function($scope, $sce, $uibModal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, blockUI,
+    function($scope, $controller, $sce, $uibModal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, blockUI,
      parienteServices,
      parentescoServices
     ){
     'use strict';
     shortcut.remove("F2"); 
     $scope.modulo = 'pariente';
+    $scope.cargarItemFamiliar(null);
     $scope.listaSexos = [
       {id:'-', descripcion:'SELECCIONE SEXO'},
       {id:'F', descripcion:'FEMENINO'},
@@ -99,7 +100,7 @@ angular.module('theme.pariente', ['theme.core.services'])
     };
     
 
-    $scope.btnNuevoPariente = function(){
+    $scope.btnNuevoPariente = function(callback){
       $scope.fData = {}; 
       $scope.fData.sexo = '-'; 
       $scope.accion ='reg';
@@ -178,6 +179,13 @@ angular.module('theme.pariente', ['theme.core.services'])
                 $scope.fAlert.msg= rpta.message;
                 $scope.fAlert.icon= 'fa fa-smile-o';
                 $scope.fAlert.strStrong = 'Genial! ';
+                if(callback){
+                  callback();                  
+                }else{
+                  $scope.refreshListaParientes();
+                }
+                $scope.getNotificacionesEventos();
+                $scope.btnCancel();                
               }
               $scope.fAlert.flag = rpta.flag;
             });
@@ -255,8 +263,25 @@ angular.module('theme.pariente', ['theme.core.services'])
 
           $scope.btnOk = function(){
             $scope.btnCancel();
-            parienteServices.sEliminarPariente(row).then(function (rpta) {
-              //$scope.refreshListaParientes();
+            parienteServices.sEliminarPariente(row).then(function (rpta) {                         
+              $scope.fAlert = {};
+              if(rpta.flag == 0){
+                $scope.fAlert = {};
+                $scope.fAlert.type= 'danger';
+                $scope.fAlert.msg= rpta.message;
+                $scope.fAlert.strStrong = 'Error';
+                $scope.fAlert.icon = 'fa fa-exclamation';                
+              }else if(rpta.flag == 1){
+                $scope.fData = {};
+                $scope.fData.sexo = '-';
+                $scope.fAlert.type= 'success';
+                $scope.fAlert.msg= rpta.message;
+                $scope.fAlert.icon= 'fa fa-smile-o';
+                $scope.fAlert.strStrong = 'Genial! ';
+                $scope.refreshListaParientes();
+              }
+              $scope.fAlert.flag = rpta.flag;
+              
             });
           }
 
@@ -265,6 +290,11 @@ angular.module('theme.pariente', ['theme.core.services'])
           }
         }
       });
+    }
+
+    $scope.btnGenerarCita = function(row){
+      $scope.cargarItemFamiliar(row);
+      $scope.goToUrl('/seleccionar-cita');
     }
 
     $scope.initPariente = function(){

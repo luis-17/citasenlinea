@@ -13,10 +13,12 @@ class Resultadolaboratorio extends CI_Controller {
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
 		$this->output->set_header("Pragma: no-cache");
 		date_default_timezone_set("America/Lima");
+		$this->sessionCitasEnLinea = @$this->session->userdata('sess_cevs_'.substr(base_url(),-8,7));
 	}
 
 	public function carga_resultados_usuario(){
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		$allInputs['idcliente'] = $this->sessionCitasEnLinea['idusuario'];
 		//$paramPaginate = $allInputs['paginate'];
 
 		$lista = $this->model_resultadolaboratorio->m_cargar_resultados_usuario($allInputs);

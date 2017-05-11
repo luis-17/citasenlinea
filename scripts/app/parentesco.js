@@ -1,7 +1,7 @@
 angular.module('theme.parentesco', ['theme.core.services'])
-  .controller('parentescoController', ['$scope', '$sce', '$modal', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys', 
+  .controller('parentescoController', ['$scope', '$sce', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys', 
     'parentescoServices',
-    function($scope, $sce, $modal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, 
+    function($scope, $sce, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, 
       parentescoServices
       ){
     'use strict';

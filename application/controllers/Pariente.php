@@ -5,7 +5,7 @@ class Pariente extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper(array('security','otros_helper'));
-		$this->load->model(array('model_pariente','model_usuario'));
+		$this->load->model(array('model_pariente','model_usuario','model_control_evento_web'));
 		//cache
 		$this->output->set_header("Cache-Control: no-store, no-cache, must-revalidate, no-transform, max-age=0, post-check=0, pre-check=0"); 
 		$this->output->set_header("Pragma: no-cache");
@@ -26,9 +26,11 @@ class Pariente extends CI_Controller {
                   strtoupper($row['apellido_materno']);  
 
       if($row['sexo']=='F'){
+        $color = '#f4b2b0';
         $icon = 'fa fa-female';
         $desc = 'FEMENINO';
       }else{
+        $color = '#2d527c';
         $icon = 'fa fa-male';
         $desc = 'MASCULINO';
       }
@@ -43,7 +45,7 @@ class Pariente extends CI_Controller {
           'apellido_paterno' => strtoupper($row['apellido_paterno']),
           'apellido_materno' => strtoupper($row['apellido_materno']),
           'sexo' => $row['sexo'],
-          'sexo' => $row['sexo'],
+          'color_sexo' => $color,
           'idparentesco' => $row['idparentesco'],
           'parentesco' => $row['parentesco'],
           'pariente' => $pariente,
@@ -167,7 +169,8 @@ class Pariente extends CI_Controller {
         'email' => $allInputs['email'], 
         'sexo' => $allInputs['sexo'], 
         'fecha_nacimiento' => $allInputs['fecha_nacimiento'], 
-        'si_registro_web' => 1,  
+        'si_registro_web' => 1, 
+        'idprocedencia' => 13, 
         'createdAt' => date('Y-m-d H:i:s'),
         'updatedAt' => date('Y-m-d H:i:s')
         );
@@ -182,6 +185,7 @@ class Pariente extends CI_Controller {
         'email' => $allInputs['email'], 
         'sexo' => $allInputs['sexo'], 
         'fecha_nacimiento' => $allInputs['fecha_nacimiento'],  
+        'idprocedencia' => 13,
         'updatedAt' => date('Y-m-d H:i:s')
         );
       $idcliente =  $usuario['idcliente'];
@@ -197,12 +201,25 @@ class Pariente extends CI_Controller {
         'updatedAt' => date('Y-m-d H:i:s')
         );
       $resultPariente = $this->model_pariente->m_registrar_pariente($datos);
+      $idpariente = GetLastId('idusuariowebpariente','ce_usuario_web_pariente');
     }
     $this->db->trans_complete();
 
     if($resultCliente && $resultPariente){
       $arrData['message'] = 'Se ha registrado tu familiar exitosamente.';
       $arrData['flag'] = 1;
+
+      //generacion notificacion
+      $texto_notificacion = generar_notificacion_evento(19, 'key_citas_en_linea', $allInputs);
+      $noti = array(            
+        'idtipoevento' => 19,
+        'identificador' => $idpariente,
+        'idusuarioweb' => $this->sessionCitasEnLinea['idusuario'],
+        'texto_notificacion' => $texto_notificacion,
+        'idresponsable' => $this->sessionCitasEnLinea['idusuario'],
+        'fecha_evento' => date('Y-m-d H:i:s'),
+        );
+      $this->model_control_evento_web->m_registrar_notificacion_evento($noti);
     }
 
     $this->output
@@ -263,16 +280,21 @@ class Pariente extends CI_Controller {
     $allInputs = json_decode(trim($this->input->raw_input_stream),true);
     $paramPaginate = $allInputs['paginate'];
     $datos = $this->sessionCitasEnLinea;
-    $lista = $this->model_pariente->m_cargar_parientes_cbo($datos, $paramPaginate);
+    $lista = $this->model_pariente->m_cargar_parientes_cbo($datos, $paramPaginate);     
 
     $arrListado = array();
     foreach ($lista as $row) {
+      $paciente = strtoupper($row['nombres']) . ' ' . 
+                  strtoupper($row['apellido_paterno']) . ' ' . 
+                  strtoupper($row['apellido_materno']);
+
       array_push($arrListado, 
         array(
           'idusuariowebpariente' => $row['idusuariowebpariente'],
           'idusuarioweb' => $row['idusuarioweb'],
           'idclientepariente' => $row['idclientepariente'],
           'estado_uwp' => $row['estado_uwp'],
+          'descripcion' => strtoupper($row['nombres']) . ' (' . $row['parentesco'] .')', 
           'nombres' => strtoupper($row['nombres']),
           'apellido_paterno' => strtoupper($row['apellido_paterno']),
           'apellido_materno' => strtoupper($row['apellido_materno']),
@@ -283,6 +305,7 @@ class Pariente extends CI_Controller {
           'num_documento' => $row['num_documento'],
           'fecha_nacimiento' => date('d-m-Y',strtotime($row['fecha_nacimiento'])),
           'email' => $row['email'],
+          'paciente' => $paciente,
         )
       );
     }
