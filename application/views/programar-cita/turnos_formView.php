@@ -23,13 +23,8 @@
 						<div ng-repeat="cupo in turno.cupos" class="cupo" ng-click="checkedCupo(cupo);" >
 							<input type="radio" id="radio{{cupo.iddetalleprogmedico}}" name="radio[]" ng-checked="cupo.checked" />
 			    			<label 	for="radio{{cupo.iddetalleprogmedico}}" ng-click="checkedCupo(cupo);"></label>
-			    			<span class="box" uib-tooltip="Este es un cupo adicional. Será atendido entre los últimos pacientes." 
-			    					tooltip-placement="bottom" tooltip-enable="cupo.adicional">
-			    				{{cupo.hora_formato}}	
-			    			</span>     
-			    			<p class="box-adicional" ng-if="cupo.adicional">
-			    				<i class="fa fa-plus-circle"></i>
-			    			</p> 			
+			    			<span class="box">{{cupo.hora_formato}}	</span>   
+			    			<p class="box-adicional" ng-if="cupo.adicional"><i class="fa fa-plus-circle"></i></p> 			
 						</div>
 					</div>
 				</div>				

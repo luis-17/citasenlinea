@@ -86,10 +86,8 @@
       				</div> 
       			</div>
       			<div class="total total-servicio ">
-      				<div class="descripcion" >
-      					<i class="fa fa-info-circle" uib-tooltip="Cargo por transacción realizada vía web." tooltip-placement="top"
-                   style="color:#00bcd4;font-size: 18px;"></i>
-                CARGOS POR SERVICIO WEB: S/. 
+      				<div class="descripcion">
+      					<i class="fa fa-info-circle" style="color:#00bcd4;"></i> CARGOS POR SERVICIO WEB: S/. 
       				</div> 
       				<div class="monto">
       					{{totales.total_servicio}}

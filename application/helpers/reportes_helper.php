@@ -205,9 +205,6 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
         'margin' => array(0,0,0,0)
       ),
       array(
-        'text'=> array(' ')
-      ),
-      array(
           'text'=> $titulo,
           'style'=> array('headerTitle',array('alignment'=> 'center','fontSize'=> 12)),
       ),
@@ -241,7 +238,7 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
         'text'=> array(' ')
       ),      
       array(
-        'text'=> array('Recuerda llegar 30 minutos antes de tu cita.'),
+        'text'=> array('Recuerda llegar 20 minutos antes de la hora seleccionada en la cita.'),
         'style'=> array('headerPage',array('alignment'=> 'center','fontSize'=> 9) ),
       ),
       array(

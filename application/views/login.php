@@ -6,15 +6,26 @@
             background: url("{{ dirImages + 'dinamic/empresa/banner-2.jpg'}}") no-repeat left top;
             background-size: cover;
         }
-
-        @media only screen and (max-width : 991px) {
-          .static-content-wrapper{
-            background: none;
-          }  
-        }
     </style>
     <div class="row">                   
-        <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-7" >
+        <!-- <div class="col-sm-12 col-md-7"> 
+            
+        </div>
+ -->
+        <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-6" > 
+            <div class="capa-info" >            
+                <div class="info-heading">
+                    Gestiona tus citas y las de tus familiares, desde la comodidad de tu hogar.
+                    <!-- <a href="" class="btn btn-page" ng-click="btnRegistroEnSistema(); $event.preventDefault();">Registrarse</a>  -->                                  
+                </div>
+                <div class="info-subheading">
+                    Disfruta los beneficios de ser un paciente de Villa Salud... 
+                </div>
+                <div class="info-lema">
+                    Villa Salud, Te Cuida!
+                </div>                
+            </div>
+
             <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-2" > 
                 <div class="formulario formulario-login" ng-show="!viewRegister">                
                     <div class="panel panel-default">
@@ -43,9 +54,9 @@
                                     </div>
                                 </div>  
 
-                                <uib-alert type="{{fAlert.type}}" close="fAlert = null;" ng-show='fAlert.type' class="p-sm">
+                                <alert type="{{fAlert.type}}" close="fAlert = null;" ng-show='fAlert.type' class="p-sm">
                                     <strong> {{ fAlert.strStrong }} </strong> <span ng-bind-html="fAlert.msg"></span>
-                                </uib-alert>               
+                                </alert>               
                                                       
                             </form>
                         </div>
@@ -70,18 +81,7 @@
                         </div>
                     </div>            
                 </div>
-                <div class="capa-info" ng-if="!viewRegister">            
-                    <div class="info-heading">
-                        Gestiona tus citas y las de tus familiares, desde la comodidad de tu hogar.
-                        <!-- <a href="" class="btn btn-page" ng-click="btnRegistroEnSistema(); $event.preventDefault();">Registrarse</a>  -->                                  
-                    </div>
-                    <div class="info-subheading">
-                        Disfruta los beneficios de ser un paciente de Villa Salud... 
-                    </div>
-                    <div class="info-lema">
-                        Villa Salud, Te Cuida!
-                    </div>                
-                </div>
+
                 <div class="formulario formulario-registro" ng-show="viewRegister" ng-controller="usuarioController">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -93,28 +93,26 @@
                             <form class="" name="formUsuario" novalidate>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <uib-alert type="{{fAlert.type}}" close="fAlert = null" ng-show='fAlert.type' class="p-sm mb-n" style="margin-right: 12px; margin-bottom: 10px !important;">
+                                        <alert type="{{fAlert.type}}" close="fAlert = null" ng-show='fAlert.type' class="p-sm mb-n" style="margin-right: 12px; margin-bottom: 10px !important;">
                                             <strong> {{ fAlert.strStrong }} <i class='{{fAlert.icon}}'></i></strong> 
                                             <span ng-bind-html="fAlert.msg"> </span>
-                                        </uib-alert>
+                                        </alert>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                         <label class="control-label mb-xs"> DNI ó Documento de Identidad </label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control input-sm" ng-model="fDataUser.num_documento" placeholder="Ingresa tu DNI ó Documento de Identidad" tabindex="1" 
-                                                ng-enter="verificarDoc(); $event.preventDefault();" focus-me ng-minlength="8" ng-pattern="/^[0-9]*$/"/> 
+                                            <input type="text" class="form-control input-sm" ng-model="fDataUser.num_documento" placeholder="Ingresa tu DNI ó Documento de Identidad" tabindex="1" focus-me ng-minlength="8" ng-pattern="/^[0-9]*$/"/> 
                                             <div class="input-group-btn ">
                                                 <button type="button" class="btn btn-default btn-sm" ng-click="verificarDoc(); $event.preventDefault();" ><i class="fa fa-search"></i></button>
                                             </div>
                                         </div>
+                                        <!-- <input ng-init="verificaDNI();" type="text" class="form-control input-sm" ng-model="fData.num_documento" placeholder="Registre su dni" tabindex="1" focus-me ng-minlength="8" ng-pattern="/^[0-9]*$/" ng-change="verificaDNI();" />  -->
                                     </div>                                 
                                     <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                         <label class="control-label mb-xs">Nombres <small class="text-danger">(*)</small> </label>
-                                        <input type="text" class="form-control input-sm" ng-model="fDataUser.nombres" placeholder="Ingresa tus nombre" 
-                                            ng-focus="verificarDoc(); $event.preventDefault();"  
-                                            ng-click="verificarDoc(); $event.preventDefault();"  required tabindex="2" />
+                                        <input type="text" class="form-control input-sm" ng-model="fDataUser.nombres" placeholder="Ingresa tus nombre" required tabindex="2" />
                                     </div>
                                 </div>
                                 <div class="row">
@@ -190,7 +188,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- <div class="col-xs-12 col-sm-12 col-md-5" >
             
-        </div>        
+        </div> -->
+        
     </div>
 </div>
