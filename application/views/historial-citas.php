@@ -114,7 +114,8 @@
                       </span>
                       <span class="nro-doc" ng-click="descargaComprobantePago(cita);" 
                         style="padding-left: 5px;font-size: 15px;color:{{cita.color_comprobante}}"
-                        uib-popover="Tu comprobante está en proceso de ser emitido. Recibirás un mail cuando esté listo!" popover-trigger="'mouseenter'">
+                        uib-tooltip="Tu comprobante está en proceso de ser emitido. Recibirás un mail cuando esté listo!" 
+                        tooltip-placement="bottom" tooltip-enable="cita.estado_comprobante == 2" tooltip-trigger="mouseenter">
                         <i class="{{cita.icon_comprobante}}" style="font-size:{{cita.font_size}}"></i>
                         <a href=""> {{cita.numero_comprobante}} </a>
                       </span>

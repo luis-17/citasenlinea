@@ -258,10 +258,14 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       $scope.initRegistrarUsuario();
       $scope.viewRegister = true;
       $scope.initRecaptchaReg();
+      $scope.fAlert = null;
+      $scope.fDataUser = {};
+      $scope.fDataUser.sexo = '-';
     }
 
     $scope.btnViewLogin = function (){
       $scope.viewRegister = false;
+      $scope.fAlert = null;
     }
 
     $scope.getNotificacionesEventos = function (firtsTime) {
@@ -679,7 +683,7 @@ appRoot.
       },
       getPopupGraph: function(arrParams) {
         if( arrParams.datos.tipoCuadro == 'grafico' || arrParams.datos.tiposalida == 'grafico' || angular.isUndefined(arrParams.datos.tipoCuadro) ){
-          $modal.open({
+          $uibModal.open({
             templateUrl: angular.patchURLCI+'CentralReportes/ver_popup_grafico',
             size: 'xlg',
             controller: function ($scope,$modalInstance,arrParams) {
