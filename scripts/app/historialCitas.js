@@ -58,7 +58,7 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       $scope.listarParientes = function(externo){
         parienteServices.sListarParientesCbo().then(function (rpta) {
           $scope.listaFamiliares = rpta.datos;
-          $scope.listaFamiliares.splice(0,0,{ idusuariowebpariente:0, descripcion: $scope.fSessionCI.nombres + ' (titular)'});
+          $scope.listaFamiliares.splice(0,0,{ idusuariowebpariente:0, descripcion: $scope.fSessionCI.nombres + ' [TITULAR]'});
           if(externo){          
             $scope.fBusqueda.familiar = $scope.listaFamiliares[$scope.listaFamiliares.length-1]; 
           }else{

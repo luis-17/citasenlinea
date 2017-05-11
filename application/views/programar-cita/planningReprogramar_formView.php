@@ -73,40 +73,9 @@
 	            No hay turnos diponibles con las opciones seleccionadas, intenta con otros parámetros... 
 	          </div>
           	</div>
-          	<!-- <div class="planning" ng-class="{visible : fPlanning.mostrar}" ng-if="fPlanning.mostrar">
-	            <div class="desc-header" style="width: 121px; ">
-	              H./FECHAS
-	            </div>
-	            <div class="header">                
-	              <div ng-repeat="fecha in fPlanning.fechas" class="{{fecha.class}}">
-	                <div class="cell-fecha">{{fecha.dato}}</div>
-	              </div>                    
-	            </div>
-	            <div class="block-visible-planning">
-	              <div class="sidebar">              
-	                <div ng-repeat="hora in fPlanning.horas" class="{{hora.class}}">
-	                  <div class="cell-hora">{{hora.dato}}</div>
-	                </div>                 
-	              </div>
-
-	              <div class="body" scroller >                              
-	                <div ng-repeat="column in fPlanning.grid" class="column">
-	                  <div ng-repeat="item in column" class="{{item.class}}" ng-if="!item.unset" style="height:{{30*item.rowspan}}px;" >
-	                    <div class="content-cell-column" >
-	                      <span class="favorito animation" uib-tooltip="{{fBusqueda.medico}}" tooltip-placement="top" ng-if="item.medico_favorito">
-	                      	<i class="fa fa-star" style="font-size: 15px;"></i>
-	                      </span>
-	                      <a href="" class="label label-info" ng-click="viewTurnos(item); $event.stopPropagation();">{{item.dato}} </a>
-	                    </div>
-	                  </div>
-	                </div>       
-	              </div> 
-	            </div>
-	            <div class="clearfix"></div>
-          	</div>  -->  
-
 	        <div class="planning large" ng-class="{visible : fPlanning.mostrar}" ng-if="fPlanning.mostrar">            
-	            <div class="header">
+	            <div class="block-visible-planning" scroller>
+	              <div class="header">
 	              <div class="desc-header fecha-header" style="width: 95px; ">
 	                H./FECHAS
 	              </div>                
@@ -114,14 +83,13 @@
 	                <div class="cell-fecha">{{fecha.dato}}</div>
 	              </div>                    
 	            </div>
-	            <div class="block-visible-planning">
-	              <div class="sidebar">              
+	            <div class="sidebar">              
 	                <div ng-repeat="hora in fPlanning.horas" class="{{hora.class}}">
 	                  <div class="cell-hora">{{hora.dato}}</div>
 	                </div>                 
 	              </div>
 
-	              <div class="body" scroller >                              
+	              <div class="body"  >                              
 	                <div ng-repeat="column in fPlanning.grid" class="column">
 	                  <div ng-repeat="item in column" class="{{item.class}}" ng-if="!item.unset && fPlanning.grid[index][24].total != 0" style="height:{{30*item.rowspan}}px;" >
 	                    <div class="content-cell-column" >

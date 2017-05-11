@@ -992,6 +992,10 @@ a.link-password:hover{
   float: left;
 }
 
+.planning .header{
+  position : relative;
+}
+
 .planning .sidebar{
   clear: left;
 }
@@ -1082,6 +1086,7 @@ a.link-password:hover{
   color: #ff9800;
   position: fixed;
   right: 19.5%;
+  z-index: 3;
   animation: shake 2s ease-in-out infinite;
 } 
 
@@ -1656,6 +1661,10 @@ input[type=radio]:checked + label:before {
 .mi-grid .cell-grid .icono-cita, 
 .mi-grid .divisor-movil{
   display: none;
+}
+
+.mi-grid .header{
+  position: relative;
 }
 
 .mi-grid .row-grid{

@@ -12,7 +12,7 @@
         </div>
 
       	<div class="mi-grid grid-citas col-md-12 col-xs-12 col-sm-12 pb-md">
-      		<div class="body-grid">
+      		<div class="body-grid" scroller >
             <div class="header row-grid row-cita">
               <div class="cell-grid cell-cita" style="width:17%;">
                 CITA PARA
@@ -39,40 +39,40 @@
                 PRECIO (S/.)
               </div>
             </div>
-        		<div ng-repeat="cita in listaCitas" class="row-grid row-cita">
-        			<div class="cell-grid cell-cita" style="width:17%;">
-        				<span class="icono-cita"><i class="fa fa-stethoscope" style="color: #36c0d1;" ></i> Cita para:</span>
+        	  <div ng-repeat="cita in listaCitas" class="row-grid row-cita">
+              <div class="cell-grid cell-cita" style="width:17%;">
+                <span class="icono-cita"><i class="fa fa-stethoscope" style="color: #36c0d1;" ></i> Cita para:</span>
                 {{cita.busqueda.itemFamiliar.descripcion}}
-        			</div>
-        			<div class="cell-grid cell-cita" style="width:14%;">
-        				<span class="icono-cita"><i class="fa fa-hospital-o" style="color: #ce1d19;" ></i> Sede:</span>
+              </div>
+              <div class="cell-grid cell-cita" style="width:14%;">
+                <span class="icono-cita"><i class="fa fa-hospital-o" style="color: #ce1d19;" ></i> Sede:</span>
                 {{cita.busqueda.itemSede.descripcion}}
-        			</div>
-        			<div class="cell-grid cell-cita" style="width:12%;">
-        				<span class="icono-cita"><i class="ti ti-slice" style="color: #ffc107;" ></i> Especialidad:</span>
+              </div>
+              <div class="cell-grid cell-cita" style="width:12%;">
+                <span class="icono-cita"><i class="ti ti-slice" style="color: #ffc107;" ></i> Especialidad:</span>
                 {{cita.busqueda.itemEspecialidad.descripcion}}
-        			</div>
-        			<div class="cell-grid cell-cita" style="width:17%;">
-        				<span class="icono-cita"><i class="fa fa-user-md" style="color: #191970;" ></i> Médico:</span>
+              </div>
+              <div class="cell-grid cell-cita" style="width:17%;">
+                <span class="icono-cita"><i class="fa fa-user-md" style="color: #191970;" ></i> Médico:</span>
                 {{cita.seleccion.medico}}
-        			</div>
-        			<div class="cell-grid cell-cita" style="width:10%; text-align:center;">
-        				<span class="icono-cita"><i class="ti ti-calendar" style="color: #929191;"></i> Fecha:</span>
+              </div>
+              <div class="cell-grid cell-cita" style="width:10%; text-align:center;">
+                <span class="icono-cita"><i class="ti ti-calendar" style="color: #929191;"></i> Fecha:</span>
                 {{cita.seleccion.fecha_programada}}
-        			</div>
-        			<div class="cell-grid cell-cita" style="width:10%; text-align:center;">
-        				<span class="icono-cita"><i class="fa fa-clock-o" style="color: #929191;" ></i> Hora:</span>
+              </div>
+              <div class="cell-grid cell-cita" style="width:10%; text-align:center;">
+                <span class="icono-cita"><i class="fa fa-clock-o" style="color: #929191;" ></i> Hora:</span>
                 {{cita.seleccion.hora_formato}}
-        			</div>
-        			<div class="cell-grid cell-cita" style="width:10%; text-align:center;">
-        				<span class="icono-cita"><i class="ti ti-location-pin" style="color: #03a9f4;"></i> Consultorio:</span>
+              </div>
+              <div class="cell-grid cell-cita" style="width:10%; text-align:center;">
+                <span class="icono-cita"><i class="ti ti-location-pin" style="color: #03a9f4;"></i> Consultorio:</span>
                 {{cita.seleccion.numero_ambiente}}
-        			</div>
-        			<div class="cell-grid cell-cita" style="width:10%; text-align:right;">
-        				<span class="icono-cita"><i class="fa fa-money" style="color: #4caf50;"></i> Precio (S/.):</span>
+              </div>
+              <div class="cell-grid cell-cita" style="width:10%; text-align:right;">
+                <span class="icono-cita"><i class="fa fa-money" style="color: #4caf50;"></i> Precio (S/.):</span>
                 {{cita.producto.precio_sede}}
-        			</div>
-        		</div>              		
+              </div>
+            </div>        		
       		</div>
       		
           <div class="totales">
@@ -167,7 +167,8 @@
       </div>
 
       <div class="mi-grid grid-citas col-md-12 col-xs-12 col-sm-12">
-        <div class="header row-grid row-cita">
+        <div class="body-grid" style="min-height: 100px;" scroller >
+          <div class="header row-grid row-cita">
           <div class="cell-grid cell-cita" style="width:17%;">
             CITA PARA
           </div>
@@ -193,9 +194,7 @@
             <i class="fa fa-download"></i>
           </div>
         </div>
-
-        <div class="body-grid" style="min-height: 100px;">
-          <div ng-repeat="cita in fSessionCI.compra.listaCitasGeneradas" class="row-grid row-cita">
+        <div ng-repeat="cita in fSessionCI.compra.listaCitasGeneradas" class="row-grid row-cita">
             <div class="cell-grid cell-cita" style="width:17%;">
               <span class="icono-cita"><i class="fa fa-stethoscope" style="color: #36c0d1;" ></i> Cita para:</span>
               {{cita.busqueda.itemFamiliar.descripcion}}

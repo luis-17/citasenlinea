@@ -89,22 +89,23 @@
               <i class="ti ti-mouse-alt" style="left: 6px;position: relative;"></i>
               <i class="fa fa-angle-double-down"></i>
             </span> 
-            <div class="header">
+                        
+            <div class="block-visible-planning" scroller>
+              <div class="header">
               <div class="desc-header fecha-header" style="width: 95px; ">
                 H./FECHAS
               </div>                
               <div ng-repeat="fecha in fPlanning.fechas" class="{{fecha.class}}">
                 <div class="cell-fecha">{{fecha.dato}}</div>
               </div>                                 
-            </div>            
-            <div class="block-visible-planning">
-              <div class="sidebar">              
+            </div>
+            <div class="sidebar">              
                 <div ng-repeat="hora in fPlanning.horas" class="{{hora.class}}">
                   <div class="cell-hora">{{hora.dato}}</div>
                 </div>                 
               </div>
 
-              <div class="body" scroller >                              
+              <div class="body">                              
                 <div ng-repeat="column in fPlanning.grid" class="column">
                   <div ng-repeat="item in column" class="{{item.class}}" ng-if="!item.unset && fPlanning.grid[index][24].total != 0" style="height:{{30*item.rowspan}}px;" >
                     <div class="content-cell-column" >

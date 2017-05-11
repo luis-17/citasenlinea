@@ -48,8 +48,8 @@
           </div>
           <div class="historial-citas" >
             <div class="mi-grid grid-citas mb-md col-md-12 col-xs-12 col-sm-12">
-              <div class="body-grid" style="min-height: 100px;" ng-show="listaDeCitas.length > 0">
-                <div class="header row-grid row-cita" >
+              <div class="body-grid" style="min-height: 100px;" ng-show="listaDeCitas.length > 0" scroller>
+                <div class="header row-grid row-cita"  >
                   <div class="cell-grid cell-cita" style="width:17%;">
                     CITA PARA
                   </div>
@@ -128,7 +128,7 @@
                         <i class="{{cita.icon_cita}}"  style=""></i>
                       </button>
                     </div>
-                </div>    
+                </div>                     
               </div>
             </div>
             <div class="clearfix"></div>

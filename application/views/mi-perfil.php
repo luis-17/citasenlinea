@@ -1,7 +1,7 @@
 <div class="content container "  ng-controller="usuarioController" ng-init="init();" >
     <div class="perfil row">
         <div class="col-md-2 col-sm-12 col-xs-12 pl-n">
-            <div class="panel-profile" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+            <div class="panel-profile" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);background-color:transparent;">
               <div class="panel-body">
                 <img  masked-image="" class="img-circle" ng-src="{{ dirImages + 'dinamic/usuario/' + fSessionCI.nombre_imagen }}" alt=" {{ fSessionCI.username }} " /> 
                 <div class="col-sm-12">
@@ -22,8 +22,8 @@
         <div class="col-md-8 col-sm-12 col-xs-12" style="padding-bottom:20px;">
             <div class="tab-content">
                 <div class="tab-pane " ng-class="{active: selectedTab=='0'}">
-                    <div class="panel panel-default" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
-                        <div class="panel-body">
+                    <div class="panel panel-default" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);background-color:transparent;">
+                        <div class="panel-body" style="background-color:transparent;">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="row"> 
                                     <div class="tab-heading col-sm-7">                                         
@@ -158,29 +158,27 @@
                                         <div class="header-parientes btn-group-btn ">
                                             <button type="button" class="btn btn-page" ng-click="btnNuevoPariente();"><i class="fa fa-plus"></i> NUEVO</button>
                                         </div>
-                                        <div class="mi-grid grid-citas ">
-                                          <div class="header row-grid row-cita">
-                                            <div class="cell-grid cell-cita" style="width:8%;">
-                                              ID
-                                            </div>
-                                            <div class="cell-grid cell-cita" style="width:23%;">
-                                              Nombres
-                                            </div>
-                                            <div class="cell-grid cell-cita" style="width:23%;">
-                                              Apellidos
-                                            </div>
-                                            <div class="cell-grid cell-cita" style="width:15%;">
-                                              Parentesco
-                                            </div>
-                                            <div class="cell-grid cell-cita" style="width:15%;">
-                                              sexo
-                                            </div>                                                
-                                            <div class="cell-grid cell-cita" style="width:16%;">
-                                              
-                                            </div>
-                                          </div>
-
+                                        <div class="mi-grid grid-citas " scroller >
                                           <div class="body-grid" style="min-height: 100px;">
+                                            <div class="header row-grid row-cita">
+                                                <div class="cell-grid cell-cita" style="width:8%;">
+                                                  ID
+                                                </div>
+                                                <div class="cell-grid cell-cita" style="width:23%;">
+                                                  Nombres
+                                                </div>
+                                                <div class="cell-grid cell-cita" style="width:23%;">
+                                                  Apellidos
+                                                </div>
+                                                <div class="cell-grid cell-cita" style="width:15%;">
+                                                  Parentesco
+                                                </div>
+                                                <div class="cell-grid cell-cita" style="width:15%;">
+                                                  sexo
+                                                </div>                                                
+                                                <div class="cell-grid cell-cita" style="width:16%;">                                              
+                                                </div>
+                                            </div>
                                             <div ng-repeat="row in listaParientes" class="row-grid row-cita">
                                               <div class="cell-grid cell-cita" style="width:8%;">
                                                 {{row.idusuariowebpariente}}

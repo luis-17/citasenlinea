@@ -84,7 +84,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
         parienteServices.sListarParientesCbo().then(function (rpta) {
           $scope.listaFamiliares = rpta.datos;
           $scope.listaFamiliares.splice(0,0,{ idusuariowebpariente:0, 
-                                              descripcion: $scope.fSessionCI.nombres + ' (titular)',
+                                              descripcion: $scope.fSessionCI.nombres + ' [TITULAR]',
                                               paciente: $scope.fSessionCI.paciente
                                             });
           if(externo){          

@@ -422,15 +422,11 @@ appRoot.
       restrict: 'A',
       link: function(scope,elem,attrs){
           $(elem).on('scroll', function(evt){ 
-            // PROGRAMACION DE AMBIENTES 
-            $('.planning .sidebar .table').css('margin-top', -$(this).scrollTop());
-            $('.planning .header .table').css('margin-left', -$(this).scrollLeft());
-            // PROGRAMACION DE MEDICOS 
-            $('.planning-medicos .fixed-row').css('margin-left', -$(this).scrollLeft());
-            $('.planning-medicos .fixed-column').css('margin-top', -$(this).scrollTop()); 
+            // PLANNING 
+            $('.planning .header').css('top', $(this).scrollTop());     
 
-            $('.planning-medicos .fixed-row .cell-planing.ambiente').css('left', $(this).scrollLeft()); 
-            
+            //TABLAS
+            $('.body-grid .header').css('top', $(this).scrollTop());            
           });
       }
     }
