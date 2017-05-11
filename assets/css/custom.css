@@ -423,6 +423,19 @@ nav .menu-mobile.dropdown{
   font-weight: bold;
 }
 
+.menu-mobile.open .dropdown-menu{
+  position: relative;
+}
+
+.menu-mobile.open .dropdown-menu{
+  transition: width;
+  animation: underline .5s;
+}
+
+@keyframes underline {
+  from{width:0%} 
+  to{width:70%}
+}
 
 #topnav a.username img {
     height: 35px;
@@ -588,8 +601,7 @@ a.link-password:hover{
 }
 
 .page-login .capa-info{
-  text-align: left;
-  padding-top: 5%;
+  text-align: center;
   /*color: #9a999d;*/
   color: #343434;
   font-weight: bold;
@@ -597,7 +609,7 @@ a.link-password:hover{
 
 .page-login .capa-info .info-heading{   
   color: #ce1d19;
-  font-size: 22px;
+  font-size: 20px;
   text-transform: uppercase;
 }
 
@@ -611,12 +623,12 @@ a.link-password:hover{
   /*color: #36c0d1;*/
   color: #343434;
   text-transform: none;
-  font-size: 22px;
+  font-size: 19px;
   font-weight: bold;
 }
 .page-login .formulario.formulario-login,
 .page-login .formulario.formulario-registro{
-  padding-top:3%;  
+  padding-top:4%;  
 }
 
 .page-login .formulario .panel-heading{
@@ -2576,6 +2588,12 @@ input[type=radio]:checked + label:before {
     width: 90%;
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+@media only screen and (min-width : 992px) {
+  .page-login.container {
+      width: 96%;
   }
 }
 

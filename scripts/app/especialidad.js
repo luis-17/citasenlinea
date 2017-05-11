@@ -1,7 +1,7 @@
 angular.module('theme.especialidad', ['theme.core.services'])
-  .controller('especialidadController', ['$scope', '$sce', '$modal', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys', 
+  .controller('especialidadController', ['$scope', '$sce', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys', 
     'especialidadServices', 
-    function($scope, $sce, $modal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, 
+    function($scope, $sce, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, 
       especialidadServices  ){
     'use strict';
     shortcut.remove("F2"); 
