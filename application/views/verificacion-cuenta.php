@@ -2,8 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="http://www.villasalud.pe/villasalud/wp-content/uploads/bfi_thumb/gm-32qs3td1tuam0as4xkuf4a.png" />
-    <title>Sistema de Citas en Linea | Villa Salud</title>
+    <link rel="shortcut icon" href="https://www.villasalud.pe/wp-content/uploads/2016/11/gm.png" />    <title>Sistema de Citas en Linea | Villa Salud</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Villa Salud">
@@ -30,6 +29,59 @@
     <!--<script type="text/javascript"> less = { env: 'production' }; </script>
     <script type="text/javascript" src="assets/plugins/misc/less.js"></script>-->
     <!-- /prochtml -->
+    <style type="text/css">
+        .tab-heading h2{
+            color:#ce1d19;
+            font-size: 30px; 
+            font-weight: bold;         
+        }
+
+        /* Large Devices, Wide Screens */
+        @media only screen and (max-width : 1200px) {
+
+        }
+
+        /* Medium Devices, Desktops */
+        @media only screen and (max-width : 992px) {
+            .tab-heading h2 {
+                font-size: 25px;
+            }
+        }
+
+        /* Small Devices, Tablets */
+        @media only screen and (max-width : 768px) {
+            .container-fluid {
+                padding-top: 25%;
+            }
+        }
+
+        /* Extra Small Devices, Phones */ 
+        @media only screen and (max-width : 480px) {
+            #topnav .navbar-brand {
+                width: 160px !important;
+            }
+
+            .page-header .texto {
+                font-size: 16px;
+                letter-spacing: 0;
+                position: relative;
+                top: 10px;
+            }
+
+            .tab-heading h2 {
+                font-size: 20px;
+            }
+
+            .container-fluid {
+                padding-top: 50%;
+            }
+        }
+
+        /* Custom, iPhone Retina */ 
+        @media only screen and (max-width : 320px) {
+            
+        }
+    </style>
     
 </head>
 
@@ -38,24 +90,17 @@
         <section class="page-header logo-left secondary-page" >
             <div class="container col-md-12 ">
                 <div class="clearfix row">
-                    <div class="col-md-3 col-md-offset-3 col-sm-12">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
                         <div class="logo-area">
-                            <a class="navbar-brand" >Villa Salud</a>
-                            <div class="toolbar-icon-bg hidden-xs" id="toolbar-search" ng-class="{active: getLayoutOption('showSmallSearchBar')}">
-                                <div class="input-group">
-                                    <!-- <span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"> ESPECIALIDAD: </i></button></span> -->
-                                    <!-- <input type="text" class="form-control" placeholder="Search...">  -->
-                                    <span class="input-group-btn">
-                                        <button class="btn" type="button" ng-click="toggleSearchBar($event)"><i class="ti ti-close"></i></button>
-                                    </span>
-                                </div>
-                            </div>
+                            <a href="#/" class="navbar-brand" >Villa Salud</a>    
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-12">
-                        <div class="lema-area">
-                            <a class="texto">CITAS EN LÍNEA</a>
-                            <!-- <div class="lema pb-xs" >Villa Salud, Te Cuida!</div> -->
+                    <div class="col-md-8 col-sm-8 col-xs-8" >
+                        <div class="logo-central">
+                            <a href="#/" class="navbar-brand-central" >Villa Salud</a>
+                        </div>
+                        <div class="logo-whatsapp">
+                            <a href="#/" class="navbar-brand-whatsapp" >Villa Salud</a>
                         </div>
                     </div>                  
                 </div>
@@ -64,78 +109,88 @@
         <div class="page-separador"></div>    
     </header>
     <style>
-        #topnav .navbar-brand{
+        #topnav .navbar-brand  {
           background: url("../../assets/img/dinamic/empresa/logo-250x60.png") no-repeat left 0 center;
           background-size: contain;
           width: 250px;
           height: 60px;
         }
 
+        #topnav .navbar-brand-central,
+        #topnav .navbar-brand-whatsapp{
+            font: 0/0 a !important;
+            color: transparent !important;
+            text-shadow: none !important;
+            background-color: transparent !important;
+            border: 0 !important;
+            background-size: contain !important;
+            width: 200px;
+            height: 60px;
+            display: block;
+            float: left;            
+        } 
+
+        #topnav .logo-central{
+            /*width: 99%;
+            margin-left: auto;
+            margin-right: auto;*/
+            float: right;
+        }           
+
+        #topnav .logo-whatsapp{
+            float: right;
+        }       
+
+        #topnav .navbar-brand-central {
+          background: url("../../assets/img/dinamic/empresa/central-250x60.png") no-repeat left 0 center;
+        }
+
+        #topnav .navbar-brand-whatsapp {
+          background: url("../../assets/img/dinamic/empresa/whatsapp-250x60.png") no-repeat left 0 center;          
+        }
+
+
+        .static-content-wrapper {
+            padding: 0;
+            margin-bottom: 0;
+            background: url("../../assets/img/dinamic/empresa/banner-familia.jpg") no-repeat left top;
+            background-size: cover;
+        }
+        .static-content-wrapper-top {
+            background: url("../../assets/img/dinamic/empresa/banner-medico.png") no-repeat left 0;
+            background-size: cover;
+            width: 100%;
+            height: 80%;
+            position: absolute;
+            z-index: 0;
+            bottom: 0;
+            left: 0;
+            animation: animatedBackground 3s;
+        }
+
+        @keyframes animatedBackground {
+            from { background-position: 0 150%; }
+            to { background-position: 0 0; }
+        }
     </style>
 
     <div id="wrapper">
         <div id="layout-static">
-            <div class="static-content-wrapper">
+            <div class="static-content-wrapper"></div>
+            <div class="static-content-wrapper-top active">
                 <div class="static-content">
                     <div class="container-fluid "  style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
-                        <div class="col-md-6 col-md-offset-3 col-sm-12" style="padding-top:15px;">
-                        
-                            <div class="tab-heading">
-                                <span class="icon"><i class="ti ti-check"></i></span> 
-                                <div>
-                                    <h2 class="title">Ha sido activada tu cuenta satisfactoriamente</h2> 
-                                    <p class="descripcion">Comienza a disfrutar los beneficios de ser un paciente de Villa Salud</p>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">                                                                                           
-                                <div class=""> 
-
-                                </div>
-                            </div>                            
-                        </div>
-
-                        <!-- <div class="col-md-10 col-md-offset-1 col-sm-12" style="padding-top:20%">
-                            <div class="col-md-12 col-xs-12 col-sm-12">
-                                <div class="call-actions mt-md">
-                                    <div class="col-md-4 col-xs-12 col-sm-12">
-                                        <div class="btn btn-page btn-go-citas">
-                                            <i class="fa fa-angle-left"></i> PROGRAMAR CITAS                             
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 col-xs-12 col-sm-12">
-                                        <a href="http://www.villasalud.pe" target="_blank"> 
-                                            <span class="lema" >
-                                                Villa Salud, Te Cuida!
-                                            </span>
-                                        </a>                            
-                                    </div>
-
-                                    <div class="col-md-4 col-xs-12 col-sm-12">
-                                        <a class="btn-go-historial">MIRA TUS 
-                                            <span class="historial">RESULTADOS DE LABORATORIO</span>
-                                            <i class="fa fa-angle-right"></i>
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 5%;float: right;">                        
+                            <div class="tab-heading">                                
+                                <h2 style=""><i class="ti ti-check"></i>Ha sido activada tu cuenta satisfactoriamente</h2> 
+                                <p class="descripcion" style="color: #262e32;font-size: 18px;">Comienza a disfrutar los beneficios de ser un paciente de Villa Salud</p>
+                            </div> 
+                            <div class="col-sm-12 col-xs-12 col-md-12" style="">                                                                                           
+                                <a href="/citasenlinea" class="btn btn-page" style="width: 200px; -webkit-box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);">INICIAR SESION</a>
+                            </div>                           
+                        </div>                        
                     </div>
                 </div>
-                <footer role="contentinfo" ng-show="!layoutLoading" ng-cloak>
-                    <div class="container">
-                        <div class="clearfix">
-                            <ul class="list-unstyled list-inline pull-left">
-                                <li>
-                                    <h6 style="">Copyrights &copy; 2017: Villa Salud - Perú</h6>
-                                </li>
-                            </ul>
-                            <button class="pull-right btn btn-link btn-xs hidden-print" back-to-top><i class="ti ti-arrow-up"></i></button>
-                        </div>
-                    </div>
-                </footer>
             </div>
         </div>
     </div>
