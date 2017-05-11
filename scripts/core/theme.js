@@ -23,6 +23,7 @@ angular
     'ui.grid.moveColumns', 
     'ui.grid.exporter', 
     'ui.grid.pinning',
+    'ui.select',
     'theme.core.templates', 
     'theme.core.template_overrides', 
     'theme.core.directives',
