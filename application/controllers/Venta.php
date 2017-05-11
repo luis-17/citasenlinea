@@ -278,6 +278,7 @@ class Venta extends CI_Controller {
 				  	$arrData['datos']['error'] = get_object_vars(json_decode($e->getMessage()));
 				  	$arrData['message'] = $arrData['datos']['error']['merchant_message'];
 				  	$arrData['flag'] = 0;
+				  	$error = TRUE;
 				}				
 			}
 		}else{

@@ -438,7 +438,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
               scope: $scope,
               controller: function ($scope, $modalInstance) {                 
                 $scope.titleForm = 'Aviso'; 
-                $scope.msj = rpta.message;
+                $scope.msj = Culqi.error.user_message;
                 $scope.btnCancel = function(){
                   $modalInstance.dismiss('btnCancel');
                 }
