@@ -79,111 +79,7 @@ angular.module('theme.usuario', ['theme.core.services'])
     $scope.initRegistrarUsuario = function(){ 
       $scope.fDataUser = {}; 
       $scope.fDataUser.sexo = '-'; 
-      $scope.captchaValidoReg = false;             
-
-      $scope.btnCancel = function(){
-        $modalInstance.dismiss('btnCancel');
-      }
-
-      $scope.registrarUsuario = function (){
-        $scope.crearAlerta = function(msg){
-          $scope.fAlert = {};
-          $scope.fAlert.type= 'danger';
-          $scope.fAlert.msg= msg;
-          $scope.fAlert.strStrong = 'Error';
-          $scope.fAlert.icon = 'fa fa-exclamation';
-          return;
-        }
-        
-        if(!$scope.fDataUser.num_documento || $scope.fDataUser.num_documento == null || $scope.fDataUser.num_documento == ''){          
-          $scope.crearAlerta('Debe ingresar un Número de documento.');
-          return;
-        }
-
-        if(!$scope.fDataUser.nombres || $scope.fDataUser.nombres == null || $scope.fDataUser.nombres == ''){
-          $scope.crearAlerta('Debe ingresar Nombres.');
-          return;
-        }
-
-        if(!$scope.fDataUser.apellido_paterno || $scope.fDataUser.apellido_paterno == null || $scope.fDataUser.apellido_paterno == ''){
-          $scope.crearAlerta('Debe ingresar Apellido paterno.');
-          return;
-        }
-
-        if(!$scope.fDataUser.apellido_materno || $scope.fDataUser.apellido_materno == null || $scope.fDataUser.apellido_materno == ''){
-          $scope.crearAlerta('Debe ingresar Apellido materno.');
-          return;
-        } 
-
-        if(!$scope.fDataUser.email || $scope.fDataUser.email == null || $scope.fDataUser.email == ''){
-          $scope.crearAlerta('Debe ingresar E-mail.');
-          return;
-        }         
-
-        if(!$scope.fDataUser.fecha_nacimiento || $scope.fDataUser.fecha_nacimiento == null || $scope.fDataUser.fecha_nacimiento == ''){
-          $scope.crearAlerta('Debe ingresar Fecha Nacimiento.');
-          return;
-        }
-
-        if(!$scope.fDataUser.celular || $scope.fDataUser.celular == null || $scope.fDataUser.celular == ''){
-          $scope.crearAlerta('Debe ingresar Celular.');
-          return;
-        }         
-
-        if($scope.fDataUser.sexo =='-'){
-          $scope.crearAlerta('Seleccione sexo.');
-          return;
-        }
-
-        if(!$scope.fDataUser.clave || $scope.fDataUser.clave == null || $scope.fDataUser.clave == ''
-           || !$scope.fDataUser.repeat_clave || $scope.fDataUser.repeat_clave == null || $scope.fDataUser.repeat_clave == ''){
-          $scope.crearAlerta('Debe ingresar Claves.');
-          return;
-        }
-
-        if($scope.fDataUser.clave !== $scope.fDataUser.repeat_clave){
-          $scope.crearAlerta('Las claves ingresadas no coinciden');
-          return;
-        }
-
-        if(!$scope.captchaValidoReg){
-          $scope.fAlert = {};
-          $scope.fAlert.type= 'danger';
-          $scope.fAlert.msg= 'Debe completar reCaptcha';
-          $scope.fAlert.strStrong = 'Error';
-          return;
-        }
-
-        usuarioServices.sRegistrarUsuario($scope.fDataUser).then(function (rpta) {       
-          if(rpta.flag == 0){
-            $scope.fAlert = {};
-            $scope.fAlert.type= 'danger';
-            $scope.fAlert.msg= rpta.message;
-            $scope.fAlert.strStrong = 'Error';
-            $scope.fAlert.icon = 'fa fa-exclamation';
-          }else if(rpta.flag == 1){
-            $scope.fDataUser = {};
-            $scope.fDataUser.sexo = '-';
-            $scope.fAlert = {};
-            $scope.btnViewLogin();
-            $uibModal.open({ 
-              templateUrl: angular.patchURLCI+'Usuario/ver_popup_aviso',
-              size: 'sm',
-              //backdrop: 'static',
-              //keyboard:false,
-              scope: $scope,
-              controller: function ($scope, $modalInstance) {                 
-                $scope.titleForm = 'Genial! '; 
-                $scope.msj = rpta.message;
-
-                $scope.btnCancel = function(){
-                  $modalInstance.dismiss('btnCancel');
-                }
-              }
-            });
-          }
-        });
-      }   
+      $scope.captchaValidoReg = false;   
     }
 
     $scope.verificarDoc = function(){
@@ -222,6 +118,110 @@ angular.module('theme.usuario', ['theme.core.services'])
         $scope.fAlert.flag = rpta.flag;
       });
     }
+
+    $scope.btnCancel = function(){
+      $modalInstance.dismiss('btnCancel');
+    }
+
+    $scope.registrarUsuario = function (){
+      $scope.crearAlerta = function(msg){
+        $scope.fAlert = {};
+        $scope.fAlert.type= 'danger';
+        $scope.fAlert.msg= msg;
+        $scope.fAlert.strStrong = 'Error';
+        $scope.fAlert.icon = 'fa fa-exclamation';
+        return;
+      }
+      
+      if(!$scope.fDataUser.num_documento || $scope.fDataUser.num_documento == null || $scope.fDataUser.num_documento == ''){          
+        $scope.crearAlerta('Debe ingresar un Número de documento.');
+        return;
+      }
+
+      if(!$scope.fDataUser.nombres || $scope.fDataUser.nombres == null || $scope.fDataUser.nombres == ''){
+        $scope.crearAlerta('Debe ingresar Nombres.');
+        return;
+      }
+
+      if(!$scope.fDataUser.apellido_paterno || $scope.fDataUser.apellido_paterno == null || $scope.fDataUser.apellido_paterno == ''){
+        $scope.crearAlerta('Debe ingresar Apellido paterno.');
+        return;
+      }
+
+      if(!$scope.fDataUser.apellido_materno || $scope.fDataUser.apellido_materno == null || $scope.fDataUser.apellido_materno == ''){
+        $scope.crearAlerta('Debe ingresar Apellido materno.');
+        return;
+      } 
+
+      if(!$scope.fDataUser.email || $scope.fDataUser.email == null || $scope.fDataUser.email == ''){
+        $scope.crearAlerta('Debe ingresar E-mail.');
+        return;
+      }         
+
+      if(!$scope.fDataUser.fecha_nacimiento || $scope.fDataUser.fecha_nacimiento == null || $scope.fDataUser.fecha_nacimiento == ''){
+        $scope.crearAlerta('Debe ingresar Fecha Nacimiento.');
+        return;
+      }
+
+      if(!$scope.fDataUser.celular || $scope.fDataUser.celular == null || $scope.fDataUser.celular == ''){
+        $scope.crearAlerta('Debe ingresar Celular.');
+        return;
+      }         
+
+      if($scope.fDataUser.sexo =='-'){
+        $scope.crearAlerta('Seleccione sexo.');
+        return;
+      }
+
+      if(!$scope.fDataUser.clave || $scope.fDataUser.clave == null || $scope.fDataUser.clave == ''
+         || !$scope.fDataUser.repeat_clave || $scope.fDataUser.repeat_clave == null || $scope.fDataUser.repeat_clave == ''){
+        $scope.crearAlerta('Debe ingresar Claves.');
+        return;
+      }
+
+      if($scope.fDataUser.clave !== $scope.fDataUser.repeat_clave){
+        $scope.crearAlerta('Las claves ingresadas no coinciden');
+        return;
+      }
+
+      if(!$scope.captchaValidoReg){
+        $scope.fAlert = {};
+        $scope.fAlert.type= 'danger';
+        $scope.fAlert.msg= 'Debe completar reCaptcha';
+        $scope.fAlert.strStrong = 'Error';
+        return;
+      }
+
+      usuarioServices.sRegistrarUsuario($scope.fDataUser).then(function (rpta) {       
+        if(rpta.flag == 0){
+          $scope.fAlert = {};
+          $scope.fAlert.type= 'danger';
+          $scope.fAlert.msg= rpta.message;
+          $scope.fAlert.strStrong = 'Error';
+          $scope.fAlert.icon = 'fa fa-exclamation';
+        }else if(rpta.flag == 1){
+          $scope.fDataUser = {};
+          $scope.fDataUser.sexo = '-';
+          $scope.fAlert = {};
+          $scope.btnViewLogin();
+          $uibModal.open({ 
+            templateUrl: angular.patchURLCI+'Usuario/ver_popup_aviso',
+            size: 'sm',
+            //backdrop: 'static',
+            //keyboard:false,
+            scope: $scope,
+            controller: function ($scope, $modalInstance) {                 
+              $scope.titleForm = 'Genial! '; 
+              $scope.msj = rpta.message;
+
+              $scope.btnCancel = function(){
+                $modalInstance.dismiss('btnCancel');
+              }
+            }
+          });
+        }
+      });
+    } 
 
     $scope.closeAlert = function() {
         $scope.fAlert = null;
