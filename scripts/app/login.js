@@ -1,5 +1,5 @@
 angular.module('theme.login', ['theme.core.services'])
-  .controller('loginController', function($scope, $theme, $controller, loginServices, rootServices ){
+  .controller('loginController', function($scope, $theme, $controller, $uibModal, loginServices, rootServices ){
     //'use strict';
     $theme.set('fullscreen', true);
 
@@ -64,16 +64,66 @@ angular.module('theme.login', ['theme.core.services'])
         //$scope.fLogin = {};
       });
     }
+
+    $scope.btnResendPass = function (){
+      $scope.fRecuperaDatos = {};
+      $uibModal.open({ 
+        templateUrl: angular.patchURLCI+'Acceso/ver_popup_formulario_password',
+        size: '',
+        backdrop: 'static',
+        keyboard:false,
+        scope: $scope,
+        controller: function ($scope, $modalInstance) {                 
+          $scope.titleForm = 'Generar nueva contraseña';   
+
+          $scope.btnCancel = function(){
+            $scope.fAlertPass = null;
+            $modalInstance.dismiss('btnCancel');            
+          }
+
+          $scope.generaNewPassword = function(){
+            loginServices.sGeneraNewPassword($scope.fRecuperaDatos).then(function(response){
+              $scope.fAlertPass = {};
+              if( response.flag == 1 ){ // SE GENERO CORRECTAMENTE 
+                $scope.fAlertPass.type= 'success';
+                $scope.fAlertPass.msg= response.message;
+                $scope.fAlertPass.strStrong = 'Genial! ';                
+              }else if( response.flag == 0 ){ // NO PUDO GENERAR
+                $scope.fAlertPass.type= 'danger';
+                $scope.fAlertPass.msg= response.message;
+                $scope.fAlertPass.strStrong = 'Error. ';
+              }else if( response.flag == 2 ){  // OTRA COSA
+                $scope.fAlertPass.type= 'warning';
+                $scope.fAlertPass.msg= response.message;
+                $scope.fAlertPass.strStrong = 'Información. ';
+              }else{
+                alert('Error Inesperado.');
+              }
+              $scope.fRecuperaDatos = {};
+            });
+          }
+        }
+      });
+    }
   })
   .service("loginServices",function($http, $q) {
     return({
-        sLoginToSystem: sLoginToSystem
+        sLoginToSystem: sLoginToSystem,
+        sGeneraNewPassword: sGeneraNewPassword
     });
 
     function sLoginToSystem(datos) { 
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"acceso/", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }    
+    function sGeneraNewPassword(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"acceso/genera_new_password", 
             data : datos
       });
       return (request.then( handleSuccess,handleError ));

@@ -105,19 +105,19 @@
                                                         <div class="row">
                                                             <div class="form-group mb-n col-md-4 col-sm-12 col-xs-12">
                                                                 <label class="control-label mb-xs">Contraseña Actual <small class="text-danger">(*)</small> </label> 
-                                                                <input id="clave" required type="password" class="form-control " ng-model="fDataUserUsuario.clave" placeholder="Ingresa su contraseña actual" />
+                                                                <input id="clave" required type="password" class="form-control " ng-model="fDataUsuario.clave" placeholder="Ingresa su contraseña actual" />
                                                             </div>
                                                     
                                                             <div class="form-group mb-n col-md-4 col-sm-12 col-xs-12">
                                                             <label class="control-label mb-xs">Nueva Contraseña <small class="text-danger">(*)</small> </label> 
-                                                            <input id="nuevoPass" required ng-minlength="8" type="password" class="form-control " ng-model="fDataUserUsuario.claveNueva" 
+                                                            <input id="nuevoPass" required ng-minlength="8" type="password" class="form-control " ng-model="fDataUsuario.claveNueva" 
                                                                 placeholder="Nueva contraseña (Min 8 caracteres)" tooltip-placement="top-left" 
                                                                 uib-tooltip="Por seguridad, te recomendamos que tu contraseña sea de 8 caracteres y contenga al menos 1 mayúscula, 1 minúscula y 1 número"/>
                                                             </div>
                                                     
                                                             <div class="form-group mb-n col-md-4 col-sm-12 col-xs-12">
                                                                 <label class="control-label mb-xs">Confirmar Nueva Contraseña <small class="text-danger">(*)</small> </label> 
-                                                                <input required ng-minlength="8" type="password" class="form-control " ng-model="fDataUserUsuario.claveConfirmar" placeholder="Confirme su nueva contraseña" />
+                                                                <input required ng-minlength="8" type="password" class="form-control " ng-model="fDataUsuario.claveConfirmar" placeholder="Confirme su nueva contraseña" />
                                                             </div>
                                                         </div>
                                                     </div>                                                    

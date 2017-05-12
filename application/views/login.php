@@ -5,11 +5,18 @@
             margin-bottom: 0;
             background: url("{{ dirImages + 'dinamic/empresa/banner-2.jpg'}}") no-repeat left top;
             background-size: cover;
+            background-position-x: -100px;
         }
 
         @media only screen and (max-width : 991px) {
           .static-content-wrapper{
             background: none;
+          }  
+        }
+
+        @media only screen and (min-width : 1200px) {
+          .static-content-wrapper{
+            background-position-x: 0px;
           }  
         }
     </style>
@@ -58,7 +65,7 @@
                             </div>
 
                             <div class="col-xs-12 set-password">
-                                <a href="extras-forgotpassword.html" class="link-password">
+                                <a ng-click="btnResendPass();" class="link-password">
                                     ¿Olvidaste tu contraseña?
                                 </a>
                             </div>

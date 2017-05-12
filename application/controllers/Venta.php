@@ -333,7 +333,7 @@ class Venta extends CI_Controller {
 	                  <div style="text-align: center;">
 	                    <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
 	                  </div>';
-	   	$cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';             
+	   	$cuerpo .= '  <div style="max-width: 780px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';             
         $cuerpo .= '  <div style="font-size:16px;">  
                         Estimado(a) usuario: '.$allInputs['usuario']['paciente'] .', <br /> <br /> ';
         $cuerpo .= '    Han sido regitradas las siguientes citas en tu cuenta:';
@@ -379,8 +379,7 @@ class Venta extends CI_Controller {
 			}   
 		} 
 
-		$cuerpo .= '	</ul>			            
-			        </div>';
+		$cuerpo .= '</div>';
 
 		$cuerpo .= '<div style="border-top: 2px dotted rgb(97, 97, 97); margin-bottom: 5px;"> </div>';
 
@@ -408,8 +407,8 @@ class Venta extends CI_Controller {
 					  <span style="text-align:left;width:60%;">TOTAL A PAGAR: S/. </span>
 					  <span style="text-align:right;width:40%;">'.$allInputs['usuario']['compra']['totales']['total_pago'].'</span>
 					</div>';
-		$cuerpo .=    '</div>';
-		$cuerpo .= '<div>Tu comprobante está en proceso de ser emitido. Recibirás un mail cuando esté listo! </div>';
+		$cuerpo .= '<div style="margin-top:15px;">Tu comprobante está en proceso de ser emitido. Recibirás un mail cuando esté listo! </div>';
+		$cuerpo .= '</div>';		
 	    $cuerpo .= '<div style="text-align: center;">
 	    				<img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
 	    			</div>';

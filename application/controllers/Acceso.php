@@ -226,4 +226,107 @@ class Acceso extends CI_Controller {
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));
 	}
+
+	public function ver_popup_formulario_password(){
+		$this->load->view('usuario/resendPass_formView');
+	}
+
+	public function genera_new_password(){
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+		if(empty($allInputs['num_documento'])){
+			$arrData['flag'] = 0;
+			$arrData['message'] = 'Debes ingresar un N° de documento';	
+			$this->output
+			    ->set_content_type('application/json')
+			    ->set_output(json_encode($arrData));
+			return;
+		}
+
+		if(empty($allInputs['email'])){
+			$arrData['flag'] = 0;
+			$arrData['message'] = 'Debes ingresar un email';	
+			$this->output
+			    ->set_content_type('application/json')
+			    ->set_output(json_encode($arrData));
+			return;
+		}
+
+		$user = $this->model_usuario->m_cargar_por_documento($allInputs);
+
+		if(empty($user['idusuarioweb'])){
+			$arrData['flag'] = 0;
+			$arrData['message'] = 'N° de documento no registrado.';	
+			$this->output
+			    ->set_content_type('application/json')
+			    ->set_output(json_encode($arrData));
+			return;
+		}
+
+		if(strtolower($user['email']) != strtolower($allInputs['email'])){
+			$arrData['flag'] = 0;
+			$arrData['message'] = 'N° de documento o email incorrecto.';	
+			$this->output
+			    ->set_content_type('application/json')
+			    ->set_output(json_encode($arrData));
+			return;
+		}
+
+		$psswd = substr( md5(microtime()), 1, 8);
+		//$arrData['password'] = $psswd;
+		$data = array(
+			'claveNueva' => $psswd,
+			'idusuario' => $user['idusuarioweb']
+			);
+
+		if($this->model_usuario->m_actualizar_password($data)){
+			$arrData['flag'] = 1;
+			$arrData['message'] = 'Nueva contraseña generada.';	
+
+			//envia mail
+			$listaDestinatarios = array();
+			array_push($listaDestinatarios, $user['email']);
+	        $paciente = ucwords(strtolower( $user['nombres'] . ' ' . 
+	                      $user['apellido_paterno'] . ' ' . 
+	                      $user['apellido_materno']));
+
+	        $setFromAleas = 'Villa Salud';
+	        $subject = 'Nueva contraseña generada';
+	        $cuerpo = '<html>'; 
+	        $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
+	                    <div style="text-align: center;">
+	                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+	                    </div>';
+	        $cuerpo .= '  <div style="max-width: 780px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';
+
+	        $cuerpo .= '    <div style="font-size:16px;">  
+	                          Estimado(a) usuario: '.$paciente .', <br />';
+	        $cuerpo .= '      Has generado una nueva contraseña para nuestro sistema en linea. Nueva contraseña: <b>'.$psswd.'</b></br>Podrás cambiarla luego de ingresar, en la sección "Mi perfil".';
+	        $cuerpo .=    ' </div>';
+	        $cuerpo .=    '</div>';
+	        $cuerpo .= '<div style="text-align: center;margin: 25px 0 25px 0;">
+							<a href="'. base_url() .'" style="width: 200px;
+                                                        padding: 5px 10px;
+                                                        margin-left: auto;
+                                                        margin-right: auto;
+                                                        color: #616161;
+                                                        border-radius: 5px;
+                                                        font-weight: bold;
+                                                        text-decoration: none;
+                                                        background: #6dd1de;">
+		                        INICIAR SESION <i class="fa fa-angle-right"></i>
+		                    </a>
+						</div>';
+	        $cuerpo .= '<div style="text-align: center;">
+	    				<img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
+	    			</div>';
+	        $cuerpo .= '</body>';
+	        $cuerpo .= '</html>';
+
+	        $result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
+		}
+
+		$this->output
+		    ->set_content_type('application/json')
+		    ->set_output(json_encode($arrData));
+	}	
 }

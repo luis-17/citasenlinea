@@ -191,7 +191,8 @@ class Usuario extends CI_Controller {
         //envio mail
         $listaDestinatarios = array();
 
-        array_push($listaDestinatarios, $usuario['email']);
+        //array_push($listaDestinatarios, $usuario['email']);
+        array_push($listaDestinatarios, 'yerald02@hotmail.com');
         $paciente = ucwords(strtolower( $usuario['nombres'] . ' ' . 
                       $usuario['apellido_paterno'] . ' ' . 
                       $usuario['apellido_materno']));
@@ -206,14 +207,30 @@ class Usuario extends CI_Controller {
         $cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';
 
         $cuerpo .= '    <div style="font-size:16px;">  
-                          Estimado(a) paciente: '.$paciente .', <br /> <br /> ';
-        $cuerpo .= '      Tu cuenta ha sido verificada exitosamente y ya puedes iniciar sesión. <a href="'. base_url() .'">Haz clic aquí</a> para comenzar a disfrutar los beneficios de ser un paciente de Villa Salud!';
+                          Estimado(a) usuario: '.$paciente .', <br /> <br /> ';
+        $cuerpo .= '      Tu cuenta ha sido verificada exitosamente... Ya puedes iniciar sesión para comenzar a disfrutar los beneficios de ser un paciente de Villa Salud!';
         $cuerpo .=    ' </div>';
         $cuerpo .=    '</div>';
+        $cuerpo .= '<div style="text-align: center;margin: 20px 0 20px 0;">
+                      <a href="'. base_url() .'" style="width: 200px;
+                                                        padding: 5px 10px;
+                                                        margin-left: auto;
+                                                        margin-right: auto;
+                                                        color: #616161;
+                                                        border-radius: 5px;
+                                                        font-weight: bold;
+                                                        text-decoration: none;
+                                                        background: #6dd1de;">
+                        INICIAR SESION <i class="fa fa-angle-right"></i>
+                      </a>
+                    </div>';
+        $cuerpo .= '<div style="text-align: center;">
+                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
+                    </div>';
         $cuerpo .= '</body>';
         $cuerpo .= '</html>';
 
-        //$result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
+        $result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
 
         $this->load->view('verificacion-cuenta');
       }else{
