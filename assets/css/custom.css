@@ -2621,3 +2621,8 @@ input[type=radio]:checked + label:before {
 #topnav .notifications .media a:hover .notification-icon i:hover {
   color:#fff;
 }
+
+table.two-axis th {
+    background: #36c0d1;
+    color: #212121;
+}

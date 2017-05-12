@@ -15,14 +15,28 @@
 
 <div ng-controller="resultadolaboratorioController as ctrl">
     <div class="container">
-      <div class="form-group mt-md mb-md col-md-12 pl-n">
+      <!-- <div class="form-group mt-md mb-md col-md-12 pl-n">
         <div class="col-md-2 col-xs-12 col-sm-3 pr-n pl-n">
           <img id="img-lab" class="pull-left" ng-src="{{ dirImages + 'dinamic/empresa/gm-laboratorio5.png'}}" width="100" height="100"/>       
         </div>
-        <div class="col-md-10 col-xs-12 col-sm-9 pl-n pt-md pb-n" style="border-bottom: 2px solid #95A5A7;">
-          <h3 class="resultado pb-n"> Resultados de Laboratorio</h3> 
-          <h4 class="datos pull-right pt-sm"><span class="ti ti-user"></span> Paciente : <strong>{{ fSessionCI.nombres }} {{ fSessionCI.apellido_paterno}} {{ fSessionCI.apellido_materno }} </strong></h4>
+        <div class="col-md-12 col-xs-12 col-sm-12 p-n" style="border-bottom: 2px solid #95A5A7;">
+          <div class="col-md-6 col-xs-12 col-sm-6 pl-n pt-md pb-n">
+            <h3 class="resultado pb-n"> Resultados de Laboratorio</h3> 
+          </div>
+          <div class="col-md-6 col-xs-12 col-sm-6 pl-n pt-md pb-n" >
+            <h4 class="datos pt-sm"><span class="ti ti-user"></span> Paciente : <strong>{{ fSessionCI.nombres }} {{ fSessionCI.apellido_paterno}} {{ fSessionCI.apellido_materno }} </strong></h4>
+          </div>
         </div>
+      </div> -->
+      <div class="row">
+          <div class="tab-heading col-sm-7">                                        
+              <div>
+                  <h2 class="title">
+                      <span class="icon"><i class="fa fa-flask"></i></span> Resultados de Laboratorio
+                  </h2> 
+                  <p class="descripcion"><span class="ti ti-user"></span> Paciente: {{ fSessionCI.nombres }} {{ fSessionCI.apellido_paterno}} {{ fSessionCI.apellido_materno }} </p>
+              </div>
+          </div>
       </div>
       <!--<div class="clearfix"></div>-->
       <div class="form-group"><!-- grid de ordenes -->
@@ -64,7 +78,7 @@
             </div>
           </div>
           <div class="form-group col-md-2 pt-md mt-md pl-n">
-            <button type="button" ng-click="ctrl.ListarResultados()" class="btn btn-info" ng-disabled="ctrl.examen.selected == undefined" >
+            <button type="button" ng-click="ctrl.ListarResultados()" class="btn btn-page" ng-disabled="ctrl.examen.selected == undefined" >
               <span class="glyphicon glyphicon-search"></span> Consultar
             </button>
           </div>
