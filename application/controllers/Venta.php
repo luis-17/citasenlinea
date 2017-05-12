@@ -246,6 +246,7 @@ class Venta extends CI_Controller {
 							'idculqitracking' => $arrData['datos']['cargo']['id'],
 							'codigo_referencia_culqi' => $arrData['datos']['cargo']['reference_code'],
 							'descripcion_cargo' => $config['DESCRIPCION_CARGO'],
+							'fecha_pago' =>  date('Y-m-d H:i:s'),
 							'createdAt' =>  date('Y-m-d H:i:s'),
 							'updatedAt' =>  date('Y-m-d H:i:s'),
 						);
