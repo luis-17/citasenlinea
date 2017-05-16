@@ -104,6 +104,8 @@ angular.module('theme.pariente', ['theme.core.services'])
       $scope.fData = {}; 
       $scope.fData.sexo = '-'; 
       $scope.accion ='reg';
+      $scope.fAlert = {};
+      $scope.fAlertFam = {};
       parentescoServices.sListarParentescoCbo().then(function(rpta){
         $scope.regListaParentescos = rpta.datos;
         $scope.regListaParentescos.splice(0,0,{ id : 0, idparentesco:0, descripcion:'SELECCIONE PARENTESCO'});
@@ -166,6 +168,7 @@ angular.module('theme.pariente', ['theme.core.services'])
           $scope.btnRegistrarPariente = function (){
             parienteServices.sRegistrarPariente($scope.fData).then(function (rpta) {              
               $scope.fAlert = {};
+              $scope.fAlertFam = {};
               if(rpta.flag == 0){
                 $scope.fAlert = {};
                 $scope.fAlert.type= 'danger';
@@ -175,14 +178,16 @@ angular.module('theme.pariente', ['theme.core.services'])
               }else if(rpta.flag == 1){
                 $scope.fData = {};
                 $scope.fData.sexo = '-';
-                $scope.fAlert.type= 'success';
-                $scope.fAlert.msg= rpta.message;
-                $scope.fAlert.icon= 'fa fa-smile-o';
-                $scope.fAlert.strStrong = 'Genial! ';
+                $scope.fAlertFam.type= 'success';
+                $scope.fAlertFam.msg= rpta.message;
+                $scope.fAlertFam.icon= 'fa fa-smile-o';
+                $scope.fAlertFam.strStrong = 'Genial! ';
+                $scope.fAlertFam.flag = rpta.flag;
                 if(callback){
                   callback();                  
                 }else{
                   $scope.refreshListaParientes();
+                  $scope.btnCancel();
                 }
                 $scope.getNotificacionesEventos();
                 $scope.btnCancel();                
@@ -225,6 +230,7 @@ angular.module('theme.pariente', ['theme.core.services'])
           $scope.btnActualizarPariente = function (){
             parienteServices.sActualizarPariente($scope.fData).then(function (rpta) {              
               $scope.fAlert = {};
+              $scope.fAlertFam = {};
               if(rpta.flag == 0){
                 $scope.fAlert = {};
                 $scope.fAlert.type= 'danger';
@@ -234,14 +240,16 @@ angular.module('theme.pariente', ['theme.core.services'])
               }else if(rpta.flag == 1){
                 $scope.fData = {};
                 $scope.fData.sexo = '-';
-                $scope.fAlert.type= 'success';
-                $scope.fAlert.msg= rpta.message;
-                $scope.fAlert.icon= 'fa fa-smile-o';
-                $scope.fAlert.strStrong = 'Genial! ';
+                $scope.fAlertFam.type= 'success';
+                $scope.fAlertFam.msg= rpta.message;
+                $scope.fAlertFam.icon= 'fa fa-smile-o';
+                $scope.fAlertFam.strStrong = 'Genial! ';
+                $scope.fAlertFam.flag = rpta.flag;
                 $scope.refreshListaParientes();
                 $scope.btnCancel();
               }
               $scope.fAlert.flag = rpta.flag;
+              
             });
           }   
         

@@ -20,7 +20,10 @@
 					<div class="input-group">
 						<input type="text" class="form-control  " ng-model="fData.num_documento" placeholder="Registre su dni" tabindex="1" focus-me ng-minlength="8" ng-pattern="/^[0-9]*$/"/> 
 						<div class="input-group-btn ">
-							<button type="button" class="btn btn-default" ng-click="verificarDoc(); $event.preventDefault();" ><i class="fa fa-search"></i></button>
+							<button type="button" class="btn btn-default" ng-click="verificarDoc(); $event.preventDefault();"
+													ng-enter="verificarDoc(); $event.preventDefault();" >
+								<i class="fa fa-search"></i>
+							</button>
 						</div>
 					</div>
 				</div>	
@@ -30,7 +33,14 @@
 					<input type="text" class="form-control  " ng-model="fData.num_documento" placeholder="Registre su dni" tabindex="1" disabled /> 
 				</div>
 
-				<div class="form-group mb-md col-md-6 col-sm-12" >
+				<div class="form-group mb-md col-md-6 col-sm-12" ng-if="accion=='reg'">
+					<label class="control-label mb-xs" style="margin-bottom: 4px;"> Parentesco <small class="text-danger">(*)</small> </label>
+					<select class="form-control  " ng-model="fData.parentesco" 
+							ng-focus="verificarDoc(); $event.preventDefault();"  
+                            ng-click="verificarDoc(); $event.preventDefault();"
+							ng-options="item.descripcion for item in regListaParentescos" tabindex="2" required > </select>
+				</div>
+				<div class="form-group mb-md col-md-6 col-sm-12" ng-if="accion=='edit'">
 					<label class="control-label mb-xs" style="margin-bottom: 4px;"> Parentesco <small class="text-danger">(*)</small> </label>
 					<select class="form-control  " ng-model="fData.parentesco" ng-options="item.descripcion for item in regListaParentescos" tabindex="2" required > </select>
 				</div>	

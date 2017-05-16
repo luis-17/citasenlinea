@@ -158,6 +158,9 @@
                                         <div class="header-parientes btn-group-btn ">
                                             <button type="button" class="btn btn-page" ng-click="btnNuevoPariente();"><i class="fa fa-plus"></i> NUEVO</button>
                                         </div>
+                                        <alert type="{{fAlertFam.type}}" close="fAlertFam = null;" ng-show='fAlertFam.type' class="p-sm">
+                                            <strong> {{ fAlertFam.strStrong }} </strong> <span ng-bind-html="fAlertFam.msg"></span>
+                                        </alert> 
                                         <div class="mi-grid grid-citas " scroller >
                                           <div class="body-grid" style="min-height: 100px;">
                                             <div class="header row-grid row-cita">
