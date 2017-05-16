@@ -9,7 +9,7 @@
       <i class="ti ti-more-alt"></i>  
     </button>
     <ul class="demo-btns collapse in" id="filtros" >
-      <li class="" style="">     
+      <li class="item-filtro" style="">     
           <label class="control-label">Cita para:</label>
           <select class="form-control " ng-model="fBusqueda.itemFamiliar"
               ng-change="" style="margin-right: 25px;" 
@@ -23,20 +23,20 @@
             <button type="button" class="btn btn-page btn-sm" ng-click="btnAgregarNuevoPariente();"><i class="fa fa-plus"></i></button>
           </span>
       </li>
-			<li class="" >
+			<li class="item-filtro" >
 				<label class="control-label">en:</label>
         <select class="form-control " ng-model="fBusqueda.itemSede"
 					ng-change="listarEspecialidad();" ng-disabled="bloqueaSelector" 
 					ng-options="item.descripcion for item in listaSedes">
 				</select>
 			</li>
-			<li class="" >
+			<li class="item-filtro" >
 				<select class="form-control " ng-model="fBusqueda.itemEspecialidad"
 					ng-change="cargarPlanning();" ng-disabled="bloqueaSelector" 
 					ng-options="item.descripcion for item in listaEspecialidad">
 				</select>
 			</li>
-			<li class="" >
+			<li class="item-filtro" >
 				<label class="control-label">Médico:</label>
         <input type="text" ng-model="fBusqueda.medico" class="form-control " autocomplete="off"
                              placeholder="Digite el Médico..." 
@@ -47,7 +47,7 @@
                                   ng-change="fBusqueda.itemMedico = null;" />
 			</li>
 
-			<li class="">
+			<li class="item-filtro">
 				<button class="btn btn-page btn-sm" ng-click="cargarPlanning();" ><i class="ti ti-search"></i></button>
 			</li>
 		</ul>

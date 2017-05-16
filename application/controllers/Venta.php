@@ -26,12 +26,15 @@ class Venta extends CI_Controller {
 		$arrData['flag'] = 0;
 		$arrData['message'] = 'Hemos refrescado tu lista de citas, tenias seleccionadas citas que ya fueron tomadas.';
 		$arrayEliminar= array();
+		$arrayDefinitivas= array();
 	
 		foreach ($allInputs['compra']['listaCitas'] as $key => $cita) {			
 			$cupo = $this->model_prog_medico->m_consulta_cupo($cita['seleccion']['iddetalleprogmedico']);
 			if($cupo['estado_cupo'] != 2 ){
 				$ocupado = TRUE;
 				array_push($arrayEliminar, $key);				
+			}else{
+				array_push($arrayDefinitivas, $cita);
 			}
 		}
   		
@@ -41,6 +44,7 @@ class Venta extends CI_Controller {
   		}
 
   		$arrData['listaEliminar'] = $arrayEliminar;
+  		$arrData['listaDefinitiva'] = $arrayDefinitivas;
   		$this->output
 	        ->set_content_type('application/json')
 	        ->set_output(json_encode($arrData));
@@ -55,18 +59,24 @@ class Venta extends CI_Controller {
 		$arrData['message'] = 'Ha ocurrido un error procesando tu pago. Contacta a nuestro equipo de soporte mediante: citasenlinea@villasalud.pe';
 		
 		$ocupado = FALSE;
+		$arrayEliminar = array();
+		$arrayDefinitivas= array();
 		foreach ($allInputs['usuario']['compra']['listaCitas'] as $key => $cita) {			
 			$cupo = $this->model_prog_medico->m_consulta_cupo($cita['seleccion']['iddetalleprogmedico']);
 			if($cupo['estado_cupo'] != 2 ){
 				$ocupado = TRUE;
 				array_push($arrayEliminar, $key);				
+			}else{
+				array_push($arrayDefinitivas, $cita);
 			}
 		}
 
 		if($ocupado){
-			$arrData['flag'] = 0;
-			$arrData['message'] = 'Una o más de tus citas seleccionadas, ya no está disponible.';
-			$this->output
+			$arrData['flag'] = 2;
+			$arrData['message'] = 'Una o más de tus citas seleccionadas, ya no está disponible. Selecciona nuevas citas.';
+			$arrData['listaEliminar'] = $arrayEliminar;
+	  		$arrData['listaDefinitiva'] = $arrayDefinitivas;
+	  		$this->output
 		        ->set_content_type('application/json')
 		        ->set_output(json_encode($arrData));
 		      return;
@@ -257,6 +267,7 @@ class Venta extends CI_Controller {
 						$arrData['datos']['session']['compra']['listaCitasGeneradas'] = $listaCitasGeneradas;
 						$this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']['session']);					
 						$arrData['message'] = $arrData['datos']['cargo']['outcome']['user_message'];
+						$arrData['message'] .= '. Tu comprobante está en proceso de ser emitido. Recibirás un mail cuando esté listo!';
 
 						//envio de mails
 				        $listaCitasGeneradas = $allInputs['usuario']['compra']['listaCitas'];
@@ -408,7 +419,7 @@ class Venta extends CI_Controller {
 					  <span style="text-align:left;width:60%;">TOTAL A PAGAR: S/. </span>
 					  <span style="text-align:right;width:40%;">'.$allInputs['usuario']['compra']['totales']['total_pago'].'</span>
 					</div>';
-		$cuerpo .= '<div style="margin-top:15px;">Tu comprobante está en proceso de ser emitido. Recibirás un mail cuando esté listo! </div>';
+		$cuerpo .= '<div style="margin-top:15px;color:#ce1d19;font-weight:bold;text-align:center;">Tu comprobante está en proceso de ser emitido. Recibirás un mail cuando esté listo! </div>';
 		$cuerpo .= '</div>';		
 	    $cuerpo .= '<div style="text-align: center;">
 	    				<img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">

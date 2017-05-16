@@ -1,32 +1,41 @@
 <div class="content" ng-controller="historialCitasController">       
-  <div class="filtros historial btn-group-btn pl-n ml-n ">
+  <div class="filtros btn-group-btn pl-n ml-n historial">
     <button type="button" class="btn btn-info btn-sm toggle-filtros" data-toggle="collapse" data-target="#filtros">
       <i class="ti ti-more-alt"></i>  
     </button>
     <ul class="demo-btns collapse in" id="filtros">
-      <li class="" >
+      <li class="item-filtro" >
+        <label class="control-label">Cita para:</label>
         <select class="form-control " ng-model="fBusqueda.familiar"
             ng-change="listarHistorial();" 
             ng-options="item.descripcion for item in listaFamiliares">
           </select>
       </li>
-      <li class="" >
+      <li class="item-filtro" >
+        <label class="control-label">en:</label>
         <select class="form-control " ng-model="fBusqueda.sede"
           ng-change="listarEspecialidad();listarHistorial();" 
           ng-options="item.descripcion for item in listaSedes">
         </select>
       </li>
-      <li class="" >
+      <li class="item-filtro" >
         <select class="form-control " ng-model="fBusqueda.especialidad"
           ng-change="listarHistorial();" 
           ng-options="item.descripcion for item in listaEspecialidad">
         </select>
       </li>
-      <li class="" style="top: 1px;" uib-tooltip="Haz click para cambiar de estado de cita" tooltip-placement="bottom">
+<!--       <li class="" style="top: 1px;" uib-tooltip="Haz click para cambiar de estado de cita" tooltip-placement="bottom">
           <input class="form-control tgl tgl-flip" id="cb5" type="checkbox" ng-model="fBusqueda.tipoCita" ng-change="cambiarVista();"
                   ng-true-value="'realizadas'" ng-false-value="'pendientes'"
                    />
           <label class="tgl-btn" data-tg-off="Citas Pendientes > " data-tg-on="< Citas Realizadas" for="cb5" style="margin-bottom: 0px;" />
+      </li> -->
+      <li class="item-filtro">
+        <label class="control-label">Estado:</label>
+        <select class="form-control " ng-model="fBusqueda.tipoCita"
+          ng-change="listarHistorial();" 
+          ng-options="item.descripcion for item in listaTipoCita">
+        </select>
       </li>
     </ul>
   </div>
@@ -53,7 +62,7 @@
                   <div class="cell-grid cell-cita" style="width:17%;">
                     CITA PARA
                   </div>
-                  <div class="cell-grid cell-cita" style="width:14%;">
+                  <div class="cell-grid cell-cita" style="width:13%;">
                     SEDE
                   </div>
                   <div class="cell-grid cell-cita" style="width:12%;">
@@ -71,8 +80,11 @@
                   <div class="cell-grid cell-cita" style="width:10%;">
                     CONSULTORIO
                   </div>
-                  <div class="cell-grid cell-cita" style="width:9%;">
+                  <div class="cell-grid cell-cita" style="width:5%;">
                     <i class="fa fa-download"></i>
+                  </div>
+                  <div class="cell-grid cell-cita" style="width:5%;">
+                    <i class="ti ti-money"></i>
                   </div>
                   <div class="cell-grid cell-cita" style="width:5%;">
                     <i class="fa "></i>
@@ -83,7 +95,7 @@
                       <span class="icono-cita"><i class="fa fa-stethoscope" style="color: #36c0d1;" ></i> Cita para:</span>
                       {{cita.itemFamiliar.paciente}}
                     </div>
-                    <div class="cell-grid cell-cita" style="width:14%;">
+                    <div class="cell-grid cell-cita" style="width:13%;">
                       <span class="icono-cita"><i class="fa fa-hospital-o" style="color: #ce1d19;" ></i> Sede:</span>
                       {{cita.itemSede.sede}}
                     </div>
@@ -107,20 +119,24 @@
                       <span class="icono-cita"><i class="ti ti-location-pin" style="color: #03a9f4;"></i> Consultorio:</span>
                       {{cita.itemAmbiente.numero_ambiente}}
                     </div>
-                    <div class="cell-grid cell-cita" style="width:9%; text-align:center;cursor: pointer;">
-                      <span class="icono-cita"><i class="fa fa-download" style="color: #4caf50;"></i> Comprobante:</span>
+                    <div class="cell-grid cell-cita" style="width:5%; text-align:center;cursor: pointer;">
+                      <span class="icono-cita"><i class="fa fa-download" style="color: #4caf50;"></i> Comprobante de Cita:</span>
                       <span class="cita" ng-click="descargaComprobanteCita(cita);" style="font-size: 15px;">
                         <i class="fa fa-file-pdf-o"></i>
                       </span>
-                      <span class="nro-doc" ng-click="descargaComprobantePago(cita);" 
-                        style="padding-left: 5px;font-size: 15px;color:{{cita.color_comprobante}}"
-                        uib-tooltip="Tu comprobante está en proceso de ser emitido. Recibirás un mail cuando esté listo!" 
-                        tooltip-placement="bottom" tooltip-enable="cita.estado_comprobante == 2" tooltip-trigger="mouseenter">
-                        <i class="{{cita.icon_comprobante}}" style="font-size:{{cita.font_size}}"></i>
-                        <a href=""> {{cita.numero_comprobante}} </a>
-                      </span>
+                      
                     </div>
                     <div class="cell-grid cell-cita" style="width:5%; text-align:center;cursor: pointer;">
+                      <span class="icono-cita"><i class="ti ti-money" style="color: #4caf50;"></i> Comprobante de Pago:</span>
+                      <span class="nro-doc" ng-click="descargaComprobantePago(cita);" 
+                        style="padding-left: 5px;font-size: 15px;color:{{cita.color_comprobante}}"
+                        uib-tooltip="Tu comprobante está en proceso de ser emitido.Recibirás un mail cuando esté listo!" 
+                        tooltip-placement="top" tooltip-enable="cita.estado_comprobante == 2" tooltip-trigger="mouseenter">
+                        <i class="{{cita.icon_comprobante}}" style="font-size:{{cita.font_size}}"></i>
+                        <a href="{{dirComprobantes}}{{cita.nombre_archivo}}" target="_blank"> {{cita.numero_comprobante}} </a>
+                      </span>                      
+                    </div>
+                    <div class="cell-grid cell-cita" style="width:5%; text-align:left;cursor: pointer;">
                       <!-- <span class="reprog" ng-click="reprogramarCita(cita);" >
                         <i class="{{cita.icon_cita}}" style="color:{{cita.color_cita}};"></i>                      
                       </span> -->

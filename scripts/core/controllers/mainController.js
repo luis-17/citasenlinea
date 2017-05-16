@@ -184,12 +184,8 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
 
     $scope.getValidateSession = function () {
       rootServices.sGetSessionCI().then(function (response) {
-        console.log(response);
         if(response.flag == 1){
           $scope.fSessionCI = response.datos;
-          if(!$scope.fSessionCI.nombre_imagen || $scope.fSessionCI.nombre_imagen == ''){
-            $scope.fSessionCI.nombre_imagen = 'noimage.jpg';
-          }
           $scope.getNotificacionesEventos();
           $scope.logIn();
           if( $location.path() == '/login' ){

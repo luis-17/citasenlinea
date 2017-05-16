@@ -56,10 +56,10 @@ class Model_historial_citas extends CI_Model {
 		$this->db->where('uwc.idusuarioweb', $datos['idusuario']);
 
 		$this->db->where('ppc.estado_cita <>', '0');
-		if($datos['tipoCita'] == 'pendientes'){
+		if($datos['tipoCita']['id'] == 'P'){
 			$this->db->where('ppc.estado_cita', 2);
 		}
-		if($datos['tipoCita'] == 'realizadas'){
+		if($datos['tipoCita']['id'] == 'R'){
 			$this->db->where('ppc.estado_cita', 5);
 		}
 

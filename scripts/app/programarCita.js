@@ -315,8 +315,8 @@ angular.module('theme.programarCita', ['theme.core.services'])
       $uibModal.open({ 
         templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_aviso',
         size: 'sm',
-        //backdrop: 'static',
-        //keyboard:false,
+        backdrop: 'static',
+        keyboard:false,
         scope: $scope,
         controller: function ($scope, $modalInstance) {                 
           $scope.titleForm = titulo; 
@@ -327,6 +327,12 @@ angular.module('theme.programarCita', ['theme.core.services'])
             if(tipo==1){              
               callback();
             }
+          }
+
+          if(tipo==2){
+            setTimeout(function() {            
+              $scope.btnCancel();
+            }, 10000);
           }
         }
       });
@@ -347,12 +353,23 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
     $scope.resumenReserva = function(){
       ventaServices.sValidarCitas($scope.fSessionCI).then(function(rpta){
-        console.log();
-        if(rpta.flag == 1){
+        console.log(rpta);
+        if(rpta.flag != 1){
+          $scope.fSessionCI.compra.listaCitas = angular.copy(rpta.listaDefinitiva);         
+          $scope.mostrarMsj(2,'Aviso', rpta.message + '. Selecciona nuevas citas.');          
+        }
+
+        if($scope.fSessionCI.compra.listaCitas.length > 0){
           programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
             $scope.goToUrl('/resumen-cita'); 
           });
-        }        
+        }else{
+          $scope.mostrarMsj(0,'Aviso', rpta.msg + '. Selecciona nuevas citas.');
+          setTimeout(function() {            
+              $scope.goToUrl('/seleccionar-cita');
+          }, 5000);
+
+        }               
       });               
     }
 
@@ -377,7 +394,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
           var modal = true;
           if(rpta.flag == 1){
             titulo = 'Genial!';
-          }else if(rpta.flag == 0){
+          }else if(rpta.flag == 0 || rpta.flag == 2){
             titulo = 'Aviso!';
           }else{
             alert('Error inesperado');
@@ -491,7 +508,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
         $scope.viewResumenCita = false;
         $scope.viewResumenCompra = true; 
-        callback();           
+        //callback();           
       });
     }
 

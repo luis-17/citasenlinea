@@ -11,36 +11,20 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       'use strict';
       shortcut.remove("F2"); 
       $scope.modulo = 'historialCitas'; 
-      $scope.pageTittle = 'Inicio';
-      $scope.listaMeses = [
-        { 'id': 1, 'mes': 'Enero' },
-        { 'id': 2, 'mes': 'Febrero' },
-        { 'id': 3, 'mes': 'Marzo' },
-        { 'id': 4, 'mes': 'Abril' },
-        { 'id': 5, 'mes': 'Mayo' },
-        { 'id': 6, 'mes': 'Junio' },
-        { 'id': 7, 'mes': 'Julio' },
-        { 'id': 8, 'mes': 'Agosto' },
-        { 'id': 9, 'mes': 'Septiembre' },
-        { 'id': 10, 'mes': 'Octubre' },
-        { 'id': 11, 'mes': 'Noviembre' },
-        { 'id': 12, 'mes': 'Diciembre' }
-      ];
-      var mes_actual = $filter('date')(new Date(),'M');
+      $scope.dirComprobantes = 'https://citasenlinea.villasalud.pe/comprobantesWeb/';
 
       rootServices.sGetSessionCI().then(function (response) {
         if(response.flag == 1){
-          $scope.fDataUser = response.datos;
           $scope.fSessionCI = response.datos;
-          $scope.fSessionCI.compraFinalizada = false;
-          if(!$scope.fSessionCI.nombre_imagen || $scope.fSessionCI.nombre_imagen === ''){
-            $scope.fSessionCI.nombre_imagen = 'noimage.jpg';
-          }
         }
       });
 
       $scope.fBusqueda = {};
-      $scope.fBusqueda.tipoCita = 'pendientes';
+      $scope.listaTipoCita = [
+        {id:'P', descripcion:'CITAS PENDIENTES'},
+        {id:'R', descripcion:'CITAS REALIZADAS'}
+      ]
+      $scope.fBusqueda.tipoCita = $scope.listaTipoCita[0];
       var fechaHasta = moment().add(6,'days');
       $scope.fBusqueda.desde =  $filter('date')(moment().toDate(),'dd-MM-yyyy'); 
       $scope.fBusqueda.hasta =  $filter('date')(fechaHasta.toDate(),'dd-MM-yyyy');
@@ -87,12 +71,7 @@ angular.module('theme.historialCitas', ['theme.core.services'])
 
       $scope.listarHistorial = function(){
         historialCitasServices.sCargarHistorialCitas($scope.fBusqueda).then(function(rpta){          
-          $scope.listaDeCitas = rpta.datos;
-          if($scope.listaDeCitas.length > 10){
-            $scope.width = 78.21;
-          }else{
-             $scope.width = 78.64;
-          }          
+          $scope.listaDeCitas = rpta.datos;        
         });
       }
       $scope.listarHistorial();
@@ -200,6 +179,24 @@ angular.module('theme.historialCitas', ['theme.core.services'])
                   $scope : $scope
                 });
                 $scope.verTurnosDisponibles(item, true, callback);
+              }
+
+              $scope.getMedicoAutocomplete = function (value) {
+                var params = $scope.fBusquedaPlanning;
+                params.search= value;
+                params.sensor= false;
+                  
+                return programarCitaServices.sListarMedicosAutocomplete(params).then(function(rpta) { 
+                  $scope.noResultsLM = false;
+                  if( rpta.flag === 0 ){
+                    $scope.noResultsLM = true;
+                  }
+                  return rpta.datos; 
+                });
+              }
+
+              $scope.getSelectedMedico = function($item, $model, $label){
+                $scope.fBusqueda.itemMedico = $item;
               }
             }
           });

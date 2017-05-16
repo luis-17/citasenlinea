@@ -8,7 +8,7 @@
 	    </button>
 	    <ul class="demo-btns collapse in" id="filtros-modal" >			
 			<!-- <li class="" >	<label class="control-label">Cita para:</label>		</li> -->
-			<li class="" >
+			<li class="item-filtro" >
 				<label class="control-label">Cita para:</label>
 				<select class="form-control" disabled ng-model="fBusquedaRep.itemFamiliar"
 					ng-change="" 
@@ -16,14 +16,14 @@
 				</select>
 			</li>
 			<!-- <li class="" >	<label class="control-label">en:</label>		</li> -->
-			<li class="" >
+			<li class="item-filtro" >
 				<label class="control-label">en:</label>
 				<select class="form-control " disabled ng-model="fBusquedaRep.itemSede"
 					ng-change="listarEspecialidad();" 
 					ng-options="item.descripcion for item in listaSedes">
 				</select>
 			</li>
-			<li class="" >
+			<li class="item-filtro" >
 				<select class="form-control " disabled ng-model="fBusquedaRep.itemEspecialidad"
 					ng-change="" 
 					ng-options="item.descripcion for item in listaEspecialidadRep">
@@ -32,7 +32,7 @@
 			<!-- <li class="" >	    		 
 				<label class="control-label">Fecha:</label>	        
 			</li> -->
-			<li class="item-fecha grid-fecha" >	    		 
+			<li class="item-filtro item-fecha grid-fecha" >	    		 
 				<label class="control-label">Fecha:</label>	
 				<input type="text" placeholder="Fecha"  class="form-control datepicker " ng-change="cargarPlanning();"
                                 uib-datepicker-popup="{{format}}" popup-placement="auto right-top"
@@ -52,7 +52,7 @@
 	          	</span>
 				<!-- <input type="text" class="form-control mask" ng-model="fBusquedaPlanning.desde" placeholder="Desde" data-inputmask="'alias': 'dd-mm-yyyy'" style="width:50px !important;" />  -->
 			</li>
-			<li class="" >
+			<li class="item-filtro" >
 				<label class="control-label">Médico:</label>
 				<input type="text" ng-model="fBusquedaPlanning.medico" class="form-control " autocomplete="off"
 					placeholder="Digite el Médico..." 

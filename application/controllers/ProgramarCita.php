@@ -393,12 +393,12 @@ class ProgramarCita extends CI_Controller {
 
 		$cita = $this->model_prog_cita->m_consulta_cita($allInputs['idprogcita']);
 
-		$hoy = strtotime(date('Y-m-d'));
-		$fecha_atencion = strtotime($cita['fecha_atencion_cita']);
+		$hoy = strtotime(date('Y-m-d 00:00:00'));
+		$fecha_atencion = strtotime(substr($cita['fecha_atencion_cita'], 0,10)); 
 		$arrData['hoy'] = $hoy;
-		$arrData['hoyFormato'] = date('Y-m-d');
+		$arrData['hoyFormato'] = date('Y-m-d 00:00:00');
 		$arrData['fecha_atencion'] = $fecha_atencion;
-		$arrData['fecha_atencion_Formato'] = $cita['fecha_atencion_cita'];
+		$arrData['fecha_atencion_Formato'] = substr($cita['fecha_atencion_cita'], 0,10);
 		
 		if($cita['estado_cita'] == 2 && $fecha_atencion > $hoy){
 			$arrData['message'] = 'Reprogramar';

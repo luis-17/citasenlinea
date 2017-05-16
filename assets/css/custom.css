@@ -825,13 +825,12 @@ a.link-password:hover{
   top:0;
 } 
 
-
-.filtros.historial li{
+/*.filtros.historial li{
   position: relative;
   top: -8px;
-}
+}*/
 
-.filtros li{
+.filtros li.item-filtro{
   padding: 0 20px;
 }
 .filtros .form-control{
@@ -1208,6 +1207,8 @@ a.link-password:hover{
   float: left;
   padding: 10px;
   min-width: 16.6%;
+  max-width: 119.39px;
+  max-height: 55px;
   font-size: 15px;
   cursor: pointer;
 }
@@ -1649,7 +1650,7 @@ input[type=radio]:checked + label:before {
   float:left;
   min-width: 2%;
   width: 2%;
-  padding: 3px 8px;
+  padding: 4px;
   border: 1px solid #ddd;
   border-collapse: collapse;
   text-overflow: ellipsis;
@@ -1690,6 +1691,10 @@ input[type=radio]:checked + label:before {
 .mi-grid .cell-grid .nro-doc,
 .mi-grid .cell-grid .nro-doc a{
   color: #ce1d19;
+}
+
+.mi-grid .cell-grid .tooltip-inner{
+  display: initial;
 }
 
 .mi-grid .cell-grid .nro-doc:hover a{
@@ -1882,7 +1887,7 @@ input[type=radio]:checked + label:before {
   padding-left: 0;
 }
 
-.reprogramacion .filtros li {
+.reprogramacion .filtros li.item-filtro {
     padding: 0 5px;
 }
 
@@ -2033,22 +2038,22 @@ input[type=radio]:checked + label:before {
 }
 
 @media only screen and (min-width: 992px) and (max-width : 1024px) {
- .page-planning .filtros {
+  .filtros {
     text-align: center;
     font-size: 14px;
   } 
 
-  .page-planning .filtros li {
+ .filtros li.item-filtro {
     padding: 0 10px;
   }
 
-  .page-planning .filtros .form-control{
+   .filtros .form-control{
     max-width: 180px;
     min-width: 0;
     font-size: 14px;
   }
 
- .page-planning .filtros li:nth-child(2){
+ .page-planning .filtros li.item-filtro:nth-child(2){
     padding: 0 !important;
   }
 }
@@ -2251,22 +2256,22 @@ input[type=radio]:checked + label:before {
 }
 
 @media only screen and (min-width: 992px) {
- .page-planning .filtros {
+  .filtros {
     text-align: center;
     font-size: 14px;
   } 
 
-  .page-planning .filtros li {
+  .filtros li.item-filtro {
     padding: 0 10px;
   }
 
-  .page-planning .filtros .form-control{
+  .filtros .form-control{
     max-width: 180px;
     min-width: 0;
     font-size: 14px;
   }
 
- .page-planning .filtros li:nth-child(2){
+ .page-planning .filtros li.item-filtro:nth-child(2){
     padding: 0 !important;
   }
 }
