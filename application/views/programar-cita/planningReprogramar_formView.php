@@ -37,7 +37,7 @@
 				<input type="text" placeholder="Fecha"  class="form-control datepicker " ng-change="cargarPlanning();"
                                 uib-datepicker-popup="{{format}}" popup-placement="auto right-top"
                                 ng-model="fBusquedaPlanning.desde" is-open="opened" style="width:50px !important;margin-right: 26px;"
-                                datepicker-options="datePikerOptions" ng-required="true" 
+                                datepicker-options="datePikerOptions" ng-required="true" date-disabled="disabled(date, mode)"
                                 close-text="Cerrar" alt-input-formats="altInputFormats"
                                  />
 

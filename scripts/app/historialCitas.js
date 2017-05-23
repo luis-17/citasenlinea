@@ -114,7 +114,20 @@ angular.module('theme.historialCitas', ['theme.core.services'])
               $scope.datePikerOptions = {
                 formatYear: 'yy',
                 // startingDay: 1,
-                'show-weeks': false
+                'show-weeks': false,
+              };
+
+              $scope.disabled = function(date, mode) { 
+                var fecha = new Date(date).toLocaleDateString('zh-Hans-CN', { 
+                            day : 'numeric',
+                            month : 'numeric',
+                            year : 'numeric'
+                        }); 
+                return (mode === 'day' && (date.getDay() === 0 || moment(fecha).isBefore( moment().toDate().toLocaleDateString('zh-Hans-CN', { 
+                        day : 'numeric',
+                        month : 'numeric',
+                        year : 'numeric'
+                    }) )  ));
               };
 
               $scope.openDP = function($event) {

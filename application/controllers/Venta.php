@@ -102,7 +102,6 @@ class Venta extends CI_Controller {
 			'total_a_pagar' => $allInputs['usuario']['compra']['totales']['total_pago'],
 			'idmediopago' => $idmediopago, //según la marca de tarjeta
 			'idsedeempresaadmin' => $allInputs['usuario']['compra']['itemSede']['idsedeempresaadmin'],
-			'idespecialidad' => $allInputs['usuario']['compra']['itemEspecialidad']['id'],
 			'fecha_venta' =>  date('Y-m-d H:i:s'),
 			'createdAt' =>  date('Y-m-d H:i:s'),
 			'updatedAt' =>  date('Y-m-d H:i:s'),

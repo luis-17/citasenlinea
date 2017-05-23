@@ -114,7 +114,7 @@
           </div>
           <div class="terminos-condiciones">
         		<div class="titulo" style="font-size: 17px;color: #36c5df;font-weight:600;">
-        			Términos y Condiciones (Lea detenidamente esta sección)
+        			<input type="checkbox" ng-model="acepta" ng-click="changeAcepta();" ng-checked="acepta"></input> Acepto los Términos y Condiciones establecidas (Lea detenidamente esta sección)              
         		</div>
         		<ul>
         			<li>

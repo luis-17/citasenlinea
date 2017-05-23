@@ -32,7 +32,7 @@
 			</li>
 			<li class="item-filtro" >
 				<select class="form-control " ng-model="fBusqueda.itemEspecialidad"
-					ng-change="cargarPlanning();" ng-disabled="bloqueaSelector" 
+					ng-change="cargarPlanning();" 
 					ng-options="item.descripcion for item in listaEspecialidad">
 				</select>
 			</li>
@@ -66,7 +66,7 @@
               <div class="input-group" style="width: 200px;"> <!-- datepicker-movil -->
                 <input type="text" placeholder="Desde"  class="form-control datepicker input-fecha" ng-change="cargarPlanning();"
                                 uib-datepicker-popup="{{format}}" popup-placement="auto right-top"
-                                ng-model="fBusqueda.desde" is-open="opened" 
+                                ng-model="fBusqueda.desde" is-open="opened" date-disabled="disabled(date, mode)"
                                 datepicker-options="datePikerOptions" ng-required="true" 
                                 close-text="Cerrar" alt-input-formats="altInputFormats"
                                  />

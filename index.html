@@ -270,18 +270,23 @@
         }
 
         #topnav .navbar-brand-central,
-        #topnav .navbar-brand-whatsapp{
+        footer .navbar-brand-central,
+        #topnav .navbar-brand-whatsapp,
+        footer .navbar-brand-whatsapp{
             font: 0/0 a !important;
             color: transparent !important;
             text-shadow: none !important;
             background-color: transparent !important;
             border: 0 !important;
-            background-size: contain !important;
+            background-size: contain !important;                       
+        }
+
+        #topnav .navbar-brand-whatsapp,
+        #topnav .navbar-brand-central{
             width: 200px;
             height: 60px;
             display: block;
-            float: left;            
-        } 
+        }
 
         #topnav .logo-central{
             /*width: 99%;
@@ -294,16 +299,55 @@
             float: right;
         }       
 
-        #topnav .navbar-brand-central {
+        #topnav .navbar-brand-central,  
+        footer .navbar-brand-central{
           background: url("{{ dirImages + 'dinamic/empresa/central-250x60.png'  }}") no-repeat left 0 center;
         }
 
-        #topnav .navbar-brand-whatsapp {
+        #topnav .navbar-brand-whatsapp, 
+        footer .navbar-brand-whatsapp {
           background: url("{{ dirImages + 'dinamic/empresa/whatsapp-250x60.png'  }}") no-repeat left 0 center;          
         }
         #topnav .navbar-brand {
           background: url("{{ dirImages + 'dinamic/empresa/logo-250x60.png'  }}") no-repeat left 0 center;
           background-size: 166px;
+        }
+
+        footer .navbar-brand-central,
+        footer .navbar-brand-whatsapp{
+            width: 100%;
+            float: left;
+            height: 60px;
+        }
+
+        footer .logo-central, footer .logo-whatsapp{
+            width: 98%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        footer {
+          background: url("{{ dirImages + 'dinamic/empresa/footer.jpg'  }}") no-repeat center;
+        }
+
+        footer .logos{
+            display: none;
+        }
+
+        @media only screen and (min-width : 1200px) {
+          footer {
+              background-size: 1200px;
+            } 
+        }
+
+        @media only screen and (max-width : 767px) {
+            footer {
+              background: none;
+            } 
+
+            footer .logos{
+                display: block;
+            }
         }
     </style>
 
@@ -313,18 +357,24 @@
                 <div class="static-content">
                     <div class="page-content" ng-view="" class="mainview-animation animated"> </div> <!--wrap -->
                 </div>                
-                <!-- <footer role="contentinfo" ng-show="!layoutLoading" ng-cloak>
-                    <div class="container">
-                        <div class="clearfix">
-                            <ul class="list-unstyled list-inline pull-left">
-                                <li>
-                                    <h6 style="">Copyrights &copy; 2017: Villa Salud - Perú</h6>
-                                </li>
-                            </ul>
-                            <button class="pull-right btn btn-page btn-sm hidden-print" back-to-top><i class="ti ti-arrow-up"></i></button>
+                <footer ng-if="isLoggedIn" role="contentinfo" ng-show="!layoutLoading" ng-cloak>
+                    <div class="col-sm-12 col-xs-12 p-n logos">
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-6 mb-sm">
+                                <div class="logo-central">
+                                    <a href="#/" class="navbar-brand-central" >Villa Salud</a>
+                                </div>                                
+                            </div>
+                            <div class="col-sm-6 col-xs-6 mb-sm">
+                                <div class="logo-whatsapp">
+                                    <a href="#/" class="navbar-brand-whatsapp" >Villa Salud</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </footer> -->
+                    <div class="clearfix"></div>
+                    <button class="pull-right btn btn-page btn-sm hidden-print" back-to-top><i class="ti ti-arrow-up"></i></button>
+                </footer> 
             </div>
         </div>
     </div>    

@@ -388,19 +388,15 @@ class ProgramarCita extends CI_Controller {
 
 	public function verifica_estado_cita(){
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
-		$arrData['message'] = 'Sólo puedes reprogramar citas sin atención y máximo 1 día previo a la fecha programada.';
+		$arrData['message'] = 'Sólo puedes reprogramar citas sin atención y máximo 24horas previas a la fecha programada.';
 		$arrData['flag'] = 0;		
 
 		$cita = $this->model_prog_cita->m_consulta_cita($allInputs['idprogcita']);
-
-		$hoy = strtotime(date('Y-m-d 00:00:00'));
-		$fecha_atencion = strtotime(substr($cita['fecha_atencion_cita'], 0,10)); 
-		$arrData['hoy'] = $hoy;
-		$arrData['hoyFormato'] = date('Y-m-d 00:00:00');
-		$arrData['fecha_atencion'] = $fecha_atencion;
-		$arrData['fecha_atencion_Formato'] = substr($cita['fecha_atencion_cita'], 0,10);
-		
-		if($cita['estado_cita'] == 2 && $fecha_atencion > $hoy){
+		$hoy = strtotime(date('Y-m-d H:i:s'));
+		$fecha_atencion = strtotime($cita['fecha_atencion_cita']); 
+		$fecha_resta = strtotime($cita['fecha_atencion_cita']. ' -24hours'); 
+					
+		if($cita['estado_cita'] == 2 && $hoy < $fecha_resta){
 			$arrData['message'] = 'Reprogramar';
 			$arrData['flag'] = 1;
 		}
@@ -598,5 +594,9 @@ class ProgramarCita extends CI_Controller {
 	    $this->output
 	        ->set_content_type('application/json')
 	        ->set_output(json_encode($arrData));
+	}
+
+	public function ver_popup_compra_exitosa(){
+		$this->load->view('mensajes/compra-exitosa');
 	}
 }

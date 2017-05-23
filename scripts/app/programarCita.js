@@ -119,9 +119,22 @@ angular.module('theme.programarCita', ['theme.core.services'])
       $scope.formats = ['dd-MM-yyyy','dd-MMMM-yyyy','yyyy/MM/dd','dd.MM.yyyy','shortDate'];
       $scope.format = $scope.formats[0]; // formato por defecto
       $scope.datePikerOptions = {
-        formatYear: 'yy',
-        // startingDay: 1,
-        'show-weeks': false
+        formatYear: 'yy',        
+        'show-weeks': false,
+        //startingDay: 1,
+      };
+
+      $scope.disabled = function(date, mode) { 
+        var fecha = new Date(date).toLocaleDateString('zh-Hans-CN', { 
+                    day : 'numeric',
+                    month : 'numeric',
+                    year : 'numeric'
+                }); 
+        return (mode === 'day' && (date.getDay() === 0 || moment(fecha).isBefore( moment().toDate().toLocaleDateString('zh-Hans-CN', { 
+                day : 'numeric',
+                month : 'numeric',
+                year : 'numeric'
+            }) )  ));
       };
 
       $scope.openDP = function($event) {
@@ -243,7 +256,6 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
               $scope.fSessionCI.compra.listaCitas.push(datos);
               programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
-                console.log(rpta);
                 if($scope.fSessionCI.compra.listaCitas.length > 0){
                   $scope.bloquearSelector(true);
                 }else{
@@ -347,7 +359,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
         $scope.bloquearSelector(false); 
       }
       programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
-        console.log(rpta);
+        //console.log(rpta);
       });
     }
 
@@ -373,7 +385,15 @@ angular.module('theme.programarCita', ['theme.core.services'])
       });               
     }
 
+    $scope.changeAcepta = function(){
+      if($scope.acepta ){
+        $scope.acepta = false;
+      }else{
+        $scope.acepta = true;
+      }
+    }
     $scope.initResumenReserva = function(){
+      $scope.acepta = false;      
       $scope.viewResumenCita = true;
       $scope.viewResumenCompra = false;      
 
@@ -391,11 +411,17 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
         ventaServices.sGenerarVentaCitas(datos).then(function(rpta){          
           var titulo = '';
+          var url = '';
+          var size = '';
           var modal = true;
           if(rpta.flag == 1){
             titulo = 'Genial!';
+            url = angular.patchURLCI+'ProgramarCita/ver_popup_compra_exitosa';
+            size = 'lg';
           }else if(rpta.flag == 0 || rpta.flag == 2){
             titulo = 'Aviso!';
+            url = angular.patchURLCI+'ProgramarCita/ver_popup_aviso';
+            size = 'sm';
           }else{
             alert('Error inesperado');
             modal = false;
@@ -403,8 +429,8 @@ angular.module('theme.programarCita', ['theme.core.services'])
           blockUI.stop();
           if(modal){            
             $uibModal.open({ 
-              templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_aviso',
-              size: 'sm',
+              templateUrl: url,
+              size: size,
               //backdrop: 'static',
               //keyboard:false,
               scope: $scope,
@@ -466,6 +492,10 @@ angular.module('theme.programarCita', ['theme.core.services'])
       }
 
       $scope.pagar = function(){
+        if(!$scope.acepta){
+          $scope.mostrarMsj(0,'Aviso', 'Debe aceptar los Términos y Condiciones');
+          return;
+        }
         console.log('$scope.fSessionCI',$scope.fSessionCI);
         Culqi.open();
       }

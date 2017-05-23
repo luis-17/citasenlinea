@@ -24,12 +24,7 @@
           ng-options="item.descripcion for item in listaEspecialidad">
         </select>
       </li>
-<!--       <li class="" style="top: 1px;" uib-tooltip="Haz click para cambiar de estado de cita" tooltip-placement="bottom">
-          <input class="form-control tgl tgl-flip" id="cb5" type="checkbox" ng-model="fBusqueda.tipoCita" ng-change="cambiarVista();"
-                  ng-true-value="'realizadas'" ng-false-value="'pendientes'"
-                   />
-          <label class="tgl-btn" data-tg-off="Citas Pendientes > " data-tg-on="< Citas Realizadas" for="cb5" style="margin-bottom: 0px;" />
-      </li> -->
+
       <li class="item-filtro">
         <label class="control-label">Estado:</label>
         <select class="form-control " ng-model="fBusqueda.tipoCita"
@@ -43,11 +38,16 @@
     <div class="col-sm-12 col-md-12 col-xs-12" style="margin-top: 20px;">
       <div class="row">
         <div class="col-sm-12 col-md-10 pl-n" >
-          <div class="col-sm-12 col-md-12 col-xs-12">            
+          <div class="col-sm-6 col-md-8 col-xs-12">            
             <div class="text-guia historial">
               <p class="saludo mb-xs">¡Hola {{fSessionCI.nombres}}!</p>
               <p class="instruccion">Mira tu historial de citas... Próximas y Pasadas. Utiliza los filtros para ubicarlas más rápido!</p>
             </div>
+          </div>
+          <div class="col-sm-6 col-md-4 col-xs-12 leyenda pull-right mb-sm">            
+            Identifica y descarga tus comprobantes.</br>
+            De cita: <span class="favorito animation" style="color: #4caf50;"><i class="fa fa-download"></i></span></br>
+            De pago: <span class="favorito animation" style="color: #4caf50;"><i class="ti ti-money"></i></span>
           </div>
 
           <div class="col-sm-12 col-md-12 col-xs-12">  
@@ -81,10 +81,10 @@
                     CONSULTORIO
                   </div>
                   <div class="cell-grid cell-cita" style="width:5%;">
-                    <i class="fa fa-download"></i>
+                    <i class="fa fa-download" style="color: #4caf50;"></i>
                   </div>
                   <div class="cell-grid cell-cita" style="width:5%;">
-                    <i class="ti ti-money"></i>
+                    <i class="ti ti-money" style="color: #4caf50;"></i>
                   </div>
                   <div class="cell-grid cell-cita" style="width:5%;">
                     <i class="fa "></i>
@@ -212,4 +212,8 @@
       </div>
     </div>
   </div>
+<!--   <div class="burbble" style="background: url('assets/img/dinamic/empresa/alerta.png') no-repeat left top; position: relative;
+    width: 200px;
+    height: 200px;
+    background-size: contain;"></div>  -->
 </div>

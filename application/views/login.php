@@ -3,7 +3,7 @@
         .static-content-wrapper {
             padding: 0;
             margin-bottom: 0;
-            background: url("{{ dirImages + 'dinamic/empresa/banner-2.jpg'}}") no-repeat left top;
+            background: url("{{ dirImages + 'dinamic/empresa/banner.jpg'}}") no-repeat left top;
             background-size: cover;
             background-position-x: -100px;
         }
