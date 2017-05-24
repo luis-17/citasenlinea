@@ -85,6 +85,85 @@
 					<div class="btn-go-perfil" ng-click="goToPerfil();">VER MI PERFIL <i class="fa fa-angle-right"></i></div>
 				</div>
 			</div>
+			<div class="col-md-10 col-md-offset-1 col-xs-12 col-sm-12 mb-lg">				
+				<div class="tips-villa-salud" ng-if="fSessionCI.sexo.toLowerCase() == 'f'">
+					<div class="col-md-12 col-xs-12 col-sm-12">
+						<h4 class="heading-tips">Queremos cuidarte...</h4>
+					</div>
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="fSessionCI.imc.dato < 18 || fSessionCI.imc.dato > 24.9">
+						<div class="tip mb-xs">
+							<span>Chequea tu peso, Tu IMC no es normal</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,27);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="(fSessionCI.edad >= 20 && fSessionCI.edad <= 35) || (fSessionCI.edad >= 35 && fSessionCI.edad <= 55)">
+						<div class="tip mb-xs">
+							<span>Papanicolau</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,18);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="(fSessionCI.edad >= 20 && fSessionCI.edad <= 35) || (fSessionCI.edad >= 35 && fSessionCI.edad <= 55)">
+						<div class="tip mb-xs">
+							<span>Coloscopia</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,18);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="(fSessionCI.edad >= 20 && fSessionCI.edad <= 35) || (fSessionCI.edad >= 35 && fSessionCI.edad <= 55)">
+						<div class="tip mb-xs">
+							<span>Ecografía Transvaginal</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,18);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="fSessionCI.edad >= 20 && fSessionCI.edad <= 35">
+						<div class="tip mb-xs">
+							<span>Ecografía de mamas</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,18);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>					
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="fSessionCI.edad >= 35 && fSessionCI.edad <= 55">
+						<div class="tip mb-xs">
+							<span>Mamografía</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,18);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="fSessionCI.edad >= 20 && fSessionCI.edad <= 35">
+						<div class="tip mb-xs">
+							<span>Examen Médico General</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,65);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="fSessionCI.edad > 30">
+						<div class="tip mb-xs">
+							<span>Examen de lunares</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,10);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="fSessionCI.edad >= 35 && fSessionCI.edad <= 55">
+						<div class="tip mb-xs">
+							<span>Densimetria Osea</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,9);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="fSessionCI.edad >= 35 && fSessionCI.edad <= 55">
+						<div class="tip mb-xs">
+							<span>Colonoscopia</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,16);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="fSessionCI.edad > 40">
+						<div class="tip mb-xs">
+							<span>Examen Visual</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,29);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="fSessionCI.edad > 60">
+						<div class="tip mb-xs">
+							<span>Chequeo Cardiologico</span>
+							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,2);"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+				</div>			
+			</div>
 			<div class="col-md-12 col-xs-12 col-sm-12 ">
 				<div class="col-md-offset-1 col-md-5 col-xs-12 col-sm-12 ">
 					<div class="caja caja-1 panel" style="">

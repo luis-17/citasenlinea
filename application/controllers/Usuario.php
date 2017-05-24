@@ -191,8 +191,8 @@ class Usuario extends CI_Controller {
         //envio mail
         $listaDestinatarios = array();
 
-        //array_push($listaDestinatarios, $usuario['email']);
-        array_push($listaDestinatarios, 'yerald02@hotmail.com');
+        array_push($listaDestinatarios, $usuario['email']);
+        //array_push($listaDestinatarios, 'yerald02@hotmail.com');
         $paciente = ucwords(strtolower( $usuario['nombres'] . ' ' . 
                       $usuario['apellido_paterno'] . ' ' . 
                       $usuario['apellido_materno']));
@@ -305,7 +305,7 @@ class Usuario extends CI_Controller {
     $arrPerfilUsuario['apellido_paterno'] = $perfil['apellido_paterno'];
     $arrPerfilUsuario['apellido_materno'] = $perfil['apellido_materno'];
     $arrPerfilUsuario['sexo'] = $perfil['sexo'];
-    $arrPerfilUsuario['edad'] = $perfil['edad'];
+    $arrPerfilUsuario['edad'] = (int)$perfil['edad'];
     $arrPerfilUsuario['telefono'] = $perfil['telefono'];
     $arrPerfilUsuario['celular'] = $perfil['celular'];
     $arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($perfil['fecha_nacimiento']));

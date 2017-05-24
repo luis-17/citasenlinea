@@ -2655,3 +2655,27 @@ footer {
   margin-bottom: 70px;
   padding-bottom: 70px;
 }
+
+.tips-villa-salud {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  /*text-align: center;*/
+}
+
+.tips-villa-salud .heading-tips {
+  font-size: 16px;
+  color: #bd0411;
+  font-weight: bold;
+  text-align: center;
+}
+
+.tips-villa-salud .tip{
+  font-size: 16px;
+  color: #4f4d53;
+  text-transform: uppercase;
+}
+
+.tips-villa-salud .tip button{
+  float: right;
+}

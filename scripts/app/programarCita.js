@@ -24,6 +24,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
     $scope.initSeleccionarCita=function(){      
       console.log('$scope.familiarSeleccionado', $scope.familiarSeleccionado);      
+      console.log('$scope.datoTip', $scope.datoTip);      
       $scope.fBusqueda = {};
       var fechaHasta = moment().add(6,'days');
       $scope.fBusqueda.desde =  $filter('date')(moment().toDate(),'dd-MM-yyyy'); 
@@ -72,6 +73,27 @@ angular.module('theme.programarCita', ['theme.core.services'])
               $scope.listaEspecialidad.splice(0,0,{ id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '});
               angular.forEach($scope.listaEspecialidad, function(value, key) {
                 if(value.id == $scope.fSessionCI.compra.itemEspecialidad.id){
+                  $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[key];
+                }                
+              });
+            });
+          }
+
+          if($scope.datoTip){
+            angular.forEach($scope.listaSedes, function(value, key) {
+              if(value.id == $scope.datoTip.idsede){
+                $scope.fBusqueda.itemSede = $scope.listaSedes[key];
+              }                
+            });
+
+            var datos = {
+              idsede : $scope.fBusqueda.itemSede.id,
+            }
+            especialidadServices.sListarEspecialidadesProgAsistencial(datos).then(function (rpta) {
+              $scope.listaEspecialidad = rpta.datos;
+              $scope.listaEspecialidad.splice(0,0,{ id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '});
+              angular.forEach($scope.listaEspecialidad, function(value, key) {
+                if(value.id == $scope.datoTip.idespecialidad){
                   $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[key];
                 }                
               });

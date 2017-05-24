@@ -342,6 +342,16 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       ModalReporteFactory.getPopupReporte(arrParams); 
     }
 
+    $scope.datoTip = null;
+    $scope.btnSolicitarCita = function(idsede, idespecialidad){
+      $scope.datoTip = {
+        idsede : idsede,
+        idespecialidad, idespecialidad
+      }
+      console.log($scope.datoTip);
+      $scope.goToUrl('/seleccionar-cita');
+    }
+
     /* END */
   }])
   .service("rootServices", function($http, $q) {
