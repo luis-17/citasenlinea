@@ -92,11 +92,13 @@ angular.module('theme.programarCita', ['theme.core.services'])
             especialidadServices.sListarEspecialidadesProgAsistencial(datos).then(function (rpta) {
               $scope.listaEspecialidad = rpta.datos;
               $scope.listaEspecialidad.splice(0,0,{ id : 0, idespecialidad:0, descripcion:'ESPECIALIDAD '});
+              var ind = 0;
               angular.forEach($scope.listaEspecialidad, function(value, key) {
                 if(value.id == $scope.datoTip.idespecialidad){
-                  $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[key];
+                  ind = key;
                 }                
               });
+              $scope.fBusqueda.itemEspecialidad = $scope.listaEspecialidad[ind];
             });
           }
         });
