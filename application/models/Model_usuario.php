@@ -40,6 +40,16 @@ class Model_usuario extends CI_Model {
 		return $this->db->insert('cliente', $data);
 	}	
 
+	public function m_registrar_historia($datos){
+		$data = array(
+			'idcliente' => $datos['idcliente'],
+			'fecha_creacion' => date('Y-m-d'),
+			'createdAt' => date('Y-m-d H:i:s'),
+			'updatedAt' => date('Y-m-d H:i:s')
+		);
+		return $this->db->insert('historia', $data);
+	}
+
 	public function m_update_cliente($data, $id){
 		$this->db->where('idcliente',$id);
 		return $this->db->update('cliente', $data);
