@@ -176,6 +176,8 @@ class Pariente extends CI_Controller {
         );
       $resultCliente = $this->model_usuario->m_registrar_cliente($datos);
       $idcliente = GetLastId('idcliente','cliente');
+      $data['idcliente'] = $idcliente;
+      $this->model_usuario->m_registrar_historia($data);
     }else{
       //actualizar usuario
       $datos = array(

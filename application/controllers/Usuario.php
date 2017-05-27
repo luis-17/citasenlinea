@@ -58,20 +58,20 @@ class Usuario extends CI_Controller {
   	$usuario = $this->model_usuario->m_verificar_email($allInputs);
   	if(!empty($usuario)){
   		$arrData['message'] = 'Estimado paciente, ese Email ya está registrado en nuestro sistema citas en linea. Intenta iniciar sesión.';
-		$arrData['flag'] = 0;    
-		$this->output
-		    ->set_content_type('application/json')
-		    ->set_output(json_encode($arrData));
+  		$arrData['flag'] = 0;    
+  		$this->output
+  		    ->set_content_type('application/json')
+  		    ->set_output(json_encode($arrData));
 	    return;
   	}
 
   	$usuario = $this->model_usuario->m_cargar_por_documento($allInputs);
   	if(!empty($usuario) && !empty($usuario['idusuarioweb'])){
-		$arrData['message'] = 'Estimado paciente, ya estás registrado en nuestro sistema citas en linea. Intenta iniciar sesión.';
-		$arrData['flag'] = 0;    
-		$this->output
-		    ->set_content_type('application/json')
-		    ->set_output(json_encode($arrData));
+  		$arrData['message'] = 'Estimado paciente, ya estás registrado en nuestro sistema citas en linea. Intenta iniciar sesión.';
+  		$arrData['flag'] = 0;    
+  		$this->output
+  		    ->set_content_type('application/json')
+		      ->set_output(json_encode($arrData));
 	    return;		 		
   	} 
 
@@ -97,6 +97,8 @@ class Usuario extends CI_Controller {
  				);
  			$resultCliente = $this->model_usuario->m_registrar_cliente($datos);
  			$idcliente = GetLastId('idcliente','cliente');
+      $data['idcliente'] = $idcliente;
+      $this->model_usuario->m_registrar_historia($data);
   	}else{
   		//actualizar usuario
   		$datos = array(
