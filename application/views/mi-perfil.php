@@ -1,7 +1,7 @@
 <div class="content container "  ng-controller="usuarioController" ng-init="init();" >
     <div class="perfil row">
         <div class="col-md-2 col-sm-12 col-xs-12 pl-n">
-            <div class="panel-profile" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);background-color:transparent;">
+            <div class="panel-profile" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);background-color:transparent;border:none;">
               <div class="panel-body">
                 <img  masked-image="" class="img-circle" ng-src="{{ dirImages + 'dinamic/usuario/' + fSessionCI.nombre_imagen }}" alt=" {{ fSessionCI.username }} " /> 
                 <div class="col-sm-12">

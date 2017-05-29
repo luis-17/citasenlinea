@@ -82,7 +82,7 @@
 			</div>
 			<div class="col-md-12 col-xs-12 col-sm-12 ">
 				<div class="div-btn">
-					<div class="btn-go-perfil" ng-click="goToPerfil();">VER MI PERFIL <i class="fa fa-angle-right"></i></div>
+					<div class="btn-go-perfil" ng-click="goToPerfil();">ACTUALIZAR MI PERFIL <i class="fa fa-angle-right"></i></div>
 				</div>
 			</div>
 			<div class="col-md-10 col-md-offset-1 col-xs-12 col-sm-12 mb-lg">				

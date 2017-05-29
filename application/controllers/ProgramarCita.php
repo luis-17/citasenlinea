@@ -42,6 +42,17 @@ class ProgramarCita extends CI_Controller {
 			    ->set_output(json_encode($arrData));
 		    return;
 		}
+
+		if(empty($allInputs['itemEspecialidad']['id'])){
+			$arrData['planning']['mostrar'] = FALSE;
+			$arrData['flag'] = 0;
+			$arrData['planning']['mostraralerta'] = TRUE;
+			$arrData['message'] = 'Seleccionar Especialidad.';
+			$this->output
+			    ->set_content_type('application/json')
+			    ->set_output(json_encode($arrData));
+		    return;
+		}
 		
 		/*header*/
 		$datos = array('anyo' => date("Y"));

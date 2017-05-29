@@ -666,8 +666,13 @@ a.link-password:hover{
   box-shadow: none !important;
 }
 
+.list-group-item{
+  background-color:transparent;
+  border:none;
+}
+
 .list-group.list-group-alternate .list-group-item.active {
-  background-color: #36c0d1;
+  background-color: #36c0d1 !important;
 }
 
 .list-group.list-group-alternate .list-group-item:hover,
@@ -1313,7 +1318,7 @@ input[type=radio]:checked + label:before {
   display: none;
 }
 
-.block-visible-planning::-webkit-scrollbar{
+/*.block-visible-planning::-webkit-scrollbar{
   width: 0;
 }
 
@@ -1337,7 +1342,7 @@ input[type=radio]:checked + label:before {
 .citas .list-citas::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
 } 
-
+*/
 .list-citas .cita .eliminar {  
   font-size: 17px;
   position: relative;
@@ -1586,6 +1591,11 @@ input[type=radio]:checked + label:before {
   position: relative;
   -webkit-box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
   box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
+  background-color: #be0411 !important;
+}
+
+.dashboard .caja-1 .btn-go-citas:hover{
+  background-color: #fff !important;
 }
 
 .dashboard .caja-2{
@@ -2678,4 +2688,21 @@ footer {
 
 .tips-villa-salud .tip button{
   float: right;
+}
+
+@-moz-document url-prefix() {
+  .page-planning .filtros li.item-filtro:nth-child(4){
+    position: relative; 
+    top:-28px;
+  }
+
+  .cupo {
+    max-width: 100px;
+    padding: 2px 0;
+  }
+  
+}
+
+.form-control {
+    background: transparent;
 }
