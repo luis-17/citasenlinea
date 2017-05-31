@@ -34,7 +34,10 @@
                   <h2 class="title">
                       <span class="icon"><i class="fa fa-flask"></i></span> Resultados de Laboratorio
                   </h2> 
-                  <p class="descripcion"><span class="ti ti-user"></span> Paciente: {{ fSessionCI.nombres }} {{ fSessionCI.apellido_paterno}} {{ fSessionCI.apellido_materno }} </p>
+                  <p class="descripcion" style="font-size: 18px;font-weight: 400;position: relative;top: 20px;">
+                    <span class="ti ti-user"></span> 
+                    Paciente: {{ fSessionCI.nombres }} {{ fSessionCI.apellido_paterno}} {{ fSessionCI.apellido_materno }} 
+                  </p>
               </div>
           </div>
       </div>

@@ -1684,7 +1684,7 @@ input[type=radio]:checked + label:before {
 }
 
 .dashboard .caja-2 .imagen img{
-  width: 70px;
+  width: 75px;
   height: auto;
 }
 
