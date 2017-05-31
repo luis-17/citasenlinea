@@ -62,6 +62,9 @@
 					typeahead-on-select="getSelectedMedico($item, $model, $label)"
 					ng-change="fBusquedaPlanning.itemMedico = null;" />
 			</li>
+			<li class="item-filtro">
+				<button class="btn btn-page btn-sm" ng-click="cargarPlanning();" ><i class="ti ti-search"></i></button>
+			</li>
 		</ul>
 	</div>
 </div>

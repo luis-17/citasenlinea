@@ -138,7 +138,7 @@ angular.module('theme.historialCitas', ['theme.core.services'])
               
               $scope.fBusquedaRep = {};
               $scope.fBusquedaPlanning = {};
-              $scope.fBusquedaPlanning = cita;
+              $scope.fBusquedaPlanning = angular.copy(cita);
 
               angular.forEach($scope.listaFamiliares, function(value, key) {
                 if(value.idusuariowebpariente == $scope.fBusquedaPlanning.itemFamiliar.idusuariowebpariente){
@@ -174,6 +174,7 @@ angular.module('theme.historialCitas', ['theme.core.services'])
               }
 
               $scope.cargarPlanning = function(){
+                console.log($scope.fBusquedaPlanning);
                 programarCitaServices.sCargarPlanning($scope.fBusquedaPlanning).then(function(rpta){
                   $scope.fPlanning = rpta.planning;
                 });
@@ -209,7 +210,7 @@ angular.module('theme.historialCitas', ['theme.core.services'])
               }
 
               $scope.getSelectedMedico = function($item, $model, $label){
-                $scope.fBusqueda.itemMedico = $item;
+                $scope.fBusquedaPlanning.itemMedico = $item;
               }
             }
           });
