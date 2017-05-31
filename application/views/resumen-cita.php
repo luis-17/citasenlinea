@@ -110,7 +110,7 @@
         
       	<div class="col-md-12 col-xs-12 col-sm-12">
       		<div class="botones" style="text-align: right;">
-            <button class="btn btn-blue" style="width: 120px;" ng-click="pagar();" ><i class="fa fa-credit-card" style="padding: 0 5px 0 0;"></i>PAGAR</button>
+            <button class="btn btn-default btn-go-citas" style="width: 120px;" ng-click="pagar();" ><i class="fa fa-credit-card" style="padding: 0 5px 0 0;"></i>PAGAR</button>
           </div>
           <div class="terminos-condiciones">
         		<div class="titulo" style="font-size: 17px;color: #36c5df;font-weight:600;">
@@ -137,7 +137,7 @@
               <div class="col-md-4 col-xs-12 col-sm-4">
                 <a href="http://www.villasalud.pe" target="_blank"> 
                   <span class="lema" >
-                    Villa Salud, Te Cuida!
+                    Villa Salud, Te cuida!
                   </span>
                 </a>                            
               </div>

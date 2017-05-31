@@ -363,7 +363,7 @@ ul.externo{text-transform:uppercase;}
 }
 
 #topnav .navbar-nav.toolbar > li > a {
-    padding: 14px 8px;
+    padding: 14px 5px;
     font-size: 12px;
 }
 
@@ -413,13 +413,23 @@ nav .menu-mobile.dropdown{
 
 .navbar-nav.toolbar > li.menu-item a span:hover,
 .navbar-nav.toolbar > li.menu-item a:hover,
-.navbar-nav.toolbar > li.menu-item a:hover i{
+.navbar-nav.toolbar > li.menu-item a:hover i{  
   color: #36c0d1 !important;
+}
+
+nav .menu-item a{
+  margin-right: 15px;
+}
+
+nav .menu-item a{
+  color: #1f1c1c !important;
+  font-size: 14px !important;
+  font-weight: bold;  
 }
 
 .navbar-nav.toolbar > li a.active,
 .menu-mobile.dropdown li a.active{
-  color: #36c0d1;
+  color: #36c0d1 !important;
   font-weight: bold;
 }
 
@@ -814,11 +824,11 @@ a.link-password:hover{
   z-index: 2;
   left: 0;
   max-height: 64px;
-  background: -webkit-linear-gradient(left, #b2e7ed 0%, #dcf4f7 100%);
-  background: -moz-linear-gradient(left, #b2e7ed 1%, #dcf4f7 100%);
-  background: -o-linear-gradient(left, #b2e7ed 1%, #dcf4f7 100%);
-  background: -ms-linear-gradient(left, #b2e7ed 1%, #dcf4f7 100%);
-  background: linear-gradient(to right, #b2e7ed 1%, #dcf4f7 100%);
+  background: -webkit-linear-gradient(left, #dcf4f7  0%, #dcf4f7 100%);
+  background: -moz-linear-gradient(left, #dcf4f7  1%, #dcf4f7 100%);
+  background: -o-linear-gradient(left, #dcf4f7  1%, #dcf4f7 100%);
+  background: -ms-linear-gradient(left, #dcf4f7  1%, #dcf4f7 100%);
+  background: linear-gradient(to right, #dcf4f7  1%, #dcf4f7 100%);
 }
 
 .modal-content .filtros{
@@ -843,12 +853,18 @@ a.link-password:hover{
   border: 0;
   border-bottom: 1px solid red;
   border-radius: 0 !important;
-  color: #616161; 
-  font-weight: 300;
+  color: #1e1e1e; 
+  font-weight: 500; 
+  /*color: #616161;
+  font-weight: 300;*/
   font-size: 16px; 
   min-width: 220px;
   width: 220px;
   cursor: pointer;
+}
+
+.filtros .control-label{
+  color: #1e1e1e; 
 }
 
 .filtros .form-control option{
@@ -863,13 +879,16 @@ a.link-password:hover{
   background-color: transparent;
 }
 
-.filtros .form-control::-webkit-input-placeholder,
-.filtros .form-control:-moz-placeholder,
-.filtros .form-control::-moz-placeholder,
-.filtros .form-control:-ms-input-placeholder { 
-  color: #616161; 
-  font-weight: 300;
-  font-size: 16px; 
+.filtros .form-control::-webkit-input-placeholder{ 
+  color: #1e1e1e !important; 
+  font-weight: 500;
+  font-size: 12px; 
+}
+
+.filtros .form-control::-moz-placeholder{ 
+  color: #1e1e1e !important; 
+  font-weight: 500;
+  font-size: 12px; 
 }
 
 .flecha {
@@ -934,7 +953,7 @@ a.link-password:hover{
 .text-guia .instruccion{
   font-size: 15px;
   font-weight: 400;
-  color: #616161;
+  color: #212121;
   line-height: 1.2;
 }
 
@@ -1278,12 +1297,18 @@ input[type=radio]:checked + label:before {
 .citas.scroll-pane .boton-finalizar{
   width: 100%;
   background: #36c0d1;
-  padding: 5px;
+  padding: 3px;
   text-align: center;
 }
 
 .boton-finalizar a{
   color: white;
+  font-size: 16px;
+}
+
+.citas .list-citas{
+  height: 428px;
+  overflow: auto;
 }
 
 .list-citas {
@@ -1301,17 +1326,29 @@ input[type=radio]:checked + label:before {
 }
 
 .list-citas .item-list-citas{
-  margin: 10px 0px 0px 10px;
+  margin: 5px 0px 0px 5px;
   border-bottom: 1px dotted  #9a999d;
 }
 
-.list-citas .cita{
-  color: #9a999d;
+.list-citas .cita {
+    color: #212121;
+    font-weight: bold;
+    font-size: 15px;
 }
 
-.citas .list-citas{
-  height: 428px;
-  overflow: auto;
+.list-citas .cita span{
+  font-weight: 400;
+  color: #616161;
+  font-size: 14px;
+}
+
+.list-citas .cita div{
+  margin-bottom: 3px;
+}
+
+.list-citas .cita div i{
+  width:15px;
+  margin-right: 2px;
 }
 
 .citas-movil{
@@ -1457,9 +1494,9 @@ input[type=radio]:checked + label:before {
 .dashboard .valores .item .value .title{
   margin-left: 5px;
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 12px;
   color: navy;
-  font-weight: 300;
+  font-weight: bold;
 }
 
 .dashboard .valores .item .value .data{
@@ -1583,7 +1620,7 @@ input[type=radio]:checked + label:before {
   text-align: center;
 }
 
-.dashboard .caja-1 .btn-go-citas{
+ .btn-go-citas{
   width: 170px;
   margin-left: auto;
   margin-right: auto;
@@ -1594,7 +1631,7 @@ input[type=radio]:checked + label:before {
   background-color: #be0411 !important;
 }
 
-.dashboard .caja-1 .btn-go-citas:hover{
+ .btn-go-citas:hover{
   background-color: #fff !important;
 }
 
@@ -1754,12 +1791,12 @@ input[type=radio]:checked + label:before {
   min-height: 60px;
   text-align: center;
   padding: 14px;
-
-  background: -webkit-linear-gradient(left, #36c0d1 0%, #97dee7 100%);
+  border-top: 1px solid #36c0d1;
+  /*background: -webkit-linear-gradient(left, #36c0d1 0%, #97dee7 100%);
   background: -moz-linear-gradient(left, #36c0d1 1%, #97dee7 100%);
   background: -o-linear-gradient(left, #36c0d1 1%, #97dee7 100%);
   background: -ms-linear-gradient(left, #36c0d1 1%, #97dee7 100%);
-  background: linear-gradient(to right, #36c0d1 1%, #97dee7 100%);
+  background: linear-gradient(to right, #36c0d1 1%, #97dee7 100%);*/
 }
 
 .call-actions .btn-go-citas{
@@ -1769,9 +1806,9 @@ input[type=radio]:checked + label:before {
 }
 
 .call-actions .lema{
-  color: white;
+  color: #e51c23;
   font-size: 20px;
-  text-shadow: 1px 1px 2px #08446f;
+  text-shadow: 1px 1px 2px #e0e0e0;
   cursor: pointer;
 }
 
@@ -1786,8 +1823,8 @@ input[type=radio]:checked + label:before {
 
 .call-actions .btn-go-historial:hover .historial{
   text-decoration: underline;
-  -moz-text-decoration-color: navy; /* Code for Firefox */
-  text-decoration-color:  navy; 
+  -moz-text-decoration-color: #ce1d19; /* Code for Firefox */
+  text-decoration-color:  #ce1d19; 
   text-decoration-style: double;
 }
 
@@ -1937,6 +1974,10 @@ input[type=radio]:checked + label:before {
   .perfil .col-md-2 {
       padding-right: 40px;
   }  
+  
+  #topnav.navbar-default .navbar-brand{
+    width: 225px !important;
+  }
 }
 
 /* Medium Devices, Desktops */
@@ -2511,7 +2552,7 @@ input[type=radio]:checked + label:before {
       width: 100%;      
     }    
 
-    .dashboard .caja-1 .division-1 .btn-go-citas{
+    .btn-go-citas{
       padding: 3px 6px;
       line-height: 1.35;      
     }
@@ -2706,3 +2747,16 @@ footer {
 .form-control {
     background: transparent;
 }
+
+.citas .title{
+  text-align: center;
+  padding: 5px 0;
+  margin-bottom: 0;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #dcf4f7;
+  color: #191970;
+  border-bottom: 1px solid #00bcd4;
+}
+
+
