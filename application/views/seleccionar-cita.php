@@ -172,7 +172,7 @@
                 </li>
             </ul>
             <div class="boton-finalizar" ng-show="fSessionCI.compra.listaCitas.length > 0">
-              <a class="" ng-click="resumenReserva();" style="animation: pulse 2s ease infinite;">FINALIZAR  <i class="fa fa-angle-right"></i>
+              <a class="" ng-click="resumenReserva();" style="animation: pulse 2s ease infinite;">CONTINUAR  <i class="fa fa-angle-right"></i>
               </a>
             </div>            
           </div>

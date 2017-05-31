@@ -1421,14 +1421,14 @@ input[type=radio]:checked + label:before {
 
 .dashboard .saludo{
   text-align: center;
-  padding: 20px;
+  padding: 10px 10px;
   font-size: 20px;
   font-weight: bold;
   color: #36c0d1;
 }
     
 .dashboard .valores{
-  margin: 25px auto;
+  margin: 15px auto;
   min-height: 70px;
   background: transparent;
 }
@@ -1492,11 +1492,17 @@ input[type=radio]:checked + label:before {
 }
 
 .dashboard .valores .item .value .title{
-  margin-left: 5px;
+  /*margin-left: 5px;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: navy;
+  font-weight: bold;*/
+  margin-left: 0;
   text-transform: uppercase;
   font-size: 12px;
   color: navy;
   font-weight: bold;
+  line-height: 0.9;
 }
 
 .dashboard .valores .item .value .data{
@@ -1511,35 +1517,32 @@ input[type=radio]:checked + label:before {
 
 .dashboard .div-btn{
   text-align: center;
-  margin: 0 0 25px 0;
+  margin: 0;
 }
 
 .dashboard .div-btn .btn-go-perfil{
-  background: -webkit-linear-gradient(left, #6dd1de 0%, #dcf4f7 100%);
-  background: -moz-linear-gradient(left, #6dd1de 1%, #dcf4f7 100%);
-  background: -o-linear-gradient(left, #6dd1de 1%, #dcf4f7 100%);
-  background: -ms-linear-gradient(left, #6dd1de 1%, #dcf4f7 100%);
-  background: linear-gradient(to right, #6dd1de 1%, #dcf4f7 100%);
-  
   width: 200px;
   padding: 5px 0;
   margin-left: auto;
   margin-right: auto;
-  color: black;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-
-  -webkit-box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.36);
-  box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.36);
+  background: #36c0d1;
+  border: 1px solid #36c0d1;
+  color: #fff;
+  -webkit-box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
+  box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
 }
 
 .dashboard .div-btn .btn-go-perfil:hover{
-  background: -webkit-linear-gradient(left, #dcf4f7 0%, #6dd1de  100%);
+  background: #fff;
+  color: #36c0d1;
+  /*background: -webkit-linear-gradient(left, #dcf4f7 0%, #6dd1de  100%);
   background: -moz-linear-gradient(left, #dcf4f7 1%, #6dd1de 100%);
   background: -o-linear-gradient(left, #dcf4f7 1%, #6dd1de 100%);
   background: -ms-linear-gradient(left, #dcf4f7 1%, #6dd1de 100%);
-  background: linear-gradient(to right, #dcf4f7 1%, #6dd1de 100%);
+  background: linear-gradient(to right, #dcf4f7 1%, #6dd1de 100%);*/
 }
 
 .dashboard .caja{
@@ -1576,7 +1579,7 @@ input[type=radio]:checked + label:before {
 
 .dashboard .caja-1 .division-2 .citas{
   min-height: 50px;
-  color: #9a999d;
+  color: navy;
   font-weight: 900;
   line-height: 1;
   text-align: left;
@@ -2662,6 +2665,16 @@ input[type=radio]:checked + label:before {
   }
 }
 
+@media only screen and (min-width : 768px) {
+  .div-btn-1{
+    float: right;
+  }
+
+  .div-btn-2{
+    float: left;
+  }
+}
+
 .modal-xlg {
   width: inherit;
   margin: 2%;
@@ -2703,8 +2716,8 @@ footer {
 }
 
 .static-content{
-  margin-bottom: 70px;
-  padding-bottom: 70px;
+  margin-bottom: 50px;
+  padding-bottom: 50px;
 }
 
 .tips-villa-salud {
@@ -2758,5 +2771,3 @@ footer {
   color: #191970;
   border-bottom: 1px solid #00bcd4;
 }
-
-

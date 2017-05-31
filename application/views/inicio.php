@@ -14,7 +14,7 @@
 									<img src="{{ dirImages + 'dashboard/icon-peso.png' }}"  />
 								</div>
 								<div class="value">
-									<span class="title">Peso</span>
+									<div class="title">Peso</div>
 									<div class="data">{{fSessionCI.peso}} <span class="medida" >Kg.</span></div>
 								</div>
 							</div>
@@ -25,7 +25,7 @@
 								<img src="{{ dirImages + 'dashboard/icon-estatura.png' }}"  />
 							</div>
 							<div class="value">
-								<span class="title">Estatura</span>
+								<div class="title">Estatura</div>
 								<div class="data">{{fSessionCI.estatura}} <span class="medida" >Mts.</span></div>
 							</div>
 						</div>
@@ -36,7 +36,7 @@
 								<img src="{{ dirImages + 'dashboard/icon-imc.png' }}"  />
 							</div>
 							<div class="value" >
-								<span class="title">IMC</span>
+								<div class="title">IMC</div>
 								<span class="alerta" style="background:{{fSessionCI.imc.color}};" ng-class="{animation: fSessionCI.imc.dato < 18 || fSessionCI.imc.dato > 24.9}" ></span>
 								<div class="data" style="color:{{fSessionCI.imc.color}};" >
 									{{fSessionCI.imc.dato}} <!-- <span class="medida" ></span> -->
@@ -50,7 +50,7 @@
 								<img src="{{ dirImages + 'dashboard/icon-tipo-sangre.png' }}"  />
 							</div>
 							<div class="value">
-								<span class="title">Tipo de Sangre</span>
+								<div class="title">Tipo de Sangre</div>
 								<div class="data">{{fSessionCI.tipo_sangre.descripcion}}</div>
 							</div>
 							</div>
@@ -61,7 +61,7 @@
 								<img src="{{ dirImages + 'dashboard/icon-sexo-' +  fSessionCI.sexo.toLowerCase() + '.png' }}"  />
 							</div>
 							<div class="value">
-								<span class="title">Sexo</span>
+								<div class="title">Sexo</div>
 								<div class="data">{{fSessionCI.sexo}}</div>
 							</div>
 							</div>
@@ -72,7 +72,7 @@
 								<img src="{{ dirImages + 'dashboard/icon-edad-' +  fSessionCI.sexo.toLowerCase() + '.png' }}"  />
 							</div>
 							<div class="value">
-								<span class="title">Edad</span>
+								<div class="title">Edad</div>
 								<div class="data">{{fSessionCI.edad}} <span class="medida" >años</span></div>
 							</div>
 							</div>
@@ -80,15 +80,22 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-12 col-xs-12 col-sm-12 ">
-				<div class="div-btn">
+			<div class="col-md-6 col-xs-12 col-sm-6 ">
+				<div class="div-btn div-btn-1">					
+					<div class="btn btn-default btn-go-citas" style="width: 200px;" ng-click="goToSelCita();">PROGRAMAR CITA <i class="fa fa-angle-right"></i></div>
+				</div>
+			</div>			
+			<div class="col-md-6 col-xs-12 col-sm-6 ">
+				<div class="div-btn div-btn-2">					
 					<div class="btn-go-perfil" ng-click="goToPerfil();">ACTUALIZAR MI PERFIL <i class="fa fa-angle-right"></i></div>
 				</div>
 			</div>
-			<div class="col-md-10 col-md-offset-1 col-xs-12 col-sm-12 mb-lg">				
+			<div class="col-md-10 col-md-offset-1 col-xs-12 col-sm-12 mb-lg mt-lg">				
 				<div class="tips-villa-salud" ng-if="fSessionCI.sexo.toLowerCase() == 'f'">
-					<div class="col-md-12 col-xs-12 col-sm-12">
-						<h4 class="heading-tips">Queremos cuidarte...</h4>
+					<div class="col-md-12 col-xs-12 col-sm-12" style="text-align:center;">
+					<!-- <h4 class="heading-tips">Queremos cuidarte...</h4> -->
+						<span ng-if="fSessionCI.sexo=='M'"> Estimado {{fSessionCI.paciente}} </span>
+						<span ng-if="fSessionCI.sexo=='F'"> Estimada {{fSessionCI.paciente}} </span>, tu salud nos importa, por ello te sugerimos realizarte los siguientes análisis y/o procedimientos que según tu perfil consideramos importantes para que puedas gozar de buena salud SIEMPRE!
 					</div>
 					<div class="col-md-4 col-xs-12 col-sm-6" ng-if="fSessionCI.imc.dato < 18 || fSessionCI.imc.dato > 24.9">
 						<div class="tip mb-xs">
@@ -162,7 +169,11 @@
 							<button type="button" class="btn btn-success btn-sm" ng-click="btnSolicitarCita(1,2);"><i class="fa fa-plus"></i></button>
 						</div>
 					</div>
-				</div>			
+					<div class="col-md-12 col-xs-12 col-sm-12" style="text-align:center;">
+						Visita al especialista y solicita tu Orden Médica.
+					</div>
+				</div>
+
 			</div>
 			<div class="col-md-12 col-xs-12 col-sm-12 ">
 				<div class="col-md-offset-1 col-md-5 col-xs-12 col-sm-12 ">
