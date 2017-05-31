@@ -1,5 +1,5 @@
 angular.module('theme.resultadolaboratorio', ['theme.core.services'])
-  .filter('propsFilter', function() {
+/*  .filter('propsFilter', function() {
     return function(items, props) {
       var out = [];
 
@@ -28,11 +28,11 @@ angular.module('theme.resultadolaboratorio', ['theme.core.services'])
       return out;
     };
   })
-
-  .controller('resultadolaboratorioController', ['$scope', '$sce', '$filter','$uibModal', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys', 'blockUI', 
+*/
+  .controller('resultadolaboratorioController', ['$scope', '$sce','$uibModal', '$bootbox', '$window', '$http', '$theme', '$log', '$timeout', 'uiGridConstants', 'pinesNotifications', 'hotkeys', 'blockUI', 
     'resultadolaboratorioServices', 'analisisServices', 'ModalReporteFactory' ,
     'rootServices',
-    function($scope, $sce, $filter, $uibModal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, blockUI, 
+    function($scope, $sce, $uibModal, $bootbox, $window, $http, $theme, $log, $timeout, uiGridConstants, pinesNotifications, hotkeys, blockUI, 
       resultadolaboratorioServices, analisisServices , ModalReporteFactory ,
       rootServices
     ){ 
@@ -195,8 +195,7 @@ angular.module('theme.resultadolaboratorio', ['theme.core.services'])
           });
         }
       });
-    }
-    
+    }    
   }])
   .service("resultadolaboratorioServices",function($http, $q) {
     return({

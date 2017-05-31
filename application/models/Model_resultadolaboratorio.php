@@ -6,14 +6,16 @@ class Model_resultadolaboratorio extends CI_Model {
 	}
 
 	public function m_cargar_resultados_usuario($datos){ 
-		$this->db->select('m.idmuestrapaciente, m.orden_lab, m.orden_venta, m.idhistoria, m.fecha_recepcion, m.idsedeempresaadmin ,tm.descripcion as tipomuestra, s.descripcion as sede , ea.idempresaadmin');
+		$this->db->select('m.idmuestrapaciente, m.orden_lab, m.orden_venta, m.idhistoria, m.fecha_recepcion, m.idsedeempresaadmin');
+		$this->db->select('tm.descripcion as tipomuestra, m.idsedeempresaadmin');
+		//$this->db->select('s.descripcion as sede , ea.idempresaadmin');
 		$this->db->from('muestra_paciente m');
 		$this->db->join('tipomuestra tm','tm.idtipomuestra = m.idtipomuestra');
-		$this->db->join('sede_empresa_admin sea','sea.idsedeempresaadmin = m.idsedeempresaadmin');
+		/*$this->db->join('sede_empresa_admin sea','sea.idsedeempresaadmin = m.idsedeempresaadmin');
 		$this->db->join('empresa_admin ea','sea.idempresaadmin = ea.idempresaadmin');
-		$this->db->join('sede s','s.idsede = sea.idsede');				
+		$this->db->join('sede s','s.idsede = sea.idsede');	*/			
 		$this->db->where('m.estado_mp <>', 0);
-		$this->db->where_in('ea.estado_emp', array(1,2));
+		//$this->db->where_in('ea.estado_emp', array(1,2));
 		$this->db->where('m.idcliente', $datos['idcliente']);		
 
 		return $this->db->get()->result_array();
