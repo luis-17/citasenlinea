@@ -118,10 +118,10 @@
                                     <a href="#/resultado-laboratorio" ng-class="{active:getUrlActual() == '/resultado-laboratorio'}">RESULTADOS DE LABORATORIO</a>
                                 </li> 
 
-                                <li class="menu-item pull-right" >
-                                    <a href="" ng-click="btnLogoutToSystem();">
-                                        <i class="ti ti-shift-right" style="font-size: 20px;"></i>
-                                    </a>                                
+                                <li class="pull-right" >
+                                    <a href="" ng-click="btnLogoutToSystem();" >
+                                       <span class="m-n mr-sm label btn-salir" >SALIR</span> 
+                                    </a>                               
                                 </li>
 
                                 <li class="dropdown toolbar-icon-bg pull-right" > 
@@ -214,9 +214,16 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="" >
-                                        <a href="" ng-click="btnLogoutToSystem();">
+                                    <!-- <li class="" >
+                                        <a href="" ng-click="btnLogoutToSystem();" class="m-n mr-sm">
                                             <i class="ti ti-shift-right" style="font-size: 20px;"></i>
+                                        </a>                                
+                                    </li> -->
+                                    <li class="m-n mr-sm" >
+                                        <a href="" ng-click="btnLogoutToSystem();" 
+                                                    class="m-n mr-sm label label-danger btn-salir" 
+                                                    style="color:#fff !important">
+                                           SALIR
                                         </a>                                
                                     </li>
                                 </ul>

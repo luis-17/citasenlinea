@@ -255,6 +255,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       $scope.viewRegister = true;
       $scope.initRecaptchaReg();
       $scope.fAlert = null;
+      $scope.fDataUser = null;
       $scope.fDataUser = {};
       $scope.fDataUser.sexo = '-';
     }
@@ -262,6 +263,8 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     $scope.btnViewLogin = function (){
       $scope.viewRegister = false;
       $scope.fAlert = null;
+      $scope.fDataUser = null;
+      $scope.fLogin = null;
     }
 
     $scope.getNotificacionesEventos = function (firtsTime) {

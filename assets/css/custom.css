@@ -363,7 +363,7 @@ ul.externo{text-transform:uppercase;}
 }
 
 #topnav .navbar-nav.toolbar > li > a {
-    padding: 14px 5px;
+    padding: 14px 3px;
     font-size: 12px;
 }
 
@@ -2771,3 +2771,23 @@ footer {
   color: #191970;
   border-bottom: 1px solid #00bcd4;
 }
+
+.btn-salir{
+  font-size: 14px;
+  color:#fff;
+  background-color: #ce1d19;
+  border: 1px solid #fff;
+  padding: 4px 8px !important;
+/*  position: relative !important;
+  top: 10px;*/
+  border-radius: 8px;
+
+  -webkit-box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
+  box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
+}
+ 
+span.btn-salir:hover{
+  color:#ce1d19;
+  background-color: #fff;
+  border-color: #929292;
+}   

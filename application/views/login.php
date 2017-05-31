@@ -29,16 +29,16 @@
                             Bienvenido
                         </div>
                         <div class="panel-body">                        
-                            <form action="" class="form-horizontal" id="validate-form">
+                            <form action="" class="form-horizontal" id="validate-form" novalidate>
                                 <div class="form-group mb-md">
                                     <div class="col-xs-12">
-                                        <input ng-model="fLogin.usuario" type="text" class="form-control" placeholder="N° documento" data-parsley-minlength="6" required focus-me enter-as-tab/>
+                                        <input ng-model="fLogin.usuario" type="text" class="form-control" placeholder="N° documento" data-parsley-minlength="6" focus-me enter-as-tab/>
                                         
                                     </div>
                                 </div>
                                 <div class="form-group mb-md">
                                     <div class="col-xs-12">
-                                        <input ng-model="fLogin.clave" type="password" class="form-control" id="exampleInputPassword1" placeholder="Clave" required ng-enter="btnLoginToSystem(); $event.preventDefault();"/>
+                                        <input ng-model="fLogin.clave" type="password" class="form-control" id="exampleInputPassword1" placeholder="Clave" ng-enter="btnLoginToSystem(); $event.preventDefault();"/>
                                         
                                     </div>
                                 </div>                       
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12 btn-registro">
-                            <a href="" ng-click="btnViewRegister(); $event.preventDefault();">
+                            <a href="" ng-click="fLogin = null; fAlert=null; captchaValido=false; btnViewRegister(); $event.preventDefault();">
                                 ¿No tienes cuenta? Regístrate Aquí <i class="fa fa-angle-right"></i>
                             </a>
                         </div>
@@ -93,7 +93,7 @@
                 <div class="formulario formulario-registro" ng-show="viewRegister" ng-controller="usuarioController">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a style="" ng-click="btnViewLogin();" class="ir-atras">
+                            <a style="" ng-click="fAlert = null; fDataUser=null; btnViewLogin();" class="ir-atras">
                                 <i class="fa fa-angle-left"></i>
                             </a>{{ titleForm }} 
                         </div>

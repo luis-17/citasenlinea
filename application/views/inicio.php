@@ -91,7 +91,8 @@
 				</div>
 			</div>
 			<div class="col-md-10 col-md-offset-1 col-xs-12 col-sm-12 mb-lg mt-lg">				
-				<div class="tips-villa-salud" ng-if="fSessionCI.sexo.toLowerCase() == 'f'">
+				<div class="tips-villa-salud">
+				<!-- <div class="tips-villa-salud" ng-if="fSessionCI.sexo.toLowerCase() == 'f'"> -->
 					<div class="col-md-12 col-xs-12 col-sm-12" style="text-align:center;">
 					<!-- <h4 class="heading-tips">Queremos cuidarte...</h4> -->
 						<span ng-if="fSessionCI.sexo=='M'"> Estimado {{fSessionCI.paciente}} </span>
@@ -182,7 +183,7 @@
 							<div class="texto">
 								PROGRAMA TUS CITAS</br>
 								<span class="familiares" style="color: #0f7986;">Y DE TUS FAMILIARES</span></br>
-								<p class="pasos">Es muy sencillo... Selecciona una fecha, escoge la sede, la especialidad y un médico.</p>
+								<p class="pasos">Es muy sencillo... Selecciona una fecha, escoge la sede, la especialidad y tu médico de confianza.</p>
 							</div>
 							<div class="btn btn-default btn-go-citas" ng-click="goToSelCita();">PROGRAMAR CITA <i class="fa fa-angle-right"></i></div>
 						</div>
