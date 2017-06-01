@@ -1,6 +1,6 @@
 <style type="text/css">
   .page-content{
-    margin-bottom: 100px;
+    margin-bottom: 150px;
   }
 </style>
 <div class="content page-planning" ng-controller="programarCitaController" ng-init="initSeleccionarCita();" > 

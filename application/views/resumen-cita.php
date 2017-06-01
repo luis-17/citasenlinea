@@ -1,3 +1,8 @@
+<style type="text/css">
+  .page-content{
+    margin-bottom: 150px;
+  }
+</style>
 <div class="container page-pagos" ng-controller="programarCitaController" ng-init="initResumenReserva();" >       
   	<div class="row" ng-if="viewResumenCita">
       	<div class="col-md-12 col-xs-12 col-sm-12 ">	              	

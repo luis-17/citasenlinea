@@ -522,17 +522,6 @@ nav .menu-item a{
 .modal-content {
     border-radius: 8px;
 }
-/**** Modificacion footer*/
-footer{
-  background-color: #9a999d;
-}
-
-footer ul li h6{
-  margin: 0; 
-  color:#fff; 
-  text-transform: none;
-  font-size: 14px;
-}
 
 .btn{
   border-radius: 8px !important;
@@ -1555,13 +1544,13 @@ input[type=radio]:checked + label:before {
 
 .dashboard .caja-1{
   margin-left: 40px;
-  border: solid 1px #a4e2ea;
+  border: 1px solid #36c0d1;
   text-align: center;
-  background: -webkit-linear-gradient(left, #36c0d1 0%, #97dee7 100%);
+  /*background: -webkit-linear-gradient(left, #36c0d1 0%, #97dee7 100%);
   background: -moz-linear-gradient(left, #36c0d1 1%, #97dee7 100%);
   background: -o-linear-gradient(left, #36c0d1 1%, #97dee7 100%);
   background: -ms-linear-gradient(left, #36c0d1 1%, #97dee7 100%);
-  background: linear-gradient(to right, #36c0d1 1%, #97dee7 100%);
+  background: linear-gradient(to right, #36c0d1 1%, #97dee7 100%);*/
 }
 
 .dashboard .caja-1 .division{
@@ -1602,6 +1591,7 @@ input[type=radio]:checked + label:before {
   letter-spacing: normal;
   position: relative;
   float: left;
+  margin-right: 4px;
 }
 
 .dashboard .caja-1 .division-2 .citas .tipo{
@@ -1610,14 +1600,15 @@ input[type=radio]:checked + label:before {
 }
 
 .dashboard .caja-1 .texto .pasos{
-  font-weight: 300;
   font-size: 15px;
   line-height: 1;
   margin-top: 8px;
+  color: navy;
+  font-weight: 400;
 }
 
 .dashboard .caja-1 .texto{
-  color: white;
+  color: #1f1c1c;
   font-size: 20px;
   font-weight: 900;
   text-align: center;
@@ -1639,7 +1630,7 @@ input[type=radio]:checked + label:before {
 }
 
 .dashboard .caja-2{
-  border: 1px solid #9a999d;
+  border: 1px solid #36c0d1;
   margin-bottom: 5px; 
   margin-right: 40px;
 }
@@ -1662,14 +1653,14 @@ input[type=radio]:checked + label:before {
 }
 
 .dashboard .caja-2 .division-1 .texto{
-  color: #0f7986;  
+  color: #36c0d1;  
   top: 15px;    
 }
 
 .dashboard .caja-2 .division-2 .texto{
   text-align: right;
   margin-right: 2%;
-  color: #ce1d19;
+  color: navy;
   top: 10px;
 }
 
@@ -2541,10 +2532,10 @@ input[type=radio]:checked + label:before {
       margin-top: 15px;
     }
 
-    .dashboard .div-btn .btn-go-perfil {
+    /*.dashboard .div-btn .btn-go-perfil {
       width: 160px;
       font-size: 12px;
-    }
+    }*/
 
     .dashboard .caja{
       width: 100%;      
@@ -2555,7 +2546,7 @@ input[type=radio]:checked + label:before {
       width: 100%;      
     }    
 
-    .btn-go-citas{
+    .caja .btn-go-citas{
       padding: 3px 6px;
       line-height: 1.35;      
     }
@@ -2708,18 +2699,6 @@ table.two-axis th {
   padding: 2px;
 }
 
-footer {  
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 60px;
-}
-
-.static-content{
-  margin-bottom: 50px;
-  padding-bottom: 50px;
-}
-
 .tips-villa-salud {
   width: 90%;
   margin-left: auto;
@@ -2741,7 +2720,8 @@ footer {
 }
 
 .tips-villa-salud .tip button{
-  float: right;
+  float: left;
+  margin-right: 4px;
 }
 
 @-moz-document url-prefix() {
@@ -2791,3 +2771,24 @@ span.btn-salir:hover{
   background-color: #fff;
   border-color: #929292;
 }   
+
+.badge-deeporange {
+    background-color: #be0411;
+}
+
+.footer-parts{
+    list-style: none;
+    padding: 0;
+    vertical-align: middle;
+    font-size: 17px;
+    color: #1f1c1c;
+    font-weight: bold;
+    text-align: center;
+}
+
+.footer-part-item{
+    vertical-align: middle;
+    position: relative;
+    top: -12px;
+    display: inline-block;
+}
