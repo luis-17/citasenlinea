@@ -2489,6 +2489,16 @@ input[type=radio]:checked + label:before {
     margin-left: auto;
     margin-right: auto;
   }
+
+  .menu{
+    margin: 0;
+    padding: 0;
+  }
+
+  .btn-salir {
+    font-size: 12px;
+    padding: 4px 6px !important;
+  }
 }
 
 /* Custom, iPhone Retina */ 
@@ -2513,10 +2523,10 @@ input[type=radio]:checked + label:before {
       float: left;
     }    
 
-    .navbar-nav.options li a{
+/*    .navbar-nav.options li a{
       padding-right: 15px;
       padding-left: 15px;
-    }
+    }*/
 
     .dashboard .saludo {
       font-size: 16px;
@@ -2613,6 +2623,10 @@ input[type=radio]:checked + label:before {
   .dashboard .valores .item {
     width: 60%;
     margin-top: 5px !important;
+  }
+
+  #topnav.navbar-default .navbar-brand {
+      width: 130px !important;
   }
 }
 
@@ -2792,3 +2806,4 @@ span.btn-salir:hover{
     top: -12px;
     display: inline-block;
 }
+
