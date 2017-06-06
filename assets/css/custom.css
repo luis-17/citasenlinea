@@ -1417,7 +1417,7 @@ input[type=radio]:checked + label:before {
 }
     
 .dashboard .valores{
-  margin: 15px auto;
+  margin: 15px auto 15px auto;
   min-height: 70px;
   background: transparent;
 }
@@ -2714,7 +2714,7 @@ table.two-axis th {
 }
 
 .tips-villa-salud {
-  width: 90%;
+  /*width: 90%;*/
   margin-left: auto;
   margin-right: auto;
   /*text-align: center;*/
@@ -2730,7 +2730,13 @@ table.two-axis th {
 .tips-villa-salud .tip{
   font-size: 16px;
   color: #4f4d53;
-  text-transform: uppercase;
+  text-transform: uppercase;  
+  display: block;
+  font-size: 16px;
+  color: #1f1c1c;
+  /*text-shadow: 0 8px 9px #c1bbb1, 0px -2px 1px #fff;*/
+  text-shadow:0 5px 6px #c1bbb1, 0px -1px 0px #fff;
+  font-weight: bold;
 }
 
 .tips-villa-salud .tip button{
@@ -2807,3 +2813,17 @@ span.btn-salir:hover{
     display: inline-block;
 }
 
+.milky {
+    width: 100%;
+    height: 65px;
+    text-transform: uppercase;
+    display: block;    
+    color: #1f1c1c;
+
+    font-size: 16px;
+    /*text-shadow: 0 8px 9px #c1bbb1, 0px -2px 1px #fff;*/
+    /*text-shadow:0 6px 7px #c1bbb1, 0px -1px 1px #fff;*/
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+}
