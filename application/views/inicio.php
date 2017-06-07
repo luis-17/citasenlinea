@@ -92,8 +92,7 @@
 				</div>
 			</div>
 			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-xs-12 col-sm-12 mb-lg">				
-				<div class="tips-villa-salud">
-				<!-- <div class="tips-villa-salud" ng-if="fSessionCI.sexo.toLowerCase() == 'f'"> -->
+				<div class="tips-villa-salud" ng-if="fSessionCI.sexo.toLowerCase() == 'f'"> 
 					<div class="col-md-12 col-xs-12 col-sm-12 mb-md"> <!-- style="text-align:center;font-size: 17px;color: #1f1c1c;" -->
 						<div  class="milky">
 							<span ng-if="fSessionCI.sexo=='M'"> Estimado <span style="color:#be0411;">{{fSessionCI.paciente}}</span></span>
@@ -179,12 +178,10 @@
 								    position: relative;" class="m-n">
 							Visita al especialista y solicita tu Orden Médica.
 						</p>
-					</div>
-				
+					</div>				
 				</div>
-
 			</div>
-			<div class="col-md-12 col-xs-12 col-sm-12 ">
+			<!-- <div class="col-md-12 col-xs-12 col-sm-12 ">
 				<div class="col-md-offset-1 col-md-5 col-xs-12 col-sm-12 ">
 					<div class="caja caja-1 panel" style="">
 						<div class="division division-1">	
@@ -230,6 +227,67 @@
 							<div class="imagen">
 								<img class src="{{ dirImages + 'dashboard/historial-laboratorio.png' }}" />
 							</div>	              				              				              				
+						</div>
+					</div>
+				</div>
+			</div> -->
+			<div class="col-md-12 col-xs-12 col-sm-12 ">
+				<div class="col-md-offset-1 col-md-5 col-xs-12 col-sm-12 ">
+					<div class="caja caja-1 panel" style="">
+						<div class="titulo-caja">PROGRAMA TUS CITAS</div>
+						<div class="divisiones">
+							<div class="division division-1">	
+								<div class="texto">
+									<p class="pasos"><strong>¡Es muy sencillo!</strong></br>Selecciona la Sede, la Especialidad, tu Médico de confianza, la fecha y hora de tu Cita Médica.</p>
+								</div>
+								<div class="btn btn-default btn-go-citas" ng-click="goToSelCita();">PROGRAMAR CITA <i class="fa fa-angle-right"></i></div>
+							</div>
+							<div class="division division-2">	              				
+								<div class="citas pendientes" ng-click="goToHistorial();">
+									<spam class="count-citas">{{fSessionCI.citas_pendientes}}</spam>
+									<spam class="tipo">Citas </br>Pendientes</spam>
+								</div>
+								<div class="citas realizadas" ng-click="goToHistorial();">
+									<spam class="count-citas">{{fSessionCI.citas_realizadas}}</spam>
+									<spam class="tipo">Citas</br>Realizadas</spam>
+								</div>
+							</div>
+						</div>						
+					</div>
+				</div>
+				<div class="col-md-5 col-md-offset-right-1 col-xs-12 col-sm-12 ">
+					<div class="caja caja-2 panel" >	              			
+						<div class="titulo-caja">REVISA AQUÍ</div>
+						<div class="divisiones">
+							<div class="division division-1">	              				
+								<div class="imagen">
+									<img class src="{{ dirImages + 'dashboard/historial-citas.png' }}" />
+								</div>	              				
+								<div class="texto" ng-click="goToHistorial();"> 
+									<div class="historial">
+										TU HISTORIAL DE CITAS
+										<span>
+											<i class="fa fa-angle-right"></i>
+											<i class="fa fa-angle-right"></i>
+										</span>
+									</div>									
+								</div>
+							</div>
+
+							<div class="division  division-2">	
+								<div class="imagen">
+									<img class src="{{ dirImages + 'dashboard/historial-laboratorio.png' }}" />
+								</div>
+								<div class="texto" ng-click="goToResultados();">									
+									<div class="resultados">										
+										RESULTADOS DE LABORATORIO
+										<span>
+											<i class="fa fa-angle-right"></i>
+											<i class="fa fa-angle-right"></i>
+										</span>
+									</div>									 
+								</div>									              				              				              				
+							</div>
 						</div>
 					</div>
 				</div>
