@@ -475,8 +475,14 @@ class ProgramarCita extends CI_Controller {
 				);
 			$resultCita = $this->model_prog_cita->m_cambiar_datos_en_cita($datos); //cita con nuevo iddetalleprogmedico
 			if($resultCita ){
-				$resultCuposCanal = $this->model_prog_medico->m_cambiar_cupos_canales($allInputs['seleccion']); 
-				$resultCuposProg = $this->model_prog_medico->m_cambiar_cupos_programacion($allInputs['seleccion']);	
+				if(!$allInputs['seleccion']['si_adicional']){
+					$resultCuposCanal = $this->model_prog_medico->m_cambiar_cupos_canales($allInputs['seleccion']); 
+					$resultCuposProg = $this->model_prog_medico->m_cambiar_cupos_programacion($allInputs['seleccion']);	
+				}else{
+					$resultCuposCanal = TRUE;
+					$resultCuposProg = TRUE;
+				}
+				
 				$data = array(
 					'estado_cupo' => 1,
 					'iddetalleprogmedico' => $allInputs['seleccion']['iddetalleprogmedico'],

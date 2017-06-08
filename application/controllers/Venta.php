@@ -189,16 +189,22 @@ class Venta extends CI_Controller {
 							);
 						$resultDetalle = $this->model_prog_medico->m_cambiar_estado_detalle_de_programacion($data);
 
-						$data = array(
-							'idprogmedico' => $cita['seleccion']['idprogmedico'],
-							'idcanal' => $cita['seleccion']['idcanal']
-							);
-						$resultCanales = $this->model_prog_medico->m_cambiar_cupos_canales($data);
+						/*solo si NO es adicional*/
+						if(!$cita['seleccion']['si_adicional']){
+							$data = array(
+								'idprogmedico' => $cita['seleccion']['idprogmedico'],
+								'idcanal' => $cita['seleccion']['idcanal']
+								);
+							$resultCanales = $this->model_prog_medico->m_cambiar_cupos_canales($data);
 
-						$data = array(
-							'idprogmedico' => $cita['seleccion']['idprogmedico'],
-							);
-						$resultProg = $this->model_prog_medico->m_cambiar_cupos_programacion($data);						
+							$data = array(
+								'idprogmedico' => $cita['seleccion']['idprogmedico'],
+								);
+							$resultProg = $this->model_prog_medico->m_cambiar_cupos_programacion($data);
+						}else{
+							$resultCanales = TRUE;
+							$resultProg  = TRUE;
+						}												
 						//fin actualizacion de programacion -- 
 
 						//registro de relacion cita - usuario web
