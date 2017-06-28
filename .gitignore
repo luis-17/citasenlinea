@@ -9,3 +9,5 @@ application/config/database.php
 application/config/pusher.php
 scripts/config.js
 assets/img/dinamic/*
+assets/img.zip
+.user.ini
