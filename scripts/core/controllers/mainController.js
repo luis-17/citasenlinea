@@ -107,7 +107,8 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
             $scope.logIn();
           }          
         }else{
-          $scope.goToUrl('/login');
+          //$scope.goToUrl('/login');
+          window.location = "https://citasenlinea.villasalud.pe/#/login";
         }
       });
       progressLoader.start();

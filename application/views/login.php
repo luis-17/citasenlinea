@@ -70,11 +70,11 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-xs-12 btn-registro">
+                        <!-- <div class="col-xs-12 btn-registro">
                             <a href="" ng-click="fLogin = null; fAlert=null; captchaValido=false; btnViewRegister(); $event.preventDefault();">
                                 ¿No tienes cuenta? Regístrate Aquí <i class="fa fa-angle-right"></i>
                             </a>
-                        </div>
+                        </div> -->
                     </div>            
                 </div>
                 <div class="capa-info" ng-show="!viewRegister">            
