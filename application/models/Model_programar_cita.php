@@ -17,8 +17,8 @@ class Model_programar_cita extends CI_Model {
 			$this->db->where('esp.idespecialidad',$datos['itemEspecialidad']['id']);
 		}
 
-		$this->db->where('estado_amb', 1);		 
-		$this->db->where('estado_prm', 1);		 
+		$this->db->where('am.estado_amb', 1);		 
+		$this->db->where('prm.estado_prm', 1);		 
 		$this->db->where('prm.activo', 1);		 
 		$this->db->where('prm.idsede', $datos['itemSede']['id']); 
 		$this->db->where('(	SELECT count(*) 
