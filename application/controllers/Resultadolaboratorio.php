@@ -20,7 +20,7 @@ class Resultadolaboratorio extends CI_Controller {
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
 		//var_dump($this->sessionCitasEnLinea);exit();
 		$allInputs['idcliente'] = $this->sessionCitasEnLinea['idcliente'];
-		$allInputs['idcliente'] = 175617;
+		//$allInputs['idcliente'] = 175617;
 		//$paramPaginate = $allInputs['paginate'];
 		$lista = $this->model_resultadolaboratorio->m_cargar_resultados_usuario($allInputs);
 		//$totalRows = $this->model_resultadolaboratorio->m_count_resultados_usuario($allInputs,$paramPaginate);		
