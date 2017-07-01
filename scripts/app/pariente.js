@@ -88,6 +88,7 @@ angular.module('theme.pariente', ['theme.core.services'])
     paginationOptions.sortName = $scope.gridOptions.columnDefs[0].name;
     
     $scope.refreshListaParientes = function(){
+      blockUI.start('Cargando familiares...');
       $scope.datosGrid = {
         paginate : paginationOptions
       };
@@ -95,12 +96,14 @@ angular.module('theme.pariente', ['theme.core.services'])
         $scope.gridOptions.totalItems = rpta.paginate.totalRows;
         $scope.gridOptions.data = rpta.datos;
         $scope.listaParientes = rpta.datos;
+        blockUI.stop();
       });
       $scope.mySelectionGrid = [];
     };
     
 
     $scope.btnNuevoPariente = function(callback){
+      blockUI.start('Abriendo formulario...');
       $scope.fData = {}; 
       $scope.fData.sexo = '-'; 
       $scope.accion ='reg';
@@ -112,7 +115,7 @@ angular.module('theme.pariente', ['theme.core.services'])
         $scope.fData.parentesco = $scope.regListaParentescos[0];
       });
 
-      blockUI.start('Abriendo formulario...');
+      
       $uibModal.open({ 
         templateUrl: angular.patchURLCI+'Pariente/ver_popup_formulario',
         size: '',
@@ -166,6 +169,7 @@ angular.module('theme.pariente', ['theme.core.services'])
           }
 
           $scope.btnRegistrarPariente = function (){
+            blockUI.start('Registrando familiar...');
             parienteServices.sRegistrarPariente($scope.fData).then(function (rpta) {              
               $scope.fAlert = {};
               $scope.fAlertFam = {};
@@ -193,6 +197,7 @@ angular.module('theme.pariente', ['theme.core.services'])
                 $scope.btnCancel();                
               }
               $scope.fAlert.flag = rpta.flag;
+              blockUI.stop();
             });
           }   
         
@@ -202,6 +207,7 @@ angular.module('theme.pariente', ['theme.core.services'])
     }
 
     $scope.btnEditarPariente = function(row){
+      blockUI.start('Abriendo formulario...');
       $scope.fData = angular.copy(row); 
       $scope.accion ='edit';
       $scope.regListaParentescos = angular.copy($scope.listaParentescos);
@@ -213,7 +219,7 @@ angular.module('theme.pariente', ['theme.core.services'])
         }        
       });      
 
-      blockUI.start('Abriendo formulario...');
+      
       $uibModal.open({ 
         templateUrl: angular.patchURLCI+'Pariente/ver_popup_formulario',
         size: '',
@@ -228,6 +234,7 @@ angular.module('theme.pariente', ['theme.core.services'])
           }
 
           $scope.btnActualizarPariente = function (){
+            blockUI.start('Editar familiar...');
             parienteServices.sActualizarPariente($scope.fData).then(function (rpta) {              
               $scope.fAlert = {};
               $scope.fAlertFam = {};
@@ -249,7 +256,7 @@ angular.module('theme.pariente', ['theme.core.services'])
                 $scope.btnCancel();
               }
               $scope.fAlert.flag = rpta.flag;
-              
+              blockUI.stop();
             });
           }   
         
@@ -259,6 +266,7 @@ angular.module('theme.pariente', ['theme.core.services'])
     }
 
     $scope.btnEliminarPariente = function(row){
+      blockUI.start('');
       $uibModal.open({ 
         templateUrl: angular.patchURLCI+'Pariente/ver_popup_aviso',
         size: 'sm',
@@ -270,7 +278,7 @@ angular.module('theme.pariente', ['theme.core.services'])
           $scope.msj = '¿Estás seguro de realizar esta acción?';
 
           $scope.btnOk = function(){
-            $scope.btnCancel();
+            blockUI.start('Anulando familiar...');
             parienteServices.sEliminarPariente(row).then(function (rpta) {                         
               $scope.fAlert = {};
               if(rpta.flag == 0){
@@ -289,13 +297,15 @@ angular.module('theme.pariente', ['theme.core.services'])
                 $scope.refreshListaParientes();
               }
               $scope.fAlert.flag = rpta.flag;
-              
+              blockUI.stop();
             });
+            $scope.btnCancel();
           }
 
           $scope.btnCancel = function(){
             $modalInstance.dismiss('btnCancel');
           }
+          blockUI.stop();
         }
       });
     }

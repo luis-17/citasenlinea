@@ -18,6 +18,7 @@ angular.module('theme.usuario', ['theme.core.services'])
 
     $scope.fDataUsuario = {};
     $scope.init = function(){
+      blockUI.start('Cargando perfil...');
       rootServices.sGetSessionCI().then(function (response) {
         if(response.flag == 1){
           $scope.fDataUser = response.datos;
@@ -32,6 +33,7 @@ angular.module('theme.usuario', ['theme.core.services'])
         $scope : $scope
       });
       $scope.initPariente();
+      blockUI.stop();
     }
 
     $scope.initPerfil = function(){
@@ -191,7 +193,7 @@ angular.module('theme.usuario', ['theme.core.services'])
         $scope.fAlert.strStrong = 'Error';
         return;
       }
-
+      blockUI.start('Registrando usuario...');
       usuarioServices.sRegistrarUsuario($scope.fDataUser).then(function (rpta) {       
         if(rpta.flag == 0){
           $scope.fAlert = {};
@@ -220,6 +222,7 @@ angular.module('theme.usuario', ['theme.core.services'])
             }
           });
         }
+        blockUI.stop(); 
       });
     } 
 
@@ -267,12 +270,14 @@ angular.module('theme.usuario', ['theme.core.services'])
       }
 
       $scope.fDataUsuario.miclave = 'si';
+      blockUI.start('Actualizando datos...');
       usuarioServices.sActualizarPasswordUsuario($scope.fDataUsuario).then(function (rpta){
         if(rpta.flag == 1){
           $scope.fAlertClave = {};
           $scope.fAlertClave.type= 'success';
           $scope.fAlertClave.msg= rpta.message;
-          $scope.fAlertClave.strStrong = 'Genial.';          
+          $scope.fAlertClave.strStrong = 'Genial.';   
+          $scope.fDataUsuario = {};       
         }else if(rpta.flag == 2){
           $scope.fDataUsuario.clave = null;
           $scope.fAlertClave = {};
@@ -292,7 +297,7 @@ angular.module('theme.usuario', ['theme.core.services'])
         }else{
           alert('Error inesperado');
         } 
-
+        blockUI.stop();
         setTimeout(function() {
             $scope.closeAlertClave();
           }, 1000);              
@@ -300,6 +305,7 @@ angular.module('theme.usuario', ['theme.core.services'])
     }
 
     $scope.btnCambiarMiFotoPerfil = function (usuario, session){          
+      blockUI.start('Abriendo formulario...');
       $uibModal.open({
         templateUrl: angular.patchURLCI+'usuario/ver_popup_foto_perfil',
         controller: function ($scope, $modalInstance) {
@@ -349,11 +355,13 @@ angular.module('theme.usuario', ['theme.core.services'])
             $modalInstance.dismiss('cancelSubida');
             $scope.fDataSubida = {};
           }
+          blockUI.stop();
         }
-      });
+      });      
     } 
 
     $scope.btnActualizarPerfilClinico = function (){
+      blockUI.start('Actualizando datos...');
       $scope.fAlertPerfilCli = null;
       usuarioServices.sActualizarPerfilClinico($scope.fDataDashboard).then(function(rpta){
         var msg = rpta.message;
@@ -374,6 +382,7 @@ angular.module('theme.usuario', ['theme.core.services'])
           $scope.fAlertPerfilCli.msg= rpta.message;
           $scope.fAlertPerfilCli.strStrong = 'Advertencia.';
         }
+        blockUI.stop();
       });
     } 
 

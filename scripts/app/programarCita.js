@@ -187,11 +187,13 @@ angular.module('theme.programarCita', ['theme.core.services'])
     }
 
     $scope.cargarPlanning = function(){
-      blockUI.start('Cargando programación...');
-      programarCitaServices.sCargarPlanning($scope.fBusqueda).then(function(rpta){
-        $scope.fPlanning = rpta.planning;
-        blockUI.stop();
-      });
+      if($scope.fBusqueda.desde){
+        blockUI.start('Cargando programación...');
+        programarCitaServices.sCargarPlanning($scope.fBusqueda).then(function(rpta){
+          $scope.fPlanning = rpta.planning;
+          blockUI.stop();
+        });
+      }      
     }
 
     $scope.goToHistorial = function(){
@@ -214,12 +216,13 @@ angular.module('theme.programarCita', ['theme.core.services'])
     }
 
     $scope.verTurnosDisponibles = function(item, boolExterno, callback){
+      blockUI.start('Cargando turnos disponibles...');
       if(boolExterno){
         $scope.boolExterno = true;
       } else {
         $scope.boolExterno = false;
       }
-      blockUI.start('Cargando turnos disponibles...');
+      
       $uibModal.open({ 
         templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_turnos',
         size: '',
@@ -375,6 +378,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
     }
 
     $scope.quitarDeLista = function(index, fila){
+      blockUI.start('Actualizando...');
       //console.log(index, fila);
       $scope.fSessionCI.compra.listaCitas.splice( index, 1 );
       if($scope.fSessionCI.compra.listaCitas.length > 0){
@@ -384,27 +388,30 @@ angular.module('theme.programarCita', ['theme.core.services'])
       }
       programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
         //console.log(rpta);
+        blockUI.stop();
       });
     }
 
     $scope.resumenReserva = function(){
+      blockUI.start('Verificando reserva...');
       ventaServices.sValidarCitas($scope.fSessionCI).then(function(rpta){
-        console.log(rpta);
+        //console.log(rpta);
         if(rpta.flag != 1){
           $scope.fSessionCI.compra.listaCitas = angular.copy(rpta.listaDefinitiva);         
-          $scope.mostrarMsj(2,'Aviso', rpta.message + '. Selecciona nuevas citas.');          
+          $scope.mostrarMsj(2,'Aviso', rpta.message + '. Selecciona nuevas citas.'); 
         }
 
         if($scope.fSessionCI.compra.listaCitas.length > 0){
           programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
             $scope.goToUrl('/resumen-cita'); 
+            blockUI.stop();
           });
         }else{
           $scope.mostrarMsj(0,'Aviso', rpta.msg + '. Selecciona nuevas citas.');
           setTimeout(function() {            
               $scope.goToUrl('/seleccionar-cita');
           }, 5000);
-
+          blockUI.stop();
         }               
       });               
     }
@@ -417,6 +424,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
       }
     }
     $scope.initResumenReserva = function(){
+      blockUI.start('Verificando reserva...');
       $scope.acepta = false;      
       $scope.viewResumenCita = true;
       $scope.viewResumenCompra = false;      
@@ -450,7 +458,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
             alert('Error inesperado');
             modal = false;
           }
-          blockUI.stop();
+          
           if(modal){            
             $uibModal.open({ 
               templateUrl: url,
@@ -474,6 +482,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
                     $scope.goToResumenCompra(callback);
                   }, 1000);
                 }
+                blockUI.stop();
               }
             });
           }
@@ -548,12 +557,14 @@ angular.module('theme.programarCita', ['theme.core.services'])
             }       
 
             $scope.listaCitas = $scope.fSessionCI.compra.listaCitas;
+            blockUI.stop();
           });          
         }           
       });    
     }
 
     $scope.goToResumenCompra = function(callback){
+      blockUI.start('Cargando resumen de compra...');
       rootServices.sGetSessionCI().then(function (response) {
         if(response.flag == 1){
           $scope.fSessionCI = response.datos; 
@@ -562,6 +573,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
         $scope.viewResumenCita = false;
         $scope.viewResumenCompra = true; 
+        blockUI.stop();
         //callback();           
       });
     }

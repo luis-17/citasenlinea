@@ -350,7 +350,7 @@ class Venta extends CI_Controller {
 	                  <div style="text-align: center;">
 	                    <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
 	                  </div>';
-	   	$cuerpo .= '  <div style="max-width: 780px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';             
+	   	$cuerpo .= '  <div style="max-width: 750px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 10%; padding-right: 10%;">';             
         $cuerpo .= '  <div style="font-size:16px;">  
                         Estimado(a) usuario: '.$allInputs['usuario']['paciente'] .', <br /> <br /> ';
         $cuerpo .= '    Han sido regitradas las siguientes citas en tu cuenta:';

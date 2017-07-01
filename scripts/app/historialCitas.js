@@ -12,6 +12,7 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       shortcut.remove("F2"); 
       $scope.modulo = 'historialCitas'; 
       $scope.dirComprobantes = 'https://citasenlinea.villasalud.pe/comprobantesWeb/';
+      blockUI.start('Cargando historial de citas...');
 
       rootServices.sGetSessionCI().then(function (response) {
         if(response.flag == 1){
@@ -70,8 +71,10 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       }
 
       $scope.listarHistorial = function(){
+        blockUI.start('Cargando historial de citas...');
         historialCitasServices.sCargarHistorialCitas($scope.fBusqueda).then(function(rpta){          
-          $scope.listaDeCitas = rpta.datos;        
+          $scope.listaDeCitas = rpta.datos; 
+          blockUI.stop();       
         });
       }
       $scope.listarHistorial();
@@ -222,22 +225,44 @@ angular.module('theme.historialCitas', ['theme.core.services'])
       }
 
       $scope.resumenReserva = function(){
+        blockUI.start('Verificando reserva...');
         ventaServices.sValidarCitas($scope.fSessionCI).then(function(rpta){
-          if(rpta.flag == 1){
+          //console.log(rpta);
+          if(rpta.flag != 1){
+            $scope.fSessionCI.compra.listaCitas = angular.copy(rpta.listaDefinitiva);         
+            $scope.mostrarMsj(2,'Aviso', rpta.message + '. Selecciona nuevas citas.'); 
+          }
+
+          if($scope.fSessionCI.compra.listaCitas.length > 0){
             programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
               $scope.goToUrl('/resumen-cita'); 
+              blockUI.stop();
             });
-          }        
-        });     
+          }else{
+            $scope.mostrarMsj(0,'Aviso', rpta.msg + '. Selecciona nuevas citas.');
+            setTimeout(function() {            
+                $scope.goToUrl('/seleccionar-cita');
+            }, 5000);
+            blockUI.stop();
+          }               
+        });               
       }
 
       $scope.quitarDeLista = function(index, fila){
+        blockUI.start('Actualizando...');
         //console.log(index, fila);
-        $scope.fSessionCI.listaCitas.splice( index, 1 );
+        $scope.fSessionCI.compra.listaCitas.splice( index, 1 );
+        if($scope.fSessionCI.compra.listaCitas.length > 0){
+          $scope.bloquearSelector(true);
+        }else{
+          $scope.bloquearSelector(false); 
+        }
         programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
-          console.log(rpta);
+          //console.log(rpta);
+          blockUI.stop();
         });
       }
+      blockUI.stop();
   })
   .service("historialCitasServices",function($http, $q) {
     return({
