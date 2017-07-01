@@ -2896,20 +2896,22 @@ span.btn-salir:hover{
   cursor: pointer !important;
   color: white;
   box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
+  border-radius: 0px 10px 10px 0px;
+  transition-property: width;
+  transition-duration: 1s;
+  transition-timing-function: linear;
 }
 
 .button-tutorial:hover {
-  padding-top: 1%;
-  width: 160px;
-  transition: all 1s ease;
+  padding-top: 4px !important;
+  width: 160px; 
 }
 
 .button-tutorial:after {
-    content: "?";
-    font-size: 30px;
-    padding-left: 20px;
-    font-weight: bold;
-
+  content: "?";
+  font-size: 30px;
+  padding-left: 20px;
+  font-weight: bold;
 }
 
 .button-tutorial:hover:after {
