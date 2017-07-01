@@ -156,7 +156,7 @@
 
                                     <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                         <label class="control-label mb-xs">Teléfono Móvil <small class="text-danger">(*)</small> </label>
-                                        <input type="tel" class="form-control input-sm" ng-model="fDataUser.celular" placeholder="Ingresa tu celular" ng-minlength="9" required tabindex="7" />
+                                        <input type="tel" class="form-control input-sm" ng-model="fDataUser.celular" placeholder="Ingresa tu celular" ng-minlength="9" ng-maxlength="9" required tabindex="7" />
                                     </div>
                                     <!-- <div class="form-group mb-md col-md-6">
                                         <label class="control-label mb-xs">Teléfono Casa  </label>

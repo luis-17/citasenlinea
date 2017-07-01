@@ -570,8 +570,12 @@ nav .menu-item a{
   border-color: #929292;
 }
 
+.form-control {
+    border: 1px solid #616161;
+}
+
 .form-control:focus {
-  border: 1px solid #616161; 
+  border: 1px solid #ce1d19; 
 }
 
 #wrapper {
@@ -2858,3 +2862,4 @@ span.btn-salir:hover{
   padding-left:50%; 
   margin:0 auto;  
 }
+

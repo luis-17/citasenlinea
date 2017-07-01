@@ -299,6 +299,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     }
 
     $scope.viewDetalleNotificacionEvento = function(fila){
+      blockUI.start('Cargando notificación...');
       console.log(fila);
       rootServices.sUpdateLeidoNotificacion(fila).then(function (rpta) {
         $scope.fData = fila;
@@ -323,7 +324,8 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
                   $scope.cancel();
                   $scope.descargaComprobanteCita($scope.fData.cita);
                 });
-              }              
+              }  
+              blockUI.stop();            
             }
           });
         }else if(rpta.flag == 0){
@@ -337,6 +339,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     }
 
     $scope.descargaComprobanteCita = function(cita){
+      blockUI.start('Cargando comprobante...');
       var arrParams = {
         titulo: 'COMPROBANTE DE CITA',
         datos: cita,
@@ -344,10 +347,12 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       }
       arrParams.url = angular.patchURLCI+'ProgramarCita/report_comprobante_cita'; 
       ModalReporteFactory.getPopupReporte(arrParams); 
+      blockUI.stop();
     }
 
     $scope.datoTip = null;
     $scope.btnSolicitarCita = function(idsede, idespecialidad){
+      return;
       $scope.datoTip = {
         idsede : idsede,
         idespecialidad, idespecialidad
