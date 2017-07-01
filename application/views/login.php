@@ -12,6 +12,10 @@
           .static-content-wrapper{
             background: none;
           }  
+
+          .contenedor-formularios{
+            padding-left: 0; 
+          }
         }
 
         @media only screen and (min-width : 1200px) {
@@ -21,9 +25,9 @@
         }
     </style>
     <div class="row">                   
-        <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-7" > 
-            <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-2" > 
-                <div class="formulario formulario-login" ng-show="!viewRegister">                
+        <div class="" style="margin: 0 auto;"> 
+            <div class="contenedor-formularios" style="" > 
+                <div class="formulario formulario-login" ng-show="!viewRegister" style="width: 335px; margin: 0 auto;">                
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Bienvenido
@@ -59,8 +63,6 @@
                         
                         <div class="panel-footer">
                             <div class="clearfix">
-                                <!-- <a href="#/extras-registration" class="btn btn-default pull-left">Register</a> -->
-                                <!-- <a href="" class="btn btn-page pull-right" ng-click="btnLoginToSystem()" ng-disabled="habilitaBtn" >Iniciar sesión</a> -->
                                 <button class="btn btn-page" style="width:100%;"  ng-click="btnLoginToSystem(); $event.preventDefault();" > Iniciar sesión </button> 
                             </div>
 
@@ -70,11 +72,11 @@
                                 </a>
                             </div>
                         </div>
-                        <!-- <div class="col-xs-12 btn-registro">
+                        <div class="col-xs-12 btn-registro">
                             <a href="" ng-click="fLogin = null; fAlert=null; captchaValido=false; btnViewRegister(); $event.preventDefault();">
                                 ¿No tienes cuenta? Regístrate Aquí <i class="fa fa-angle-right"></i>
                             </a>
-                        </div> -->
+                        </div> 
                     </div>            
                 </div>
                 <div class="capa-info" ng-show="!viewRegister">            
@@ -109,7 +111,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
-                                        <label class="control-label mb-xs"> DNI ó Documento de Identidad </label>
+                                        <label class="control-label mb-xs"> Doc. de Identidad </label>
                                         <div class="input-group">
                                             <input type="text" class="form-control input-sm" ng-model="fDataUser.num_documento" placeholder="Ingresa tu DNI ó Documento de Identidad" tabindex="1" 
                                                 ng-enter="verificarDoc(); $event.preventDefault();" focus-me ng-minlength="8" ng-pattern="/^[0-9]*$/"/> 
@@ -200,6 +202,6 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>     
     </div>
 </div>

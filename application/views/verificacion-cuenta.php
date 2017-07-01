@@ -186,7 +186,7 @@
                                 <p class="descripcion" style="color: #262e32;font-size: 18px;">Comienza a disfrutar los beneficios de ser un paciente de Villa Salud</p>
                             </div> 
                             <div class="col-sm-12 col-xs-12 col-md-12" style="">                                                                                           
-                                <a href="/citasenlinea" class="btn btn-page" style="width: 200px; -webkit-box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);">INICIAR SESION</a>
+                                <a href="https://citasenlinea.villasalud.pe/#/login" class="btn btn-page" style="width: 200px; -webkit-box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);">INICIAR SESION</a>
                             </div>                           
                         </div>                        
                     </div>

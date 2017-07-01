@@ -513,11 +513,11 @@ nav .menu-item a{
   width: 100%;
 }
 
-.content.container.page-login {
+/*.content.container.page-login {
   margin-right: auto;
   margin-left: auto;
   width: 70%;
-}
+}*/
 
 .modal-content {
     border-radius: 8px;
@@ -627,7 +627,7 @@ a.link-password:hover{
 }
 .page-login .formulario.formulario-login,
 .page-login .formulario.formulario-registro{
-  padding-top:4%;  
+  padding-top:6%;  
 }
 
 .page-login .formulario .panel-heading{
@@ -2677,11 +2677,11 @@ input[type=radio]:checked + label:before {
   }
 }
 
-@media only screen and (min-width : 992px) {
+/*@media only screen and (min-width : 992px) {
   .page-login.container {
       width: 96%;
   }
-}
+}*/
 
 @media only screen and (min-width : 768px) {
   .div-btn-1{
@@ -2852,4 +2852,9 @@ span.btn-salir:hover{
  border-bottom: 1px solid #00bcd4;
  border-top-left-radius: 10px;
  border-top-right-radius: 10px;
+}
+
+.contenedor-formularios{
+  padding-left:50%; 
+  margin:0 auto;  
 }
