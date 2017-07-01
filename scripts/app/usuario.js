@@ -81,7 +81,8 @@ angular.module('theme.usuario', ['theme.core.services'])
     $scope.initRegistrarUsuario = function(){ 
       $scope.fDataUser = {}; 
       $scope.fDataUser.sexo = '-'; 
-      $scope.captchaValidoReg = false;   
+      $scope.captchaValidoReg = false; 
+      $scope.acepta = false;  
     }
 
     $scope.verificarDoc = function(){
@@ -193,6 +194,15 @@ angular.module('theme.usuario', ['theme.core.services'])
         $scope.fAlert.strStrong = 'Error';
         return;
       }
+
+      if(!$scope.acepta){
+        $scope.fAlert = {};
+        $scope.fAlert.type= 'danger';
+        $scope.fAlert.msg= 'Debe aceptar los Términos y Condiciones.';
+        $scope.fAlert.strStrong = 'Error';
+        return;
+      }
+
       blockUI.start('Registrando usuario...');
       usuarioServices.sRegistrarUsuario($scope.fDataUser).then(function (rpta) {       
         if(rpta.flag == 0){

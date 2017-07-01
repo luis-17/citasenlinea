@@ -188,6 +188,11 @@
                                         <div id="recaptcha-registro" data-ng-controller="usuarioController" data-ng-init="initRecaptchaReg();"
                                                 class="g-recaptcha" data-sitekey="{{keyRecaptcha}}" data-callback="recaptchaResponse"></div>
                                     </div>
+                                </div> 
+                                <div class="row">
+                                    <div class="form-group mb-md col-md-12 col-sm-12 col-xs-12">
+                                        <input type="checkbox" ng-model="acepta"></input> Acepto los <a style="font-size: 17px;color: #36c5df;font-weight:600;text-decoration: underline;" target="_blank" href="https://citasenlinea.villasalud.pe/TerminosYCondiciones.pdf">Términos y Condiciones</a> establecidos.
+                                    </div>
                                 </div>                             
 
 

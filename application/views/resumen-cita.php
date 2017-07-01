@@ -119,7 +119,7 @@
           </div>
           <div class="terminos-condiciones">
         		<div class="titulo" style="font-size: 17px;color: #36c5df;font-weight:600;">
-        			<input type="checkbox" ng-model="acepta" ng-click="changeAcepta();" ng-checked="acepta"></input> Acepto los Términos y Condiciones establecidas (Lea detenidamente esta sección)              
+        			<input type="checkbox" ng-model="acepta" ng-click="changeAcepta();" ng-checked="acepta"></input> Acepto los <a style="font-size: 17px;color: #36c5df;font-weight:600;text-decoration: underline;" target="_blank" href="https://citasenlinea.villasalud.pe/TerminosYCondiciones.pdf">Términos y Condiciones</a> establecidos (Lea detenidamente esta sección)             
         		</div>
         		<ul>
         			<li>
