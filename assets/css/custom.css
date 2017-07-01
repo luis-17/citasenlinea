@@ -2863,3 +2863,57 @@ span.btn-salir:hover{
   margin:0 auto;  
 }
 
+#btnTutorial{
+  background-color: #36c0d1;
+  width: 300px;
+  height: 300px;
+
+  position: fixed;
+  bottom: 0px;
+  right: 0px; 
+}
+
+.button-wrapper-tutorial {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+}
+
+.button-tutorial {
+  position: fixed;
+  width: 58px;
+  bottom: 50px;
+  left: 0px;
+  margin: 0px !important;
+  padding: 0px !important;
+  border-bottom: 1px solid #00bcd4;
+  background-color: #36c0d1;
+  max-width: none !important;
+  max-height: none !important;
+  height: 40px !important;
+  z-index: 1000003 !important;
+  cursor: pointer !important;
+  color: white;
+  box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);
+}
+
+.button-tutorial:hover {
+  padding-top: 1%;
+  width: 160px;
+  transition: all 1s ease;
+}
+
+.button-tutorial:after {
+    content: "?";
+    font-size: 30px;
+    padding-left: 20px;
+    font-weight: bold;
+
+}
+
+.button-tutorial:hover:after {
+  content: "Ver Tutorial";
+  font-size: 24px;
+  color: white;
+}
