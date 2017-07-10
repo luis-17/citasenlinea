@@ -426,6 +426,15 @@ class ProgramarCita extends CI_Controller {
 		$arrData['message'] = 'La cita no pudo ser reprogramada. Intente nuevamente';
     	$arrData['flag'] = 0;
     	
+    	if($this->model_prog_cita->m_cita_tiene_atencion($allInputs['oldCita'])){
+    		$arrData['message'] = 'No puede reprogramar citas con atención registrada.';
+    		$arrData['flag'] = 0;
+    		$this->output
+			    ->set_content_type('application/json')
+			    ->set_output(json_encode($arrData));
+			return;
+    	} 
+
     	$cita = $this->model_prog_cita->m_consulta_cita($allInputs['oldCita']['idprogcita']);
     	if($cita['estado_cita'] != 2){
     		$arrData['message'] = 'Solo puede reprogramar citas en estado Pendiente.';
@@ -435,16 +444,6 @@ class ProgramarCita extends CI_Controller {
 			    ->set_output(json_encode($arrData));
 			return;
     	}
-
-    	
-    	if($this->model_prog_cita->m_cita_tiene_atencion($allInputs['oldCita'])){
-    		$arrData['message'] = 'No puede reprogramar citas con atención registrada.';
-    		$arrData['flag'] = 0;
-    		$this->output
-			    ->set_content_type('application/json')
-			    ->set_output(json_encode($arrData));
-			return;
-    	} 
 
     	$this->db->trans_start();
  		//cupo a disponible
