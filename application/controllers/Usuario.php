@@ -535,4 +535,8 @@ class Usuario extends CI_Controller {
   public function ver_popup_aviso(){
     $this->load->view('mensajes/alerta');
   }
+
+  public function ver_popup_registro_exitoso(){
+    $this->load->view('mensajes/registro-exitoso');
+  }
 }

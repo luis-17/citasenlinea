@@ -217,8 +217,8 @@ angular.module('theme.usuario', ['theme.core.services'])
           $scope.fAlert = {};
           $scope.btnViewLogin();
           $uibModal.open({ 
-            templateUrl: angular.patchURLCI+'Usuario/ver_popup_aviso',
-            size: 'sm',
+            templateUrl: angular.patchURLCI+'Usuario/ver_popup_registro_exitoso',
+            size: 'lg',
             //backdrop: 'static',
             //keyboard:false,
             scope: $scope,
