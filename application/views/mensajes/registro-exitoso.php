@@ -6,10 +6,10 @@
 </div>
 <div class="msj modal-body row">
 	<div class="col-md-12 col-sm-12 col-xs-12">
-		<img src="{{ dirImages + 'alertas/banner-compra.jpg'  }}" alt="Compra Exitosa"  class="img-alerta" style="max-height:500px;" />
+		<img src="{{ dirImages + 'alertas/banner-registro.jpg'  }}" alt="Registro Exitoso"  class="img-alerta" style="max-height:500px;" />
 		<div class="msj-text-alerta">
-			<h4 style="color: #ce1d19;font-weight: bold;">¡Compra Exitosa!</h4>
-			<p>Tu comprobante de pago está en proceso de ser emitido. Recibirás un correo cuando este listo</p>
+			<h4 style="color: #ce1d19;font-weight: bold;">¡Registro Satisfactorio!</h4>
+			<p>Recibirás un correo para verificar tu cuenta, si no lo ves en la <b>bandeja de entrada</b> recuerda revisar tu <b>bandeja de correos no deseados (spam).</b></p>
 		</div>
 	</div>
 </div>

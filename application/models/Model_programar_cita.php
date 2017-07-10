@@ -21,6 +21,7 @@ class Model_programar_cita extends CI_Model {
 		$this->db->where('prm.estado_prm', 1);		 
 		$this->db->where('prm.activo', 1);		 
 		$this->db->where('prm.idsede', $datos['itemSede']['id']); 
+		$this->db->where('prm.tipo_atencion_medica', 'CM'); 
 		$this->db->where('(	SELECT count(*) 
 						   	FROM pa_detalle_prog_medico 
 							WHERE idprogmedico = prm.idprogmedico 

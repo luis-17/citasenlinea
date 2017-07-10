@@ -2315,9 +2315,17 @@ input[type=radio]:checked + label:before {
     margin-left: auto !important;
     margin-right: auto !important;
   }
+
+  .modal .img-alerta{
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 992px) {
+  .modal .msj-text-alerta{
+    display: none;
+  }
+
   .filtros {
     text-align: center;
     font-size: 14px;
