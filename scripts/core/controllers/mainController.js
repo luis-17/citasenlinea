@@ -31,16 +31,18 @@ function newNotificacion(body,icon,title,tag) {
 }
 
 appRoot = angular.module('theme.core.main_controller', ['theme.core.services', 'blockUI'])
-  .controller('MainController', ['$scope', '$route', '$uibModal', '$document', '$theme', '$timeout', 'progressLoader', 'wijetsService', '$routeParams', '$location','$controller'
+  .controller('MainController', ['$scope', '$route', '$uibModal', '$document', '$theme', '$timeout', '$interval', 'progressLoader', 'wijetsService', '$routeParams', '$location','$controller'
     , 'blockUI', 'uiGridConstants', 'pinesNotifications',
     'rootServices',
     'usuarioServices',
     'ModalReporteFactory',
-    function($scope, $route, $uibModal, $document, $theme, $timeout, progressLoader, wijetsService, $routeParams, $location, $controller
+    'programarCitaServices',
+    function($scope, $route, $uibModal, $document, $theme, $timeout, $interval, progressLoader, wijetsService, $routeParams, $location, $controller
       , blockUI, uiGridConstants, pinesNotifications,
       rootServices,
       usuarioServices,
-      ModalReporteFactory) {
+      ModalReporteFactory,
+      programarCitaServices) {
     //'use strict';
     $scope.fAlert = {};
     $scope.arrMain = {};
@@ -165,7 +167,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       $scope.isLoggedIn = true;
     };
 
-    $scope.goToUrl = function ( path ) {
+    $scope.goToUrl = function ( path ) {      
       $location.path( path );
     };
     
@@ -359,6 +361,61 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       }
       console.log($scope.datoTip);
       $scope.goToUrl('/seleccionar-cita');
+    }
+
+    $scope.runTimer = undefined;
+    $scope.activeCount = undefined;
+    $scope.viewTimerExpired = undefined;  
+    $scope.closeTimer = function(liberar){
+      if ($scope.activeCount) {
+        $interval.cancel($scope.runTimer);
+        $scope.timer = undefined;
+        $scope.activeCount = false;
+        $scope.viewTimerExpired = true;
+        //liberar cupos
+        if(liberar){          
+          rootServices.sGetSessionCI().then(function (response) {
+            programarCitaServices.sLiberarCuposSession(response.datos).then(function (rpta){
+              console.log(rpta);
+            });
+          });      
+        }
+      }
+    }
+
+    $scope.exitTimer = function(){
+      if ($scope.activeCount) {
+        $interval.cancel($scope.runTimer);
+        $scope.timer = undefined;
+        $scope.activeCount = false;
+        $scope.viewTimerExpired = false;
+        console.log('salio del timer');
+      }
+    }
+
+    $scope.starTimer = function(){
+      if (!$scope.activeCount) {
+        $scope.timer = moment("2017-07-01 00:00:00", "YYYY-MM-DD HH:mm:ss").add(5, 'minute');
+        $scope.timerStart = moment("2017-07-01 00:00:00", "YYYY-MM-DD HH:mm:ss").add(5, 'minute');
+        $scope.countDownTime = $scope.timer.format("mm:ss");                
+        $scope.activeCount = true;
+        $scope.viewTimerExpired = false;
+        $scope.runTimer = $interval(
+          function(){
+            if($scope.activeCount){ 
+              $scope.timer.subtract(1, 'seconds');
+              $scope.countDownTime = $scope.timer.format("mm:ss");
+              console.log('$scope.countDownTime',$scope.countDownTime);
+              var diff = $scope.timerStart.unix() - $scope.timer.unix();
+              $scope.seconds = moment.duration(diff).asSeconds() * 1000
+              console.log('$scope.seconds',$scope.seconds);
+              if($scope.countDownTime == '00:00'){                                        
+                $scope.closeTimer(true);
+              } 
+            }
+          },
+          1000);  
+      }
     }
 
     /* END */

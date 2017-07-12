@@ -346,8 +346,11 @@ class ProgramarCita extends CI_Controller {
 		    ->set_output(json_encode($arrData));
 	}
 
-	public function actualizar_lista_citas_session(){
+	public function actualizar_lista_citas_session(){		
 	    $allInputs = json_decode(trim($this->input->raw_input_stream),true);
+	    //print_r($allInputs);
+		//exit();
+
 	    $arrData['datos'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];
 	    
 	    $arrListado = array();
@@ -359,6 +362,13 @@ class ProgramarCita extends CI_Controller {
 	    }
 
 	    foreach ($allInputs['compra']['listaCitas'] as $key => $cita) {
+	    	$cupo = $this->model_prog_medico->m_consulta_cupo($cita['seleccion']['iddetalleprogmedico']);
+	    	$datosCupo = array(
+	    		'iddetalleprogmedico' =>  $cita['seleccion']['iddetalleprogmedico'],
+	    		'estado_cupo' => 5
+	    	);
+	    	$this->model_prog_medico->m_cambiar_estado_detalle_de_programacion($datosCupo);
+
 	    	$datosCita = array(
 	    		'idespecialidad' => $cita['busqueda']['itemEspecialidad']['id'],
 	    		'especialidad' => $cita['busqueda']['itemEspecialidad']['descripcion'],
@@ -390,7 +400,7 @@ class ProgramarCita extends CI_Controller {
 
 	    $this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']);
 	    $arrData['flag'] = 1;
-	    //print_r($_SESSION['sess_cevs_'.substr(base_url(),-8,7) ]);
+
 	    $this->output
 	        ->set_content_type('application/json')
 	        ->set_output(json_encode($arrData));
@@ -615,4 +625,56 @@ class ProgramarCita extends CI_Controller {
 	public function ver_popup_compra_exitosa(){
 		$this->load->view('mensajes/compra-exitosa');
 	}
+
+	public function libera_lista_citas_session(){		
+	    $allInputs = json_decode(trim($this->input->raw_input_stream),true);		
+    	$arrData['flag'] = 0;
+	    $arrData['message'] = 'Ha ocurrido un error. Contacta nuestro personal de soporte a citasenlinea@villasalud.pe';
+
+	    $arrData['datos'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];
+
+	    $error = FALSE;
+	    foreach ($allInputs['compra']['listaCitas'] as $key => $cita) {
+	    	$datosCupo = array(
+	    		'iddetalleprogmedico' =>  $cita['seleccion']['iddetalleprogmedico'],
+	    		'estado_cupo' => 2
+	    	);
+	    	if(!$this->model_prog_medico->m_cambiar_estado_detalle_de_programacion($datosCupo)){
+	    		$error = TRUE;	    		 
+	    	}	    	
+	    }
+
+	    $arrData['datos']['compra']['listaCitas'] = [];
+	    $this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']);
+	    if(!$error){
+	    	$arrData['flag'] = 1;
+	    	$arrData['message'] = 'liberados cupos';	    	
+	    }
+
+	    $this->output
+	        ->set_content_type('application/json')
+	        ->set_output(json_encode($arrData));
+	    return;
+  	}
+
+  	public function libera_cupo_quitar_lista(){		
+	    $allInputs = json_decode(trim($this->input->raw_input_stream),true);		
+	    $arrData['flag'] = 0;
+	    $arrData['message'] = 'Ha ocurrido un error. Contacta nuestro personal de soporte a citasenlinea@villasalud.pe';
+
+	    $datosCupo = array(
+    		'iddetalleprogmedico' =>  $allInputs['seleccion']['iddetalleprogmedico'],
+    		'estado_cupo' => 2
+    	);
+    	
+    	if($this->model_prog_medico->m_cambiar_estado_detalle_de_programacion($datosCupo)){
+    		$arrData['flag'] = 1;
+    		$arrData['message'] = 'liberados cupos';
+    	}    	
+
+	    $this->output
+	        ->set_content_type('application/json')
+	        ->set_output(json_encode($arrData));
+	    return;
+  	}
 }

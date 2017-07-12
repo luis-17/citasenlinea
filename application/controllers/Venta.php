@@ -30,7 +30,7 @@ class Venta extends CI_Controller {
 	
 		foreach ($allInputs['compra']['listaCitas'] as $key => $cita) {			
 			$cupo = $this->model_prog_medico->m_consulta_cupo($cita['seleccion']['iddetalleprogmedico']);
-			if($cupo['estado_cupo'] != 2 ){
+			if($cupo['estado_cupo'] != 5 && $cupo['estado_cupo'] != 2){
 				$ocupado = TRUE;
 				array_push($arrayEliminar, $key);				
 			}else{
@@ -63,7 +63,7 @@ class Venta extends CI_Controller {
 		$arrayDefinitivas= array();
 		foreach ($allInputs['usuario']['compra']['listaCitas'] as $key => $cita) {			
 			$cupo = $this->model_prog_medico->m_consulta_cupo($cita['seleccion']['iddetalleprogmedico']);
-			if($cupo['estado_cupo'] != 2 ){
+			if($cupo['estado_cupo'] != 5 && $cupo['estado_cupo'] != 2){
 				$ocupado = TRUE;
 				array_push($arrayEliminar, $key);				
 			}else{
@@ -183,28 +183,53 @@ class Venta extends CI_Controller {
 						array_push($listNotificaciones, $data);						
 
 						//actualización de programacion
-						$data = array(
-							'iddetalleprogmedico' => $cita['seleccion']['iddetalleprogmedico'],
-							'estado_cupo' => 1
-							);
-						$resultDetalle = $this->model_prog_medico->m_cambiar_estado_detalle_de_programacion($data);
-
-						/*solo si NO es adicional*/
-						if(!$cita['seleccion']['si_adicional']){
 							$data = array(
-								'idprogmedico' => $cita['seleccion']['idprogmedico'],
-								'idcanal' => $cita['seleccion']['idcanal']
+								'iddetalleprogmedico' => $cita['seleccion']['iddetalleprogmedico'],
+								'estado_cupo' => 1
 								);
-							$resultCanales = $this->model_prog_medico->m_cambiar_cupos_canales($data);
+							$resultDetalle = $this->model_prog_medico->m_cambiar_estado_detalle_de_programacion($data);
+							/*si NO ES CUPO WEB ajusto los canales antes de actualizar*/
+							if($cita['seleccion']['idcanal'] != 3){
+								$data = array(
+									'idcanal' => 3,
+									'iddetalleprogmedico' => $cita['seleccion']['iddetalleprogmedico'],
+								);
+								
+								if($this->model_prog_medico->m_ajustar_canal($cita['seleccion']) &&
+									$this->model_prog_medico->m_agregar_uno_canal_web($cita['seleccion']) &&
+									$this->model_prog_medico->m_cambiar_canal_cupo($data)){
 
-							$data = array(
-								'idprogmedico' => $cita['seleccion']['idprogmedico'],
-								);
-							$resultProg = $this->model_prog_medico->m_cambiar_cupos_programacion($data);
-						}else{
-							$resultCanales = TRUE;
-							$resultProg  = TRUE;
-						}												
+									$seleccion = array(
+										'idprogmedico' => $cita['seleccion']['idprogmedico'],
+										'idcanal' => 3,
+									);
+
+									if(!$cita['seleccion']['si_adicional']){
+										$resultCanales = $this->model_prog_medico->m_cambiar_cupos_canales($seleccion); 
+										$resultProg = $this->model_prog_medico->m_cambiar_cupos_programacion($seleccion); 
+									}else{
+										$resultCanales = TRUE;
+										$resultProg  = TRUE;
+									}
+								} 
+							}else{							
+								/*solo si NO es adicional*/
+								if(!$cita['seleccion']['si_adicional']){
+									$data = array(
+										'idprogmedico' => $cita['seleccion']['idprogmedico'],
+										'idcanal' => $cita['seleccion']['idcanal']
+										);
+									$resultCanales = $this->model_prog_medico->m_cambiar_cupos_canales($data);
+
+									$data = array(
+										'idprogmedico' => $cita['seleccion']['idprogmedico'],
+										);
+									$resultProg = $this->model_prog_medico->m_cambiar_cupos_programacion($data);
+								}else{
+									$resultCanales = TRUE;
+									$resultProg  = TRUE;
+								}												
+							}
 						//fin actualizacion de programacion -- 
 
 						//registro de relacion cita - usuario web

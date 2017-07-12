@@ -17,6 +17,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
     'use strict';
     shortcut.remove("F2"); 
     $scope.modulo = 'programarCita';
+    
 
     $scope.bloquearSelector = function(value){
       $scope.bloqueaSelector = value;
@@ -200,7 +201,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
       $scope.goToUrl('/historial-citas');
     }
 
-    $scope.goToSelCita = function(){
+    $scope.goToSelCita = function(){     
       $scope.goToUrl('/seleccionar-cita');
     } 
 
@@ -380,12 +381,14 @@ angular.module('theme.programarCita', ['theme.core.services'])
     $scope.quitarDeLista = function(index, fila){
       blockUI.start('Actualizando...');
       //console.log(index, fila);
+
       $scope.fSessionCI.compra.listaCitas.splice( index, 1 );
       if($scope.fSessionCI.compra.listaCitas.length > 0){
         $scope.bloquearSelector(true);
       }else{
         $scope.bloquearSelector(false); 
       }
+
       programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
         //console.log(rpta);
         blockUI.stop();
@@ -450,6 +453,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
             titulo = 'Genial!';
             url = angular.patchURLCI+'ProgramarCita/ver_popup_compra_exitosa';
             size = 'lg';
+            $scope.exitTimer();
           }else if(rpta.flag == 0 || rpta.flag == 2){
             titulo = 'Aviso!';
             url = angular.patchURLCI+'ProgramarCita/ver_popup_aviso';
@@ -556,8 +560,11 @@ angular.module('theme.programarCita', ['theme.core.services'])
               $scope.goToUrl('/seleccionar-cita');
             }       
 
-            $scope.listaCitas = $scope.fSessionCI.compra.listaCitas;
-            blockUI.stop();
+            $scope.listaCitas = $scope.fSessionCI.compra.listaCitas;            
+            if($scope.fSessionCI.compra.listaCitas.length>0){
+              $scope.starTimer();              
+            }
+            blockUI.stop();            
           });          
         }           
       });    
@@ -631,6 +638,8 @@ angular.module('theme.programarCita', ['theme.core.services'])
       sGenerarVenta:sGenerarVenta,
       sVerificaEstadoCita:sVerificaEstadoCita,
       sCambiarCita:sCambiarCita,      
+      sLiberaCupo:sLiberaCupo,  
+      sLiberarCuposSession:sLiberarCuposSession,    
     });
     function sCargarPlanning(datos) { 
       var request = $http({
@@ -684,6 +693,22 @@ angular.module('theme.programarCita', ['theme.core.services'])
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"ProgramarCita/cambiar_cita", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }
+    function sLiberaCupo(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ProgramarCita/libera_cupo_quitar_lista", 
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }
+    function sLiberarCuposSession(datos) { 
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"ProgramarCita/libera_lista_citas_session", 
             data : datos
       });
       return (request.then( handleSuccess,handleError ));

@@ -11,7 +11,7 @@ class Model_programar_cita extends CI_Model {
 		$this->db->from('pa_prog_medico prm');
 		$this->db->join('pa_ambiente am','prm.idambiente = am.idambiente');		
 		$this->db->join('especialidad esp','prm.idespecialidad = esp.idespecialidad');		
-		$this->db->where('DATE(prm.fecha_programada) BETWEEN '. $this->db->escape($datos['desde']). ' AND '. $this->db->escape($datos['hasta'])); 
+		$this->db->where('DATE(prm.fecha_programada) BETWEEN '. $this->db->escape(date('Y-m-d',strtotime($datos['desde']))). ' AND '. $this->db->escape($datos['hasta'])); 
 
 		if(!empty($datos['itemEspecialidad']) && !empty($datos['itemEspecialidad']['id'])){
 			$this->db->where('esp.idespecialidad',$datos['itemEspecialidad']['id']);
@@ -22,11 +22,12 @@ class Model_programar_cita extends CI_Model {
 		$this->db->where('prm.activo', 1);		 
 		$this->db->where('prm.idsede', $datos['itemSede']['id']); 
 		$this->db->where('prm.tipo_atencion_medica', 'CM'); 
-		$this->db->where('(	SELECT count(*) 
-						   	FROM pa_detalle_prog_medico 
-							WHERE idprogmedico = prm.idprogmedico 
-							AND estado_cupo = 2
-							AND idcanal = 3) > 0');
+		$this->db->where("(	SELECT count(*) 
+						   	FROM pa_detalle_prog_medico dpm
+							WHERE dpm.idprogmedico = prm.idprogmedico 
+							AND dpm.estado_cupo = 2
+							AND to_timestamp(prm.fecha_programada || ' ' || dpm.hora_inicio_det, 'YYYY-MM-DD HH24:MI:SS') > NOW()
+							) > 0");
 
 		//$this->db->group_by('prm.fecha_programada, am.numero_ambiente, am.idambiente, esp.idespecialidad'); 
 		$this->db->order_by('prm.fecha_programada ASC, prm.hora_inicio ASC'); 
@@ -45,7 +46,8 @@ class Model_programar_cita extends CI_Model {
 		$this->db->join('pa_ambiente am','prm.idambiente = am.idambiente');
 		$this->db->join('medico med', 'med.idmedico = prm.idmedico');		 
 		$this->db->where('dpm.estado_cupo', 2);		 
-		$this->db->where('dpm.idcanal', 3); //canal web		 
+		$this->db->where("to_timestamp(prm.fecha_programada || ' ' || dpm.hora_inicio_det, 'YYYY-MM-DD HH24:MI:SS') > NOW()");		 
+		//$this->db->where('dpm.idcanal', 3); //canal web		 
 		$this->db->where_in('dpm.idprogmedico', $idsprogmedicos);		 
 		
 		$this->db->order_by('prm.idprogmedico ASC, dpm.si_adicional DESC, dpm.hora_inicio_det ASC');
