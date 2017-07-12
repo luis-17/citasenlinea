@@ -109,7 +109,8 @@ angular.module('theme.programarCita', ['theme.core.services'])
           $scope.listaFamiliares = rpta.datos;
           $scope.listaFamiliares.splice(0,0,{ idusuariowebpariente:0, 
                                               descripcion: $scope.fSessionCI.nombres + ' [TITULAR]',
-                                              paciente: $scope.fSessionCI.paciente
+                                              paciente: $scope.fSessionCI.paciente,
+                                              edad:$scope.fSessionCI.edad,
                                             });
           if(externo){          
             $scope.fBusqueda.itemFamiliar = $scope.listaFamiliares[$scope.listaFamiliares.length-1]; 
@@ -188,6 +189,17 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
     $scope.cargarPlanning = function(){
       if($scope.fBusqueda.desde){
+        console.log('$scope.fBusqueda',$scope.fBusqueda);
+        var esAdulto = false;
+        if($scope.fBusqueda.itemEspecialidad.id == 31 && $scope.fBusqueda.itemFamiliar.edad >17){
+          esAdulto = true;
+        }
+
+        if(esAdulto){
+          $scope.mostrarMsj(0,'Aviso', 'No puede solicitar citas de PEDIATRIA para personas mayores a 17 años. Verifica el paciente de tu cita e intenta nuevamente.');
+          return;
+        }
+
         blockUI.start('Cargando programación...');
         programarCitaServices.sCargarPlanning($scope.fBusqueda).then(function(rpta){
           $scope.fPlanning = rpta.planning;
@@ -257,6 +269,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
               if(value.seleccion.iddetalleprogmedico == $scope.fSeleccion.iddetalleprogmedico){
                 encontro = true;
               }
+
             });   
 
             if(encontro){
