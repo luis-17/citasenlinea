@@ -85,6 +85,7 @@ class Model_pariente extends CI_Model {
 		$this->db->select('c.num_documento, c.nombres, c.apellido_paterno, c.apellido_materno, c.sexo, c.fecha_nacimiento, c.email');
 		$this->db->select('uwp.idparentesco, cp.descripcion AS parentesco');
 		$this->db->select('uwp.idclientepariente');
+		$this->db->select("DATE_PART('YEAR',AGE(c.fecha_nacimiento)) AS edad",FALSE);
 		$this->db->from('ce_usuario_web_pariente uwp');
 		$this->db->join('cliente c','uwp.idclientepariente = c.idcliente AND estado_cli = 1','left');
 		$this->db->join('ce_parentesco cp','uwp.idparentesco = cp.idparentesco');

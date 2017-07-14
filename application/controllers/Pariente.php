@@ -301,7 +301,7 @@ class Pariente extends CI_Controller {
           'apellido_paterno' => strtoupper($row['apellido_paterno']),
           'apellido_materno' => strtoupper($row['apellido_materno']),
           'sexo' => $row['sexo'],
-          'sexo' => $row['sexo'],
+          'edad' => $row['edad'],
           'idparentesco' => $row['idparentesco'],
           'parentesco' => $row['parentesco'],
           'num_documento' => $row['num_documento'],
