@@ -1234,7 +1234,7 @@ input[type=radio] + label:before {
     font-family: FontAwesome;
     display: inline-block;
     font-size: 19px;
-    content: '\f046'; 
+    content: '\f096';     
     letter-spacing: 0px;
     color:gray;
     cursor: pointer;
@@ -1258,6 +1258,7 @@ input[type="radio"]:focus{
 
 input[type=radio]:checked + label:before {
   color: #0acf39;
+  content: '\f046'; 
 }
 
 .cupo .box{

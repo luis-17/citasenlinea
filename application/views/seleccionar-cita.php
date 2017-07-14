@@ -80,7 +80,7 @@
             </div>
           </div>
 				</div>
-				<div class="col-xs-12 col-sm-12 col-md-10 pl-n pr-xs" >
+				<div class="col-xs-12 col-sm-12 col-md-10 pl-n pr-n" >
           <div class="alert alert-warning" ng-if="!fPlanning.mostrar && fPlanning.mostraralerta">
             no hay turnos diponibles con las opciones seleccionadas, intenta con otros parámetros... 
           </div>
