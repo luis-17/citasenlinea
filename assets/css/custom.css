@@ -2993,7 +2993,7 @@ span.btn-salir:hover{
   border-radius: 100% 0 0 100% / 50% 0 0 50%;
   z-index: 200;
   border-right: none;
-  animation: rota 300s linear ;
+  /*animation: rota 300s linear ;*/
 }
 
 .container-clock  .text-remaining{
@@ -3021,15 +3021,6 @@ span.btn-salir:hover{
   /*animation: opa 300s steps(1, end) ;*/
 }
 
-
-@keyframes rota {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 @keyframes opa {
   0% {
     opacity: 1;

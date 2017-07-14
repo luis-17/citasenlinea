@@ -23,6 +23,7 @@ class Venta extends CI_Controller {
   	public function validar_citas(){
 		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
 		$ocupado = FALSE;
+		$inhabilitado = FALSE;
 		$arrData['flag'] = 0;
 		$arrData['message'] = 'Hemos refrescado tu lista de citas, tenias seleccionadas citas que ya fueron tomadas.';
 		$arrayEliminar= array();
@@ -30,17 +31,32 @@ class Venta extends CI_Controller {
 	
 		foreach ($allInputs['compra']['listaCitas'] as $key => $cita) {			
 			$cupo = $this->model_prog_medico->m_consulta_cupo($cita['seleccion']['iddetalleprogmedico']);
-			if($cupo['estado_cupo'] != 5 && $cupo['estado_cupo'] != 2){
+			$fechaSeleccionada = strtotime($cita['seleccion']['fecha_programada'] . ' ' .$cita['seleccion']['hora_fin_det']);
+
+			if(($cupo['estado_cupo'] != 5 && $cupo['estado_cupo'] != 2)){
 				$ocupado = TRUE;
 				array_push($arrayEliminar, $key);				
+			}else if($fechaSeleccionada < time()){
+				$inhabilitado = TRUE;
+				array_push($arrayEliminar, $key);	
 			}else{
 				array_push($arrayDefinitivas, $cita);
 			}
 		}
   		
-  		if(!$ocupado){
+  		if($ocupado){
+  			$arrData['flag'] = 0;
+			$arrData['message'] = 'Hemos refrescado tu lista de citas, tenias seleccionadas citas que ya fueron tomadas.';
+  		}
+
+  		if($inhabilitado){
+  			$arrData['flag'] = 0;
+			$arrData['message'] = 'Hemos refrescado tu lista de citas, tenias seleccionadas citas de turnos pasados.';
+  		}
+
+  		if(!$ocupado && !$inhabilitado){
   			$arrData['flag'] = 1;
-			$arrData['message'] = 'OK.';
+			$arrData['message'] = 'Ok';
   		}
 
   		$arrData['listaEliminar'] = $arrayEliminar;

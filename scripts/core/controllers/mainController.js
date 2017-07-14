@@ -109,12 +109,28 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
             $scope.logIn();
           }          
         }else{
-          //$scope.goToUrl('/login');
-          window.location = "https://citasenlinea.villasalud.pe/#/login";
+          $scope.goToUrl('/login');
+          //window.location = "https://citasenlinea.villasalud.pe/#/login";
         }
       });
       progressLoader.start();
       progressLoader.set(50);
+    });
+    $scope.$on('$destroy', function() {
+       window.onbeforeunload = undefined;
+    });
+    $scope.$on('$locationChangeStart', function(event, next, current) {
+      console.log(current);
+      //http://localhost/citasenlinea/#/resumen-cita
+      var ruta = current.split('/');
+      var rutaNext = next.split('/');
+      console.log('ruta',ruta[ruta.length-1]);
+      if(ruta[ruta.length-1] == 'resumen-cita' && rutaNext[rutaNext.length-1] == 'resumen-cita'){
+        if(confirm("Al recargar la página tu reserva será eliminada. Deseas continuar?")) {
+          //event.preventDefault();
+          $scope.goToUrl('/seleccionar-cita');
+       }
+      }       
     });
 
     $scope.$on('$routeChangeSuccess', function() {
@@ -381,6 +397,10 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
           });      
         }
       }
+    }
+
+    $scope.pauseTimer = function(){
+      
     }
 
     $scope.exitTimer = function(){
