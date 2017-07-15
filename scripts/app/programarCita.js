@@ -429,18 +429,20 @@ angular.module('theme.programarCita', ['theme.core.services'])
     $scope.quitarDeLista = function(index, fila){
       blockUI.start('Actualizando...');
       //console.log(index, fila);
+      programarCitaServices.sLiberaCupo($scope.fSessionCI.compra.listaCitas[index]).then(function(rpta){
+        console.log(rpta);
+        $scope.fSessionCI.compra.listaCitas.splice( index, 1 );
+        if($scope.fSessionCI.compra.listaCitas.length > 0){
+          $scope.bloquearSelector(true);
+        }else{
+          $scope.bloquearSelector(false); 
+        }
 
-      $scope.fSessionCI.compra.listaCitas.splice( index, 1 );
-      if($scope.fSessionCI.compra.listaCitas.length > 0){
-        $scope.bloquearSelector(true);
-      }else{
-        $scope.bloquearSelector(false); 
-      }
-
-      programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
-        //console.log(rpta);
-        blockUI.stop();
-      });
+        programarCitaServices.sActualizarListaCitasSession($scope.fSessionCI).then(function(rpta){
+          //console.log(rpta);
+          blockUI.stop();
+        });
+      });     
     }
 
     $scope.resumenReserva = function(){

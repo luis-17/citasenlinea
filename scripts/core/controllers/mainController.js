@@ -116,22 +116,6 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       progressLoader.start();
       progressLoader.set(50);
     });
-    $scope.$on('$destroy', function() {
-       window.onbeforeunload = undefined;
-    });
-    $scope.$on('$locationChangeStart', function(event, next, current) {
-      console.log(current);
-      //http://localhost/citasenlinea/#/resumen-cita
-      var ruta = current.split('/');
-      var rutaNext = next.split('/');
-      console.log('ruta',ruta[ruta.length-1]);
-      if(ruta[ruta.length-1] == 'resumen-cita' && rutaNext[rutaNext.length-1] == 'resumen-cita'){
-        if(confirm("Al recargar la página tu reserva será eliminada. Deseas continuar?")) {
-          //event.preventDefault();
-          $scope.goToUrl('/seleccionar-cita');
-       }
-      }       
-    });
 
     $scope.$on('$routeChangeSuccess', function() {
       progressLoader.end();
@@ -287,8 +271,8 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     }
 
     $scope.getNotificacionesEventos = function (firtsTime) {
-      $scope.fSessionCI.listaNotificacionesEventos = {};
       rootServices.sListarNotificacionesEventos().then(function (rpta) {
+        $scope.fSessionCI.listaNotificacionesEventos = {};
         $scope.fSessionCI.listaNotificacionesEventos.datos = rpta.datos;
         $scope.fSessionCI.listaNotificacionesEventos.noLeidas = rpta.noLeidas;
         $scope.fSessionCI.listaNotificacionesEventos.contador = rpta.contador;
@@ -379,15 +363,11 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       $scope.goToUrl('/seleccionar-cita');
     }
 
-    $scope.runTimer = undefined;
-    $scope.activeCount = undefined;
-    $scope.viewTimerExpired = undefined;  
     $scope.closeTimer = function(liberar){
-      if ($scope.activeCount) {
+      if($scope.fSessionCI.timer.activeCount) {
         $interval.cancel($scope.runTimer);
-        $scope.timer = undefined;
-        $scope.activeCount = false;
-        $scope.viewTimerExpired = true;
+        $scope.timer.activeCount = false;
+        $scope.timer.viewTimerExpired = true;
         //liberar cupos
         if(liberar){          
           rootServices.sGetSessionCI().then(function (response) {
@@ -399,45 +379,63 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       }
     }
 
-    $scope.pauseTimer = function(){
-      
-    }
-
     $scope.exitTimer = function(){
-      if ($scope.activeCount) {
+      if($scope.fSessionCI.timer.activeCount) {
         $interval.cancel($scope.runTimer);
-        $scope.timer = undefined;
-        $scope.activeCount = false;
-        $scope.viewTimerExpired = false;
-        console.log('salio del timer');
+        $scope.timer.activeCount = false;
+        $scope.timer.viewTimerExpired = false;
+        rootServices.sRegistraTimerSession($scope.timer).then(function(rpta){          
+          console.log('salio del timer');
+        });
       }
     }
 
     $scope.starTimer = function(){
-      if (!$scope.activeCount) {
-        $scope.timer = moment("2017-07-01 00:00:00", "YYYY-MM-DD HH:mm:ss").add(5, 'minute');
-        $scope.timerStart = moment("2017-07-01 00:00:00", "YYYY-MM-DD HH:mm:ss").add(5, 'minute');
-        $scope.countDownTime = $scope.timer.format("mm:ss");                
-        $scope.activeCount = true;
-        $scope.viewTimerExpired = false;
-        $scope.runTimer = $interval(
-          function(){
-            if($scope.activeCount){ 
-              $scope.timer.subtract(1, 'seconds');
-              $scope.countDownTime = $scope.timer.format("mm:ss");
-              console.log('$scope.countDownTime',$scope.countDownTime);
-              var diff = $scope.timerStart.unix() - $scope.timer.unix();
-              $scope.seconds = moment.duration(diff).asSeconds() * 1000
-              console.log('$scope.seconds',$scope.seconds);
-              if($scope.countDownTime == '00:00'){                                        
-                $scope.closeTimer(true);
-              } 
-            }
-          },
-          1000);  
+      console.log('$scope.fSessionCI',$scope.fSessionCI);
+      if(!$scope.fSessionCI.timer.activeCount) {
+        $scope.timer = {};
+        $scope.timer.start = moment("2017-07-01 00:00:00", "YYYY-MM-DD HH:mm:ss").add(5, 'minute');  
+        $scope.timer.count = moment("2017-07-01 00:00:00", "YYYY-MM-DD HH:mm:ss").add(5, 'minute');  
+        $scope.timer.activeCount =true;  
+        $scope.timer.viewTimerExpired =false;  
+        $scope.timer.countDownTime = $scope.timer.count.format("mm:ss");                
+        rootServices.sRegistraTimerSession($scope.timer).then(function(rpta){
+           $scope.initRunTimer(true);               
+        });
       }
     }
 
+    $scope.initRunTimer = function (interna){
+      if($scope.isLoggedIn){        
+        rootServices.sGetSessionCI().then(function (response){
+          $scope.fSessionCI = response.datos;
+          if(!interna){
+            $scope.timer = $scope.fSessionCI.timer;
+            $scope.timer.start = moment($scope.timer.start);
+            $scope.timer.count = moment($scope.timer.count);
+          }
+          
+          $scope.runTimer = $interval(
+            function(){
+                if($scope.fSessionCI.timer && $scope.fSessionCI.timer.activeCount){ 
+                  $scope.timer.count.subtract(1, 'seconds');
+                  $scope.timer.countDownTime = $scope.timer.count.format("mm:ss");
+                  //console.log('$scope.timer.countDownTime ',$scope.timer.countDownTime );
+                  var diff = $scope.timer.start.unix() - $scope.timer.count.unix();
+                  $scope.timer.seconds = moment.duration(diff).asSeconds() * 1000
+                  //console.log('$scope.timer.seconds',$scope.timer.seconds);
+                  if($scope.timer.countDownTime == '00:00'){                                        
+                    $scope.closeTimer(true);
+                  } 
+                  rootServices.sRegistraTimerSession($scope.timer);
+                }
+            },
+            1000
+          ); 
+        });
+      }
+    }      
+    $scope.initRunTimer();
     /* END */
   }])
   .service("rootServices", function($http, $q) {
@@ -447,7 +445,8 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
         sGetConfig:sGetConfig,
         sListarNotificacionesEventos: sListarNotificacionesEventos,
         sUpdateLeidoNotificacion: sUpdateLeidoNotificacion,
-        sCargaObjetoNotificacion: sCargaObjetoNotificacion
+        sCargaObjetoNotificacion: sCargaObjetoNotificacion,
+        sRegistraTimerSession:sRegistraTimerSession,
     });
     function sGetSessionCI() {
       var request = $http({
@@ -491,6 +490,14 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
       var request = $http({
             method : "post",
             url : angular.patchURLCI+"ControlEventoWeb/carga_objeto_notificacion",
+            data : datos
+      });
+      return (request.then( handleSuccess,handleError ));
+    }
+    function sRegistraTimerSession(datos) {
+      var request = $http({
+            method : "post",
+            url : angular.patchURLCI+"acceso/registra_timer_session",
             data : datos
       });
       return (request.then( handleSuccess,handleError ));

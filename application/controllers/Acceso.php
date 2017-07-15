@@ -97,6 +97,8 @@ class Acceso extends CI_Controller {
 				    	$arrPerfilUsuario['citas_pendientes'] = $citas_pendientes;
 				    }
 					
+					$arrPerfilUsuario['timer'] = array();
+
 					// GUARDAMOS EN EL LOG DE LOGEO LA SESION INICIADA. 
 					//$this->model_acceso->m_registrar_log_sesion($arrPerfilUsuario);
 					// ACTUALIZAMOS EL ULTIMO LOGEO DEL USUARIO. 
@@ -329,4 +331,20 @@ class Acceso extends CI_Controller {
 		    ->set_content_type('application/json')
 		    ->set_output(json_encode($arrData));
 	}	
+
+	public function registra_timer_session(){
+		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
+
+	    $arrData['datos'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];
+	    
+	    $arrData['datos']['timer'] = $allInputs;
+
+	    $this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']);
+	    $arrData['flag'] = 1;
+
+	    $this->output
+	        ->set_content_type('application/json')
+	        ->set_output(json_encode($arrData));
+	    return;
+	}
 }

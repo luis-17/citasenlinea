@@ -362,7 +362,6 @@ class ProgramarCita extends CI_Controller {
 	    }
 
 	    foreach ($allInputs['compra']['listaCitas'] as $key => $cita) {
-	    	$cupo = $this->model_prog_medico->m_consulta_cupo($cita['seleccion']['iddetalleprogmedico']);
 	    	$datosCupo = array(
 	    		'iddetalleprogmedico' =>  $cita['seleccion']['iddetalleprogmedico'],
 	    		'estado_cupo' => 5
@@ -483,13 +482,56 @@ class ProgramarCita extends CI_Controller {
 				'fecha_atencion_cita' => $allInputs['seleccion']['fecha_programada'] . ' ' . $allInputs['seleccion']['hora_inicio_det'],
 				);
 			$resultCita = $this->model_prog_cita->m_cambiar_datos_en_cita($datos); //cita con nuevo iddetalleprogmedico
+
+							
 			if($resultCita ){
-				if(!$allInputs['seleccion']['si_adicional']){
+				/*if(!$allInputs['seleccion']['si_adicional']){
 					$resultCuposCanal = $this->model_prog_medico->m_cambiar_cupos_canales($allInputs['seleccion']); 
 					$resultCuposProg = $this->model_prog_medico->m_cambiar_cupos_programacion($allInputs['seleccion']);	
 				}else{
 					$resultCuposCanal = TRUE;
 					$resultCuposProg = TRUE;
+				}*/
+				if($allInputs['seleccion']['idcanal'] != 3){
+					$data = array(
+						'idcanal' => 3,
+						'iddetalleprogmedico' => $allInputs['seleccion']['iddetalleprogmedico'],
+					);
+					
+					if($this->model_prog_medico->m_ajustar_canal($allInputs['seleccion']) &&
+						$this->model_prog_medico->m_agregar_uno_canal_web($allInputs['seleccion']) &&
+						$this->model_prog_medico->m_cambiar_canal_cupo($data)){
+
+						$seleccion = array(
+							'idprogmedico' => $allInputs['seleccion']['idprogmedico'],
+							'idcanal' => 3,
+						);
+
+						if(!$allInputs['seleccion']['si_adicional']){
+							$resultCuposCanal = $this->model_prog_medico->m_cambiar_cupos_canales($seleccion); 
+							$resultCuposProg = $this->model_prog_medico->m_cambiar_cupos_programacion($seleccion); 
+						}else{
+							$resultCuposCanal = TRUE;
+							$resultCuposProg  = TRUE;
+						}
+					} 
+				}else{							
+					/*solo si NO es adicional*/
+					if(!$allInputs['seleccion']['si_adicional']){
+						$data = array(
+							'idprogmedico' => $cita['seleccion']['idprogmedico'],
+							'idcanal' => $cita['seleccion']['idcanal']
+							);
+						$resultCuposCanal = $this->model_prog_medico->m_cambiar_cupos_canales($data);
+
+						$data = array(
+							'idprogmedico' => $cita['seleccion']['idprogmedico'],
+							);
+						$resultCuposProg = $this->model_prog_medico->m_cambiar_cupos_programacion($data);
+					}else{
+						$resultCuposCanal = TRUE;
+						$resultCuposProg  = TRUE;
+					}												
 				}
 				
 				$data = array(
@@ -645,6 +687,7 @@ class ProgramarCita extends CI_Controller {
 	    }
 
 	    $arrData['datos']['compra']['listaCitas'] = [];
+	    $arrData['datos']['timer']['activeCount'] = FALSE;
 	    $this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrData['datos']);
 	    if(!$error){
 	    	$arrData['flag'] = 1;

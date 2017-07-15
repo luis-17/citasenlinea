@@ -19,34 +19,21 @@
         <div class="col-md-12 col-xs-12 col-sm-12 float-right">
           <div class="container-clock clock-timer" style="padding-left: 15px;">
             <div class="text-remaining">Tiempo restante:</div>
-            <div class="" id="countdown">{{countDownTime}}</div>
+            <div class="" id="countdown">{{timer.countDownTime}}</div>
           </div>
-          <div class="container-clock clock-pie">
-            <div class="wrapper">
-              <div class="pie spinner" style="animation: rota 300s linear;" ></div>
-              <div class="pie filler" style="animation: opa 300s steps({{seconds}}, end)  reverse;"></div>
-              <div class="mask" style="animation: opa 300s steps({{seconds}}, end)"></div>
-              <div class="border"></div>
-              <div class="center"></div>
-            </div> 
+          <div class="container-clock clock-loading"  >
+            <div class="loading" ng-class="{stop: timer.viewTimerExpired}">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
           </div>
-          <p class="text-warning pt-sm" style="font-weight:bold;clear: right;text-align: right;" ng-hide="viewTimerExpired">
+          <p class="text-warning pt-sm" style="font-weight:bold;clear: right;text-align: right;" ng-hide="timer.viewTimerExpired">
             <small>Por favor, completa el proceso de pago antes de que termine el tiempo.</small>
           </p>
         </div>
-        <style type="text/css">
-          @keyframes rota {
-            0% {
-              transform: rotate({{seconds}}deg);
-            }
-            100% {
-              transform: rotate(360deg);
-            }
-          }
 
-        </style>
-
-      	<div class="mi-grid grid-citas col-md-12 col-xs-12 col-sm-12 pb-md" ng-hide="viewTimerExpired">
+      	<div class="mi-grid grid-citas col-md-12 col-xs-12 col-sm-12 pb-md" ng-hide="timer.viewTimerExpired">
       		<div class="body-grid" scroller >
             <div class="header row-grid row-cita">
               <div class="cell-grid cell-cita" style="width:17%;">
@@ -143,7 +130,7 @@
       		</div>
       	</div>
         
-      	<div class="col-md-12 col-xs-12 col-sm-12" ng-hide="viewTimerExpired">
+      	<div class="col-md-12 col-xs-12 col-sm-12" ng-hide="timer.viewTimerExpired">
       		<div class="botones" style="text-align: right;">
             <button class="btn btn-default btn-go-citas" style="width: 120px;" ng-click="pagar();" ><i class="fa fa-credit-card" style="padding: 0 5px 0 0;"></i>PAGAR</button>
           </div>
@@ -163,7 +150,7 @@
       	</div>  
 
         <!-- <div class="col-md-12 reserva-expirada" >  -->
-        <div class="col-md-12 reserva-expirada" ng-show="viewTimerExpired"> 
+        <div class="col-md-12 reserva-expirada" ng-show="timer.viewTimerExpired"> 
           <div class="msj pt-md">Tu reserva ha expirado. Por favor intentalo nuevamente.
             </br>Si necesitas ayuda, contacta nuestro equipo de soporte a 
             <a href="mailto:citasenlinea@villasalud.pe?Subject=Necesito soporte con citas en linea" target="_top">

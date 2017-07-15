@@ -371,6 +371,8 @@ class Usuario extends CI_Controller {
       $arrPerfilUsuario['citas_pendientes'] = $citas_pendientes;
     }
 
+    $arrPerfilUsuario['timer'] = array();
+
     if( isset($arrPerfilUsuario['idusuario']) ){ 
       $arrData['flag'] = 1;
       $this->session->set_userdata('sess_cevs_'.substr(base_url(),-8,7),$arrPerfilUsuario);
