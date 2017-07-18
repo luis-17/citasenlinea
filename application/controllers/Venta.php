@@ -158,7 +158,8 @@ class Venta extends CI_Controller {
 					//registro de detalle venta
 					$dataDetalle = array(
 						'idventa' => $idventa,
-						'idespecialidad' => $allInputs['usuario']['compra']['itemEspecialidad']['id'],
+						'idespecialidad' => $cita['busqueda']['itemEspecialidad']['id'],
+						//'idespecialidad' => $allInputs['usuario']['compra']['itemEspecialidad']['id'],
 						'cantidad' => 1,
 						'precio_unitario' => $cita['producto']['precio_sede'],
 						'total_detalle' => $cita['producto']['precio_sede'],
