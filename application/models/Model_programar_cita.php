@@ -26,8 +26,8 @@ class Model_programar_cita extends CI_Model {
 						   	FROM pa_detalle_prog_medico dpm
 							WHERE dpm.idprogmedico = prm.idprogmedico 
 							AND dpm.estado_cupo = 2
-							AND to_timestamp(prm.fecha_programada || ' ' || dpm.hora_inicio_det, 'YYYY-MM-DD HH24:MI:SS') > NOW()
-							) > 0");
+							AND to_timestamp(prm.fecha_programada || ' ' || dpm.hora_inicio_det, 'YYYY-MM-DD HH24:MI:SS') > to_timestamp('". date('Y-m-d H:i:s') ."','YYYY-MM-DD HH24:MI:SS'
+							)) > 0");
 
 		//$this->db->group_by('prm.fecha_programada, am.numero_ambiente, am.idambiente, esp.idespecialidad'); 
 		$this->db->order_by('prm.fecha_programada ASC, prm.hora_inicio ASC'); 
@@ -46,7 +46,7 @@ class Model_programar_cita extends CI_Model {
 		$this->db->join('pa_ambiente am','prm.idambiente = am.idambiente');
 		$this->db->join('medico med', 'med.idmedico = prm.idmedico');		 
 		$this->db->where('dpm.estado_cupo', 2);		 
-		$this->db->where("to_timestamp(prm.fecha_programada || ' ' || dpm.hora_inicio_det, 'YYYY-MM-DD HH24:MI:SS') > NOW()");		 
+		$this->db->where("to_timestamp(prm.fecha_programada || ' ' || dpm.hora_inicio_det, 'YYYY-MM-DD HH24:MI:SS') > to_timestamp('". date('Y-m-d H:i:s') ."','YYYY-MM-DD HH24:MI:SS')");		 
 		//$this->db->where('dpm.idcanal', 3); //canal web		 
 		$this->db->where_in('dpm.idprogmedico', $idsprogmedicos);		 
 		
