@@ -51,6 +51,8 @@ angular.module('theme.programarCita', ['theme.core.services'])
             $scope.bloquearSelector(true);
           }else{
             $scope.bloquearSelector(false); 
+            if($scope.timer)
+              $scope.timer.viewTimerExpired = false;
           }
         }
 
@@ -560,20 +562,22 @@ angular.module('theme.programarCita', ['theme.core.services'])
             //console.log(token);
           }else{ 
             console.log('Culqi.error',Culqi.error);
-            $uibModal.open({ 
-              templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_aviso',
-              size: 'sm',
-              //backdrop: 'static',
-              //keyboard:false,
-              scope: $scope,
-              controller: function ($scope, $modalInstance) {                 
-                $scope.titleForm = 'Aviso'; 
-                $scope.msj = Culqi.error.user_message;
-                $scope.btnCancel = function(){
-                  $modalInstance.dismiss('btnCancel');
+            if($scope.isLoggedIn){ 
+              $uibModal.open({ 
+                templateUrl: angular.patchURLCI+'ProgramarCita/ver_popup_aviso',
+                size: 'sm',
+                //backdrop: 'static',
+                //keyboard:false,
+                scope: $scope,
+                controller: function ($scope, $modalInstance) {                 
+                  $scope.titleForm = 'Aviso'; 
+                  $scope.msj = Culqi.error.user_message;
+                  $scope.btnCancel = function(){
+                    $modalInstance.dismiss('btnCancel');
+                  }
                 }
-              }
-            });
+              });
+            }
           }
         }        
       }
@@ -612,6 +616,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
 
             $scope.listaCitas = $scope.fSessionCI.compra.listaCitas;            
             if($scope.fSessionCI.compra.listaCitas.length>0){
+              console.log('$scope.fSessionCI',$scope.fSessionCI);
               $scope.starTimer();              
             }
             blockUI.stop();            

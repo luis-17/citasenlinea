@@ -369,7 +369,7 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
         $scope.timer.activeCount = false;
         $scope.timer.viewTimerExpired = true;
         //liberar cupos
-        if(liberar){          
+        if(liberar){ 
           rootServices.sGetSessionCI().then(function (response) {
             programarCitaServices.sLiberarCuposSession(response.datos).then(function (rpta){
               console.log(rpta);
@@ -391,8 +391,9 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     }
 
     $scope.starTimer = function(){
-      console.log('$scope.fSessionCI',$scope.fSessionCI);
-      if(!$scope.fSessionCI.timer.activeCount) {
+      /*console.log('$scope.fSessionCI',$scope.fSessionCI);
+      console.log('$scope.timer',$scope.timer);*/
+      if(!$scope.fSessionCI.timer.activeCount ||  ($scope.timer && $scope.timer.countDownTime=='00:00')) {
         $scope.timer = {};
         $scope.timer.start = moment("2017-07-01 00:00:00", "YYYY-MM-DD HH:mm:ss").add(5, 'minute');  
         $scope.timer.count = moment("2017-07-01 00:00:00", "YYYY-MM-DD HH:mm:ss").add(5, 'minute');  
@@ -406,34 +407,39 @@ appRoot = angular.module('theme.core.main_controller', ['theme.core.services', '
     }
 
     $scope.initRunTimer = function (interna){
-      if($scope.isLoggedIn){        
+      //if($scope.isLoggedIn){        
+        console.log('$scope.initRunTimer');
         rootServices.sGetSessionCI().then(function (response){
-          $scope.fSessionCI = response.datos;
-          if(!interna){
-            $scope.timer = $scope.fSessionCI.timer;
-            $scope.timer.start = moment($scope.timer.start);
-            $scope.timer.count = moment($scope.timer.count);
+          console.log('RECARGO PAGINA...');
+          if(response.datos.idusuario){            
+            $scope.fSessionCI = response.datos;
+            if(!interna){
+              $scope.timer = $scope.fSessionCI.timer;
+              $scope.timer.start = moment($scope.timer.start);
+              $scope.timer.count = moment($scope.timer.count);
+              console.log('paso por aqui...');
+            }
+            
+            $scope.runTimer = $interval(
+              function(){
+                  if($scope.fSessionCI.timer && $scope.fSessionCI.timer.activeCount){ 
+                    $scope.timer.count.subtract(1, 'seconds');
+                    $scope.timer.countDownTime = $scope.timer.count.format("mm:ss");
+                    //console.log('$scope.timer.countDownTime ',$scope.timer.countDownTime );
+                    var diff = $scope.timer.start.unix() - $scope.timer.count.unix();
+                    $scope.timer.seconds = moment.duration(diff).asSeconds() * 1000
+                    //console.log('$scope.timer.seconds',$scope.timer.seconds);
+                    if($scope.timer.countDownTime == '00:00'){                                        
+                      $scope.closeTimer(true);
+                    } 
+                    rootServices.sRegistraTimerSession($scope.timer);
+                  }
+              },
+              1000
+            ); 
           }
-          
-          $scope.runTimer = $interval(
-            function(){
-                if($scope.fSessionCI.timer && $scope.fSessionCI.timer.activeCount){ 
-                  $scope.timer.count.subtract(1, 'seconds');
-                  $scope.timer.countDownTime = $scope.timer.count.format("mm:ss");
-                  //console.log('$scope.timer.countDownTime ',$scope.timer.countDownTime );
-                  var diff = $scope.timer.start.unix() - $scope.timer.count.unix();
-                  $scope.timer.seconds = moment.duration(diff).asSeconds() * 1000
-                  //console.log('$scope.timer.seconds',$scope.timer.seconds);
-                  if($scope.timer.countDownTime == '00:00'){                                        
-                    $scope.closeTimer(true);
-                  } 
-                  rootServices.sRegistraTimerSession($scope.timer);
-                }
-            },
-            1000
-          ); 
         });
-      }
+      //}
     }      
     $scope.initRunTimer();
     /* END */

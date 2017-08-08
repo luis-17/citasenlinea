@@ -1,5 +1,5 @@
 angular.module('theme.login', ['theme.core.services'])
-  .controller('loginController', function($scope, $theme, $controller, $uibModal, loginServices, rootServices ){
+  .controller('loginController', function($scope, $theme, $controller, $uibModal, blockUI, loginServices, rootServices ){
     //'use strict';
     $theme.set('fullscreen', true);
 
@@ -82,6 +82,7 @@ angular.module('theme.login', ['theme.core.services'])
           }
 
           $scope.generaNewPassword = function(){
+            blockUI.start('Enviando nueva contraseña...'); 
             loginServices.sGeneraNewPassword($scope.fRecuperaDatos).then(function(response){
               $scope.fAlertPass = {};
               if( response.flag == 1 ){ // SE GENERO CORRECTAMENTE 
@@ -100,6 +101,7 @@ angular.module('theme.login', ['theme.core.services'])
                 alert('Error Inesperado.');
               }
               $scope.fRecuperaDatos = {};
+              blockUI.stop(); 
             });
           }
         }
