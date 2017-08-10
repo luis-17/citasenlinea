@@ -55,9 +55,18 @@ class Usuario extends CI_Controller {
 	    return;		 		
   	} 
 
+    if(empty($allInputs['fecha_nacimiento']) || (!empty($allInputs['fecha_nacimiento']) && edad($allInputs['fecha_nacimiento']) < 18 ) ){
+      $arrData['message'] = 'Estimado paciente, debes ser mayor de 18 años para completar tu registro';
+      $arrData['flag'] = 0;    
+      $this->output
+          ->set_content_type('application/json')
+          ->set_output(json_encode($arrData));
+      return;
+    }
+
   	$usuario = $this->model_usuario->m_verificar_email($allInputs);
   	if(!empty($usuario)){
-  		$arrData['message'] = 'Estimado paciente, ese Email ya está registrado en nuestro sistema citas en linea. Intenta iniciar sesión.';
+  		$arrData['message'] = 'Estimado paciente, ese correo ya está registrado en nuestro sistema citas en linea. Intenta iniciar sesión.';
   		$arrData['flag'] = 0;    
   		$this->output
   		    ->set_content_type('application/json')
