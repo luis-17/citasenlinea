@@ -311,7 +311,7 @@ class ProgramarCita extends CI_Controller {
 			$arrGroup[$row['idprogmedico']]['ambiente']['numero_ambiente'] = $row['numero_ambiente'];
 			$arrGroup[$row['idprogmedico']]['ambiente']['idambiente'] = $row['idambiente'];
 
-			$arrGroup[$row['idprogmedico']]['medico'] = ucwords(strtolower_total($medico));	
+			$arrGroup[$row['idprogmedico']]['medico'] = $medico;	
 			if( !empty($allInputs['medico']['idmedico']) && $row['idmedico'] == $allInputs['medico']['idmedico']){
 				$arrGroup[$row['idprogmedico']]['medico_favorito'] = TRUE;
 			}						
