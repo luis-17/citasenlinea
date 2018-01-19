@@ -548,7 +548,7 @@ angular.module('theme.programarCita', ['theme.core.services'])
       window.initCulqi = function(value, key) {        
         Culqi.publicKey = key; //'pk_test_5waw7MlH2GomYjCx';
         Culqi.settings({
-            title: 'Villa Salud',
+            title: 'Vitacloud',
             currency: 'PEN',
             description: 'Pago de Citas en linea',
             amount: value,            

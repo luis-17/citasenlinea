@@ -72,7 +72,7 @@ class Venta extends CI_Controller {
   		$allInputs = json_decode(trim($this->input->raw_input_stream),true);
 		$config = getConfig('pago', $allInputs['usuario']['compra']['itemSede']['idsedeempresaadmin'], TRUE);
 		$arrData['flag'] = 0;
-		$arrData['message'] = 'Ha ocurrido un error procesando tu pago. Contacta a nuestro equipo de soporte mediante: citasenlinea@villasalud.pe';
+		$arrData['message'] = 'Ha ocurrido un error procesando tu pago. Contacta a nuestro equipo de soporte mediante: citasenlinea@vitacloud.pe';
 		
 		$ocupado = FALSE;
 		$arrayEliminar = array();
@@ -320,7 +320,7 @@ class Venta extends CI_Controller {
 				        $listaCitasGeneradas = $allInputs['usuario']['compra']['listaCitas'];
 				        $listaDestinatarios = array();
 				        array_push($listaDestinatarios, $allInputs['usuario']['email']);			        
-				        $setFromAleas = 'Villa Salud';
+				        $setFromAleas = 'Vitacloud';
 				        $subject = 'Citas Programadas';
 				        $cuerpo = $this->genera_body_mail_citas($allInputs, $listaCitasGeneradas);
 				        $result = enviar_mail($subject, $setFromAleas,$cuerpo,$listaDestinatarios);
@@ -386,11 +386,11 @@ class Venta extends CI_Controller {
 					<html lang="es">
 					<head>
 					    <meta charset="utf-8">
-					    <meta name="author" content="Villa Salud">								    
+					    <meta name="author" content="Vitacloud">								    
 					</head>';
         $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
 	                  <div style="text-align: center;">
-	                    <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+	                    <img style="max-width: 800px;" alt="Hospital Vitacloud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
 	                  </div>';
 	   	$cuerpo .= '  <div style="max-width: 750px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 10%; padding-right: 10%;">';             
         $cuerpo .= '  <div style="font-size:16px;">  
@@ -469,7 +469,7 @@ class Venta extends CI_Controller {
 		$cuerpo .= '<div style="margin-top:15px;color:#ce1d19;font-weight:bold;text-align:center;">Tu comprobante está en proceso de ser emitido. Recibirás un mail cuando esté listo! </div>';
 		$cuerpo .= '</div>';		
 	    $cuerpo .= '<div style="text-align: center;">
-	    				<img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
+	    				<img style="max-width: 800px;" alt="Hospital Vitacloud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
 	    			</div>';
       	$cuerpo .= '</body>';
         $cuerpo .= '</html>';

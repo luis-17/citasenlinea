@@ -547,7 +547,7 @@ class ProgramarCita extends CI_Controller {
 					//envio de mails
 			        $listaDestinatarios = array();
 			        array_push($listaDestinatarios, $this->sessionCitasEnLinea['email']);			        
-			        $setFromAleas = 'Villa Salud';
+			        $setFromAleas = 'Vitacloud';
 			        $subject = 'Reprogramación de Cita';
 					$cuerpo = $this->genera_body_mail_reprogramacion($allInputs);
 
@@ -599,11 +599,11 @@ class ProgramarCita extends CI_Controller {
 					<html lang="es">
 					<head>
 					    <meta charset="utf-8">
-					    <meta name="author" content="Villa Salud">								    
+					    <meta name="author" content="Vitacloud">								    
 					</head>';
         $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
 	                  <div style="text-align: center;">
-	                    <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+	                    <img style="max-width: 800px;" alt="Hospital Vitacloud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
 	                  </div>';
 	    $cuerpo .= '  <div style="max-width: 750px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 10%; padding-right: 10%;">';
         $cuerpo .= '  <div style="font-size:16px;">  
@@ -645,7 +645,7 @@ class ProgramarCita extends CI_Controller {
 	                    </div>';
 	    $cuerpo .=    '</div>';
 	    $cuerpo .= '<div style="text-align: center;">
-	    				<img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
+	    				<img style="max-width: 800px;" alt="Hospital Vitacloud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
 	    			</div>';
       	$cuerpo .= '</body>';
         $cuerpo .= '</html>';
@@ -671,7 +671,7 @@ class ProgramarCita extends CI_Controller {
 	public function libera_lista_citas_session(){		
 	    $allInputs = json_decode(trim($this->input->raw_input_stream),true);		
     	$arrData['flag'] = 0;
-	    $arrData['message'] = 'Ha ocurrido un error. Contacta nuestro personal de soporte a citasenlinea@villasalud.pe';
+	    $arrData['message'] = 'Ha ocurrido un error. Contacta nuestro personal de soporte a citasenlinea@vitacloud.pe';
 
 	    $arrData['datos'] = $_SESSION['sess_cevs_'.substr(base_url(),-8,7) ];
 
@@ -703,7 +703,7 @@ class ProgramarCita extends CI_Controller {
   	public function libera_cupo_quitar_lista(){		
 	    $allInputs = json_decode(trim($this->input->raw_input_stream),true);		
 	    $arrData['flag'] = 0;
-	    $arrData['message'] = 'Ha ocurrido un error. Contacta nuestro personal de soporte a citasenlinea@villasalud.pe';
+	    $arrData['message'] = 'Ha ocurrido un error. Contacta nuestro personal de soporte a citasenlinea@vitacloud.pe';
 
 	    $datosCupo = array(
     		'iddetalleprogmedico' =>  $allInputs['seleccion']['iddetalleprogmedico'],

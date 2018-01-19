@@ -291,12 +291,12 @@ class Acceso extends CI_Controller {
 	                      $user['apellido_paterno'] . ' ' . 
 	                      $user['apellido_materno']));
 
-	        $setFromAleas = 'Villa Salud';
+	        $setFromAleas = 'Vitacloud';
 	        $subject = 'Nueva contraseña generada';
 	        $cuerpo = '<html>'; 
 	        $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
 	                    <div style="text-align: center;">
-	                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+	                      <img style="max-width: 800px;" alt="Hospital Vitacloud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
 	                    </div>';
 	        $cuerpo .= '  <div style="max-width: 780px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';
 
@@ -319,7 +319,7 @@ class Acceso extends CI_Controller {
 		                    </a>
 						</div>';
 	        $cuerpo .= '<div style="text-align: center;">
-	    				<img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
+	    				<img style="max-width: 800px;" alt="Hospital Vitacloud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
 	    			</div>';
 	        $cuerpo .= '</body>';
 	        $cuerpo .= '</html>';

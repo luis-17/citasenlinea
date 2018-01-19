@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="https://www.villasalud.pe/wp-content/uploads/2016/11/gm.png" />    <title>Sistema de Citas en Linea | Villa Salud</title>
+    <link rel="shortcut icon" href="https://www.villasalud.pe/wp-content/uploads/2016/11/gm.png" />    <title>Sistema de Citas en Linea | Vitacloud</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Villa Salud">
-    <meta name="author" content="Villa Salud">
+    <meta name="description" content="Vitacloud">
+    <meta name="author" content="Vitacloud">
 
     <link rel="stylesheet" href="../../assets/css/fuentes.css">
     <link rel="stylesheet" href="../../assets/css/styles.css">
@@ -92,15 +92,15 @@
                 <div class="clearfix row">
                     <div class="col-md-4 col-sm-4 col-xs-4">
                         <div class="logo-area">
-                            <a href="#/" class="navbar-brand" >Villa Salud</a>    
+                            <a href="#/" class="navbar-brand" >Vitacloud</a>    
                         </div>
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-8" >
                         <div class="logo-central">
-                            <a href="#/" class="navbar-brand-central" >Villa Salud</a>
+                            <a href="#/" class="navbar-brand-central" >Vitacloud</a>
                         </div>
                         <div class="logo-whatsapp">
-                            <a href="#/" class="navbar-brand-whatsapp" >Villa Salud</a>
+                            <a href="#/" class="navbar-brand-whatsapp" >Vitacloud</a>
                         </div>
                     </div>                  
                 </div>
@@ -183,7 +183,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 5%;float: right;">                        
                             <div class="tab-heading">                                
                                 <h2 style=""><i class="ti ti-check"></i>Ha sido activada tu cuenta satisfactoriamente</h2> 
-                                <p class="descripcion" style="color: #262e32;font-size: 18px;">Comienza a disfrutar los beneficios de ser un paciente de Villa Salud</p>
+                                <p class="descripcion" style="color: #262e32;font-size: 18px;">Comienza a disfrutar los beneficios de ser un paciente de Vitacloud</p>
                             </div> 
                             <div class="col-sm-12 col-xs-12 col-md-12" style="">                                                                                           
                                 <a href="https://citasenlinea.villasalud.pe/#/login" class="btn btn-page" style="width: 200px; -webkit-box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);">INICIAR SESION</a>

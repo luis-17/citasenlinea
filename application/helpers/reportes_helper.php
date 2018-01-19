@@ -219,7 +219,7 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
 
     /*codigo QR*/
     $ci2->load->library('qr_php');    
-    $textoQR = 'Este comprobante pertenece a una cita del Hospital Villa Salud. Sede: ' . $fConfig['descripcion'] ;
+    $textoQR = 'Este comprobante pertenece a una cita del Hospital Vitacloud. Sede: ' . $fConfig['descripcion'] ;
     $textoQR .= '. Proveniente de la orden número: '.$fDataCita['orden_venta'];
 
     QRcode::png($textoQR,"assets/img/dinamic/temp/01.png",QR_ECLEVEL_L,2);
@@ -249,7 +249,7 @@ function getPlantillaComprobanteCita($arrContent,$datos,$titulo,$paramPageOrient
         'style'=> array('headerPage',array('alignment'=> 'center','fontSize'=> 9) ),
       ),
       array(
-        'text'=> array('Villa Salud, Te Cuida!'),
+        'text'=> array('Vitacloud, Te Cuida!'),
         'style'=> array('headerTitle',array('alignment'=> 'center','fontSize'=> 9)),
       ),      
       array(

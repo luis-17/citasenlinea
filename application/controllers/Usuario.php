@@ -149,12 +149,12 @@ class Usuario extends CI_Controller {
 										$allInputs['apellido_paterno'] . ' ' . 
 										$allInputs['apellido_materno']));
 
-  		$setFromAleas = 'Villa Salud';
-  		$subject = 'Confirma tu cuenta de Villa Salud';
+  		$setFromAleas = 'Vitacloud';
+  		$subject = 'Confirma tu cuenta de Vitacloud';
   		$cuerpo = '<html lang="es">'; 
 			$cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
                     <div style="text-align: center;">
-                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+                      <img style="max-width: 800px;" alt="Hospital Vitacloud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
                     </div>';
       $cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';
 	  	$cuerpo .= '	  <div style="font-size:16px;">  
@@ -167,7 +167,7 @@ class Usuario extends CI_Controller {
 	  				         </div>';
       $cuerpo .=    '</div>';
       $cuerpo .= '  <div style="text-align: center;">
-                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
+                      <img style="max-width: 800px;" alt="Hospital Vitacloud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
                     </div>';
 	  	$cuerpo .= '</body>';
 	  	$cuerpo .= '</html>';
@@ -208,18 +208,18 @@ class Usuario extends CI_Controller {
                       $usuario['apellido_paterno'] . ' ' . 
                       $usuario['apellido_materno']));
 
-        $setFromAleas = 'Villa Salud';
-        $subject = 'Activación de tu cuenta Villa Salud';
+        $setFromAleas = 'Vitacloud';
+        $subject = 'Activación de tu cuenta Vitacloud';
         $cuerpo = '<html>'; 
         $cuerpo .= '<body style="font-family: sans-serif;padding: 10px 40px;" > 
                     <div style="text-align: center;">
-                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
+                      <img style="max-width: 800px;" alt="Hospital Vitacloud" src="'.base_url(). 'assets/img/dinamic/empresa/header-mail.jpg">
                     </div>';
         $cuerpo .= '  <div style="max-width: 700px;align-content: center;margin-left: auto; margin-right: auto;padding-left: 5%; padding-right: 5%;">';
 
         $cuerpo .= '    <div style="font-size:16px;">  
                           Estimado(a) usuario: '.$paciente .', <br /> <br /> ';
-        $cuerpo .= '      Tu cuenta ha sido verificada exitosamente... Ya puedes iniciar sesión para comenzar a disfrutar los beneficios de ser un paciente de Villa Salud!';
+        $cuerpo .= '      Tu cuenta ha sido verificada exitosamente... Ya puedes iniciar sesión para comenzar a disfrutar los beneficios de ser un paciente de Vitacloud!';
         $cuerpo .=    ' </div>';
         $cuerpo .=    '</div>';
         $cuerpo .= '<div style="text-align: center;margin: 20px 0 20px 0;">
@@ -236,7 +236,7 @@ class Usuario extends CI_Controller {
                       </a>
                     </div>';
         $cuerpo .= '<div style="text-align: center;">
-                      <img style="max-width: 800px;" alt="Hospital Villa Salud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
+                      <img style="max-width: 800px;" alt="Hospital Vitacloud" src="'.base_url(). 'assets/img/dinamic/empresa/footer-mail.jpg">
                     </div>';
         $cuerpo .= '</body>';
         $cuerpo .= '</html>';

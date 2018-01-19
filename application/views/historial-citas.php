@@ -155,7 +155,7 @@
             <div ng-show="fSessionCI.compra.listaCitas.length > 0">            
               <div class="text-guia noanimate">              
                 <p class="instruccion">{{fSessionCI.nombres}}, finaliza tu compra!... Haz click en "FINALIZAR"</p>
-                <p class="saludo">Villa Salud, Te Cuida!</p>
+                <p class="saludo">Vitacloud, Te Cuida!</p>
               </div>
             </div>
           </div>

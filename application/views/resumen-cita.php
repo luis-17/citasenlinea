@@ -136,7 +136,7 @@
           </div>
           <div class="terminos-condiciones">
         		<div class="titulo" style="font-size: 17px;color: #36c5df;font-weight:600;">
-        			<input type="checkbox" ng-model="acepta" ng-click="changeAcepta();" ng-checked="acepta"></input> Acepto los <a style="font-size: 17px;color: #36c5df;font-weight:600;text-decoration: underline;" target="_blank" href="https://citasenlinea.villasalud.pe/TerminosYCondiciones.pdf">Términos y Condiciones</a> establecidos (Lea detenidamente esta sección)             
+        			<input type="checkbox" ng-model="acepta" ng-click="changeAcepta();" ng-checked="acepta"></input> Acepto los <a style="font-size: 17px;color: #36c5df;font-weight:600;text-decoration: underline;" target="_blank" href="#">Términos y Condiciones</a> establecidos (Lea detenidamente esta sección)             
         		</div>
         		<ul>
         			<li>
@@ -153,8 +153,8 @@
         <div class="col-md-12 reserva-expirada" ng-show="timer.viewTimerExpired"> 
           <div class="msj pt-md">Tu reserva ha expirado. Por favor intentalo nuevamente.
             </br>Si necesitas ayuda, contacta nuestro equipo de soporte a 
-            <a href="mailto:citasenlinea@villasalud.pe?Subject=Necesito soporte con citas en linea" target="_top">
-              <span class="text-info" style="font-weight:bold;">citasenlinea@villasalud.pe</span>
+            <a href="mailto:citasenlinea@vitacloud.pe?Subject=Necesito soporte con citas en linea" target="_top">
+              <span class="text-info" style="font-weight:bold;">citasenlinea@vitacloud.pe</span>
             </a> 
           </div>
           <div class="col-md-12 col-xs-12 col-sm-12 pt-md pb-md">
@@ -165,7 +165,7 @@
               <img src="assets/img/icons/logo-slogan.png" style="max-width:250px;">
             </div>
           </div>
-          <!-- <div class="name pt-lg">Villa Salud </div> 
+          <!-- <div class="name pt-lg">Vitacloud </div> 
           <div class="lema">Te cuida!</div> -->
         </div>
 

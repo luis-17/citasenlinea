@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <link rel="shortcut icon" href="http://www.villasalud.pe/villasalud/wp-content/uploads/bfi_thumb/gm-32qs3td1tuam0as4xkuf4a.png" />
-    <title>Sistema de Citas en Linea | Villa Salud</title>
+    <title>Sistema de Citas en Linea | Vitacloud</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Villa Salud">
-    <meta name="author" content="Villa Salud">
+    <meta name="description" content="Vitacloud">
+    <meta name="author" content="Vitacloud">
 
     <link rel="stylesheet" href="../../assets/css/fuentes.css">
     <link rel="stylesheet" href="../../assets/css/styles.css">
@@ -40,7 +40,7 @@
                 <div class="clearfix row">
                     <div class="col-md-3 col-md-offset-3 col-sm-12">
                         <div class="logo-area">
-                            <a class="navbar-brand" >Villa Salud</a>
+                            <a class="navbar-brand" >Vitacloud</a>
                             <div class="toolbar-icon-bg hidden-xs" id="toolbar-search" ng-class="{active: getLayoutOption('showSmallSearchBar')}">
                                 <div class="input-group">
                                     <!-- <span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"> ESPECIALIDAD: </i></button></span> -->
@@ -55,7 +55,7 @@
                     <div class="col-md-3 col-sm-12">
                         <div class="lema-area">
                             <a class="texto">CITAS EN LÍNEA</a>
-                            <!-- <div class="lema pb-xs" >Villa Salud, Te Cuida!</div> -->
+                            <!-- <div class="lema pb-xs" >Vitacloud, Te Cuida!</div> -->
                         </div>
                     </div>                  
                 </div>
@@ -101,7 +101,7 @@
                         <div class="clearfix">
                             <ul class="list-unstyled list-inline pull-left">
                                 <li>
-                                    <h6 style="">Copyrights &copy; 2017: Villa Salud - Perú</h6>
+                                    <h6 style="">Copyrights &copy; 2017: Vitacloud - Perú</h6>
                                 </li>
                             </ul>
                             <button class="pull-right btn btn-link btn-xs hidden-print" back-to-top><i class="ti ti-arrow-up"></i></button>

@@ -475,7 +475,7 @@ nav .menu-item a{
   border-top-style: solid;
   min-height: 33px;
   border-top-color: #eaeaef;
-  background: #ce1d19;  
+  background: #00567C;  
 }*/
 .page-separador{
   height: 7px;
@@ -528,14 +528,14 @@ nav .menu-item a{
 }
 
 .btn-page {
-  background: rgba(206, 29, 25, 0.48);
-  border-color: #ce1d19;
+  background: rgba(255, 221, 147, 0.88);
+  border-color: #00567C;
   color: #fff;
 }
 
 .btn-page:hover{
   background: #fff;
-  color: #ce1d19 !important;
+  color: #00567C !important;
 }
 
 .btn-page:visited, .btn-page:focus, .btn-page.focus{
@@ -548,7 +548,7 @@ nav .menu-item a{
 }
 
 .btn-default:hover {
-  color: #ce1d19;
+  color: #00567C;
   border-color: #929292 !important;
 }
 
@@ -561,7 +561,7 @@ nav .menu-item a{
 .btn-blue:hover {
   background: #fff;
   border-color: #36c0d1;
-  color: #ce1d19;
+  color: #00567C;
 }
 
 .input-group-addon{
@@ -575,7 +575,7 @@ nav .menu-item a{
 }
 
 .form-control:focus {
-  border: 1px solid #ce1d19; 
+  border: 1px solid #00567C; 
 }
 
 #wrapper {
@@ -611,7 +611,7 @@ a.link-password:hover{
 }
 
 .page-login .capa-info .info-heading{   
-  color: #ce1d19;
+  color: #00567C;
   font-size: 20px;
   text-transform: uppercase;
 }
@@ -680,7 +680,7 @@ a.link-password:hover{
 
 .list-group.list-group-alternate .list-group-item:hover,
 .list-group.list-group-alternate .list-group-item:hover i{
-  color:#ce1d19;
+  color:#00567C;
 }
 
 .tab-heading{
@@ -887,7 +887,7 @@ a.link-password:hover{
 .flecha {
   padding: 5px;
   width: 100px;
-  background-color: #ce1d19;
+  background-color: #00567C;
   border-radius: 10px;
   color: white;
   text-align: center;  
@@ -1073,7 +1073,7 @@ a.link-password:hover{
 }
 
 .planning .fecha-header.feriado{
-  color:#ce1d19;
+  color:#00567C;
 }
 
 .planning .desc-header{
@@ -1315,7 +1315,7 @@ input[type=radio]:checked + label:before {
   font-size: 15px;
   font-weight: 300;
   text-align: center;
-  color: #ce1d19;
+  color: #00567C;
   /*animation: pulse 1s ease infinite;*/
 }
 
@@ -1501,7 +1501,7 @@ input[type=radio]:checked + label:before {
 
 .dashboard .valores .item .value .data{
   font-size: 20px;
-  color: #ce1d19;
+  color: #00567C;
   font-weight: bold;
 }
 
@@ -1749,7 +1749,7 @@ input[type=radio]:checked + label:before {
 
 .mi-grid .cell-grid .nro-doc,
 .mi-grid .cell-grid .nro-doc a{
-  color: #ce1d19;
+  color: #00567C;
 }
 
 .mi-grid .cell-grid .tooltip-inner{
@@ -1828,15 +1828,15 @@ input[type=radio]:checked + label:before {
   font-size: 15px;
   top: 4px;
   position: relative;
-  color: #ce1d19;
+  color: #00567C;
   cursor: pointer;
   font-weight: 900;
 }
 
 .call-actions .btn-go-historial:hover .historial{
   text-decoration: underline;
-  -moz-text-decoration-color: #ce1d19; /* Code for Firefox */
-  text-decoration-color:  #ce1d19; 
+  -moz-text-decoration-color: #00567C; /* Code for Firefox */
+  text-decoration-color:  #00567C; 
   text-decoration-style: double;
 }
 
@@ -2029,7 +2029,7 @@ input[type=radio]:checked + label:before {
     content: "";
     width: 28px;
     height: 1px;
-    background: #ce1d19;
+    background: #00567C;
     position: absolute;
     left: 12px;
     bottom: 0;
@@ -2801,7 +2801,7 @@ table.two-axis th {
 .btn-salir{
   font-size: 14px;
   color:#fff;
-  background-color: #ce1d19;
+  background-color: #00567C;
   border: 1px solid #fff;
   padding: 4px 8px !important;
 /*  position: relative !important;
@@ -2813,7 +2813,7 @@ table.two-axis th {
 }
  
 span.btn-salir:hover{
-  color:#ce1d19;
+  color:#00567C;
   background-color: #fff;
   border-color: #929292;
 }   
@@ -2944,7 +2944,7 @@ span.btn-salir:hover{
 .container-clock  .text-remaining{
   font-size: 15px;
   font-weight: 800;
-  color: #ce1d19;
+  color: #00567C;
 }
 
 .clock-loading .loading {
@@ -2969,7 +2969,7 @@ span.btn-salir:hover{
     width: 10px;
     height: 10px;
     margin: 20px auto 0 auto;
-    background: #ce1d19;
+    background: #00567C;
     border-radius: 50px;
     -webkit-animation: loader 0.9s infinite alternate;
     -moz-animation: loader 0.9s infinite alternate;
