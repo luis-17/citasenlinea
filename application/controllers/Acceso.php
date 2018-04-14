@@ -21,40 +21,32 @@ class Acceso extends CI_Controller {
 				if($loggedUser['estado_uw'] == 1){
 					$arrData['flag'] = 1;
 					$arrPerfilUsuario = array();
-					$arrPerfilUsuario['nombre_usuario'] = $loggedUser['nombre_usuario'];
-					$arrPerfilUsuario['idusuario'] = $loggedUser['idusuarioweb'];
+					// $arrPerfilUsuario['nombre_usuario'] = $loggedUser['nombre_usuario'];
+					// $arrPerfilUsuario['idusuario'] = $loggedUser['idusuarioweb'];
 
-					$perfil = $this->model_usuario->m_cargar_usuario($arrPerfilUsuario);
+					$arrPerfilUsuario = $this->model_usuario->m_cargar_usuario($arrPerfilUsuario);
 					$tipo_sangre = array('', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-' ,'AB+', 'AB-');
-
-					$arrPerfilUsuario['idcliente'] = $perfil['idcliente'];
-					$arrPerfilUsuario['num_documento'] = $perfil['num_documento'];
-					$arrPerfilUsuario['nombres'] = $perfil['nombres'];
-					$arrPerfilUsuario['apellido_paterno'] = $perfil['apellido_paterno'];
-					$arrPerfilUsuario['apellido_materno'] = $perfil['apellido_materno'];
-					$arrPerfilUsuario['sexo'] = $perfil['sexo'];
-					$arrPerfilUsuario['edad'] = (int)$perfil['edad'];
-					$arrPerfilUsuario['telefono'] = $perfil['telefono'];
-					$arrPerfilUsuario['celular'] = $perfil['celular'];
-					$arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($perfil['fecha_nacimiento']));
-					$arrPerfilUsuario['email'] = $perfil['email'];
-					$arrPerfilUsuario['nombre_imagen'] = empty($perfil['nombre_imagen']) ? 'noimage.png' : $perfil['nombre_imagen'];
-					$arrPerfilUsuario['peso'] = $perfil['peso'];
-				    $arrPerfilUsuario['estatura'] = $perfil['estatura'];
-				    $arrPerfilUsuario['tipo_sangre']['id'] = empty($perfil['tipo_sangre']) ? null  :$perfil['tipo_sangre'];
-				    $arrPerfilUsuario['tipo_sangre']['descripcion'] = empty($perfil['tipo_sangre']) ? null : $tipo_sangre[$perfil['tipo_sangre']] ;
-					$arrPerfilUsuario['compra'] =array();
+				    
+					$arrPerfilUsuario['compra'] = array();
 					$arrPerfilUsuario['compra']['listaCitas'] =array();
+					$arrPerfilUsuario['idusuario'] = $arrPerfilUsuario['idusuarioweb'];
+					$arrPerfilUsuario['nombre_imagen'] = empty($arrPerfilUsuario['nombre_imagen']) ? 'noimage.png' : $arrPerfilUsuario['nombre_imagen'];
+					$arrPerfilUsuario['tipo_sangre']['id'] = empty($arrPerfilUsuario['tipo_sangre']) ? null  :$arrPerfilUsuario['tipo_sangre'];
+				    $arrPerfilUsuario['tipo_sangre']['descripcion'] = empty($arrPerfilUsuario['tipo_sangre']) ? null : $tipo_sangre[$arrPerfilUsuario['tipo_sangre']]; 
+				    $arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($arrPerfilUsuario['fecha_nacimiento']));
 
-					$paciente = ucwords(strtolower( $perfil['nombres'] . ' ' . 
-											$perfil['apellido_paterno'] . ' ' . 
-											$perfil['apellido_materno']));
+					$paciente = ucwords(
+						strtolower( $arrPerfilUsuario['nombres'] . ' ' . 
+									$arrPerfilUsuario['apellido_paterno'] . ' ' . 
+									$arrPerfilUsuario['apellido_materno']
+						)
+					);
 					
 					$arrPerfilUsuario['paciente'] = $paciente;
 
 					$arrPerfilUsuario['imc'] = array();
-				    if(!empty($perfil['peso']) && !empty($perfil['estatura'])){
-				      $imc = round($perfil['peso'] / ($perfil['estatura'] * $perfil['estatura']),2);
+				    if(!empty($arrPerfilUsuario['peso']) && !empty($arrPerfilUsuario['estatura'])){
+				      $imc = round($arrPerfilUsuario['peso'] / ($arrPerfilUsuario['estatura'] * $arrPerfilUsuario['estatura']),2);
 				      $arrPerfilUsuario['imc']['dato'] = (float)$imc;
 
 				      if($imc < 18){

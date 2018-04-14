@@ -180,7 +180,7 @@
               <div class="col-md-4 col-xs-12 col-sm-4">
                 <a href="http://www.villasalud.pe" target="_blank"> 
                   <span class="lema" >
-                    Ir a www.villasalud.pe
+                    Ir a {{ fSessionCI. }}
                   </span>
                 </a>                            
               </div>

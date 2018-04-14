@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="https://www.villasalud.pe/wp-content/uploads/2016/11/gm.png" />    <title>Sistema de Citas en Linea | Vitacloud</title>
+    <link rel="shortcut icon" href="../../assets/img/favicon.png" />    
+    <title>Sistema de Citas en Linea | Vitacloud</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Vitacloud">
@@ -186,7 +187,7 @@
                                 <p class="descripcion" style="color: #262e32;font-size: 18px;">Comienza a disfrutar los beneficios de ser un paciente de Vitacloud</p>
                             </div> 
                             <div class="col-sm-12 col-xs-12 col-md-12" style="">                                                                                           
-                                <a href="https://citasenlinea.villasalud.pe/#/login" class="btn btn-page" style="width: 200px; -webkit-box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);">INICIAR SESION</a>
+                                <a href="<?php echo base_url(); ?>" class="btn btn-page" style="width: 200px; -webkit-box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);box-shadow: 2px 3px 5px 0px rgba(0,0,0,0.36);">INICIAR SESION</a>
                             </div>                           
                         </div>                        
                     </div>

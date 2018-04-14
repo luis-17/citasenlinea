@@ -203,7 +203,6 @@ class Usuario extends CI_Controller {
         $listaDestinatarios = array();
 
         array_push($listaDestinatarios, $usuario['email']);
-        //array_push($listaDestinatarios, 'yerald02@hotmail.com');
         $paciente = ucwords(strtolower( $usuario['nombres'] . ' ' . 
                       $usuario['apellido_paterno'] . ' ' . 
                       $usuario['apellido_materno']));
