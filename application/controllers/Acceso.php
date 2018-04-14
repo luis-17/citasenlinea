@@ -21,10 +21,10 @@ class Acceso extends CI_Controller {
 				if($loggedUser['estado_uw'] == 1){
 					$arrData['flag'] = 1;
 					$arrPerfilUsuario = array();
-					// $arrPerfilUsuario['nombre_usuario'] = $loggedUser['nombre_usuario'];
+					// $arrPerfilUsuario['nombre_usuario'] = $loggedUser['nombre_usuario']; m_cargar_usuario
 					// $arrPerfilUsuario['idusuario'] = $loggedUser['idusuarioweb'];
 
-					$arrPerfilUsuario = $this->model_usuario->m_cargar_usuario($arrPerfilUsuario);
+					$arrPerfilUsuario = $this->model_usuario->m_cargar_usuario($loggedUser);
 					$tipo_sangre = array('', 'A+', 'A-', 'B+', 'B-', 'O+', 'O-' ,'AB+', 'AB-');
 				    
 					$arrPerfilUsuario['compra'] = array();
@@ -32,7 +32,9 @@ class Acceso extends CI_Controller {
 					$arrPerfilUsuario['idusuario'] = $arrPerfilUsuario['idusuarioweb'];
 					$arrPerfilUsuario['nombre_imagen'] = empty($arrPerfilUsuario['nombre_imagen']) ? 'noimage.png' : $arrPerfilUsuario['nombre_imagen'];
 					$arrPerfilUsuario['tipo_sangre']['id'] = empty($arrPerfilUsuario['tipo_sangre']) ? null  :$arrPerfilUsuario['tipo_sangre'];
-				    $arrPerfilUsuario['tipo_sangre']['descripcion'] = empty($arrPerfilUsuario['tipo_sangre']) ? null : $tipo_sangre[$arrPerfilUsuario['tipo_sangre']]; 
+
+					//var_dump($arrPerfilUsuario['tipo_sangre']); exit(); 
+				    $arrPerfilUsuario['tipo_sangre']['descripcion'] = empty($arrPerfilUsuario['tipo_sangre']['id']) ? null : $tipo_sangre[$arrPerfilUsuario['tipo_sangre']['id']]; 
 				    $arrPerfilUsuario['fecha_nacimiento'] = date('d-m-Y',strtotime($arrPerfilUsuario['fecha_nacimiento']));
 
 					$paciente = ucwords(
