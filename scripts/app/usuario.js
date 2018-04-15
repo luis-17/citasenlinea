@@ -86,47 +86,47 @@ angular.module('theme.usuario', ['theme.core.services'])
     }
 
     $scope.verificarDoc = function(){
-      if(!$scope.fDataUser.num_documento || $scope.fDataUser.num_documento == null || $scope.fDataUser.num_documento == ''){
-        $scope.fAlert = {};
-        $scope.fAlert.type= 'danger';
-        $scope.fAlert.msg='Debe ingresar un Número de documento.';
-        $scope.fAlert.strStrong = 'Error';
-        $scope.fAlert.icon = 'fa fa-exclamation';
-        return;
-      }
-      usuarioServices.sVerificarUsuarioPorDocumento($scope.fDataUser).then(function (rpta) {              
-        $scope.fAlert = {};
-        if( rpta.flag == 2 ){ //Cliente registrado en Sistema Hospitalario
-          $scope.fDataUser = rpta.usuario;
-          $scope.fAlert.type= 'info';
-          $scope.fAlert.msg= rpta.message;
-          $scope.fAlert.icon= 'fa fa-smile-o';
-          $scope.fAlert.strStrong = 'Genial! ';
-        }else if( rpta.flag == 1 ){ // Usuario ya registrado en web
-          //$scope.fDataUser = rpta.usuario;
-          $scope.fAlert.type= 'danger';
-          $scope.fAlert.msg= rpta.message;
-          $scope.fAlert.strStrong = 'Aviso! ';
-          $scope.fAlert.icon = 'fa  fa-exclamation-circle';
-        }else if(rpta.flag == 0){
-          var num_documento = $scope.fDataUser.num_documento;                
-          $scope.fAlert.type= 'warning';
-          $scope.fAlert.msg= rpta.message;
-          $scope.fAlert.strStrong = 'Aviso! ';
-          $scope.fAlert.icon = 'fa fa-frown-o';
-          $scope.fDataUser = {};
-          $scope.fDataUser.num_documento = num_documento;
-          $scope.fDataUser.sexo = '-';
-        }
-        $scope.fAlert.flag = rpta.flag;
-      });
+      // if(!$scope.fDataUser.num_documento || $scope.fDataUser.num_documento == null || $scope.fDataUser.num_documento == ''){
+      //   $scope.fAlert = {};
+      //   $scope.fAlert.type= 'danger';
+      //   $scope.fAlert.msg='Debe ingresar un Número de documento.';
+      //   $scope.fAlert.strStrong = 'Error';
+      //   $scope.fAlert.icon = 'fa fa-exclamation';
+      //   return;
+      // }
+      // usuarioServices.sVerificarUsuarioPorDocumento($scope.fDataUser).then(function (rpta) {              
+      //   $scope.fAlert = {};
+      //   if( rpta.flag == 2 ){ //Cliente registrado en Sistema Hospitalario
+      //     $scope.fDataUser = rpta.usuario;
+      //     $scope.fAlert.type= 'info';
+      //     $scope.fAlert.msg= rpta.message;
+      //     $scope.fAlert.icon= 'fa fa-smile-o';
+      //     $scope.fAlert.strStrong = 'Genial! ';
+      //   }else if( rpta.flag == 1 ){ // Usuario ya registrado en web
+      //     //$scope.fDataUser = rpta.usuario;
+      //     $scope.fAlert.type= 'danger';
+      //     $scope.fAlert.msg= rpta.message;
+      //     $scope.fAlert.strStrong = 'Aviso! ';
+      //     $scope.fAlert.icon = 'fa  fa-exclamation-circle';
+      //   }else if(rpta.flag == 0){
+      //     var num_documento = $scope.fDataUser.num_documento;                
+      //     $scope.fAlert.type= 'warning';
+      //     $scope.fAlert.msg= rpta.message;
+      //     $scope.fAlert.strStrong = 'Aviso! ';
+      //     $scope.fAlert.icon = 'fa fa-frown-o';
+      //     $scope.fDataUser = {};
+      //     $scope.fDataUser.num_documento = num_documento;
+      //     $scope.fDataUser.sexo = '-';
+      //   }
+      //   $scope.fAlert.flag = rpta.flag;
+      // });
     }
 
     $scope.btnCancel = function(){
       $modalInstance.dismiss('btnCancel');
     }
 
-    $scope.registrarUsuario = function (){
+    $scope.registrarUsuario = function (){ 
       $scope.crearAlerta = function(msg){
         $scope.fAlert = {};
         $scope.fAlert.type= 'danger';
@@ -135,7 +135,7 @@ angular.module('theme.usuario', ['theme.core.services'])
         $scope.fAlert.icon = 'fa fa-exclamation';
         return;
       }
-      
+      console.log($scope.fDataUser,'$scope.fDataUser');
       if(!$scope.fDataUser.num_documento || $scope.fDataUser.num_documento == null || $scope.fDataUser.num_documento == ''){          
         $scope.crearAlerta('Debe ingresar un Número de documento.');
         return;
@@ -202,7 +202,7 @@ angular.module('theme.usuario', ['theme.core.services'])
         $scope.fAlert.strStrong = 'Error';
         return;
       }
-
+      
       blockUI.start('Registrando usuario...');
       usuarioServices.sRegistrarUsuario($scope.fDataUser).then(function (rpta) {       
         if(rpta.flag == 0){

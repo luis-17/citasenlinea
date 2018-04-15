@@ -114,7 +114,7 @@
                                         <label class="control-label mb-xs"> Doc. de Identidad </label>
                                         <div class="input-group">
                                             <input type="text" class="form-control input-sm" ng-model="fDataUser.num_documento" placeholder="Ingresa tu DNI ó Documento de Identidad" tabindex="1" 
-                                                ng-enter="verificarDoc(); $event.preventDefault();" focus-me ng-minlength="8" ng-pattern="/^[0-9]*$/"/> 
+                                                ng-enter="verificarDoc(); $event.preventDefault();" focus-me /> 
                                             <div class="input-group-btn ">
                                                 <button type="button" class="btn btn-default btn-sm" ng-click="verificarDoc(); $event.preventDefault();" ><i class="fa fa-search"></i></button>
                                             </div>
@@ -156,7 +156,7 @@
 
                                     <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                         <label class="control-label mb-xs">Teléfono Móvil <small class="text-danger">(*)</small> </label>
-                                        <input type="tel" class="form-control input-sm" ng-model="fDataUser.celular" placeholder="Ingresa tu celular" ng-minlength="9" ng-maxlength="9" required tabindex="7" />
+                                        <input type="tel" class="form-control input-sm" ng-model="fDataUser.celular" placeholder="Ingresa tu celular" required tabindex="7" />
                                     </div>
                                     <!-- <div class="form-group mb-md col-md-6">
                                         <label class="control-label mb-xs">Teléfono Casa  </label>
@@ -170,7 +170,7 @@
                                 <div class="row">
                                     <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                         <label class="control-label mb-xs">Contraseña <small class="text-danger">(*)</small> </label>
-                                        <input type="password" class="form-control input-sm" ng-model="fDataUser.clave" placeholder="Contraseña" ng-minlength="8" 
+                                        <input type="password" class="form-control input-sm" ng-model="fDataUser.clave" placeholder="Contraseña" 
                                                required tabindex="9" tooltip-placement="top-left" 
                                                uib-tooltip="Por seguridad, te recomendamos que tu contraseña sea de 8 caracteres y contenga al menos 1 mayúscula, 1 minúscula y 1 número"/> 
                                     </div>
@@ -178,7 +178,7 @@
                                     <div class="form-group mb-md col-md-6 col-sm-6 col-xs-12">
                                         <label class="control-label mb-xs">Repita Contraseña <small class="text-danger">(*)</small> </label>
                                         <input type="password" class="form-control input-sm" ng-model="fDataUser.repeat_clave" placeholder="Repita Contraseña" 
-                                               ng-minlength="8" required tabindex="10" tooltip-placement="top-left" 
+                                            required tabindex="10" tooltip-placement="top-left" 
                                                uib-tooltip="Por seguridad, te recomendamos que tu contraseña sea de 8 caracteres y contenga al menos 1 mayúscula, 1 minúscula y 1 número"/>  
                                     </div>                  
                                 </div>

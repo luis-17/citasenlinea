@@ -274,7 +274,7 @@ class Venta extends CI_Controller {
 
 			if(!$error){
 				try{
-					$this->load->library(array('culqi_php'));
+					$this->load->library(array('Culqi_php')); 
 					$culqi = new Culqi\Culqi(array('api_key' => $config['CULQI_PRIVATE_KEY']));
 					$charge = $culqi->Charges->create(
 						array(
